@@ -265,7 +265,7 @@ public class CollectionEntryController implements Initializable {
         supplier_name_view.setText("");
         bill_amount_view.setText("");
         collection_due_field.setText("0");
-        amount_collected_field.setText("");
+        amount_collected_field.setText("0");
         bank_field.setText("");
         dd_no_field.setText("");
         
@@ -338,6 +338,11 @@ public class CollectionEntryController implements Initializable {
 
     @FXML
     private void saveData(ActionEvent event) {
+        Alert alert=new Alert(AlertType.CONFIRMATION, "Are you sure that you want save " + voucher_no_field_2.getText()+" ?", ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
+        alert.showAndWait();
+        
+        if(alert.getResult()==ButtonType.YES)
+        {
         if(voucher_no_field.getText().isEmpty()||voucher_date_field.getValue().toString().isEmpty())
         {
             rrc.showAlert("Check whether the Voucher No. and the Voucher Date is properly filled",2);
@@ -393,6 +398,9 @@ public class CollectionEntryController implements Initializable {
                 Logger.getLogger(CollectionEntryController.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        //@TODO clear the variables
+        list.clear();
+        }
     }
 
     @FXML
@@ -441,6 +449,7 @@ public class CollectionEntryController implements Initializable {
             }
         }
     }
+    
 
     @FXML
     private void deleteEntry(ActionEvent event) {
