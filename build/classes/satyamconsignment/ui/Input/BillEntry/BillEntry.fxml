@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXDatePicker?>
+<?import com.jfoenix.controls.JFXTabPane?>
+<?import javafx.scene.Group?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<Group fx:id="root" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="satyamconsignment.ui.Input.BillEntry.BillEntryController">
+   <children>
+      <AnchorPane prefHeight="688.0" prefWidth="785.0">
+         <children>
+            <JFXTabPane layoutX="41.0" layoutY="87.0" prefHeight="633.0" prefWidth="717.0">
+               <tabs>
+                  <Tab text="Add">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="412.0">
+                           <children>
+                              <Label layoutX="24.0" layoutY="34.0" prefHeight="30.0" prefWidth="75.0" text="Supplier">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="333.0" layoutY="35.0" prefHeight="30.0" prefWidth="77.0" text="Buyer">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="24.0" layoutY="99.0" prefHeight="30.0" prefWidth="69.0" text="Bill No.">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="266.0" layoutY="99.0" prefHeight="30.0" prefWidth="45.0" text="Date">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="24.0" layoutY="129.0" prefHeight="30.0" prefWidth="86.0" text="Transport">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="266.0" layoutY="129.0" prefHeight="30.0" prefWidth="67.0" text="LR Date">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="25.0" layoutY="170.0" prefHeight="30.0" prefWidth="67.0" text="LR No.">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="266.0" layoutY="170.0" prefHeight="30.0" prefWidth="67.0" text="PM">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="164.0" layoutY="530.0" prefHeight="30.0" prefWidth="109.0" text="Bill Amount">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="supplier_field" layoutX="99.0" layoutY="37.0" prefHeight="25.0" prefWidth="183.0" promptText="Supplier Name" />
+                              <TextField fx:id="buyer_name_field" layoutX="408.0" layoutY="38.0" prefHeight="25.0" prefWidth="197.0" promptText="Buyer Name" />
+                              <TextField fx:id="bill_no_field" layoutX="108.0" layoutY="102.0" prefHeight="25.0" prefWidth="140.0" promptText="Bill No." />
+                              <JFXDatePicker fx:id="date_field" defaultColor="BLACK" layoutX="325.0" layoutY="95.0" />
+                              <TextField fx:id="transport_field" layoutX="110.0" layoutY="134.0" prefHeight="25.0" prefWidth="135.0" promptText="Transport" />
+                              <JFXDatePicker fx:id="lr_date" defaultColor="BLACK" layoutX="334.0" layoutY="122.0" />
+                              <TextField fx:id="lr_field" layoutX="110.0" layoutY="173.0" prefHeight="25.0" prefWidth="135.0" promptText="LR No." />
+                              <TextField fx:id="pm_field" layoutX="311.0" layoutY="173.0" prefHeight="25.0" prefWidth="135.0" promptText="PM" />
+                              <Button fx:id="add_btn" layoutX="462.0" layoutY="169.0" mnemonicParsing="false" onAction="#addToList" prefHeight="53.0" prefWidth="169.0" text="Add LR" />
+                              <TextField fx:id="bill_amount_field" layoutX="265.0" layoutY="532.0" prefHeight="25.0" prefWidth="135.0" promptText="Bill Amount" />
+                              <JFXButton fx:id="save_btn" layoutX="521.0" layoutY="484.0" onAction="#save" prefHeight="75.0" prefWidth="170.0" text="Save">
+                                 <font>
+                                    <Font size="25.0" />
+                                 </font>
+                                 <graphic>
+                                    <ImageView fitHeight="71.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../../icons/Save.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </JFXButton>
+                              <JFXButton fx:id="clear_btn" layoutX="521.0" layoutY="380.0" onAction="#clearAllFields" prefHeight="70.0" prefWidth="170.0" text="Clear">
+                                 <font>
+                                    <Font size="25.0" />
+                                 </font>
+                                 <graphic>
+                                    <ImageView fitHeight="62.0" fitWidth="72.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../../icons/Clear.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </JFXButton>
+                              <TableView fx:id="lrTable" layoutX="30.0" layoutY="242.0" prefHeight="277.0" prefWidth="404.0">
+                                <columns>
+                                  <TableColumn fx:id="lr_no_col" prefWidth="175.0" text="LR No." />
+                                  <TableColumn fx:id="pm_col" prefWidth="228.0" text="PM" />
+                                </columns>
+                              </TableView>
+                              <Button fx:id="replace_btn" layoutX="464.0" layoutY="227.0" mnemonicParsing="false" onAction="#replaceInList" prefHeight="46.0" prefWidth="79.0" text="Replace LR" />
+                              <Button fx:id="delete_btn" layoutX="549.0" layoutY="228.0" mnemonicParsing="false" onAction="#deleteFromList" prefHeight="45.0" prefWidth="82.0" text="Delete LR" />
+                           </children>
+                        </AnchorPane>
+                    </content>
+                  </Tab>
+                  <Tab text="View &amp; Delete">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <Text layoutX="108.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter Bill No. to get details" wrappingWidth="208.849609375">
+                                 <font>
+                                    <Font size="17.0" />
+                                 </font>
+                              </Text>
+                              <TextField fx:id="bill_no_field_2" layoutX="335.0" layoutY="23.0" prefHeight="25.0" prefWidth="169.0" promptText="Bill Number" />
+                              <Button fx:id="get_details_btn" layoutX="538.0" layoutY="16.0" mnemonicParsing="false" onAction="#getDetails" text="Get Details">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Button>
+                              <Text layoutX="29.0" layoutY="88.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Supplier Name">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Text>
+                              <Text layoutX="31.0" layoutY="123.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Buyer Name">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Text>
+                              <Text layoutX="32.0" layoutY="159.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bill Date">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Text>
+                              <Text layoutX="30.0" layoutY="192.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Transport">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Text>
+                              <Text layoutX="33.0" layoutY="230.0" strokeType="OUTSIDE" strokeWidth="0.0" text="LR Date">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Text>
+                              <Text layoutX="34.0" layoutY="265.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bill Amount">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Text>
+                              <TextField fx:id="supplier_field_2" editable="false" layoutX="168.0" layoutY="68.0" prefHeight="25.0" prefWidth="279.0" promptText="Supplier Name">
+                                 <font>
+                                    <Font size="13.0" />
+                                 </font></TextField>
+                              <TextField fx:id="buyer_name_field_2" editable="false" layoutX="170.0" layoutY="100.0" prefHeight="25.0" prefWidth="276.0" promptText="Buyer Name">
+                                 <font>
+                                    <Font size="13.0" />
+                                 </font>
+                              </TextField>
+                              <TextField fx:id="bill_date_field_2" editable="false" layoutX="170.0" layoutY="137.0" prefHeight="25.0" prefWidth="276.0" promptText="Bill Date">
+                                 <font>
+                                    <Font size="13.0" />
+                                 </font>
+                              </TextField>
+                              <TextField fx:id="transport_field_2" editable="false" layoutX="170.0" layoutY="171.0" prefHeight="25.0" prefWidth="276.0" promptText="Transport">
+                                 <font>
+                                    <Font size="13.0" />
+                                 </font>
+                              </TextField>
+                              <TextField fx:id="lr_date_field_2" editable="false" layoutX="170.0" layoutY="209.0" prefHeight="25.0" prefWidth="276.0" promptText="LR Date">
+                                 <font>
+                                    <Font size="13.0" />
+                                 </font>
+                              </TextField>
+                              <TextField fx:id="bill_amount_field_2" editable="false" layoutX="170.0" layoutY="245.0" prefHeight="25.0" prefWidth="178.0" promptText="Bill Amount" />
+                              <Button fx:id="delete_entry_btn" disable="true" layoutX="533.0" layoutY="486.0" mnemonicParsing="false" onAction="#deleteEntry" prefHeight="60.0" prefWidth="121.0" text="Delete Entry">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Button>
+                              <TableView fx:id="lr_table_2" layoutX="29.0" layoutY="288.0" prefHeight="277.0" prefWidth="404.0">
+                                 <columns>
+                                    <TableColumn fx:id="lr_no_col_2" prefWidth="175.0" text="LR No." />
+                                    <TableColumn fx:id="pm_col_2" prefWidth="228.0" text="PM" />
+                                 </columns>
+                              </TableView>
+                           </children></AnchorPane>
+                    </content>
+                  </Tab>
+               </tabs>
+            </JFXTabPane>
+            <JFXButton fx:id="back_btn" layoutX="17.0" layoutY="23.0" onAction="#showInputScreen" prefHeight="60.0" prefWidth="127.0" text="Back">
+               <graphic>
+                  <ImageView fitHeight="44.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../icons/Back.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </JFXButton>
+         </children>
+      </AnchorPane>
+      <Text layoutX="273.0" layoutY="69.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bill Entry" wrappingWidth="168.791015625">
+         <font>
+            <Font size="40.0" />
+         </font>
+      </Text>
+   </children>
+</Group>

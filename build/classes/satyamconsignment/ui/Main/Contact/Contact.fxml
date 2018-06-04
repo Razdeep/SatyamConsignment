@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.Group?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<Group fx:id="root2" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="satyamconsignment.ui.Main.Contact.ContactController">
+   <children>
+      <AnchorPane id="AnchorPane" prefHeight="503.0" prefWidth="600.0" styleClass="mainFxmlClass">
+          <stylesheets>
+              <URL value="@contact.css" />
+          </stylesheets>
+         <children>
+            <Rectangle arcHeight="100.0" arcWidth="100.0" height="454.0" layoutX="32.0" layoutY="24.0" stroke="BLACK" strokeType="INSIDE" width="537.0">
+               <fill>
+                  <LinearGradient endX="1.0" endY="1.0">
+                     <stops>
+                        <Stop color="#0400eb" />
+                        <Stop color="#0400eb" offset="0.007662835249042145" />
+                        <Stop color="BLACK" offset="0.9961685823754789" />
+                        <Stop color="BLACK" offset="1.0" />
+                     </stops>
+                  </LinearGradient>
+               </fill>
+            </Rectangle>
+            <Text fill="WHITE" layoutX="176.0" layoutY="67.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Developer's Info" textAlignment="CENTER" wrappingWidth="263.2109375">
+               <font>
+                  <Font name="System Bold Italic" size="32.0" />
+               </font>
+            </Text>
+            <Text fill="#dddddd" fontSmoothingType="LCD" layoutX="48.0" layoutY="107.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hi! My name is Rajdeep Roy Chowdhury,&#10;and I'm the developer of this Consignment Software.&#10;You can email me at rrajdeeproychowdhury@gmail.com&#10;or call me at (+91) 9674810029&#10;or catch me up on fb by scanning the following QR Code&#10;" textAlignment="CENTER" wrappingWidth="520.2109375">
+               <font>
+                  <Font name="System Italic" size="18.0" />
+               </font>
+            </Text>
+            <ImageView fitHeight="172.0" fitWidth="161.0" layoutX="308.0" layoutY="265.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@qrCode.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="135.0" fitWidth="123.0" layoutX="141.0" layoutY="278.0" pickOnBounds="true">
+               <image>
+                  <Image url="@ME_RECENT_SMALL.jpg" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
+   </children>
+</Group>

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.Group?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.paint.RadialGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<Group fx:id="root" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="satyamconsignment.ui.Report.ReportController">
+   <children>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" height="362.0" layoutX="5.0" layoutY="161.0" stroke="BLACK" strokeType="INSIDE" width="800.0">
+         <fill>
+            <RadialGradient centerX="0.5" centerY="0.5" focusAngle="-169.7" radius="1.0">
+               <stops>
+                  <Stop color="#ffbf2e" />
+                  <Stop color="#ffea00" offset="0.007662835249042145" />
+                  <Stop color="#ed3b00" offset="1.0" />
+               </stops>
+            </RadialGradient>
+         </fill>
+      </Rectangle>
+      <Text layoutX="282.0" layoutY="90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Reports" wrappingWidth="144.00001107156277">
+         <font>
+            <Font size="40.0" />
+         </font>
+      </Text>
+      <JFXButton fx:id="supplier_ledger_btn" buttonType="RAISED" contentDisplay="TOP" layoutX="25.0" layoutY="193.0" onAction="#showSupplierLedger" prefHeight="145.0" prefWidth="180.0" text="Supplier Ledger">
+         <graphic>
+            <ImageView fitHeight="99.0" fitWidth="127.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../icons/SupplierLedger.png" />
+               </image></ImageView>
+         </graphic>
+         <font>
+            <Font size="18.0" />
+         </font>
+      </JFXButton>
+      <JFXButton fx:id="buyer_ledger_brn" buttonType="RAISED" contentDisplay="TOP" layoutX="387.0" layoutY="193.0" onAction="#showBuyerLedger" prefHeight="145.0" prefWidth="180.0" text="Buyer  Ledger">
+         <graphic>
+            <ImageView fitHeight="95.0" fitWidth="95.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../icons/BuyerLedger.png" />
+               </image></ImageView>
+         </graphic>
+         <font>
+            <Font size="18.0" />
+         </font>
+      </JFXButton>
+      <JFXButton fx:id="transport_ledger_btn" buttonType="RAISED" contentDisplay="TOP" layoutX="207.0" layoutY="353.0" onAction="#showTransportLedger" prefHeight="145.0" prefWidth="180.0" text="Transport  Ledger">
+         <graphic>
+            <ImageView fitHeight="95.0" fitWidth="94.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../icons/Transport.png" />
+               </image>
+            </ImageView>
+         </graphic>
+         <font>
+            <Font size="18.0" />
+         </font>
+      </JFXButton>
+      <JFXButton fx:id="back_btn" disable="true" layoutX="40.0" layoutY="34.0" onAction="#loadInitialScreen" prefHeight="60.0" prefWidth="142.0" text="Back">
+         <graphic>
+            <ImageView fitHeight="44.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../icons/Back.png" />
+               </image>
+            </ImageView>
+         </graphic>
+         <font>
+            <Font size="18.0" />
+         </font>
+      </JFXButton>
+      <JFXButton fx:id="commission_report_btn" buttonType="RAISED" contentDisplay="TOP" layoutX="567.0" layoutY="353.0" onAction="#showCommissionReport" prefHeight="145.0" prefWidth="201.0" text="Commission Report">
+         <graphic>
+            <ImageView fitHeight="95.0" fitWidth="94.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../icons/Commission.png" />
+               </image>
+            </ImageView>
+         </graphic>
+         <font>
+            <Font size="18.0" />
+         </font>
+      </JFXButton>
+   </children>
+</Group>

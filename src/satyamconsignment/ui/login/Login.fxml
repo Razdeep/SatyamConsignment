@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXPasswordField?>
+<?import javafx.scene.Group?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+
+<BorderPane fx:id="root" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="satyamconsignment.ui.login.LoginController">
+   <center>
+      <Group>
+         <children>
+            <AnchorPane id="AnchorPane" prefHeight="235.0" prefWidth="383.0" stylesheets="@LoginStyle.css">
+                <children>
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" height="200.0" layoutX="13.0" layoutY="18.0" stroke="BLACK" strokeType="INSIDE" width="354.0">
+                     <fill>
+                        <LinearGradient endX="1.0" endY="0.05714285714285714" startX="0.3571428571428571" startY="1.0">
+                           <stops>
+                              <Stop color="#6772eb" />
+                              <Stop color="#f5a9ee" offset="1.0" />
+                           </stops>
+                        </LinearGradient>
+                     </fill>
+                  </Rectangle>
+                    <Label fx:id="label" layoutX="117.0" layoutY="99.0" minHeight="16" minWidth="69" />
+                  <JFXButton fx:id="login_btn" buttonType="RAISED" layoutX="220.0" layoutY="119.0" onAction="#openMainWindow" prefHeight="50.0" prefWidth="123.0" ripplerFill="#f8fc90" text="Login">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </JFXButton>
+                  <Label layoutX="38.0" layoutY="39.0" prefHeight="42.0" prefWidth="315.0" text="Satyam Consignment 2017-2018" textFill="#300072">
+                     <font>
+                        <Font size="21.0" />
+                     </font>
+                  </Label>
+                  <JFXPasswordField fx:id="password_field" focusColor="WHITE" labelFloat="true" layoutX="33.0" layoutY="123.0" prefHeight="42.0" prefWidth="169.0" promptText="Enter Password">
+                     <font>
+                        <Font size="23.0" />
+                     </font>
+                  </JFXPasswordField>
+                </children>
+            </AnchorPane>
+         </children>
+      </Group>
+   </center>
+</BorderPane>

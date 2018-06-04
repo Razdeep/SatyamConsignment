@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.Group?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.paint.RadialGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<Group fx:id="root2" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="satyamconsignment.ui.Input.InputController">
+   <children>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" height="218.0" layoutX="5.0" layoutY="161.0" stroke="BLACK" strokeType="INSIDE" width="686.0">
+         <fill>
+            <RadialGradient centerX="0.5" centerY="0.5" focusAngle="-169.7" radius="1.0">
+               <stops>
+                  <Stop color="#ffbf2e" />
+                  <Stop color="#ffea00" offset="0.007662835249042145" />
+                  <Stop color="#ed3b00" offset="1.0" />
+               </stops>
+            </RadialGradient>
+         </fill>
+      </Rectangle>
+      <Text layoutX="236.0" layoutY="78.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Input Data" wrappingWidth="167.00001107156277">
+         <font>
+            <Font size="34.0" />
+         </font>
+      </Text>
+      <JFXButton fx:id="bill_entry_btn" buttonType="RAISED" contentDisplay="TOP" layoutX="25.0" layoutY="193.0" onAction="#showBillEntryScreen" prefHeight="145.0" prefWidth="180.0" text="Bill Entry">
+         <graphic>
+            <ImageView fitHeight="99.0" fitWidth="127.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../icons/Bill.png" />
+               </image>
+            </ImageView>
+         </graphic>
+         <font>
+            <Font size="18.0" />
+         </font>
+      </JFXButton>
+      <JFXButton fx:id="collection_entry_brn" buttonType="RAISED" contentDisplay="TOP" layoutX="253.0" layoutY="195.0" onAction="#showCollectionEntryScreen" prefHeight="145.0" prefWidth="180.0" text="Collection Entry">
+         <graphic>
+            <ImageView fitHeight="95.0" fitWidth="95.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../icons/Collect.png" />
+               </image>
+            </ImageView>
+         </graphic>
+         <font>
+            <Font size="18.0" />
+         </font>
+      </JFXButton>
+      <JFXButton fx:id="payment_entry_btn" buttonType="RAISED" contentDisplay="TOP" layoutX="475.0" layoutY="195.0" onAction="#showPaymentEntryScreen" prefHeight="145.0" prefWidth="180.0" text="Payment Entry">
+         <graphic>
+            <ImageView fitHeight="95.0" fitWidth="94.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../icons/Payment.png" />
+               </image>
+            </ImageView>
+         </graphic>
+         <font>
+            <Font size="18.0" />
+         </font>
+      </JFXButton>
+      <JFXButton fx:id="back_btn" disable="true" layoutX="40.0" layoutY="34.0" onAction="#loadInitialScreen" prefHeight="60.0" prefWidth="108.0" text="Back">
+         <graphic>
+            <ImageView fitHeight="44.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../icons/Back.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </JFXButton>
+   </children>
+</Group>

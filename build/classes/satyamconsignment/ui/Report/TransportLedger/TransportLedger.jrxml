@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
+<!-- 2017-07-14T16:35:52 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="TransportLedger" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e8ccdac5-9d4c-4c9c-941d-bdcc2145c1f0">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DataAdapter.xml"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<parameter name="transportName" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select `LR No.`,`PM`,`Bill No.`,`Supplier Name`,`Buyer Name`,`LR Date`
+from `LR_Table` join `Bill_Entry_Table` using (`Bill No.`)
+where `Transport`=$P{transportName}]]>
+	</queryString>
+	<field name="LR No." class="java.lang.Object"/>
+	<field name="PM" class="java.lang.Object"/>
+	<field name="Bill No." class="java.lang.Object"/>
+	<field name="Supplier Name" class="java.lang.Object"/>
+	<field name="Buyer Name" class="java.lang.Object"/>
+	<field name="LR Date" class="java.lang.Object"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="38" splitType="Stretch">
+			<staticText>
+				<reportElement x="2" y="3" width="180" height="30" uuid="a619f4fe-0242-4078-a2fb-d49343ff4a6d">
+					<property name="fontSize" value="20"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="18"/>
+				</textElement>
+				<text><![CDATA[SATYAM AGENCIES]]></text>
+			</staticText>
+			<textField pattern="dd-MM-yyyy">
+				<reportElement x="454" y="11" width="100" height="19" uuid="2e2e7861-3454-41fd-96a0-8ebbe49ce397"/>
+				<textElement textAlignment="Center">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="180" y="6" width="274" height="30" uuid="3239de38-125c-4c83-896a-421ff8d9147d"/>
+				<textElement textAlignment="Center">
+					<font size="18"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{transportName}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="22" splitType="Stretch">
+			<staticText>
+				<reportElement x="2" y="0" width="78" height="20" uuid="07dfc904-0eb3-4e91-af89-ceccc9106f4d"/>
+				<box>
+					<pen lineWidth="1.0" lineStyle="Dashed"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[LR No.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="80" y="0" width="49" height="20" uuid="1c47e627-557f-441a-89e9-ee9111727976"/>
+				<box>
+					<pen lineWidth="1.0" lineStyle="Dashed"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[PM]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="129" y="0" width="59" height="20" uuid="9c393177-2606-4d76-9620-9ea58e4df383"/>
+				<box>
+					<pen lineWidth="1.0" lineStyle="Dashed"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Bill No.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="189" y="0" width="151" height="20" uuid="d63cf068-6c5b-4179-9b8f-7b7c0e86929b"/>
+				<box>
+					<pen lineWidth="1.0" lineStyle="Dashed"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Supplier Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="340" y="0" width="153" height="20" uuid="fb77dcc2-66b8-46ee-a4e2-767634b2e1ff"/>
+				<box>
+					<pen lineWidth="1.0" lineStyle="Dashed"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Buyer Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="493" y="0" width="60" height="20" uuid="69d3ea91-08b0-4f2a-a788-7f0e1be536e4"/>
+				<box>
+					<pen lineWidth="1.0" lineStyle="Dashed"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[LR Date]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="2" y="0" width="78" height="20" uuid="687e6427-9bb9-4ec1-8516-bde701466765"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{LR No.}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="80" y="0" width="49" height="20" uuid="0ee5e3a3-5560-4c68-97f4-54e201befba3"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{PM}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="129" y="0" width="59" height="20" uuid="31bb2f88-824f-44a3-8547-8e2038072928"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{Bill No.}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="189" y="0" width="151" height="20" uuid="7d647c5f-ef45-426d-b307-88267b6b3d8b"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{Supplier Name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="340" y="-2" width="153" height="22" uuid="aadf99c5-6f92-4e77-bb81-5361b242dd7d"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{Buyer Name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="493" y="-2" width="60" height="22" uuid="e1d02e78-ba7c-4c54-af8a-84fd632f2d1d"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{LR Date}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="34" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="22" splitType="Stretch">
+			<textField>
+				<reportElement x="400" y="3" width="153" height="17" uuid="523686fb-a580-440f-bb1a-696d71258c63"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Page " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

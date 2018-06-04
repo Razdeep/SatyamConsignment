@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.Group?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<Group xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="satyamconsignment.ui.Main.WelcomeScreen.WelcomeScreenController">
+   <children>
+      <AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0">
+          <stylesheets>
+              <URL value="@welcomescreen.css" />
+          </stylesheets>
+         <children>
+            <Rectangle arcHeight="50.0" arcWidth="50.0" height="301.0" layoutX="61.0" layoutY="50.0" stroke="#36016b" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeType="OUTSIDE" strokeWidth="20.0" width="486.0">
+               <fill>
+                  <LinearGradient endX="1.0" endY="1.0">
+                     <stops>
+                        <Stop color="#00ffba" />
+                        <Stop color="#00ffba" offset="0.007662835249042145" />
+                        <Stop color="#0062ff" offset="1.0" />
+                     </stops>
+                  </LinearGradient>
+               </fill>
+            </Rectangle>
+            <Text layoutX="67.0" layoutY="189.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Satyam Consignment" textAlignment="CENTER" wrappingWidth="474.658203125">
+               <font>
+                  <Font name="System Bold Italic" size="40.0" />
+               </font>
+               <fill>
+                  <LinearGradient endX="1.0" endY="1.0">
+                     <stops>
+                        <Stop color="#4800ff" />
+                        <Stop color="#ff0054" offset="1.0" />
+                     </stops>
+                  </LinearGradient>
+               </fill>
+            </Text>
+            <Text layoutX="173.0" layoutY="240.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Developed by Rajdeep Roy Chowdhury" textAlignment="CENTER" wrappingWidth="355.658203125">
+               <font>
+                  <Font name="System Italic" size="20.0" />
+               </font>
+            </Text>
+         </children>
+      </AnchorPane>
+   </children>
+</Group>

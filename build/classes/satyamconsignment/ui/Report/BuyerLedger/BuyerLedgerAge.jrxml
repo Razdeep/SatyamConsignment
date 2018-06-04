@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
+<!-- 2017-07-14T17:11:23 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="BuyerLedgerAge" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="f86cb926-fbcc-4cdf-8db2-487e31f42b8a">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DataAdapter.xml"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<parameter name="buyerName" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[Select * from `Bill_Entry_Table` where NOT `Collection Due`='0' and `Buyer Name`=$P{buyerName}]]>
+	</queryString>
+	<field name="Supplier Name" class="java.lang.Object"/>
+	<field name="Buyer Name" class="java.lang.Object"/>
+	<field name="Bill No." class="java.lang.Object"/>
+	<field name="Bill Date" class="java.lang.Object"/>
+	<field name="Transport" class="java.lang.Object"/>
+	<field name="LR Date" class="java.lang.Object"/>
+	<field name="Bill Amount" class="java.lang.Object"/>
+	<field name="Collection Due" class="java.lang.Object"/>
+	<field name="Due" class="java.lang.Object"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="47" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="8" width="180" height="30" uuid="63fe7772-b0d0-45e8-974e-ec50c4f7451d">
+					<property name="fontSize" value="20"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="18"/>
+				</textElement>
+				<text><![CDATA[SATYAM AGENCIES]]></text>
+			</staticText>
+			<textField pattern="dd-MM-yyyy">
+				<reportElement x="450" y="14" width="100" height="19" uuid="ad9b4073-2ddb-497f-9aa5-cf76f1c28800"/>
+				<textElement textAlignment="Center">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="190" y="13" width="240" height="19" uuid="0b81a8a7-1cee-4481-825a-b70d8b1c4601"/>
+				<textElement textAlignment="Center">
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{buyerName}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="22" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<staticText>
+				<reportElement x="32" y="0" width="60" height="20" uuid="238739c8-3c79-4229-ab50-f3bed1a08e3d"/>
+				<box padding="3">
+					<pen lineWidth="1.0" lineStyle="Dashed"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Bill No.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="92" y="0" width="90" height="20" uuid="2263c4ad-4b1c-4624-921e-eaba71b3d9bd"/>
+				<box padding="3">
+					<pen lineWidth="1.0" lineStyle="Dashed"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Bill Date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="182" y="0" width="100" height="20" uuid="59f9c9bd-c470-465e-997b-b6de7cb6ae99"/>
+				<box padding="3">
+					<pen lineWidth="1.0" lineStyle="Dashed"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Bill Amount]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="282" y="0" width="200" height="20" uuid="b8c1b2ff-faa8-4c81-bae6-dedc7ca3cef9"/>
+				<box padding="3">
+					<pen lineWidth="1.0" lineStyle="Dashed"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Supplier Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="482" y="0" width="40" height="20" uuid="73da88a9-158e-4eca-9bb0-ae3f1959e274"/>
+				<box padding="3">
+					<pen lineWidth="1.0" lineStyle="Dashed"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Days]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="19" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<textField>
+				<reportElement x="32" y="0" width="60" height="19" uuid="1966b1eb-f983-457b-aa58-1499a1df979f"/>
+				<box padding="3"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{Bill No.}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="92" y="0" width="90" height="19" uuid="f00f604f-64f2-4e2c-9534-f4cde919acee"/>
+				<box padding="3"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{Bill Date}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="182" y="0" width="100" height="19" uuid="5b5b99f2-f815-4037-9b1e-37ec6d179298"/>
+				<box padding="3"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{Bill Amount}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="282" y="0" width="200" height="19" uuid="938972a9-9e2c-4765-8fa5-9afd085e7505"/>
+				<box padding="3"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{Supplier Name}]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement x="482" y="0" width="40" height="19" uuid="36eef9a4-ebc4-4aba-9218-e0052b2c5478"/>
+				<box padding="3">
+					<pen lineWidth="1.0" lineStyle="Dashed"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[(new Date().getTime()-new SimpleDateFormat("dd-MM-yyyy").parse($F{Bill Date}.toString()).getTime())/(3600*24*1000)]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="22" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<textField>
+				<reportElement x="450" y="0" width="100" height="22" uuid="77966f27-1ddf-4a4f-bbb7-3a75e6c34438"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Page " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

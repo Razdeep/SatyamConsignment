@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.geometry.Rectangle2D?>
+<?import javafx.scene.Group?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" stylesheets="@main.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="satyamconsignment.ui.Main.MainController">
+   <center>
+      <Group BorderPane.alignment="CENTER">
+         <children>
+            <AnchorPane layoutX="34.0" layoutY="67.0" />
+         </children>
+      </Group>
+   </center>
+   <top>
+      <MenuBar BorderPane.alignment="CENTER">
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Close" />
+            </items>
+          </Menu>
+            <Menu mnemonicParsing="false" text="Navigate">
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#showInputHistory" text="Input History" />
+                  <MenuItem mnemonicParsing="false" onAction="#showCollectionHistory" text="Collection History" />
+                  <MenuItem mnemonicParsing="false" onAction="#showPaymentHistory" text="Payment History" />
+               </items>
+            </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+                  <MenuItem fx:id="instructions" mnemonicParsing="false" onAction="#showInstructionScreen" text="Instructions" />
+                  <MenuItem fx:id="contact" mnemonicParsing="false" onAction="#showContactScreen" text="Contact" />
+              <MenuItem fx:id="about" mnemonicParsing="false" onAction="#showAboutScreen" text="About" />
+                  <MenuItem fx:id="welcome_screen" mnemonicParsing="false" onAction="#showWelcomeScreen" text="Welcome Screen" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+   </top>
+   <right>
+      <VBox prefHeight="375.0" prefWidth="200.0" style="-fx-background-color: #0039a3;" BorderPane.alignment="CENTER">
+         <children>
+            <JFXButton fx:id="input_btn" buttonType="RAISED" contentDisplay="TOP" graphicTextGap="5.0" onAction="#showInputScreen" prefHeight="200.0" prefWidth="200.0" ripplerFill="#eaff00" text="Input">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="25.0" />
+               </VBox.margin>
+               <graphic>
+                  <ImageView fitHeight="70.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
+                     <viewport>
+                        <Rectangle2D />
+                     </viewport>
+                     <image>
+                        <Image url="@../../icons/Input.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </JFXButton>
+            <JFXButton fx:id="report_btn" buttonType="RAISED" contentDisplay="TOP" graphicTextGap="5.0" onAction="#showReportScreen" prefHeight="200.0" prefWidth="200.0" ripplerFill="#f9ff8c" text="Report">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="25.0" />
+               </VBox.margin>
+               <graphic>
+                  <ImageView fitHeight="82.0" fitWidth="89.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../icons/Report.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </JFXButton>
+            <JFXButton fx:id="master_btn" buttonType="RAISED" contentDisplay="TOP" graphicTextGap="5.0" onAction="#showMasterScreen" prefHeight="200.0" prefWidth="200.0" ripplerFill="#e6ff76" text="Master">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="25.0" />
+               </VBox.margin>
+               <graphic>
+                  <ImageView fitHeight="108.0" fitWidth="104.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../icons/Master.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </JFXButton>
+         </children>
+         <padding>
+            <Insets top="10.0" />
+         </padding>
+      </VBox>
+   </right>
+</BorderPane>

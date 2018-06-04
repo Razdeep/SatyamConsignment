@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.Group?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+
+<Group fx:id="root2" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="satyamconsignment.ui.Main.InstructionScreen.InstructionsController">
+   <children>
+      <AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" styleClass="mainFxmlClass">
+          <stylesheets>
+              <URL value="@instructions.css" />
+          </stylesheets>
+         <children>
+            <Text layoutX="175.0" layoutY="147.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Instructions" textAlignment="CENTER" wrappingWidth="250.53515625">
+               <font>
+                  <Font name="System Bold Italic" size="42.0" />
+               </font>
+            </Text>
+            <Text layoutX="70.0" layoutY="226.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter all the data in Capital Letters&#10;because this software is case-sensitive&#10;" textAlignment="CENTER" wrappingWidth="460.53515625">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Text>
+         </children>
+      </AnchorPane>
+   </children>
+</Group>

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXListView?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import java.net.URL?>
+<?import javafx.scene.Group?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<Group xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="satyamconsignment.ui.Master.Transport.MasterTransportController">
+   <children>
+      <AnchorPane id="AnchorPane" prefHeight="536.0" prefWidth="672.0" styleClass="mainFxmlClass">
+          <stylesheets>
+              <URL value="@mastertransport.css" />
+          </stylesheets>
+         <children>
+            <Text layoutX="237.0" layoutY="55.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Master Transport">
+               <font>
+                  <Font size="31.0" />
+               </font>
+            </Text>
+            <JFXButton fx:id="add_btn" layoutX="472.0" layoutY="139.0" onAction="#addMaster" prefHeight="72.0" prefWidth="157.0" text="Add">
+               <graphic>
+                  <ImageView fitHeight="49.0" fitWidth="52.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../icons/MasterAdd.png" />
+                     </image></ImageView>
+               </graphic>
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </JFXButton>
+            <JFXListView fx:id="listView" layoutX="67.0" layoutY="93.0" prefHeight="296.0" prefWidth="262.0" />
+            <JFXButton fx:id="back_btn" layoutX="51.0" layoutY="8.0" prefHeight="58.0" prefWidth="108.0" text="Back">
+               <graphic>
+                  <ImageView fitHeight="32.0" fitWidth="41.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../icons/Back.png" />
+                     </image></ImageView>
+               </graphic>
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </JFXButton>
+            <JFXButton fx:id="delete_btn" contentDisplay="TOP" layoutX="67.0" layoutY="422.0" onAction="#deleteMaster" prefHeight="90.0" prefWidth="97.0" text="Delete">
+               <graphic>
+                  <ImageView fitHeight="49.0" fitWidth="52.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../icons/MasterDelete.png" />
+                     </image></ImageView>
+               </graphic>
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </JFXButton>
+            <JFXButton fx:id="refresh_btn" contentDisplay="TOP" layoutX="221.0" layoutY="422.0" onAction="#refreshList" prefHeight="90.0" prefWidth="108.0" text="Refresh">
+               <graphic>
+                  <ImageView fitHeight="49.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../icons/Refresh.png" />
+                     </image></ImageView>
+               </graphic>
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </JFXButton>
+            <JFXTextField fx:id="add_field" layoutX="342.0" layoutY="93.0" prefHeight="33.0" prefWidth="290.0" promptText="Enter Buyer to add">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </JFXTextField>
+            <JFXButton fx:id="rename_btn" layoutX="481.0" layoutY="305.0" onAction="#renameMaster" prefHeight="82.0" prefWidth="165.0" text="Rename">
+               <graphic>
+                  <ImageView fitHeight="55.0" fitWidth="49.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../icons/MasterRename.png" />
+                     </image></ImageView>
+               </graphic>
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </JFXButton>
+            <JFXTextField fx:id="rename_field" layoutX="342.0" layoutY="260.0" prefHeight="33.0" prefWidth="290.0" promptText="Enter new Buyer to replace the existing">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </JFXTextField>
+         </children>
+      </AnchorPane>
+   </children>
+</Group>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.Group?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+
+<Group fx:id="root2" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="satyamconsignment.ui.Main.PaymentHistory.PaymentHistoryController">
+   <children>
+      <AnchorPane id="AnchorPane" prefHeight="585.0" prefWidth="600.0" styleClass="mainFxmlClass">
+          <stylesheets>
+              <URL value="@paymenthistory.css" />
+          </stylesheets>
+         <children>
+            <TableView fx:id="tableView" layoutX="29.0" layoutY="55.0" prefHeight="514.0" prefWidth="530.0">
+               <columns>
+                  <TableColumn fx:id="voucher_no_col" prefWidth="87.0" text="Voucher No." />
+                  <TableColumn fx:id="voucher_date_col" prefWidth="106.0" text="Voucher Date" />
+                  <TableColumn fx:id="supplier_name_col" prefWidth="218.0" text="Supplier Name" />
+                  <TableColumn fx:id="total_amount_col" prefWidth="102.0" text="Total Amount" />
+               </columns>
+            </TableView>
+            <Text layoutX="257.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Payment History">
+               <font>
+                  <Font size="22.0" />
+               </font>
+            </Text>
+         </children>
+      </AnchorPane>
+   </children>
+</Group>
