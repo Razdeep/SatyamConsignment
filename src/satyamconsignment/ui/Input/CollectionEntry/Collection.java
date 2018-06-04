@@ -7,19 +7,15 @@ package satyamconsignment.ui.Input.CollectionEntry;
 
 
 public class Collection {
-    private String billNo,billDate,billAmount,supplierName,gr,rd,cd,bc,due,amountCollected,ddNo,ddDate,bank;
+    private String billNo,billDate,billAmount,supplierName,due,amountCollected,ddNo,ddDate,bank;
     public Collection(String billNo,String billDate,String billAmount,String supplierName,
-                        String gr,String rd,String cd,String bc, String due, String amountCollected,
+                         String due, String amountCollected,
                         String bank,String ddNo,String ddDate)
     {
         this.billNo=billNo;
         this.billDate=billDate;
         this.billAmount=billAmount;
         this.supplierName=supplierName;
-        this.gr=gr;
-        this.rd=rd;
-        this.cd=cd;
-        this.bc=bc;
         this.due=due;
         this.amountCollected=amountCollected;
         this.bank=bank;
@@ -40,23 +36,7 @@ public class Collection {
     public String getBillAmount() {
         return billAmount;
     }
-
-    public String getGr() {
-        return gr;
-    }
-
-    public String getRd() {
-        return rd;
-    }
-
-    public String getCd() {
-        return cd;
-    }
-
-    public String getBc() {
-        return bc;
-    }
-
+    
     public String getAmountCollected() {
         return amountCollected;
     }

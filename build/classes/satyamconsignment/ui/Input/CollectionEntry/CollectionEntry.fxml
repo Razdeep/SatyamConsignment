@@ -18,7 +18,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Group fx:id="root2" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="satyamconsignment.ui.Input.CollectionEntry.CollectionEntryController">
+<Group fx:id="root2" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="satyamconsignment.ui.Input.CollectionEntry.CollectionEntryController">
    <children>
       <AnchorPane id="AnchorPane" prefHeight="634.0" prefWidth="711.0" styleClass="mainFxmlClass">
           <stylesheets>
@@ -61,26 +61,6 @@
                                     <Font size="16.0" />
                                  </font>
                               </Text>
-                              <Text layoutX="25.0" layoutY="215.0" strokeType="OUTSIDE" strokeWidth="0.0" text="GR" wrappingWidth="25.90429401397705">
-                                 <font>
-                                    <Font size="16.0" />
-                                 </font>
-                              </Text>
-                              <Text layoutX="77.0" layoutY="215.0" strokeType="OUTSIDE" strokeWidth="0.0" text="RD" wrappingWidth="24.90429401397705">
-                                 <font>
-                                    <Font size="16.0" />
-                                 </font>
-                              </Text>
-                              <Text layoutX="125.0" layoutY="215.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CD" wrappingWidth="21.90429401397705">
-                                 <font>
-                                    <Font size="16.0" />
-                                 </font>
-                              </Text>
-                              <Text layoutX="176.0" layoutY="215.0" strokeType="OUTSIDE" strokeWidth="0.0" text="BC" wrappingWidth="26.90429401397705">
-                                 <font>
-                                    <Font size="16.0" />
-                                 </font>
-                              </Text>
                               <TextField fx:id="voucher_no_field" layoutX="117.0" layoutY="12.0" prefHeight="25.0" prefWidth="108.0" />
                               <JFXDatePicker fx:id="voucher_date_field" editable="false" layoutX="349.0" layoutY="12.0" prefHeight="28.0" prefWidth="173.0" />
                               <ComboBox fx:id="buyer_name_view" layoutX="126.0" layoutY="50.0" onAction="#fillBillNoCombo" prefHeight="25.0" prefWidth="192.0" />
@@ -88,17 +68,17 @@
                               <TextField fx:id="supplier_name_view" editable="false" layoutX="140.0" layoutY="147.0" prefHeight="25.0" prefWidth="185.0" />
                               <TextField fx:id="bill_date_view" editable="false" layoutX="446.0" layoutY="110.0" prefHeight="25.0" prefWidth="108.0" />
                               <TextField fx:id="bill_amount_view" editable="false" layoutX="447.0" layoutY="147.0" prefHeight="25.0" prefWidth="108.0" />
-                              <Text layoutX="216.0" layoutY="214.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Collect Due" wrappingWidth="86.00000536441803">
+                              <Text layoutX="105.0" layoutY="216.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Collect Due" wrappingWidth="86.00000536441803">
                                  <font>
                                     <Font size="16.0" />
                                  </font>
                               </Text>
-                              <Text layoutX="511.0" layoutY="215.0" strokeType="OUTSIDE" strokeWidth="0.0" text="DD No." wrappingWidth="63.90429966151714">
+                              <Text layoutX="400.0" layoutY="217.0" strokeType="OUTSIDE" strokeWidth="0.0" text="DD No." wrappingWidth="63.90429966151714">
                                  <font>
                                     <Font size="16.0" />
                                  </font>
                               </Text>
-                              <Text layoutX="596.0" layoutY="215.0" strokeType="OUTSIDE" strokeWidth="0.0" text="DD Date" wrappingWidth="70.90429966151714">
+                              <Text layoutX="485.0" layoutY="217.0" strokeType="OUTSIDE" strokeWidth="0.0" text="DD Date" wrappingWidth="70.90429966151714">
                                  <font>
                                     <Font size="16.0" />
                                  </font>
@@ -113,7 +93,7 @@
                                     <Font size="16.0" />
                                  </font>
                               </Text>
-                              <Text layoutX="435.0" layoutY="215.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bank" wrappingWidth="45.90429966151714">
+                              <Text layoutX="324.0" layoutY="217.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bank" wrappingWidth="45.90429966151714">
                                  <font>
                                     <Font size="16.0" />
                                  </font>
@@ -123,30 +103,22 @@
                                     <Font size="16.0" />
                                  </font>
                               </Text>
-                              <TextField fx:id="gr_field" alignment="CENTER_RIGHT" layoutX="27.0" layoutY="225.0" onKeyReleased="#updateCollectionDue" prefHeight="25.0" prefWidth="38.0" text="0" />
-                              <TextField fx:id="rd_field" alignment="CENTER_RIGHT" layoutX="72.0" layoutY="225.0" onKeyReleased="#updateCollectionDue" prefHeight="25.0" prefWidth="38.0" text="0" />
-                              <TextField fx:id="cd_field" alignment="CENTER_RIGHT" layoutX="125.0" layoutY="225.0" onKeyReleased="#updateCollectionDue" prefHeight="25.0" prefWidth="38.0" text="0" />
-                              <TextField fx:id="bc_field" alignment="CENTER_RIGHT" layoutX="173.0" layoutY="225.0" onKeyReleased="#updateCollectionDue" prefHeight="25.0" prefWidth="38.0" text="0" />
-                              <TextField fx:id="collection_due_field" alignment="CENTER_RIGHT" editable="false" layoutX="223.0" layoutY="225.0" prefHeight="25.0" prefWidth="73.0" text="0" />
-                              <TextField fx:id="bank_field" layoutX="423.0" layoutY="225.0" prefHeight="25.0" prefWidth="73.0" />
-                              <TextField fx:id="dd_no_field" layoutX="504.0" layoutY="225.0" prefHeight="25.0" prefWidth="73.0" />
-                              <JFXDatePicker fx:id="dd_date_field" layoutX="596.0" layoutY="220.0" prefHeight="28.0" prefWidth="100.0" />
+                              <TextField fx:id="collection_due_field" alignment="CENTER_RIGHT" editable="false" layoutX="112.0" layoutY="227.0" prefHeight="25.0" prefWidth="73.0" text="0" />
+                              <TextField fx:id="bank_field" layoutX="312.0" layoutY="227.0" prefHeight="25.0" prefWidth="73.0" />
+                              <TextField fx:id="dd_no_field" layoutX="393.0" layoutY="227.0" prefHeight="25.0" prefWidth="73.0" />
+                              <JFXDatePicker fx:id="dd_date_field" layoutX="485.0" layoutY="222.0" prefHeight="28.0" prefWidth="100.0" />
                               <Button fx:id="add_collection_btn" layoutX="37.0" layoutY="273.0" mnemonicParsing="false" onAction="#addCollection" prefHeight="29.0" prefWidth="108.0" text="Add Collection" />
                               <Button fx:id="replace_collection_btn" layoutX="164.0" layoutY="273.0" mnemonicParsing="false" onAction="#replaceCollection" prefHeight="29.0" prefWidth="130.0" text="Replace Collection" />
                               <Button fx:id="delete_collection_btn" layoutX="315.0" layoutY="273.0" mnemonicParsing="false" onAction="#deleteCollection" prefHeight="29.0" prefWidth="130.0" text="Delete Collection" />
                               <TableView fx:id="collection_tableview" layoutX="23.0" layoutY="320.0" prefHeight="153.0" prefWidth="687.0">
                                 <columns>
-                                  <TableColumn fx:id="bill_no_col" prefWidth="55.0" text="Bill No." />
-                                  <TableColumn fx:id="bill_amt_col" prefWidth="60.0" text="Bill Amt" />
-                                    <TableColumn fx:id="supplier_col" prefWidth="129.0" text="Supplier" />
-                                    <TableColumn fx:id="gr_col" minWidth="3.0" prefWidth="31.0" text="GR" />
-                                    <TableColumn fx:id="rd_col" prefWidth="31.0" text="RD" />
-                                    <TableColumn fx:id="cd_col" prefWidth="30.0" text="CD" />
-                                    <TableColumn fx:id="bc_col" prefWidth="34.0" text="BC" />
-                                    <TableColumn fx:id="amount_collection_col" prefWidth="72.0" text="Amt Coll" />
-                                    <TableColumn fx:id="bank_col" prefWidth="39.0" text="Bank" />
-                                    <TableColumn fx:id="dd_no_col" minWidth="5.0" prefWidth="96.0" text="DD No." />
-                                    <TableColumn fx:id="dd_date_col" prefWidth="98.0" text="DD Date" />
+                                  <TableColumn fx:id="bill_no_col" prefWidth="54.0" text="Bill No." />
+                                  <TableColumn fx:id="bill_amt_col" prefWidth="62.0" text="Bill Amt" />
+                                    <TableColumn fx:id="supplier_col" prefWidth="146.0" text="Supplier" />
+                                    <TableColumn fx:id="amount_collection_col" prefWidth="163.0" text="Amount Collected" />
+                                    <TableColumn fx:id="bank_col" prefWidth="60.0" text="Bank" />
+                                    <TableColumn fx:id="dd_no_col" minWidth="5.0" prefWidth="106.0" text="DD No." />
+                                    <TableColumn fx:id="dd_date_col" prefWidth="75.0" text="DD Date" />
                                 </columns>
                               </TableView>
                               <Label fx:id="display_board_label" layoutX="345.0" layoutY="54.0" prefHeight="43.0" prefWidth="346.0">
@@ -179,12 +151,12 @@
                                  </font>
                               </JFXButton>
                               <TextField fx:id="total_amount_field" alignment="CENTER_RIGHT" editable="false" layoutX="575.0" layoutY="275.0" prefHeight="25.0" prefWidth="81.0" text="0" />
-                              <Text layoutX="308.0" layoutY="214.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Amt Collected" wrappingWidth="102.00000536441803">
+                              <Text layoutX="197.0" layoutY="216.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Amt Collected" wrappingWidth="102.00000536441803">
                                  <font>
                                     <Font size="16.0" />
                                  </font>
                               </Text>
-                              <TextField fx:id="amount_collected_field" alignment="CENTER_RIGHT" layoutX="320.0" layoutY="225.0" onKeyReleased="#updateCollectionDue" prefHeight="25.0" prefWidth="73.0" text="0" />
+                              <TextField fx:id="amount_collected_field" alignment="CENTER_RIGHT" layoutX="209.0" layoutY="227.0" onKeyReleased="#updateCollectionDue" prefHeight="25.0" prefWidth="73.0" text="0" />
                            </children>
                         </AnchorPane>
                     </content>
@@ -219,15 +191,11 @@
                                     <TableColumn fx:id="bill_no_col_2" prefWidth="49.0" text="Bill No." />
                                     <TableColumn fx:id="bill_amt_col_2" prefWidth="58.0" text="Bill Amt" />
                                     <TableColumn fx:id="bill_date_col_2" prefWidth="70.0" text="Bill Dt" />
-                                    <TableColumn fx:id="supplier_col_2" prefWidth="118.0" text="Supplier" />
-                                    <TableColumn fx:id="gr_col_2" minWidth="3.0" prefWidth="30.0" text="GR" />
-                                    <TableColumn fx:id="rd_col_2" prefWidth="30.0" text="RD" />
-                                    <TableColumn fx:id="cd_col_2" prefWidth="30.0" text="CD" />
-                                    <TableColumn fx:id="bc_col_2" prefWidth="30.0" text="BC" />
-                                    <TableColumn fx:id="amount_collection_col_2" prefWidth="55.0" text="Amt Coll" />
-                                    <TableColumn fx:id="bank_col_2" minWidth="0.0" prefWidth="42.0" text="Bank" />
-                                    <TableColumn fx:id="dd_no_col_2" minWidth="5.0" prefWidth="64.0" text="DD No." />
-                                    <TableColumn fx:id="dd_date_col_2" prefWidth="70.0" text="DD Date" />
+                                    <TableColumn fx:id="supplier_col_2" prefWidth="134.0" text="Supplier" />
+                                    <TableColumn fx:id="amount_collection_col_2" prefWidth="137.0" text="Amount Collected" />
+                                    <TableColumn fx:id="bank_col_2" minWidth="0.0" prefWidth="82.0" text="Bank" />
+                                    <TableColumn fx:id="dd_no_col_2" minWidth="5.0" prefWidth="63.0" text="DD No." />
+                                    <TableColumn fx:id="dd_date_col_2" prefWidth="82.0" text="DD Date" />
                                  </columns>
                               </TableView>
                               <Label fx:id="display_board_label_2" layoutX="43.0" layoutY="152.0" prefHeight="43.0" prefWidth="346.0">

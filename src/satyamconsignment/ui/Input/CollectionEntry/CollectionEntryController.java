@@ -41,14 +41,6 @@ public class CollectionEntryController implements Initializable {
     @FXML
     private TextField dd_no_field;
     @FXML
-    private TextField gr_field;
-    @FXML
-    private TextField rd_field;
-    @FXML
-    private TextField cd_field;
-    @FXML
-    private TextField bc_field;
-    @FXML
     private JFXDatePicker dd_date_field;
     @FXML
     private JFXButton back_btn;
@@ -75,14 +67,6 @@ public class CollectionEntryController implements Initializable {
     private TableColumn<Collection, String> bill_amt_col;
     @FXML
     private TableColumn<Collection, String> supplier_col;
-    @FXML
-    private TableColumn<Collection, String> gr_col;
-    @FXML
-    private TableColumn<Collection, String> rd_col;
-    @FXML
-    private TableColumn<Collection, String> cd_col;
-    @FXML
-    private TableColumn<Collection, String> bc_col;
     @FXML
     private TableColumn<Collection, String> amount_collection_col;
     @FXML
@@ -135,14 +119,6 @@ public class CollectionEntryController implements Initializable {
     @FXML
     private TableColumn<Collection, String> supplier_col_2;
     @FXML
-    private TableColumn<Collection, String> gr_col_2;
-    @FXML
-    private TableColumn<Collection, String> rd_col_2;
-    @FXML
-    private TableColumn<Collection, String> cd_col_2;
-    @FXML
-    private TableColumn<Collection, String> bc_col_2;
-    @FXML
     private TableColumn<Collection, String> amount_collection_col_2;
     @FXML
     private TableColumn<Collection, String> bank_col_2;
@@ -185,10 +161,6 @@ public class CollectionEntryController implements Initializable {
         bill_no_col.setCellValueFactory(new PropertyValueFactory("billNo"));
         bill_amt_col.setCellValueFactory(new PropertyValueFactory("billAmount"));
         supplier_col.setCellValueFactory(new PropertyValueFactory("supplierName"));
-        gr_col.setCellValueFactory(new PropertyValueFactory("gr"));
-        rd_col.setCellValueFactory(new PropertyValueFactory("rd"));
-        cd_col.setCellValueFactory(new PropertyValueFactory("cd"));
-        bc_col.setCellValueFactory(new PropertyValueFactory("bc"));
         amount_collection_col.setCellValueFactory(new PropertyValueFactory("amountCollected"));
         dd_no_col.setCellValueFactory(new PropertyValueFactory("ddNo"));
         bank_col.setCellValueFactory(new PropertyValueFactory("bank"));
@@ -200,10 +172,6 @@ public class CollectionEntryController implements Initializable {
         bill_amt_col_2.setCellValueFactory(new PropertyValueFactory("billAmount"));
         supplier_col_2.setCellValueFactory(new PropertyValueFactory("supplierName"));
         bill_date_col_2.setCellValueFactory(new PropertyValueFactory("billDate"));
-        gr_col_2.setCellValueFactory(new PropertyValueFactory("gr"));
-        rd_col_2.setCellValueFactory(new PropertyValueFactory("rd"));
-        cd_col_2.setCellValueFactory(new PropertyValueFactory("cd"));
-        bc_col_2.setCellValueFactory(new PropertyValueFactory("bc"));
         amount_collection_col_2.setCellValueFactory(new PropertyValueFactory("amountCollected"));
         dd_no_col_2.setCellValueFactory(new PropertyValueFactory("ddNo"));
         bank_col_2.setCellValueFactory(new PropertyValueFactory("bank"));
@@ -238,14 +206,13 @@ public class CollectionEntryController implements Initializable {
     @FXML
     private void addCollection(ActionEvent event) {
         if(bill_no_combo.getValue().isEmpty()||billAmount.isEmpty()||buyerName.isEmpty()||supplierName.isEmpty()||bank_field.getText().isEmpty()||
-                gr_field.getText().isEmpty()||rd_field.getText().isEmpty()||cd_field.getText().isEmpty()||bc_field.getText().isEmpty()||
                 collection_due_field.getText().isEmpty()||amount_collected_field.getText().isEmpty()||dd_no_field.getText().isEmpty()||dd_date_field.getValue().toString().isEmpty())
                 {
                     rrc.showAlert("Please check whether the fields are properly filled or not.",2);
                 }
                 else{
                     list.add(new Collection(bill_no_combo.getValue(),bill_date_view.getText(),billAmount,supplierName,
-                    gr_field.getText(),rd_field.getText(),cd_field.getText(),bc_field.getText(),collection_due_field.getText(),amount_collected_field.getText(),
+                    collection_due_field.getText(),amount_collected_field.getText(),
                     bank_field.getText(),dd_no_field.getText(),formatter.format(dd_date_field.getValue())));
                     updateTotalAmount();
                     clearRepeatingFields();
@@ -261,7 +228,6 @@ public class CollectionEntryController implements Initializable {
         }
        else {
         if(bill_no_combo.getValue().isEmpty()||billAmount.isEmpty()||buyerName.isEmpty()||supplierName.isEmpty()||bank_field.getText().isEmpty()||
-                gr_field.getText().isEmpty()||rd_field.getText().isEmpty()||cd_field.getText().isEmpty()||bc_field.getText().isEmpty()||
                 collection_due_field.getText().isEmpty()||amount_collected_field.getText().isEmpty()||dd_no_field.getText().isEmpty()||dd_date_field.getValue().toString().isEmpty())
                 {
                     rrc.showAlert("Please check whether the fields are properly filled or not.",2);
@@ -269,7 +235,7 @@ public class CollectionEntryController implements Initializable {
                 else{
             list.set(collection_tableview.getSelectionModel().getSelectedIndex(),
                     new Collection(bill_no_combo.getValue(),bill_date_view.getText(),billAmount,supplierName,
-                    gr_field.getText(),rd_field.getText(),cd_field.getText(),bc_field.getText(),collection_due_field.getText(),
+                    collection_due_field.getText(),
                     amount_collected_field.getText(),bank_field.getText(),dd_no_field.getText(),dd_date_field.getValue().toString()));
             updateTotalAmount();
                     }
@@ -298,10 +264,6 @@ public class CollectionEntryController implements Initializable {
         bill_date_view.setText("");
         supplier_name_view.setText("");
         bill_amount_view.setText("");
-        gr_field.setText("0");
-        rd_field.setText("0");
-        cd_field.setText("0");
-        bc_field.setText("0");
         collection_due_field.setText("0");
         amount_collected_field.setText("");
         bank_field.setText("");
@@ -324,10 +286,6 @@ public class CollectionEntryController implements Initializable {
     @FXML
     private void updateCollectionDue() {
         collection_due_field.setText(Integer.toString(previouslyDue
-                -Integer.parseInt(gr_field.getText())
-                -Integer.parseInt(rd_field.getText())
-                -Integer.parseInt(cd_field.getText())
-                -Integer.parseInt(bc_field.getText())
                 -Integer.parseInt(amount_collected_field.getText())));
     }
 
@@ -397,22 +355,18 @@ public class CollectionEntryController implements Initializable {
                 
                 for(Collection temp:list)
                 {
-                    sql="INSERT INTO `Collection_Entry_Extended_Table`(`Voucher No.`,`Supplier Name`,`Bill No.`,`Bill Date`,`Bill Amount`,`GR`,`RD`,`CD`,`BC`,`Collection Due`,`Amount Collected`,`Bank`,`DD No.`,`DD Date`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
+                    sql="INSERT INTO `Collection_Entry_Extended_Table`(`Voucher No.`,`Supplier Name`,`Bill No.`,`Bill Date`,`Bill Amount`,`Collection Due`,`Amount Collected`,`Bank`,`DD No.`,`DD Date`) VALUES (?,?,?,?,?,?,?,?,?,?);";
                     ps=conn.prepareStatement(sql);
                     ps.setString(1, voucher_no_field.getText());
                     ps.setString(2, temp.getSupplierName());
                     ps.setString(3, temp.getBillNo());
                     ps.setString(4, temp.getBillDate());
                     ps.setString(5, temp.getBillAmount());
-                    ps.setString(6, temp.getGr());
-                    ps.setString(7, temp.getRd());
-                    ps.setString(8, temp.getCd());
-                    ps.setString(9, temp.getBc());
-                    ps.setString(10, temp.getDue());
-                    ps.setString(11, temp.getAmountCollected());
-                    ps.setString(12, temp.getBank());
-                    ps.setString(13, temp.getDdNo());
-                    ps.setString(14, temp.getDdDate());
+                    ps.setString(6, temp.getDue());
+                    ps.setString(7, temp.getAmountCollected());
+                    ps.setString(8, temp.getBank());
+                    ps.setString(9, temp.getDdNo());
+                    ps.setString(10, temp.getDdDate());
                     
                     ps.execute();
                     
@@ -474,9 +428,7 @@ public class CollectionEntryController implements Initializable {
                     while(rs.next())
                     {
                         list.add(new Collection(rs.getString("Bill No."),rs.getString("Bill Date"),rs.getString("Bill Amount"),
-                                                rs.getString("Supplier Name"),rs.getString("gr"),
-                                                rs.getString("rd"),rs.getString("cd"),rs.getString("bc"),
-                                                rs.getString("collection due"),rs.getString("amount collected"),
+                                                rs.getString("Supplier Name"),rs.getString("collection due"),rs.getString("amount collected"),
                                                 rs.getString("bank"),rs.getString("DD No."),
                                                 rs.getString("DD Date")));
                     }
@@ -500,20 +452,16 @@ public class CollectionEntryController implements Initializable {
         try {
             //EDIT
             conn.setAutoCommit(false);
-            sql="SELECT `Bill No.`,`Amount Collected`,`GR`,`RD`,`CD`,`BC` FROM `Collection_Entry_Extended_Table` where `Voucher No.`=? collate nocase";
+            sql="SELECT `Bill No.`,`Amount Collected` FROM `Collection_Entry_Extended_Table` where `Voucher No.`=? collate nocase";
             ps=conn.prepareStatement(sql);
             ps.setString(1, voucher_no_field_2.getText());
             rs=ps.executeQuery();
             while(rs.next())
             {
-                sql="UPDATE `Bill_Entry_Table` SET `Collection Due`=`Collection Due`+?+?+?+?+? WHERE `BILL NO.`=?";
+                sql="UPDATE `Bill_Entry_Table` SET `Collection Due`=`Collection Due`+? WHERE `BILL NO.`=?";
                 ps=conn.prepareStatement(sql);
                 ps.setString(1, rs.getString("Amount Collected"));
-                ps.setString(2, rs.getString("GR"));
-                ps.setString(3, rs.getString("RD"));
-                ps.setString(4, rs.getString("CD"));
-                ps.setString(5, rs.getString("BC"));
-                ps.setString(6, rs.getString("Bill No."));
+                ps.setString(2, rs.getString("Bill No."));
                 ps.execute();
             }
             
