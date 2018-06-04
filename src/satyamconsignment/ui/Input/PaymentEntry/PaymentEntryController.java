@@ -40,10 +40,6 @@ public class PaymentEntryController implements Initializable {
 
     @FXML
     private TextField dd_no_field;
-    private TextField gr_field;
-    private TextField rd_field;
-    private TextField cd_field;
-    private TextField bc_field;
     @FXML
     private JFXDatePicker dd_date_field;
     @FXML
@@ -62,10 +58,6 @@ public class PaymentEntryController implements Initializable {
     private TableColumn<?, ?> bill_no_col;
     @FXML
     private TableColumn<?, ?> bill_amt_col;
-    private TableColumn<?, ?> gr_col;
-    private TableColumn<?, ?> rd_col;
-    private TableColumn<?, ?> cd_col;
-    private TableColumn<?, ?> bc_col;
     @FXML
     private TableColumn<?, ?> dd_no_col;
     @FXML
@@ -181,10 +173,6 @@ public class PaymentEntryController implements Initializable {
         bill_amt_col.setCellValueFactory(new PropertyValueFactory("billAmount"));
         bill_dt_col.setCellValueFactory(new PropertyValueFactory("billDate"));
         buyer_col.setCellValueFactory(new PropertyValueFactory("buyerName"));
-        gr_col.setCellValueFactory(new PropertyValueFactory("gr"));
-        rd_col.setCellValueFactory(new PropertyValueFactory("rd"));
-        cd_col.setCellValueFactory(new PropertyValueFactory("cd"));
-        bc_col.setCellValueFactory(new PropertyValueFactory("bc"));
         bank_col.setCellValueFactory(new PropertyValueFactory("bank"));
         dd_no_col.setCellValueFactory(new PropertyValueFactory("ddNo"));
         dd_date_col.setCellValueFactory(new PropertyValueFactory("ddDate"));
@@ -198,10 +186,6 @@ public class PaymentEntryController implements Initializable {
         bill_amt_col_2.setCellValueFactory(new PropertyValueFactory("billAmount"));
         buyer_col_2.setCellValueFactory(new PropertyValueFactory("buyerName"));
         bill_date_col_2.setCellValueFactory(new PropertyValueFactory("billDate"));
-        gr_col_2.setCellValueFactory(new PropertyValueFactory("gr"));
-        rd_col_2.setCellValueFactory(new PropertyValueFactory("rd"));
-        cd_col_2.setCellValueFactory(new PropertyValueFactory("cd"));
-        bc_col_2.setCellValueFactory(new PropertyValueFactory("bc"));
         due_col_2.setCellValueFactory(new PropertyValueFactory("due"));
         amount_paid_col_2.setCellValueFactory(new PropertyValueFactory("amountPaid"));
         dd_no_col_2.setCellValueFactory(new PropertyValueFactory("ddNo"));
@@ -274,10 +258,6 @@ public class PaymentEntryController implements Initializable {
     private void updateDueAmount() {
         String temp;
         temp=Integer.toString(previouslyDue
-                -Integer.parseInt(gr_field.getText())
-                -Integer.parseInt(rd_field.getText())
-                -Integer.parseInt(cd_field.getText())
-                -Integer.parseInt(bc_field.getText())
                 -Integer.parseInt(amount_paid_field.getText()));
         due_amount_field.setText(temp);
     }
@@ -286,14 +266,13 @@ public class PaymentEntryController implements Initializable {
     private void addPayment(ActionEvent event) {
         if(bill_no_combo.getValue().isEmpty()||bill_amount_field.getText().isEmpty()||buyer_name_field.getText().isEmpty()||
                 supplier_name_combo.getValue().isEmpty()||bank_field.getText().isEmpty()||bank_field.getText().isEmpty()||
-                gr_field.getText().isEmpty()||rd_field.getText().isEmpty()||cd_field.getText().isEmpty()||bc_field.getText().isEmpty()||
                 due_amount_field.getText().isEmpty()||amount_paid_field.getText().isEmpty()||dd_no_field.getText().isEmpty()||dd_date_field.getValue().toString().isEmpty())
                 {
                     rrc.showAlert("Please check whether the fields are properly filled or not.",2);
                 }
                 else{
                     list.add(new Payment(bill_no_combo.getValue(),bill_amount_field.getText(),bill_date_field.getText(),buyer_name_field.getText(),
-                    gr_field.getText(),rd_field.getText(),cd_field.getText(),bc_field.getText(),due_amount_field.getText(),amount_paid_field.getText(),
+                    due_amount_field.getText(),amount_paid_field.getText(),
                     bank_field.getText(),dd_no_field.getText(),formatter.format(dd_date_field.getValue())));
                     clearRepeatingFields();
                     updateTotalAmountPaid();
@@ -310,7 +289,6 @@ public class PaymentEntryController implements Initializable {
        else {
         if(bill_no_combo.getValue().isEmpty()||bill_amount_field.getText().isEmpty()||buyer_name_field.getText().isEmpty()||
                 supplier_name_combo.getValue().isEmpty()||bank_field.getText().isEmpty()||bank_field.getText().isEmpty()||
-                gr_field.getText().isEmpty()||rd_field.getText().isEmpty()||cd_field.getText().isEmpty()||bc_field.getText().isEmpty()||
                 due_amount_field.getText().isEmpty()||amount_paid_field.getText().isEmpty()||dd_no_field.getText().isEmpty()||dd_date_field.getValue().toString().isEmpty())
                 {
                     rrc.showAlert("Please check whether the fields are properly filled or not.",2);
@@ -318,7 +296,7 @@ public class PaymentEntryController implements Initializable {
                 else{
             list.set(payment_tableview.getSelectionModel().getSelectedIndex(),
                     new Payment(bill_no_combo.getValue(),bill_amount_field.getText(),bill_date_field.getText(),buyer_name_field.getText(),
-                    gr_field.getText(),rd_field.getText(),cd_field.getText(),bc_field.getText(),due_amount_field.getText(),amount_paid_field.getText(),
+                    due_amount_field.getText(),amount_paid_field.getText(),
                     bank_field.getText(),dd_no_field.getText(),formatter.format(dd_date_field.getValue())));
             clearRepeatingFields();
             updateTotalAmountPaid();
@@ -341,12 +319,8 @@ public class PaymentEntryController implements Initializable {
     private void clearRepeatingFields() {
         bill_date_field.setText("");
         buyer_name_field.setText("");
-        bill_amount_field.setText("");
-        gr_field.setText("0");
-        rd_field.setText("0");
-        cd_field.setText("0");
-        bc_field.setText("0");
-        due_amount_field.setText("");
+        bill_amount_field.setText("0");
+        due_amount_field.setText("0");
         amount_paid_field.setText("0");
         bank_field.setText("");
         dd_no_field.setText("");
@@ -381,22 +355,18 @@ public class PaymentEntryController implements Initializable {
                 
                 for(Payment temp:list)
                 {
-                    sql="INSERT INTO `Payment_Entry_Extended_Table`(`Voucher No.`,`Buyer Name`,`Bill No.`,`Bill Date`,`Bill Amount`,`GR`,`RD`,`CD`,`BC`,`Due Amount`,`Amount Paid`,`Bank`,`DD No.`,`DD Date`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                    sql="INSERT INTO `Payment_Entry_Extended_Table`(`Voucher No.`,`Buyer Name`,`Bill No.`,`Bill Date`,`Bill Amount`,`Due Amount`,`Amount Paid`,`Bank`,`DD No.`,`DD Date`) VALUES (?,?,?,?,?,?,?,?,?,?)";
                     ps=conn.prepareStatement(sql);
                     ps.setString(1, voucher_no_field.getText());
                     ps.setString(2, temp.getBuyerName());
                     ps.setString(3, temp.getBillNo());
                     ps.setString(4, temp.getBillDate());
                     ps.setString(5, temp.getBillAmount());
-                    ps.setString(6, temp.getGr());
-                    ps.setString(7, temp.getRd());
-                    ps.setString(8, temp.getCd());
-                    ps.setString(9, temp.getBc());
-                    ps.setString(10, temp.getDue());
-                    ps.setString(11, temp.getAmountPaid());
-                    ps.setString(12, temp.getBank());
-                    ps.setString(13, temp.getDdNo());
-                    ps.setString(14, temp.getDdDate());
+                    ps.setString(6, temp.getDue());
+                    ps.setString(7, temp.getAmountPaid());
+                    ps.setString(8, temp.getBank());
+                    ps.setString(9, temp.getDdNo());
+                    ps.setString(10, temp.getDdDate());
                     
                     ps.execute();
                     
@@ -420,7 +390,7 @@ public class PaymentEntryController implements Initializable {
                 }
                 Logger.getLogger(PaymentEntryController.class.getName()).log(Level.SEVERE, null, ex);
             }
-                    
+             list.clear();       
         }
     }
 
@@ -458,8 +428,7 @@ public class PaymentEntryController implements Initializable {
                     while(rs.next())
                     {
                         list.add(new Payment(rs.getString("Bill No."),rs.getString("Bill Amount"),rs.getString("Bill Date"),
-                                                rs.getString("Buyer Name"),rs.getString("gr"),
-                                                rs.getString("rd"),rs.getString("cd"),rs.getString("bc"),
+                                                rs.getString("Buyer Name"),
                                                 rs.getString("due amount"),rs.getString("amount paid"),rs.getString("bank"),rs.getString("DD No."),
                                                 rs.getString("DD Date")));
                     }
@@ -482,20 +451,16 @@ public class PaymentEntryController implements Initializable {
         {
         try {
             conn.setAutoCommit(false);
-            sql="SELECT `Bill No.`,`Amount Paid`,`GR`,`RD`,`CD`,`BC` FROM `Payment_Entry_Extended_Table` where `Voucher No.`=? collate nocase";
+            sql="SELECT `Bill No.`,`Amount Paid` FROM `Payment_Entry_Extended_Table` where `Voucher No.`=? collate nocase";
             ps=conn.prepareStatement(sql);
             ps.setString(1, voucher_no_field_2.getText());
             rs=ps.executeQuery();
             while(rs.next())
             {
-                sql="UPDATE `Bill_Entry_Table` SET `Due`=`Due`+?+?+?+?+? WHERE `BILL NO.`=?";
+                sql="UPDATE `Bill_Entry_Table` SET `Due`=`Due`+? WHERE `BILL NO.`=?";
                 ps=conn.prepareStatement(sql);
                 ps.setString(1, rs.getString("Amount Paid"));
-                ps.setString(2, rs.getString("GR"));
-                ps.setString(3, rs.getString("RD"));
-                ps.setString(4, rs.getString("CD"));
-                ps.setString(5, rs.getString("BC"));
-                ps.setString(6, rs.getString("Bill No."));
+                ps.setString(2, rs.getString("Bill No."));
                 ps.execute();
             }
             sql="DELETE FROM `Payment_Entry_Table` where `Voucher No.`=? collate nocase"; 
