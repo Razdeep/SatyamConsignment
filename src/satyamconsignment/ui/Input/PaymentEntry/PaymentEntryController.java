@@ -40,13 +40,9 @@ public class PaymentEntryController implements Initializable {
 
     @FXML
     private TextField dd_no_field;
-    @FXML
     private TextField gr_field;
-    @FXML
     private TextField rd_field;
-    @FXML
     private TextField cd_field;
-    @FXML
     private TextField bc_field;
     @FXML
     private JFXDatePicker dd_date_field;
@@ -66,13 +62,9 @@ public class PaymentEntryController implements Initializable {
     private TableColumn<?, ?> bill_no_col;
     @FXML
     private TableColumn<?, ?> bill_amt_col;
-    @FXML
     private TableColumn<?, ?> gr_col;
-    @FXML
     private TableColumn<?, ?> rd_col;
-    @FXML
     private TableColumn<?, ?> cd_col;
-    @FXML
     private TableColumn<?, ?> bc_col;
     @FXML
     private TableColumn<?, ?> dd_no_col;
@@ -141,13 +133,9 @@ public class PaymentEntryController implements Initializable {
     private TableColumn<?, ?> bill_date_col_2;
     @FXML
     private TableColumn<?, ?> buyer_col_2;
-    @FXML
     private TableColumn<?, ?> gr_col_2;
-    @FXML
     private TableColumn<?, ?> rd_col_2;
-    @FXML
     private TableColumn<?, ?> cd_col_2;
-    @FXML
     private TableColumn<?, ?> bc_col_2;
     @FXML
     private TableColumn<?, ?> amount_paid_col_2;

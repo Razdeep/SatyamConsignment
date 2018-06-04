@@ -18,7 +18,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Group fx:id="root2" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="satyamconsignment.ui.Input.PaymentEntry.PaymentEntryController">
+<Group fx:id="root2" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="satyamconsignment.ui.Input.PaymentEntry.PaymentEntryController">
    <children>
       <AnchorPane id="AnchorPane" prefHeight="674.0" prefWidth="761.0" styleClass="mainFxmlClass">
           <stylesheets>
@@ -61,37 +61,17 @@
                                     <Font size="16.0" />
                                  </font>
                               </Text>
-                              <Text layoutX="25.0" layoutY="213.0" strokeType="OUTSIDE" strokeWidth="0.0" text="GR" wrappingWidth="25.90429401397705">
+                              <Text layoutX="145.0" layoutY="207.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Due Amt" wrappingWidth="68.90429966151714">
                                  <font>
                                     <Font size="16.0" />
                                  </font>
                               </Text>
-                              <Text layoutX="85.0" layoutY="211.0" strokeType="OUTSIDE" strokeWidth="0.0" text="RD" wrappingWidth="24.90429401397705">
+                              <Text layoutX="383.0" layoutY="205.0" strokeType="OUTSIDE" strokeWidth="0.0" text="DD No." wrappingWidth="63.90429966151714">
                                  <font>
                                     <Font size="16.0" />
                                  </font>
                               </Text>
-                              <Text layoutX="135.0" layoutY="210.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CD" wrappingWidth="21.90429401397705">
-                                 <font>
-                                    <Font size="16.0" />
-                                 </font>
-                              </Text>
-                              <Text layoutX="195.0" layoutY="209.0" strokeType="OUTSIDE" strokeWidth="0.0" text="BC" wrappingWidth="26.90429401397705">
-                                 <font>
-                                    <Font size="16.0" />
-                                 </font>
-                              </Text>
-                              <Text layoutX="250.0" layoutY="210.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Due Amt" wrappingWidth="68.90429966151714">
-                                 <font>
-                                    <Font size="16.0" />
-                                 </font>
-                              </Text>
-                              <Text layoutX="488.0" layoutY="208.0" strokeType="OUTSIDE" strokeWidth="0.0" text="DD No." wrappingWidth="63.90429966151714">
-                                 <font>
-                                    <Font size="16.0" />
-                                 </font>
-                              </Text>
-                              <Text layoutX="568.0" layoutY="208.0" strokeType="OUTSIDE" strokeWidth="0.0" text="DD Date" wrappingWidth="70.90429966151714">
+                              <Text layoutX="463.0" layoutY="205.0" strokeType="OUTSIDE" strokeWidth="0.0" text="DD Date" wrappingWidth="70.90429966151714">
                                  <font>
                                     <Font size="16.0" />
                                  </font>
@@ -106,12 +86,12 @@
                                     <Font size="16.0" />
                                  </font>
                               </Text>
-                              <Text layoutX="335.0" layoutY="209.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Amt Paid" wrappingWidth="68.90429966151714">
+                              <Text layoutX="230.0" layoutY="206.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Amt Paid" wrappingWidth="68.90429966151714">
                                  <font>
                                     <Font size="16.0" />
                                  </font>
                               </Text>
-                              <Text layoutX="424.0" layoutY="207.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bank" wrappingWidth="47.90429966151714">
+                              <Text layoutX="319.0" layoutY="204.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bank" wrappingWidth="47.90429966151714">
                                  <font>
                                     <Font size="16.0" />
                                  </font>
@@ -128,15 +108,11 @@
                               <TextField fx:id="buyer_name_field" editable="false" layoutX="118.0" layoutY="149.0" prefHeight="25.0" prefWidth="130.0" />
                               <TextField fx:id="bill_date_field" editable="false" layoutX="383.0" layoutY="107.0" prefHeight="25.0" prefWidth="130.0" />
                               <TextField fx:id="bill_amount_field" editable="false" layoutX="399.0" layoutY="149.0" prefHeight="25.0" prefWidth="116.0" />
-                              <TextField fx:id="gr_field" alignment="CENTER_RIGHT" layoutX="27.0" layoutY="226.0" onKeyReleased="#updateDueAmount" prefHeight="25.0" prefWidth="45.0" text="0" />
-                              <TextField fx:id="rd_field" alignment="CENTER_RIGHT" layoutX="80.0" layoutY="225.0" onKeyReleased="#updateDueAmount" prefHeight="25.0" prefWidth="45.0" text="0" />
-                              <TextField fx:id="cd_field" alignment="CENTER_RIGHT" layoutX="133.0" layoutY="225.0" onKeyReleased="#updateDueAmount" prefHeight="25.0" prefWidth="45.0" text="0" />
-                              <TextField fx:id="bc_field" alignment="CENTER_RIGHT" layoutX="192.0" layoutY="223.0" onKeyReleased="#updateDueAmount" prefHeight="25.0" prefWidth="45.0" text="0" />
-                              <TextField fx:id="due_amount_field" alignment="CENTER_RIGHT" editable="false" layoutX="250.0" layoutY="223.0" prefHeight="25.0" prefWidth="69.0" />
-                              <TextField fx:id="amount_paid_field" alignment="CENTER_RIGHT" layoutX="335.0" layoutY="222.0" onKeyReleased="#updateDueAmount" prefHeight="25.0" prefWidth="69.0" text="0" />
-                              <TextField fx:id="bank_field" layoutX="421.0" layoutY="222.0" prefHeight="25.0" prefWidth="45.0" />
-                              <TextField fx:id="dd_no_field" layoutX="478.0" layoutY="221.0" prefHeight="25.0" prefWidth="73.0" />
-                              <JFXDatePicker fx:id="dd_date_field" layoutX="568.0" layoutY="216.0" prefHeight="28.0" prefWidth="99.0" />
+                              <TextField fx:id="due_amount_field" alignment="CENTER_RIGHT" editable="false" layoutX="145.0" layoutY="220.0" prefHeight="25.0" prefWidth="69.0" />
+                              <TextField fx:id="amount_paid_field" alignment="CENTER_RIGHT" layoutX="230.0" layoutY="219.0" onKeyReleased="#updateDueAmount" prefHeight="25.0" prefWidth="69.0" text="0" />
+                              <TextField fx:id="bank_field" layoutX="316.0" layoutY="219.0" prefHeight="25.0" prefWidth="45.0" />
+                              <TextField fx:id="dd_no_field" layoutX="373.0" layoutY="220.0" prefHeight="25.0" prefWidth="73.0" />
+                              <JFXDatePicker fx:id="dd_date_field" layoutX="463.0" layoutY="217.0" prefHeight="28.0" prefWidth="99.0" />
                               <Button fx:id="add_payment_btn" layoutX="37.0" layoutY="259.0" mnemonicParsing="false" onAction="#addPayment" prefHeight="29.0" prefWidth="108.0" text="Add Payment" />
                               <Button fx:id="replace_payment_btn" layoutX="164.0" layoutY="259.0" mnemonicParsing="false" onAction="#replacePayment" prefHeight="29.0" prefWidth="130.0" text="Replace Payment" />
                               <Button fx:id="delete_payment_btn" layoutX="315.0" layoutY="259.0" mnemonicParsing="false" onAction="#deletePayment" prefHeight="29.0" prefWidth="130.0" text="Delete Payment" />
@@ -169,16 +145,12 @@
                                     <TableColumn fx:id="bill_no_col" prefWidth="43.0" text="Bill No" />
                                     <TableColumn fx:id="bill_amt_col" prefWidth="60.0" text="Bill Amt" />
                                     <TableColumn fx:id="bill_dt_col" prefWidth="70.0" text="Bill Date" />
-                                    <TableColumn fx:id="buyer_col" prefWidth="140.0" text="Buyer" />
-                                    <TableColumn fx:id="gr_col" prefWidth="35.0" text="GR" />
-                                    <TableColumn fx:id="rd_col" prefWidth="35.0" text="RD" />
-                                    <TableColumn fx:id="cd_col" prefWidth="35.0" text="CD" />
-                                    <TableColumn fx:id="bc_col" prefWidth="30.0" text="BC" />
-                                    <TableColumn fx:id="due_col" prefWidth="47.0" text="Due" />
-                                    <TableColumn fx:id="amount_paid_col" prefWidth="60.0" text="Amt Paid" />
-                                    <TableColumn fx:id="bank_col" prefWidth="40.0" text="Bank" />
-                                    <TableColumn fx:id="dd_no_col" prefWidth="65.0" text="DD No." />
-                                    <TableColumn fx:id="dd_date_col" prefWidth="76.0" text="DD Date" />
+                                    <TableColumn fx:id="buyer_col" prefWidth="151.0" text="Buyer" />
+                                    <TableColumn fx:id="due_col" prefWidth="53.0" text="Due" />
+                                    <TableColumn fx:id="amount_paid_col" prefWidth="85.0" text="Amt Paid" />
+                                    <TableColumn fx:id="bank_col" prefWidth="64.0" text="Bank" />
+                                    <TableColumn fx:id="dd_no_col" prefWidth="86.0" text="DD No." />
+                                    <TableColumn fx:id="dd_date_col" prefWidth="97.0" text="DD Date" />
                                  </columns>
                               </TableView>
                               <TextField fx:id="total_amount_paid_field" alignment="CENTER_RIGHT" editable="false" layoutX="581.0" layoutY="500.0" prefHeight="25.0" prefWidth="73.0" text="0" />
@@ -232,16 +204,12 @@
                                     <TableColumn fx:id="bill_no_col_2" prefWidth="49.0" text="Bill No." />
                                     <TableColumn fx:id="bill_amt_col_2" prefWidth="58.0" text="Bill Amt" />
                                     <TableColumn fx:id="bill_date_col_2" prefWidth="70.0" text="Bill Dt" />
-                                    <TableColumn fx:id="buyer_col_2" prefWidth="118.0" text="Buyer Name" />
-                                    <TableColumn fx:id="gr_col_2" minWidth="3.0" prefWidth="30.0" text="GR" />
-                                    <TableColumn fx:id="rd_col_2" prefWidth="30.0" text="RD" />
-                                    <TableColumn fx:id="cd_col_2" prefWidth="30.0" text="CD" />
-                                    <TableColumn fx:id="bc_col_2" prefWidth="30.0" text="BC" />
-                                    <TableColumn fx:id="due_col_2" prefWidth="49.0" text="Due" />
-                                    <TableColumn fx:id="amount_paid_col_2" prefWidth="57.0" text="Amt Paid" />
-                                    <TableColumn fx:id="bank_col_2" minWidth="0.0" prefWidth="46.0" text="Bank" />
-                                    <TableColumn fx:id="dd_no_col_2" minWidth="5.0" prefWidth="64.0" text="DD No." />
-                                    <TableColumn fx:id="dd_date_col_2" prefWidth="70.0" text="DD Date" />
+                                    <TableColumn fx:id="buyer_col_2" prefWidth="136.0" text="Buyer Name" />
+                                    <TableColumn fx:id="due_col_2" prefWidth="59.0" text="Due" />
+                                    <TableColumn fx:id="amount_paid_col_2" prefWidth="74.0" text="Amt Paid" />
+                                    <TableColumn fx:id="bank_col_2" minWidth="0.0" prefWidth="61.0" text="Bank" />
+                                    <TableColumn fx:id="dd_no_col_2" minWidth="5.0" prefWidth="83.0" text="DD No." />
+                                    <TableColumn fx:id="dd_date_col_2" prefWidth="94.0" text="DD Date" />
                                  </columns>
                               </TableView>
                               <TextField fx:id="voucher_date_2" editable="false" layoutX="162.0" layoutY="68.0" prefHeight="25.0" prefWidth="185.0" />
