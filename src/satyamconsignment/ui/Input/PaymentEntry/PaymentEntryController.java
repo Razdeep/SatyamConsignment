@@ -155,6 +155,8 @@ public class PaymentEntryController implements Initializable {
     private TableView<Payment> payment_tableview_2;
     @FXML
     private Group root2;
+    @FXML
+    private Button print_payment_btn;
     
     
     
@@ -501,5 +503,9 @@ public class PaymentEntryController implements Initializable {
             rrc.showAlert(ex.toString());
             Logger.getLogger(PaymentEntryController.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    @FXML
+    private void printPayment(ActionEvent event) {
     }
 }

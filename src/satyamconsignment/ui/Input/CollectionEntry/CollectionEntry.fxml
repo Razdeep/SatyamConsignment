@@ -216,6 +216,11 @@
                                     <Font size="18.0" />
                                  </font>
                               </Button>
+                              <Button fx:id="print_btn" layoutX="462.0" layoutY="75.0" mnemonicParsing="false" onAction="#printCollection" prefHeight="52.0" prefWidth="128.0" text="Print">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Button>
                            </children></AnchorPane>
                     </content>
                   </Tab>

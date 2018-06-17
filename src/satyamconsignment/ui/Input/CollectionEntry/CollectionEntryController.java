@@ -145,6 +145,8 @@ public class CollectionEntryController implements Initializable {
     private TextField collection_due_field;
     @FXML
     private Group root2;
+    @FXML
+    private Button print_btn;
     
     
     @Override
@@ -523,5 +525,9 @@ public class CollectionEntryController implements Initializable {
             rrc.showAlert(ex.toString());
             Logger.getLogger(CollectionEntryController.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    @FXML
+    private void printCollection(ActionEvent event) {
     }
 }
