@@ -9,7 +9,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Group xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="satyamconsignment.ui.Main.WelcomeScreen.WelcomeScreenController">
+<Group xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="satyamconsignment.ui.Main.WelcomeScreen.WelcomeScreenController">
    <children>
       <AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0">
           <stylesheets>
@@ -27,7 +27,7 @@
                   </LinearGradient>
                </fill>
             </Rectangle>
-            <Text layoutX="67.0" layoutY="189.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Satyam Consignment" textAlignment="CENTER" wrappingWidth="474.658203125">
+            <Text layoutX="67.0" layoutY="189.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Satyam Consignment v2.0" textAlignment="CENTER" wrappingWidth="474.658203125">
                <font>
                   <Font name="System Bold Italic" size="40.0" />
                </font>

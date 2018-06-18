@@ -11,7 +11,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Group fx:id="root2" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="satyamconsignment.ui.Main.Contact.ContactController">
+<Group fx:id="root2" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="satyamconsignment.ui.Main.Contact.ContactController">
    <children>
       <AnchorPane id="AnchorPane" prefHeight="503.0" prefWidth="600.0" styleClass="mainFxmlClass">
           <stylesheets>
@@ -35,14 +35,14 @@
                   <Font name="System Bold Italic" size="32.0" />
                </font>
             </Text>
-            <Text fill="#dddddd" fontSmoothingType="LCD" layoutX="48.0" layoutY="107.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hi! My name is Rajdeep Roy Chowdhury,&#10;and I'm the developer of this Consignment Software.&#10;You can email me at rrajdeeproychowdhury@gmail.com&#10;or call me at (+91) 9674810029&#10;or catch me up on fb by scanning the following QR Code&#10;" textAlignment="CENTER" wrappingWidth="520.2109375">
+            <Text fill="#dddddd" fontSmoothingType="LCD" layoutX="48.0" layoutY="107.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hi! My name is Rajdeep Roy Chowdhury,&#10;and I'm the developer of this Consignment Software.&#10;You can email me at rrajdeeproychowdhury@gmail.com&#10;or call me at (+91) 9674810029&#10;or catch me up on Linkedin by scanning&#10;the following QR Code:&#10;" textAlignment="CENTER" wrappingWidth="520.2109375">
                <font>
                   <Font name="System Italic" size="18.0" />
                </font>
             </Text>
             <ImageView fitHeight="172.0" fitWidth="161.0" layoutX="308.0" layoutY="265.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@qrCode.jpg" />
+                  <Image url="@qrCode.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="135.0" fitWidth="123.0" layoutX="141.0" layoutY="278.0" pickOnBounds="true">

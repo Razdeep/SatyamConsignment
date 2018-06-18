@@ -28,7 +28,7 @@ public class Launcher extends Application {
             stage.setMaximized(true);
             stage.show();
             stage.getIcons().add(new Image(getClass().getResourceAsStream("/satyamconsignment/icons/Icon.png")));
-            stage.setTitle("Satyam Consignment");
+            stage.setTitle("Satyam Consignment v2.0");
         } catch (IOException ex) {
             rrc.showAlert(ex.toString());
             Logger.getLogger(Launcher.class.getName()).log(Level.SEVERE, null, ex);
