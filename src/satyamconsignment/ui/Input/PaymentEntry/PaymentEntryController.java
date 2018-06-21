@@ -10,6 +10,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -31,6 +33,12 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
 import satyamconsignment.misc.DatabaseHandler;
 import satyamconsignment.misc.Rrc;
 import satyamconsignment.ui.Input.CollectionEntry.CollectionEntryController;
@@ -507,5 +515,22 @@ public class PaymentEntryController implements Initializable {
 
     @FXML
     private void printPayment(ActionEvent event) {
+        try {
+            String pdfFileName="Report.pdf";
+            String jrxmlFileName="Payment.jrxml";
+            JasperReport jasperReport = JasperCompileManager.compileReport(getClass().getResourceAsStream(jrxmlFileName));
+            Map map=new HashMap();
+            map.put("voucherNo", voucher_no_field_2.getText());
+            map.put("voucherDate", voucher_date_2.getText());
+            map.put("supplierName", supplier_name_2.getText());
+            map.put("billAmount", total_amount_field_2.getText());
+            JasperPrint jprint = JasperFillManager.fillReport(jasperReport, map, conn);
+            JasperExportManager.exportReportToPdfFile(jprint, pdfFileName);
+            rrc.showAlert("Report Successfully Generated", 1);
+        } catch (JRException ex) {
+            rrc.showAlert(ex.toString());
+            Logger.getLogger(PaymentEntryController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }
 }
