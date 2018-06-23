@@ -64,41 +64,36 @@ where "Voucher No."=$P{voucherNo}]]>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="28" splitType="Stretch"/>
+		<band height="43" splitType="Stretch"/>
 	</title>
 	<pageHeader>
-		<band height="43" splitType="Stretch">
+		<band height="61" splitType="Stretch">
 			<staticText>
-				<reportElement x="4" y="8" width="86" height="12" uuid="d9cc6f3d-e254-46f9-a1d8-871cf4359db2"/>
+				<reportElement x="4" y="8" width="86" height="20" uuid="d9cc6f3d-e254-46f9-a1d8-871cf4359db2"/>
 				<text><![CDATA[Voucher No.   : ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="4" y="24" width="86" height="12" uuid="9b3723ba-b46d-4ff9-839f-a74b7cab8cb2"/>
+				<reportElement x="4" y="31" width="86" height="20" uuid="9b3723ba-b46d-4ff9-839f-a74b7cab8cb2"/>
 				<text><![CDATA[Buyer Name   : ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="290" y="8" width="86" height="12" uuid="31386ebc-c7e4-4b43-9633-0932e4b052b2"/>
+				<reportElement x="290" y="8" width="86" height="20" uuid="31386ebc-c7e4-4b43-9633-0932e4b052b2"/>
 				<text><![CDATA[Voucher Date  : ]]></text>
 			</staticText>
-			<staticText>
-				<reportElement x="290" y="23" width="110" height="12" uuid="f6e0216e-8667-475e-bcdd-0be7fb9709b9"/>
-				<text><![CDATA[Bill Amount     :    Rs.]]></text>
-			</staticText>
 			<textField>
-				<reportElement x="90" y="8" width="170" height="14" uuid="42623b5c-cc71-4fb9-8c85-c478c192044e"/>
+				<reportElement x="90" y="8" width="170" height="20" uuid="42623b5c-cc71-4fb9-8c85-c478c192044e"/>
 				<textFieldExpression><![CDATA[$P{voucherNo}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="90" y="22" width="170" height="14" uuid="766acbc0-96de-42d4-992e-72beac5e20eb"/>
+				<reportElement x="90" y="31" width="170" height="20" uuid="766acbc0-96de-42d4-992e-72beac5e20eb"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$P{buyerName}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="376" y="8" width="170" height="14" uuid="b9d51edd-b8ee-4a7c-8262-104875028a4c"/>
+				<reportElement x="376" y="8" width="170" height="20" uuid="b9d51edd-b8ee-4a7c-8262-104875028a4c"/>
 				<textFieldExpression><![CDATA[$P{voucherDate}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="396" y="22" width="170" height="14" uuid="7a346a73-1b43-41d9-aac6-658118f405f2"/>
-				<textFieldExpression><![CDATA[$P{billAmount}]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageHeader>
@@ -126,24 +121,28 @@ where "Voucher No."=$P{voucherNo}]]>
 				<reportElement x="189" y="0" width="61" height="30" uuid="bbbb39d1-ccde-44b2-a18a-7b3c6f35140e">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="7b150011-7ea1-4315-9bed-a8182833dd39"/>
 				</reportElement>
+				<textElement textAlignment="Right"/>
 				<text><![CDATA[Bill Amount]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="250" y="0" width="61" height="30" uuid="6e34bc51-e4a3-4176-8bee-385cf3e61e88">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b03a42dd-c869-4127-b816-2485093a09c7"/>
 				</reportElement>
+				<textElement textAlignment="Right"/>
 				<text><![CDATA[Collection Due]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="311" y="0" width="61" height="30" uuid="ae44a2d9-8072-4873-8f87-4ffdaca48a16">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="06924df6-a423-4e93-a26d-8c87247f0b11"/>
 				</reportElement>
+				<textElement textAlignment="Right"/>
 				<text><![CDATA[Amount Collected]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="372" y="0" width="61" height="30" uuid="38451889-ea52-4598-a457-179474134395">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="1af0b97e-b946-4931-ac00-cc9a55f6cb8f"/>
 				</reportElement>
+				<textElement textAlignment="Center"/>
 				<text><![CDATA[Bank]]></text>
 			</staticText>
 			<staticText>
@@ -184,24 +183,28 @@ where "Voucher No."=$P{voucherNo}]]>
 				<reportElement x="189" y="0" width="61" height="30" uuid="6f80dbe5-e4a3-461d-83a4-32577d95cb77">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="7b150011-7ea1-4315-9bed-a8182833dd39"/>
 				</reportElement>
-				<textFieldExpression><![CDATA[$F{Bill Amount}]]></textFieldExpression>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{Bill Amount}+"-"]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="250" y="0" width="61" height="30" uuid="8a483ebf-aa08-4179-9730-e0d1e8bfe92d">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b03a42dd-c869-4127-b816-2485093a09c7"/>
 				</reportElement>
-				<textFieldExpression><![CDATA[$F{Collection Due}]]></textFieldExpression>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{Collection Due}+"-"]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="311" y="0" width="61" height="30" uuid="41920369-5b56-4bb6-b95c-485261dd69fe">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="06924df6-a423-4e93-a26d-8c87247f0b11"/>
 				</reportElement>
-				<textFieldExpression><![CDATA[$F{Amount Collected}]]></textFieldExpression>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{Amount Collected}+"-"]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="372" y="0" width="61" height="30" uuid="518940fe-d49c-4a8f-b214-9b069a280c86">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="1af0b97e-b946-4931-ac00-cc9a55f6cb8f"/>
 				</reportElement>
+				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[$F{Bank}]]></textFieldExpression>
 			</textField>
 			<textField>
@@ -219,7 +222,17 @@ where "Voucher No."=$P{voucherNo}]]>
 		</band>
 	</detail>
 	<columnFooter>
-		<band height="19" splitType="Stretch"/>
+		<band height="35" splitType="Stretch">
+			<textField>
+				<reportElement x="310" y="3" width="61" height="28" uuid="7a346a73-1b43-41d9-aac6-658118f405f2"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$P{billAmount}+"-"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="250" y="2" width="60" height="28" uuid="5cadb2d6-120e-47ba-9655-a1b4a47027de"/>
+				<text><![CDATA[V. Total]]></text>
+			</staticText>
+		</band>
 	</columnFooter>
 	<pageFooter>
 		<band height="24" splitType="Stretch"/>
