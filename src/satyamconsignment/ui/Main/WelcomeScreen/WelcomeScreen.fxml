@@ -2,6 +2,8 @@
 
 <?import java.net.URL?>
 <?import javafx.scene.Group?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.paint.LinearGradient?>
 <?import javafx.scene.paint.Stop?>
@@ -11,12 +13,12 @@
 
 <Group xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="satyamconsignment.ui.Main.WelcomeScreen.WelcomeScreenController">
    <children>
-      <AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0">
+      <AnchorPane id="AnchorPane" prefHeight="490.0" prefWidth="757.0">
           <stylesheets>
               <URL value="@welcomescreen.css" />
           </stylesheets>
          <children>
-            <Rectangle arcHeight="50.0" arcWidth="50.0" height="301.0" layoutX="61.0" layoutY="50.0" stroke="#36016b" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeType="OUTSIDE" strokeWidth="20.0" width="486.0">
+            <Rectangle arcHeight="50.0" arcWidth="50.0" height="469.0" layoutX="19.0" layoutY="19.0" stroke="#36016b" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeType="OUTSIDE" strokeWidth="20.0" width="739.0">
                <fill>
                   <LinearGradient endX="1.0" endY="1.0">
                      <stops>
@@ -27,7 +29,7 @@
                   </LinearGradient>
                </fill>
             </Rectangle>
-            <Text layoutX="67.0" layoutY="189.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Satyam Consignment v2.0" textAlignment="CENTER" wrappingWidth="474.658203125">
+            <Text layoutX="60.0" layoutY="88.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Satyam Consignment v2.0" textAlignment="CENTER" wrappingWidth="658.658203125">
                <font>
                   <Font name="System Bold Italic" size="40.0" />
                </font>
@@ -40,9 +42,19 @@
                   </LinearGradient>
                </fill>
             </Text>
-            <Text layoutX="173.0" layoutY="240.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Developed by Rajdeep Roy Chowdhury" textAlignment="CENTER" wrappingWidth="355.658203125">
+            <Text layoutX="110.0" layoutY="117.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Developed &amp; maintained by Rajdeep Roy Chowdhury" textAlignment="CENTER" wrappingWidth="558.658203125">
                <font>
                   <Font name="System Italic" size="20.0" />
+               </font>
+            </Text>
+            <ImageView fitHeight="236.0" fitWidth="255.0" layoutX="268.0" layoutY="145.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../icons/Icon.png" />
+               </image>
+            </ImageView>
+            <Text layoutX="182.0" layoutY="423.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Licensed under GPL 3.0" textAlignment="CENTER" wrappingWidth="414.658203125">
+               <font>
+                  <Font name="System Italic" size="17.0" />
                </font>
             </Text>
          </children>
