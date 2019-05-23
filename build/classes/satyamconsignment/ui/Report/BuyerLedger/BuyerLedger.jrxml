@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
+<!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
+<!-- 2019-06-06T15:25:08 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="BuyerLedger" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="73ce7514-71bf-4202-9720-ccec39087a66">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DataAdapter.xml"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
@@ -69,7 +70,7 @@ using("Bill No.") where `Bill_Entry_Table`.`Buyer Name`=$P{buyerName}]]>
 				<box padding="3">
 					<pen lineWidth="1.0" lineStyle="Dashed"/>
 				</box>
-				<textElement textAlignment="Center"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<text><![CDATA[DD No.]]></text>
 			</staticText>
 			<staticText>
@@ -77,7 +78,7 @@ using("Bill No.") where `Bill_Entry_Table`.`Buyer Name`=$P{buyerName}]]>
 				<box padding="3">
 					<pen lineWidth="1.0" lineStyle="Dashed"/>
 				</box>
-				<textElement textAlignment="Center"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<text><![CDATA[Bill Date]]></text>
 			</staticText>
 			<staticText>
@@ -85,7 +86,7 @@ using("Bill No.") where `Bill_Entry_Table`.`Buyer Name`=$P{buyerName}]]>
 				<box padding="3">
 					<pen lineWidth="1.0" lineStyle="Dashed"/>
 				</box>
-				<textElement textAlignment="Center"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<text><![CDATA[Voucher No.]]></text>
 			</staticText>
 			<staticText>
@@ -93,7 +94,7 @@ using("Bill No.") where `Bill_Entry_Table`.`Buyer Name`=$P{buyerName}]]>
 				<box padding="3">
 					<pen lineWidth="1.0" lineStyle="Dashed"/>
 				</box>
-				<textElement textAlignment="Center"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<text><![CDATA[Supplier Name]]></text>
 			</staticText>
 			<staticText>
@@ -101,7 +102,7 @@ using("Bill No.") where `Bill_Entry_Table`.`Buyer Name`=$P{buyerName}]]>
 				<box padding="3">
 					<pen lineWidth="1.0" lineStyle="Dashed"/>
 				</box>
-				<textElement textAlignment="Center"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<text><![CDATA[Bill Amount]]></text>
 			</staticText>
 			<staticText>
@@ -109,7 +110,7 @@ using("Bill No.") where `Bill_Entry_Table`.`Buyer Name`=$P{buyerName}]]>
 				<box padding="3">
 					<pen lineWidth="1.0" lineStyle="Dashed"/>
 				</box>
-				<textElement textAlignment="Center"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<text><![CDATA[DD Date]]></text>
 			</staticText>
 			<staticText>
@@ -117,7 +118,7 @@ using("Bill No.") where `Bill_Entry_Table`.`Buyer Name`=$P{buyerName}]]>
 				<box padding="3">
 					<pen lineWidth="1.0" lineStyle="Dashed"/>
 				</box>
-				<textElement textAlignment="Center"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<text><![CDATA[Bill No.]]></text>
 			</staticText>
 			<staticText>
@@ -125,7 +126,7 @@ using("Bill No.") where `Bill_Entry_Table`.`Buyer Name`=$P{buyerName}]]>
 				<box padding="3">
 					<pen lineWidth="1.0" lineStyle="Dashed"/>
 				</box>
-				<textElement textAlignment="Center"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<text><![CDATA[Bank]]></text>
 			</staticText>
 			<staticText>
@@ -133,7 +134,7 @@ using("Bill No.") where `Bill_Entry_Table`.`Buyer Name`=$P{buyerName}]]>
 				<box>
 					<pen lineWidth="1.0" lineStyle="Dashed"/>
 				</box>
-				<textElement textAlignment="Center"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<text><![CDATA[Amount Collected]]></text>
 			</staticText>
 			<staticText>
@@ -141,7 +142,7 @@ using("Bill No.") where `Bill_Entry_Table`.`Buyer Name`=$P{buyerName}]]>
 				<box>
 					<pen lineWidth="1.0" lineStyle="Dashed"/>
 				</box>
-				<textElement textAlignment="Center"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<text><![CDATA[Collection Due]]></text>
 			</staticText>
 		</band>
@@ -188,7 +189,7 @@ using("Bill No.") where `Bill_Entry_Table`.`Buyer Name`=$P{buyerName}]]>
 					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
-				<textElement textAlignment="Center">
+				<textElement textAlignment="Left">
 					<font fontName="Monospaced"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{Supplier Name}]]></textFieldExpression>
@@ -233,7 +234,7 @@ using("Bill No.") where `Bill_Entry_Table`.`Buyer Name`=$P{buyerName}]]>
 					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
-				<textElement textAlignment="Center">
+				<textElement textAlignment="Left">
 					<font fontName="Monospaced"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{Bank}]]></textFieldExpression>
@@ -261,21 +262,21 @@ using("Bill No.") where `Bill_Entry_Table`.`Buyer Name`=$P{buyerName}]]>
 					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
-				<textElement textAlignment="Center">
+				<textElement textAlignment="Right">
 					<font fontName="Monospaced"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{Bill Amount}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="366" y="0" width="53" height="20" uuid="d925527a-e86f-4c0b-8e58-950ff67a7848"/>
-				<textElement textAlignment="Center">
+				<reportElement x="366" y="-1" width="53" height="20" uuid="d925527a-e86f-4c0b-8e58-950ff67a7848"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font fontName="Monospaced"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{Amount Collected}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="419" y="-1" width="57" height="20" uuid="c75dd30a-8a15-43a2-a0ae-b912d4f7e8ec"/>
-				<textElement textAlignment="Center">
+				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font fontName="Monospaced"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{Collection Due}]]></textFieldExpression>

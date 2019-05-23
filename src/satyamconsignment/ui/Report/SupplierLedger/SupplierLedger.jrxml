@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="SupplierLedger" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="2b5461f1-4580-477e-9d69-6885b2c7bb67">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DataAdapter.xml"/>
@@ -189,7 +188,7 @@ using("Bill No.") where `Bill_Entry_Table`.`Supplier Name`=$P{supplierName}]]>
 					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
-				<textElement textAlignment="Center">
+				<textElement textAlignment="Right">
 					<font fontName="Monospaced"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{Bill Amount}]]></textFieldExpression>
@@ -203,7 +202,7 @@ using("Bill No.") where `Bill_Entry_Table`.`Supplier Name`=$P{supplierName}]]>
 					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
-				<textElement textAlignment="Center">
+				<textElement textAlignment="Left">
 					<font fontName="Monospaced"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{Buyer Name}]]></textFieldExpression>
@@ -231,7 +230,7 @@ using("Bill No.") where `Bill_Entry_Table`.`Supplier Name`=$P{supplierName}]]>
 					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
-				<textElement textAlignment="Center">
+				<textElement textAlignment="Right">
 					<font fontName="Monospaced"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{Amount Paid}]]></textFieldExpression>
@@ -287,7 +286,7 @@ using("Bill No.") where `Bill_Entry_Table`.`Supplier Name`=$P{supplierName}]]>
 					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
-				<textElement textAlignment="Center">
+				<textElement textAlignment="Right">
 					<font fontName="Monospaced"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{Due Amount}]]></textFieldExpression>
