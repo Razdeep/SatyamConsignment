@@ -8,7 +8,7 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="SatyamConsignment.jar" size="904667" download="eager" />
+    <jar href="SatyamConsignment.jar" size="904964" download="eager" />
     <jar href="lib\ant-1.7.1.jar" size="1323005" download="eager" />
     <jar href="lib\antlr-2.7.5.jar" size="435563" download="eager" />
     <jar href="lib\barbecue-1.5-beta1.jar" size="91079" download="eager" />

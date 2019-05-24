@@ -155,6 +155,8 @@ public class CollectionEntryController implements Initializable {
     private Group root2;
     @FXML
     private Button print_btn;
+    @FXML
+    private Label last_voucher_field;
     
     
     @Override
@@ -186,6 +188,8 @@ public class CollectionEntryController implements Initializable {
         dd_no_col_2.setCellValueFactory(new PropertyValueFactory("ddNo"));
         bank_col_2.setCellValueFactory(new PropertyValueFactory("bank"));
         dd_date_col_2.setCellValueFactory(new PropertyValueFactory("ddDate"));
+        
+        updateLastVoucher();
     }    
 
     @FXML
@@ -553,5 +557,19 @@ public class CollectionEntryController implements Initializable {
             rrc.showAlert(ex.toString());
             Logger.getLogger(CollectionEntryController.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    private void updateLastVoucher()
+    {
+        try {
+            String sql = "SELECT MAX(`Voucher No.`) from `COLLECTION_ENTRY_TABLE`;";
+            ps = conn.prepareStatement(sql);
+            rs = ps.executeQuery();
+            String answer = rs.getString("Max(`Voucher No.`)");
+            last_voucher_field.setText("Last Voucher No. : " + answer);
+        } catch (SQLException ex) {
+            Logger.getLogger(CollectionEntryController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }
 }
