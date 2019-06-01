@@ -203,18 +203,6 @@
                   </Tab>
                </tabs>
             </JFXTabPane>
-            <JFXButton fx:id="back_btn" layoutX="17.0" layoutY="23.0" onAction="#showInputScreen" prefHeight="60.0" prefWidth="127.0" text="Back">
-               <graphic>
-                  <ImageView fitHeight="44.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../../icons/Back.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </JFXButton>
          </children>
       </AnchorPane>
       <Text layoutX="273.0" layoutY="69.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bill Entry" wrappingWidth="168.791015625">

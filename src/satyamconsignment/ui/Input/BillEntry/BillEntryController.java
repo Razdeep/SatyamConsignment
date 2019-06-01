@@ -40,8 +40,6 @@ import satyamconsignment.ui.Main.MainController;
 public class BillEntryController implements Initializable {
     Rrc rrc;
     @FXML
-    private JFXButton back_btn;
-    @FXML
     private Group root;
     @FXML
     private TextField supplier_field;
@@ -164,7 +162,6 @@ public class BillEntryController implements Initializable {
         pm_col_2.setCellValueFactory(new PropertyValueFactory<>("pm"));
     }    
 
-    @FXML
     private void showInputScreen(ActionEvent event) {
         rrc=new Rrc();
         try {

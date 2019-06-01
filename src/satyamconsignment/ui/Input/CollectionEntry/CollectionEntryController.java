@@ -51,8 +51,6 @@ public class CollectionEntryController implements Initializable {
     @FXML
     private JFXDatePicker dd_date_field;
     @FXML
-    private JFXButton back_btn;
-    @FXML
     private JFXButton save_btn;
     @FXML
     private JFXButton clear_btn;
@@ -507,6 +505,7 @@ public class CollectionEntryController implements Initializable {
             total_amount_field_2.setText("");
             conn.commit();
             rrc.showAlert(voucher_no_field_2.getText().toUpperCase()+" Entry was successfully deleted.",1);
+            updateLastVoucher();
         } catch (SQLException ex) {
             rrc.showAlert(ex.toString());
             try {

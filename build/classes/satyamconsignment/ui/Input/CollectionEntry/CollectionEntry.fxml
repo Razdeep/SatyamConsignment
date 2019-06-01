@@ -231,18 +231,6 @@
                   </Tab>
                </tabs>
             </JFXTabPane>
-            <JFXButton fx:id="back_btn" layoutX="65.0" prefHeight="46.0" prefWidth="108.0" text="Back">
-               <graphic>
-                  <ImageView fitHeight="49.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../../icons/Back.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </JFXButton>
          </children>
       </AnchorPane>
    </children>

@@ -64,14 +64,5 @@
             <Font size="18.0" />
          </font>
       </JFXButton>
-      <JFXButton fx:id="back_btn" disable="true" layoutX="40.0" layoutY="34.0" onAction="#loadInitialScreen" prefHeight="60.0" prefWidth="108.0" text="Back">
-         <graphic>
-            <ImageView fitHeight="44.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../icons/Back.png" />
-               </image>
-            </ImageView>
-         </graphic>
-      </JFXButton>
    </children>
 </Group>

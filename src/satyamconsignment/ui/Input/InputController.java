@@ -27,8 +27,6 @@ public class InputController implements Initializable {
     private Group root2;
 
     Rrc rrc;
-    @FXML
-    private JFXButton back_btn;
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         rrc=new Rrc();
@@ -67,9 +65,5 @@ public class InputController implements Initializable {
         }
     }
 
-    @FXML
-    private void loadInitialScreen(ActionEvent event) {
-        
-    }
     
 }

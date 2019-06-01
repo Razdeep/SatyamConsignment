@@ -51,8 +51,6 @@ public class PaymentEntryController implements Initializable {
     @FXML
     private JFXDatePicker dd_date_field;
     @FXML
-    private JFXButton back_btn;
-    @FXML
     private JFXDatePicker voucher_date_field;
     @FXML
     private TextField voucher_no_field;
