@@ -28,8 +28,6 @@ public class MasterTransportController implements Initializable {
     @FXML
     private JFXListView<String> listView;
     @FXML
-    private JFXButton back_btn;
-    @FXML
     private JFXButton delete_btn;
     @FXML
     private JFXButton refresh_btn;

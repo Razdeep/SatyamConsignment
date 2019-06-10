@@ -17,15 +17,6 @@
             <Font size="34.0" />
          </font>
       </Text>
-      <JFXButton fx:id="back_btn" disable="true" layoutX="50.0" layoutY="44.0" onAction="#loadInitialScreen" prefHeight="60.0" prefWidth="108.0" text="Back">
-         <graphic>
-            <ImageView fitHeight="44.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../icons/Back.png" />
-               </image>
-            </ImageView>
-         </graphic>
-      </JFXButton>
       <Rectangle arcHeight="5.0" arcWidth="5.0" height="218.0" layoutX="14.0" layoutY="135.0" stroke="BLACK" strokeType="INSIDE" width="686.0">
          <fill>
             <RadialGradient centerX="0.5" centerY="0.5" focusAngle="-169.7" radius="1.0">

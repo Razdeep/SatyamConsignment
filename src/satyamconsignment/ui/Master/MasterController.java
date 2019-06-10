@@ -27,8 +27,6 @@ import satyamconsignment.misc.Rrc;
 public class MasterController implements Initializable {
 
     @FXML
-    private JFXButton back_btn;
-    @FXML
     private JFXButton supplier_master_btn;
     @FXML
     private JFXButton buyer_master_btn;
@@ -43,9 +41,6 @@ public class MasterController implements Initializable {
         rrc=new Rrc();
     }    
 
-    @FXML
-    private void loadInitialScreen(ActionEvent event) {
-    }
 
     @FXML
     private void showSupplierMaster(ActionEvent event) {

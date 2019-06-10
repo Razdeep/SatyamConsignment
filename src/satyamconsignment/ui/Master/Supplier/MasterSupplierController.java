@@ -25,8 +25,6 @@ public class MasterSupplierController implements Initializable {
     @FXML
     private JFXButton add_btn;
     @FXML
-    private JFXButton back_btn;
-    @FXML
     private JFXTextField add_field;
     @FXML
     private JFXButton rename_btn;
@@ -76,10 +74,6 @@ public class MasterSupplierController implements Initializable {
         }
     }
 
-    @FXML
-    private void showMasterScreen(ActionEvent event) {
-        
-    }
     //
     //
     //Bugs to be fixed in rename master
