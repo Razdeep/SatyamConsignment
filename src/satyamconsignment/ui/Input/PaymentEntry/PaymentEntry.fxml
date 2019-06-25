@@ -20,7 +20,7 @@
 
 <Group fx:id="root2" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="satyamconsignment.ui.Input.PaymentEntry.PaymentEntryController">
    <children>
-      <AnchorPane id="AnchorPane" prefHeight="674.0" prefWidth="761.0" styleClass="mainFxmlClass">
+      <AnchorPane id="AnchorPane" layoutY="14.0" prefHeight="699.0" prefWidth="761.0" styleClass="mainFxmlClass">
           <stylesheets>
               <URL value="@paymententry.css" />
           </stylesheets>
@@ -34,64 +34,64 @@
                <tabs>
                   <Tab text="Add">
                      <content>
-                        <AnchorPane prefWidth="673.0" style="-fx-background-color: #00ffff;">
+                        <AnchorPane prefHeight="569.0" prefWidth="751.0" style="-fx-background-color: #00ffff;">
                            <children>
-                              <Text layoutX="18.0" layoutY="168.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Buyer Name" wrappingWidth="99.90430307388306">
+                              <Text layoutX="12.0" layoutY="190.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Buyer Name" textAlignment="RIGHT" wrappingWidth="99.90430307388306">
                                  <font>
                                     <Font size="16.0" />
                                  </font>
                               </Text>
-                              <Text layoutX="18.0" layoutY="76.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Supplier Name" wrappingWidth="107.99999964237213">
+                              <Text layoutX="18.0" layoutY="122.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Supplier Name" wrappingWidth="107.99999964237213">
                                  <font>
                                     <Font size="16.0" />
                                  </font>
                               </Text>
-                              <Text layoutX="19.0" layoutY="123.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bill No." wrappingWidth="62.90429401397705">
+                              <Text layoutX="50.0" layoutY="161.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bill No." textAlignment="RIGHT" wrappingWidth="62.90429401397705">
                                  <font>
                                     <Font size="16.0" />
                                  </font>
                               </Text>
-                              <Text layoutX="295.0" layoutY="168.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bill Amount" wrappingWidth="96.90429401397705">
+                              <Text layoutX="295.0" layoutY="190.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bill Amount" textAlignment="RIGHT" wrappingWidth="96.90429401397705">
                                  <font>
                                     <Font size="16.0" />
                                  </font>
                               </Text>
-                              <Text layoutX="303.0" layoutY="129.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bill Date" wrappingWidth="79.90429401397705">
+                              <Text layoutX="310.0" layoutY="163.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bill Date" textAlignment="RIGHT" wrappingWidth="79.90429401397705">
                                  <font>
                                     <Font size="16.0" />
                                  </font>
                               </Text>
-                              <Text layoutX="145.0" layoutY="207.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Due Amt" wrappingWidth="68.90429966151714">
+                              <Text layoutX="145.0" layoutY="224.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Due Amt" wrappingWidth="68.90429966151714">
                                  <font>
                                     <Font size="16.0" />
                                  </font>
                               </Text>
-                              <Text layoutX="383.0" layoutY="205.0" strokeType="OUTSIDE" strokeWidth="0.0" text="DD No." wrappingWidth="63.90429966151714">
+                              <Text layoutX="383.0" layoutY="222.0" strokeType="OUTSIDE" strokeWidth="0.0" text="DD No." wrappingWidth="63.90429966151714">
                                  <font>
                                     <Font size="16.0" />
                                  </font>
                               </Text>
-                              <Text layoutX="463.0" layoutY="205.0" strokeType="OUTSIDE" strokeWidth="0.0" text="DD Date" wrappingWidth="70.90429966151714">
+                              <Text layoutX="463.0" layoutY="222.0" strokeType="OUTSIDE" strokeWidth="0.0" text="DD Date" wrappingWidth="70.90429966151714">
                                  <font>
                                     <Font size="16.0" />
                                  </font>
                               </Text>
-                              <Text layoutX="23.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Voucher No." wrappingWidth="107.90430307388306">
+                              <Text layoutX="21.0" layoutY="87.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Voucher No." wrappingWidth="107.90430307388306">
                                  <font>
                                     <Font size="16.0" />
                                  </font>
                               </Text>
-                              <Text layoutX="241.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Voucher Date" wrappingWidth="107.90430307388306">
+                              <Text layoutX="239.0" layoutY="88.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Voucher Date" wrappingWidth="107.90430307388306">
                                  <font>
                                     <Font size="16.0" />
                                  </font>
                               </Text>
-                              <Text layoutX="230.0" layoutY="206.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Amt Paid" wrappingWidth="68.90429966151714">
+                              <Text layoutX="230.0" layoutY="223.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Amt Paid" wrappingWidth="68.90429966151714">
                                  <font>
                                     <Font size="16.0" />
                                  </font>
                               </Text>
-                              <Text layoutX="319.0" layoutY="204.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bank" wrappingWidth="47.90429966151714">
+                              <Text layoutX="319.0" layoutY="221.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bank" wrappingWidth="47.90429966151714">
                                  <font>
                                     <Font size="16.0" />
                                  </font>
@@ -101,18 +101,18 @@
                                     <Font size="16.0" />
                                  </font>
                               </Text>
-                              <TextField fx:id="voucher_no_field" layoutX="117.0" layoutY="12.0" prefHeight="25.0" prefWidth="108.0" />
-                              <JFXDatePicker fx:id="voucher_date_field" layoutX="349.0" layoutY="12.0" prefHeight="28.0" prefWidth="173.0" />
-                              <ComboBox fx:id="supplier_name_combo" layoutX="133.0" layoutY="57.0" onAction="#fillBillNoCombo" prefHeight="25.0" prefWidth="202.0" />
-                              <ComboBox fx:id="bill_no_combo" layoutX="103.0" layoutY="104.0" onAction="#fetchData" prefHeight="25.0" prefWidth="108.0" />
-                              <TextField fx:id="buyer_name_field" editable="false" layoutX="118.0" layoutY="149.0" prefHeight="25.0" prefWidth="130.0" />
-                              <TextField fx:id="bill_date_field" editable="false" layoutX="383.0" layoutY="107.0" prefHeight="25.0" prefWidth="130.0" />
-                              <TextField fx:id="bill_amount_field" editable="false" layoutX="399.0" layoutY="149.0" prefHeight="25.0" prefWidth="116.0" />
-                              <TextField fx:id="due_amount_field" alignment="CENTER_RIGHT" editable="false" layoutX="145.0" layoutY="220.0" prefHeight="25.0" prefWidth="69.0" />
-                              <TextField fx:id="amount_paid_field" alignment="CENTER_RIGHT" layoutX="230.0" layoutY="219.0" onKeyReleased="#updateDueAmount" prefHeight="25.0" prefWidth="69.0" text="0" />
-                              <TextField fx:id="bank_field" layoutX="316.0" layoutY="219.0" prefHeight="25.0" prefWidth="45.0" />
-                              <TextField fx:id="dd_no_field" layoutX="373.0" layoutY="220.0" prefHeight="25.0" prefWidth="73.0" />
-                              <JFXDatePicker fx:id="dd_date_field" layoutX="463.0" layoutY="217.0" prefHeight="28.0" prefWidth="99.0" />
+                              <TextField fx:id="voucher_no_field" layoutX="115.0" layoutY="68.0" prefHeight="25.0" prefWidth="108.0" />
+                              <JFXDatePicker fx:id="voucher_date_field" layoutX="347.0" layoutY="62.0" prefHeight="28.0" prefWidth="173.0" />
+                              <ComboBox fx:id="supplier_name_combo" layoutX="133.0" layoutY="103.0" onAction="#fillBillNoCombo" prefHeight="25.0" prefWidth="202.0" />
+                              <ComboBox fx:id="bill_no_combo" layoutX="118.0" layoutY="139.0" onAction="#fetchData" prefHeight="25.0" prefWidth="122.0" />
+                              <TextField fx:id="buyer_name_field" editable="false" layoutX="118.0" layoutY="171.0" prefHeight="25.0" prefWidth="130.0" />
+                              <TextField fx:id="bill_date_field" editable="false" layoutX="399.0" layoutY="141.0" prefHeight="25.0" prefWidth="116.0" />
+                              <TextField fx:id="bill_amount_field" editable="false" layoutX="399.0" layoutY="171.0" prefHeight="25.0" prefWidth="116.0" />
+                              <TextField fx:id="due_amount_field" alignment="CENTER_RIGHT" editable="false" layoutX="145.0" layoutY="227.0" prefHeight="25.0" prefWidth="69.0" />
+                              <TextField fx:id="amount_paid_field" alignment="CENTER_RIGHT" layoutX="230.0" layoutY="226.0" onKeyReleased="#updateDueAmount" prefHeight="25.0" prefWidth="69.0" text="0" />
+                              <TextField fx:id="bank_field" layoutX="316.0" layoutY="226.0" prefHeight="25.0" prefWidth="45.0" />
+                              <TextField fx:id="dd_no_field" layoutX="373.0" layoutY="227.0" prefHeight="25.0" prefWidth="73.0" />
+                              <JFXDatePicker fx:id="dd_date_field" layoutX="463.0" layoutY="224.0" prefHeight="28.0" prefWidth="99.0" />
                               <Button fx:id="add_payment_btn" layoutX="37.0" layoutY="259.0" mnemonicParsing="false" onAction="#addPayment" prefHeight="29.0" prefWidth="108.0" text="Add Payment" />
                               <Button fx:id="replace_payment_btn" layoutX="164.0" layoutY="259.0" mnemonicParsing="false" onAction="#replacePayment" prefHeight="29.0" prefWidth="130.0" text="Replace Payment" />
                               <Button fx:id="delete_payment_btn" layoutX="315.0" layoutY="259.0" mnemonicParsing="false" onAction="#deletePayment" prefHeight="29.0" prefWidth="130.0" text="Delete Payment" />
@@ -154,6 +154,11 @@
                                  </columns>
                               </TableView>
                               <TextField fx:id="total_amount_paid_field" alignment="CENTER_RIGHT" editable="false" layoutX="581.0" layoutY="500.0" prefHeight="25.0" prefWidth="73.0" text="0" />
+                              <Text fx:id="last_voucher_field" layoutX="18.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="&lt;Last Voucher&gt;">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Text>
                            </children>
                         </AnchorPane>
                      </content>

@@ -33,6 +33,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.text.Text;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
@@ -163,6 +164,8 @@ public class PaymentEntryController implements Initializable {
     private Group root2;
     @FXML
     private Button print_payment_btn;
+    @FXML
+    private Text last_voucher_field;
     
     
     
@@ -199,6 +202,8 @@ public class PaymentEntryController implements Initializable {
         dd_no_col_2.setCellValueFactory(new PropertyValueFactory("ddNo"));
         bank_col_2.setCellValueFactory(new PropertyValueFactory("bank"));
         dd_date_col_2.setCellValueFactory(new PropertyValueFactory("ddDate"));
+        
+        updateLastVoucher();
     }    
 
     private void fillSupplierCombo() {
@@ -489,6 +494,7 @@ public class PaymentEntryController implements Initializable {
             conn.commit();
             rrc.showAlert(voucher_no_field_2.getText().toUpperCase()+" Entry was successfully deleted.",1);
             
+            updateLastVoucher();
         } catch (SQLException ex) {
             rrc.showAlert(ex.toString());
             try {
@@ -528,6 +534,18 @@ public class PaymentEntryController implements Initializable {
         } catch (JRException ex) {
             rrc.showAlert(ex.toString());
             Logger.getLogger(PaymentEntryController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    private void updateLastVoucher()
+    {
+        try {
+            String sql = "SELECT MAX(`Voucher No.`) from `PAYMENT_ENTRY_TABLE`;";
+            ps = conn.prepareStatement(sql);
+            rs = ps.executeQuery();
+            String answer = rs.getString("Max(`Voucher No.`)");
+            last_voucher_field.setText("Last Voucher No. : " + answer);
+        } catch (SQLException ex) {
+            Logger.getLogger(CollectionEntryController.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }
