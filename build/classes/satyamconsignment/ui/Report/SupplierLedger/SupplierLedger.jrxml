@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
+<!-- 2019-07-06T15:10:07 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="SupplierLedger" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="2b5461f1-4580-477e-9d69-6885b2c7bb67">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DataAdapter.xml"/>
@@ -7,7 +9,8 @@
 		<![CDATA[select * from `Bill_Entry_Table` left join 
 (`Payment_Entry_Extended_Table`
 join `Payment_Entry_Table` using ("Voucher No."))
-using("Bill No.") where `Bill_Entry_Table`.`Supplier Name`=$P{supplierName}]]>
+using("Bill No.") where `Bill_Entry_Table`.`Supplier Name`=$P{supplierName}
+order by `Bill_Entry_Table`.`Bill No.`]]>
 	</queryString>
 	<field name="Bill No." class="java.lang.Object"/>
 	<field name="Bill Date" class="java.lang.Object"/>
