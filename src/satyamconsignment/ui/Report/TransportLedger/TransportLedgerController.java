@@ -3,6 +3,7 @@ package satyamconsignment.ui.Report.TransportLedger;
 
 import com.ibm.icu.impl.duration.DateFormatter;
 import com.jfoenix.controls.JFXDatePicker;
+import java.awt.Checkbox;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -20,6 +21,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 
 import net.sf.jasperreports.engine.JRException;
@@ -42,6 +44,8 @@ public class TransportLedgerController implements Initializable {
     String jrxmlFileName,pdfFileName;
     DateTimeFormatter formatter;
     Map map;
+    @FXML
+    private CheckBox all_time_checkbox;
     @FXML
     private ComboBox<String> transport_name_combo;
     @FXML
@@ -84,8 +88,16 @@ public class TransportLedgerController implements Initializable {
             JasperReport jasperReport = JasperCompileManager.compileReport(getClass().getResourceAsStream(jrxmlFileName));
             map=new HashMap();
             map.put("transportName", transport_name_combo.getSelectionModel().getSelectedItem());
-            //map.put("fromDate", from_date.getValue().format(formatter));
-            //map.put("toDate", to_date.getValue().format(formatter));
+            map.put("fromDate", "01-01-2000");
+            map.put("toDate", "31-12-2100");
+            if (all_time_checkbox.isSelected() == false) {
+                if (from_date.getValue() == null || to_date.getValue() == null) {
+                    rrc.showAlert("Select dates properly");
+                    return;
+                }
+                map.put("fromDate", from_date.getValue().format(formatter));
+                map.put("toDate", to_date.getValue().format(formatter));
+            }
             JasperPrint jprint = JasperFillManager.fillReport(jasperReport, map, conn);
             JasperExportManager.exportReportToPdfFile(jprint, pdfFileName);
             rrc.showAlert("Report Successfully Generated", 1);

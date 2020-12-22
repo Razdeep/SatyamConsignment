@@ -5,10 +5,20 @@
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DataAdapter.xml"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<parameter name="transportName" class="java.lang.String"/>
+        <parameter name="fromDate" class="java.lang.String"/>
+        <parameter name="toDate" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[select `LR No.`,`PM`,`Bill No.`,`Supplier Name`,`Buyer Name`,`LR Date`
 from `LR_Table` join `Bill_Entry_Table` using (`Bill No.`)
-where `Transport`=$P{transportName}]]>
+where `Transport`=$P{transportName} 
+and 
+substr(`LR Date`, 7, 4)||substr(`LR Date`, 4, 2)||substr(`LR Date`, 1, 2)
+between
+substr($P{fromDate}, 7, 4)||substr($P{fromDate}, 4, 2)||substr($P{fromDate}, 1, 2)
+and
+substr($P{toDate}, 7, 4)||substr($P{toDate}, 4, 2)||substr($P{toDate}, 1, 2)
+order by datetime(substr(`LR Date`, 7, 4)||'-'||substr(`LR Date`, 4, 2)||'-'||substr(`LR Date`, 1, 2))
+]]>
 	</queryString>
 	<field name="LR No." class="java.lang.Object"/>
 	<field name="PM" class="java.lang.Object"/>
