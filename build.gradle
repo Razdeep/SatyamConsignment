@@ -32,24 +32,36 @@ dependencies {
 plugins {
   id 'application'
   id "org.openjfx.javafxplugin" version "0.0.9"
+  id 'org.beryx.jlink' version '2.23.3'
 }
 
 repositories {
     mavenCentral()
+    maven{url "http://jasperreports.sourceforge.net/maven2/"}
+    maven{url "http://jaspersoft.artifactoryonline.com/jaspersoft/third-party-ce-artifacts/"}
+    maven{url "http://maven.geomajas.org/"}
 }
 
 dependencies {
     compile group: 'org.controlsfx', name: 'controlsfx', version: '8.40.9'
-    compile group: 'net.sf.jasperreports', name: 'jasperreports', version: '6.16.0'
-    compile group: 'com.itextpdf', name: 'itextpdf', version: '5.5.13.2'
-
+    implementation group: 'net.sf.jasperreports', name: 'jasperreports', version: '6.1.0'
+    implementation group: 'com.jfoenix', name: 'jfoenix', version: '9.0.10'
+    implementation group: 'com.ibm.icu', name: 'icu4j', version: '68.2'
+//    implementation group: 'org.openjfx', name: 'javafx-graphics', version: '16'
 
 }
 
 javafx {
     version = "13"
-    modules = [ 'javafx.controls' ]
+    modules = [ 'javafx.controls', 'javafx.fxml', 'javafx.graphics', 'javafx.base' ]
 }
 
 sourceSets.main.java.srcDirs = ['src']
 mainClassName = 'satyamconsignment.ui.login.Launcher'
+
+jlink {
+    options = ['--strip-debug', '--compress', '2', '--no-header-files', '--no-man-pages']
+    launcher {
+        name = 'satyamconsignment.ui.login.Launcher'
+    }
+}
