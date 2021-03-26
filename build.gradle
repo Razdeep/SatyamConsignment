@@ -47,8 +47,6 @@ dependencies {
     implementation group: 'net.sf.jasperreports', name: 'jasperreports', version: '6.1.0'
     implementation group: 'com.jfoenix', name: 'jfoenix', version: '9.0.10'
     implementation group: 'com.ibm.icu', name: 'icu4j', version: '68.2'
-//    implementation group: 'org.openjfx', name: 'javafx-graphics', version: '16'
-
 }
 
 javafx {
@@ -56,7 +54,17 @@ javafx {
     modules = [ 'javafx.controls', 'javafx.fxml', 'javafx.graphics', 'javafx.base' ]
 }
 
-sourceSets.main.java.srcDirs = ['src']
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src']
+        }
+        resources {
+            srcDirs = ['src']
+        }
+    }
+}
+
 mainClassName = 'satyamconsignment.ui.login.Launcher'
 
 jlink {
