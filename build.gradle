@@ -47,6 +47,7 @@ dependencies {
     implementation group: 'net.sf.jasperreports', name: 'jasperreports', version: '6.1.0'
     implementation group: 'com.jfoenix', name: 'jfoenix', version: '9.0.10'
     implementation group: 'com.ibm.icu', name: 'icu4j', version: '68.2'
+    implementation group: 'org.xerial', name: 'sqlite-jdbc', version: '3.7.2'
 }
 
 javafx {
@@ -65,11 +66,22 @@ sourceSets {
     }
 }
 
-mainClassName = 'satyamconsignment.ui.login.Launcher'
+application {
+    mainClassName = 'satyamconsignment.ui.login.Launcher'
+}
+
+run {
+    // jvmArgs = ['--add-exports=javafx.base/com.sun.javafx.event=ALL-UNNAMED']
+    jvmArgs = ['--add-exports=javafx.base/com.sun.javafx.event=ALL-UNNAMED']
+    jvmArgs += ['--add-exports=javafx.controls/com.sun.javafx.scene.control.behavior=ALL-UNNAMED']
+}
 
 jlink {
     options = ['--strip-debug', '--compress', '2', '--no-header-files', '--no-man-pages']
     launcher {
         name = 'satyamconsignment.ui.login.Launcher'
+    }
+    jpackage {
+        resourceDir = file("$buildDir/resources")
     }
 }
