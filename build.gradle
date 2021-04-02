@@ -71,9 +71,11 @@ application {
 }
 
 run {
-    // jvmArgs = ['--add-exports=javafx.base/com.sun.javafx.event=ALL-UNNAMED']
     jvmArgs = ['--add-exports=javafx.base/com.sun.javafx.event=ALL-UNNAMED']
+    jvmArgs += ['--add-exports=javafx.controls/com.sun.javafx.scene.control=ALL-UNNAMED']
     jvmArgs += ['--add-exports=javafx.controls/com.sun.javafx.scene.control.behavior=ALL-UNNAMED']
+    jvmArgs += ['--add-exports=javafx.base/com.sun.javafx.binding=ALL-UNNAMED']
+    jvmArgs += ['--add-exports=javafx.graphics/com.sun.javafx.stage=ALL-UNNAMED']
 }
 
 jlink {
