@@ -32,7 +32,6 @@ dependencies {
 plugins {
   id 'application'
   id "org.openjfx.javafxplugin" version "0.0.9"
-  id 'org.beryx.jlink' version '2.23.3'
 }
 
 repositories {
@@ -65,7 +64,7 @@ sourceSets {
         }
     }
 }
-
+mainClassName = 'satyamconsignment.ui.login.Launcher'
 application {
     mainClassName = 'satyamconsignment.ui.login.Launcher'
 }
@@ -78,12 +77,31 @@ run {
     jvmArgs += ['--add-exports=javafx.graphics/com.sun.javafx.stage=ALL-UNNAMED']
 }
 
-jlink {
-    options = ['--strip-debug', '--compress', '2', '--no-header-files', '--no-man-pages']
-    launcher {
-        name = 'satyamconsignment.ui.login.Launcher'
-    }
-    jpackage {
-        resourceDir = file("$buildDir/resources")
-    }
+
+// jar {
+//   manifest {
+//     attributes(
+//       'Manifest-Version': 1.0,
+//       'Main-Class': 'satyamconsignment.ui.login.Launcher',
+//       'Class-Path': '.'
+//     )
+//   }
+//   from {
+//     configurations.compile.collect { it.isDirectory() ? it : zipTree(it)  }
+//     configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+//   }
+// }
+
+jar {
+  manifest {
+    attributes(
+      'Manifest-Version': 1.0,
+      'Main-Class': 'satyamconsignment.ui.login.Launcher',
+      "Class-Path": configurations.runtimeClasspath.collect { it.getName() }.join(' ')
+    )
+  }
+  from {
+    configurations.compile.collect { it.isDirectory() ? zipTree(it) : it }
+    configurations.runtimeClasspath.collect { it.isDirectory() ? zipTree(it) : it }
+  }
 }
