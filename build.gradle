@@ -77,27 +77,12 @@ run {
     jvmArgs += ['--add-exports=javafx.graphics/com.sun.javafx.stage=ALL-UNNAMED']
 }
 
-
-// jar {
-//   manifest {
-//     attributes(
-//       'Manifest-Version': 1.0,
-//       'Main-Class': 'satyamconsignment.ui.login.Launcher',
-//       'Class-Path': '.'
-//     )
-//   }
-//   from {
-//     configurations.compile.collect { it.isDirectory() ? it : zipTree(it)  }
-//     configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
-//   }
-// }
-
 jar {
   manifest {
     attributes(
       'Manifest-Version': 1.0,
       'Main-Class': 'satyamconsignment.ui.login.Launcher',
-      "Class-Path": configurations.runtimeClasspath.collect { it.getName() }.join(' ')
+      "Class-Path": configurations.runtimeClasspath.collect { "lib/" + it.getName() }.join(' ')
     )
   }
   from {
@@ -105,3 +90,18 @@ jar {
     configurations.runtimeClasspath.collect { it.isDirectory() ? zipTree(it) : it }
   }
 }
+
+def dependency_directory = "${buildDir}/libs/lib/"
+
+task copyRuntimeDeps(type: Copy) {
+    from configurations.runtimeClasspath
+    into "${dependency_directory}"
+}
+
+task copyDeps(type: Copy) {
+    dependsOn tasks.copyRuntimeDeps
+    from configurations.compile
+    into "${dependency_directory}"
+}
+
+jar.finalizedBy(copyDeps)
