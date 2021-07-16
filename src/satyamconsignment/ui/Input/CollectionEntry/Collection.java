@@ -5,61 +5,23 @@
  */
 package satyamconsignment.ui.Input.CollectionEntry;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 
+@AllArgsConstructor
+@Getter
+@Setter
+@Builder
 public class Collection {
-    private String billNo,billDate,billAmount,supplierName,due,amountCollected,ddNo,ddDate,bank;
-    public Collection(String billNo,String billDate,String billAmount,String supplierName,
-                         String due, String amountCollected,
-                        String bank,String ddNo,String ddDate)
-    {
-        this.billNo=billNo;
-        this.billDate=billDate;
-        this.billAmount=billAmount;
-        this.supplierName=supplierName;
-        this.due=due;
-        this.amountCollected=amountCollected;
-        this.bank=bank;
-        this.ddNo=ddNo;
-        this.ddDate=ddDate;
-        
-    }
-    public String getBillNo() {
-        return billNo;
-    }
-
-    
-
-    public String getSupplierName() {
-        return supplierName;
-    }
-
-    public String getBillAmount() {
-        return billAmount;
-    }
-    
-    public String getAmountCollected() {
-        return amountCollected;
-    }
-
-    public String getDdNo() {
-        return ddNo;
-    }
-
-    public String getBank() {
-        return bank;
-    }
-
-    public String getDdDate() {
-        return ddDate;
-    }
-
-    public String getBillDate() {
-        return billDate;
-    }
-
-    public String getDue() {
-        return due;
-    }
-    
-    
+    private String billNo;
+    private String billDate;
+    private String billAmount;
+    private String supplierName;
+    private String due;
+    private String amountCollected;
+    private String bank;
+    private String ddNo;
+    private String ddDate;
 }

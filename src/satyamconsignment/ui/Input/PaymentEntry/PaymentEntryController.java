@@ -440,10 +440,19 @@ public class PaymentEntryController implements Initializable {
                 else{
                     while(rs.next())
                     {
-                        list.add(new Payment(rs.getString("Bill No."),rs.getString("Bill Amount"),rs.getString("Bill Date"),
-                                                rs.getString("Buyer Name"),
-                                                rs.getString("due amount"),rs.getString("amount paid"),rs.getString("bank"),rs.getString("DD No."),
-                                                rs.getString("DD Date")));
+                        Payment payment = Payment.builder()
+                                            .billNo(rs.getString("Bill No."))
+                                            .billAmount(rs.getString("Bill Amount"))
+                                            .billDate(rs.getString("Bill Date"))
+                                            .buyerName(rs.getString("Buyer Name"))
+                                            .due(rs.getString("due amount"))
+                                            .amountPaid(rs.getString("amount paid"))
+                                            .bank(rs.getString("bank"))
+                                            .ddNo(rs.getString("DD No."))
+                                            .ddDate(rs.getString("DD Date"))
+                                            .build();
+
+                        list.add(payment);
                     }
                     payment_tableview_2.setItems(list);
                     delete_entry_btn.setDisable(false);
