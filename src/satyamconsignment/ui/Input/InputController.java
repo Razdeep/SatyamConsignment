@@ -1,11 +1,6 @@
 package satyamconsignment.ui.Input;
 
 import com.jfoenix.controls.JFXButton;
-import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,9 +9,16 @@ import javafx.scene.Group;
 import javafx.scene.Parent;
 import satyamconsignment.misc.Rrc;
 
+import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 
 public class InputController implements Initializable {
 
+    Rrc rrc;
     @FXML
     private JFXButton bill_entry_btn;
     @FXML
@@ -26,19 +28,18 @@ public class InputController implements Initializable {
     @FXML
     private Group root2;
 
-    Rrc rrc;
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        rrc=new Rrc();
-    }    
+        rrc = new Rrc();
+    }
 
     @FXML
     private void showBillEntryScreen(ActionEvent event) {
         try {
-            Parent parent=FXMLLoader.load(getClass().getResource("/satyamconsignment/ui/Input/BillEntry/BillEntry.fxml"));
+            Parent parent = FXMLLoader.load(getClass().getResource("/satyamconsignment/ui/Input/BillEntry/BillEntry.fxml"));
             root2.getChildren().setAll(parent);
         } catch (IOException ex) {
-            rrc.showAlert(ex.toString());
+            Rrc.showAlert(ex.toString());
             Logger.getLogger(InputController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -46,10 +47,10 @@ public class InputController implements Initializable {
     @FXML
     private void showCollectionEntryScreen(ActionEvent event) {
         try {
-            Parent parent=FXMLLoader.load(getClass().getResource("/satyamconsignment/ui/Input/CollectionEntry/CollectionEntry.fxml"));
+            Parent parent = FXMLLoader.load(getClass().getResource("/satyamconsignment/ui/Input/CollectionEntry/CollectionEntry.fxml"));
             root2.getChildren().setAll(parent);
         } catch (IOException ex) {
-            rrc.showAlert(ex.toString());
+            Rrc.showAlert(ex.toString());
             Logger.getLogger(InputController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -57,13 +58,13 @@ public class InputController implements Initializable {
     @FXML
     private void showPaymentEntryScreen(ActionEvent event) {
         try {
-            Parent parent=FXMLLoader.load(getClass().getResource("/satyamconsignment/ui/Input/PaymentEntry/PaymentEntry.fxml"));
+            Parent parent = FXMLLoader.load(getClass().getResource("/satyamconsignment/ui/Input/PaymentEntry/PaymentEntry.fxml"));
             root2.getChildren().setAll(parent);
         } catch (IOException ex) {
-            rrc.showAlert(ex.toString());
+            Rrc.showAlert(ex.toString());
             Logger.getLogger(InputController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    
+
 }

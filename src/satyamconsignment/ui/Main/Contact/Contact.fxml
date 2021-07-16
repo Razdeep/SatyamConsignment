@@ -1,44 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.net.URL?>
 <?import javafx.scene.Group?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.paint.LinearGradient?>
-<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.paint.*?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
-
-<Group fx:id="root2" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="satyamconsignment.ui.Main.Contact.ContactController">
-   <children>
-      <AnchorPane id="AnchorPane" prefHeight="382.0" prefWidth="600.0" styleClass="mainFxmlClass">
-          <stylesheets>
-              <URL value="@contact.css" />
-          </stylesheets>
-         <children>
-            <Rectangle arcHeight="100.0" arcWidth="100.0" height="335.0" layoutX="32.0" layoutY="24.0" stroke="BLACK" strokeType="INSIDE" width="537.0">
-               <fill>
-                  <LinearGradient endX="1.0" endY="1.0">
-                     <stops>
-                        <Stop color="#0400eb" />
-                        <Stop color="#0400eb" offset="0.007662835249042145" />
-                        <Stop color="BLACK" offset="0.9961685823754789" />
-                        <Stop color="BLACK" offset="1.0" />
-                     </stops>
-                  </LinearGradient>
-               </fill>
-            </Rectangle>
-            <Text fill="WHITE" layoutX="166.0" layoutY="92.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Developer's Info" textAlignment="CENTER" wrappingWidth="263.2109375">
-               <font>
-                  <Font name="System Bold Italic" size="32.0" />
-               </font>
-            </Text>
-            <Text fill="#dddddd" fontSmoothingType="LCD" layoutX="32.0" layoutY="147.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hi! I'm Rajdeep Roy Chowdhury,&#10;and I'm the developer of this Consignment Software.&#10;You can email me at rrajdeeproychowdhury@gmail.com&#10;or call me at (+91) 9674810029&#10;or follow me at https://github.com/razdeep&#10;or catch me up on Linkedin at&#10;https://www.linkedin.com/in/razdeeproychowdhury&#10;" textAlignment="CENTER" wrappingWidth="520.2109375">
-               <font>
-                  <Font name="System Italic" size="18.0" />
-               </font>
-            </Text>
-         </children>
-      </AnchorPane>
-   </children>
+<?import java.net.URL?>
+<Group xmlns:fx="http://javafx.com/fxml/1" fx:id="root2" xmlns="http://javafx.com/javafx/8.0.111"
+       fx:controller="satyamconsignment.ui.Main.Contact.ContactController">
+    <children>
+        <AnchorPane id="AnchorPane" prefHeight="382.0" prefWidth="600.0" styleClass="mainFxmlClass">
+            <stylesheets>
+                <URL value="@contact.css"/>
+            </stylesheets>
+            <children>
+                <Rectangle arcHeight="100.0" arcWidth="100.0" height="335.0" layoutX="32.0" layoutY="24.0"
+                           stroke="BLACK" strokeType="INSIDE" width="537.0">
+                    <fill>
+                        <LinearGradient endX="1.0" endY="1.0">
+                            <stops>
+                                <Stop color="#0400eb"/>
+                                <Stop color="#0400eb" offset="0.007662835249042145"/>
+                                <Stop color="BLACK" offset="0.9961685823754789"/>
+                                <Stop color="BLACK" offset="1.0"/>
+                            </stops>
+                        </LinearGradient>
+                    </fill>
+                </Rectangle>
+                <Text fill="WHITE" layoutX="166.0" layoutY="92.0" strokeType="OUTSIDE" strokeWidth="0.0"
+                      text="Developer's Info" textAlignment="CENTER" wrappingWidth="263.2109375">
+                    <font>
+                        <Font name="System Bold Italic" size="32.0"/>
+                    </font>
+                </Text>
+                <Text fill="#dddddd" fontSmoothingType="LCD" layoutX="32.0" layoutY="147.0" strokeType="OUTSIDE"
+                      strokeWidth="0.0"
+                      text="Hi! I'm Rajdeep Roy Chowdhury,&#10;and I'm the developer of this Consignment Software.&#10;You can email me at rrajdeeproychowdhury@gmail.com&#10;or call me at (+91) 9674810029&#10;or follow me at https://github.com/razdeep&#10;or catch me up on Linkedin at&#10;https://www.linkedin.com/in/razdeeproychowdhury&#10;"
+                      textAlignment="CENTER" wrappingWidth="520.2109375">
+                    <font>
+                        <Font name="System Italic" size="18.0"/>
+                    </font>
+                </Text>
+            </children>
+        </AnchorPane>
+    </children>
 </Group>

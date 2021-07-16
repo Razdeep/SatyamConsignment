@@ -1,7 +1,13 @@
 package satyamconsignment.ui.Main.InputHistory;
 
 public class Record {
-    private String supplierName,buyerName,billNo,billDate,transport,lrDate,billAmount;
+    private final String supplierName;
+    private final String buyerName;
+    private final String billNo;
+    private final String billDate;
+    private final String transport;
+    private final String lrDate;
+    private final String billAmount;
 
     public Record(String supplierName, String buyerName, String billNo, String billDate, String transport, String lrDate, String billAmount) {
         this.supplierName = supplierName;
@@ -40,5 +46,5 @@ public class Record {
     public String getBillAmount() {
         return billAmount;
     }
-    
+
 }

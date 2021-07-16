@@ -5,13 +5,15 @@
 .mainFxmlClass {
 
 }
-JFXButton{
-    -fx-background-color: linear-gradient(#7480f8,#00f6ff);
+
+JFXButton {
+    -fx-background-color: linear-gradient(#7480f8, #00f6ff);
     -fx-background-radius: 15;
-    
+
 }
-JFXButton:hover{
+
+JFXButton:hover {
     -fx-background-color: #38ae00;
     -fx-text-fill: yellow;
-    
+
 }

@@ -1,8 +1,22 @@
-
 package satyamconsignment.ui.Input.CollectionEntry;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDatePicker;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.Group;
+import javafx.scene.Parent;
+import javafx.scene.control.*;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.cell.PropertyValueFactory;
+import net.sf.jasperreports.engine.*;
+import satyamconsignment.misc.DatabaseHandler;
+import satyamconsignment.misc.Rrc;
+
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
@@ -15,37 +29,24 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.scene.Group;
-import javafx.scene.Parent;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperCompileManager;
-import net.sf.jasperreports.engine.JasperExportManager;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperReport;
-import satyamconsignment.misc.DatabaseHandler;
-import satyamconsignment.misc.Rrc;
 
 
 public class CollectionEntryController implements Initializable {
 
-    
+
+    Rrc rrc;
+    DatabaseHandler databaseHandler;
+    Connection conn;
+    PreparedStatement ps;
+    ResultSet rs;
+    String sql;
+    int totalAmount;
+    ObservableList<Collection> list;
+    ObservableList<String> buyerNameComboList;
+    ObservableList<String> billNoComboList;
+    String buyerName, supplierName, billDate, billAmount;
+    DateTimeFormatter formatter;
+    int previouslyDue;
     @FXML
     private TextField dd_no_field;
     @FXML
@@ -58,7 +59,6 @@ public class CollectionEntryController implements Initializable {
     private TextField voucher_no_field;
     @FXML
     private JFXDatePicker voucher_date_field;
-    
     @FXML
     private Button add_collection_btn;
     @FXML
@@ -89,25 +89,11 @@ public class CollectionEntryController implements Initializable {
     private ComboBox<String> buyer_name_view;
     @FXML
     private TextField supplier_name_view;
-    
-    Rrc rrc;
-    DatabaseHandler databaseHandler;
-    Connection conn;
-    PreparedStatement ps;
-    ResultSet rs;
-    String sql;
-    int totalAmount;
-    ObservableList<Collection> list;
-    ObservableList<String> buyerNameComboList;
-    ObservableList<String> billNoComboList;
-    String buyerName,supplierName,billDate,billAmount;
-    DateTimeFormatter formatter;
-    int previouslyDue;
     @FXML
     private ComboBox<String> bill_no_combo;
     @FXML
     private TextField bank_field;
-    
+
     @FXML
     private Label display_board_label;
     @FXML
@@ -144,7 +130,7 @@ public class CollectionEntryController implements Initializable {
     private TextField voucher_date_2;
     @FXML
     private TextField buyer_name_2;
-    
+
     @FXML
     private TextField amount_collected_field;
     @FXML
@@ -155,19 +141,19 @@ public class CollectionEntryController implements Initializable {
     private Button print_btn;
     @FXML
     private Label last_voucher_field;
-    
-    
+
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        rrc=new Rrc();
-        totalAmount=0;
-        formatter=DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        databaseHandler=DatabaseHandler.getInstance();
-        conn=databaseHandler.getConnection();
-        
-        list=FXCollections.observableArrayList();
-        buyerNameComboList=FXCollections.observableArrayList();
-        billNoComboList=FXCollections.observableArrayList();
+        rrc = new Rrc();
+        totalAmount = 0;
+        formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        databaseHandler = DatabaseHandler.getInstance();
+        conn = databaseHandler.getConnection();
+
+        list = FXCollections.observableArrayList();
+        buyerNameComboList = FXCollections.observableArrayList();
+        billNoComboList = FXCollections.observableArrayList();
         bill_no_col.setCellValueFactory(new PropertyValueFactory("billNo"));
         bill_amt_col.setCellValueFactory(new PropertyValueFactory("billAmount"));
         supplier_col.setCellValueFactory(new PropertyValueFactory("supplierName"));
@@ -177,7 +163,7 @@ public class CollectionEntryController implements Initializable {
         dd_date_col.setCellValueFactory(new PropertyValueFactory("ddDate"));
         collection_tableview.setItems(list);
         fillBuyerNameCombo();
-        
+
         bill_no_col_2.setCellValueFactory(new PropertyValueFactory("billNo"));
         bill_amt_col_2.setCellValueFactory(new PropertyValueFactory("billAmount"));
         supplier_col_2.setCellValueFactory(new PropertyValueFactory("supplierName"));
@@ -186,81 +172,73 @@ public class CollectionEntryController implements Initializable {
         dd_no_col_2.setCellValueFactory(new PropertyValueFactory("ddNo"));
         bank_col_2.setCellValueFactory(new PropertyValueFactory("bank"));
         dd_date_col_2.setCellValueFactory(new PropertyValueFactory("ddDate"));
-        
+
         updateLastVoucher();
-    }    
+    }
 
     @FXML
     private void fetchData(ActionEvent event) {
         try {
-            
-            sql="Select * from Bill_Entry_Table where `Bill No.`=?";
-            ps=conn.prepareStatement(sql);
+
+            sql = "Select * from Bill_Entry_Table where `Bill No.`=?";
+            ps = conn.prepareStatement(sql);
             ps.setString(1, bill_no_combo.getValue());
-            rs=ps.executeQuery();
-            buyerName=rs.getString("Buyer Name");
-            supplierName=rs.getString("Supplier Name");
-            billDate=rs.getString("Bill Date");
-            billAmount=rs.getString("Bill Amount");
-            previouslyDue=Integer.parseInt(rs.getString("Collection Due"));
+            rs = ps.executeQuery();
+            buyerName = rs.getString("Buyer Name");
+            supplierName = rs.getString("Supplier Name");
+            billDate = rs.getString("Bill Date");
+            billAmount = rs.getString("Bill Amount");
+            previouslyDue = Integer.parseInt(rs.getString("Collection Due"));
             supplier_name_view.setText(supplierName);
             bill_date_view.setText(billDate);
             bill_amount_view.setText(billAmount);
             updateCollectionDue();
             buyer_name_view.setDisable(true);
-            
+
         } catch (SQLException ex) {
-            rrc.showAlert(ex.toString());
+            Rrc.showAlert(ex.toString());
             Logger.getLogger(CollectionEntryController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
     @FXML
     private void addCollection(ActionEvent event) {
-        if(bill_no_combo.getValue().isEmpty()||billAmount.isEmpty()||buyerName.isEmpty()||supplierName.isEmpty()||bank_field.getText().isEmpty()||
-                collection_due_field.getText().isEmpty()||amount_collected_field.getText().isEmpty()||dd_no_field.getText().isEmpty()||dd_date_field.getValue().toString().isEmpty())
-                {
-                    rrc.showAlert("Please check whether the fields are properly filled or not.",2);
-                }
-                else{
-                    list.add(new Collection(bill_no_combo.getValue(),bill_date_view.getText(),billAmount,supplierName,
-                    collection_due_field.getText(),amount_collected_field.getText(),
-                    bank_field.getText(),dd_no_field.getText(),formatter.format(dd_date_field.getValue())));
-                    updateTotalAmount();
-                    clearRepeatingFields();
-                    
-                }
+        if (bill_no_combo.getValue().isEmpty() || billAmount.isEmpty() || buyerName.isEmpty() || supplierName.isEmpty() || bank_field.getText().isEmpty() ||
+                collection_due_field.getText().isEmpty() || amount_collected_field.getText().isEmpty() || dd_no_field.getText().isEmpty() || dd_date_field.getValue().toString().isEmpty()) {
+            Rrc.showAlert("Please check whether the fields are properly filled or not.", 2);
+        } else {
+            list.add(new Collection(bill_no_combo.getValue(), bill_date_view.getText(), billAmount, supplierName,
+                    collection_due_field.getText(), amount_collected_field.getText(),
+                    bank_field.getText(), dd_no_field.getText(), formatter.format(dd_date_field.getValue())));
+            updateTotalAmount();
+            clearRepeatingFields();
+
+        }
     }
 
     @FXML
     private void replaceCollection(ActionEvent event) {
-        if(collection_tableview.getSelectionModel().getSelectedIndex()==-1)
-        {
-            rrc.showAlert("Please select an item from the Collection Table",2);
+        if (collection_tableview.getSelectionModel().getSelectedIndex() == -1) {
+            Rrc.showAlert("Please select an item from the Collection Table", 2);
+        } else {
+            if (bill_no_combo.getValue().isEmpty() || billAmount.isEmpty() || buyerName.isEmpty() || supplierName.isEmpty() || bank_field.getText().isEmpty() ||
+                    collection_due_field.getText().isEmpty() || amount_collected_field.getText().isEmpty() || dd_no_field.getText().isEmpty() || dd_date_field.getValue().toString().isEmpty()) {
+                Rrc.showAlert("Please check whether the fields are properly filled or not.", 2);
+            } else {
+                list.set(collection_tableview.getSelectionModel().getSelectedIndex(),
+                        new Collection(bill_no_combo.getValue(), bill_date_view.getText(), billAmount, supplierName,
+                                collection_due_field.getText(),
+                                amount_collected_field.getText(), bank_field.getText(), dd_no_field.getText(), dd_date_field.getValue().toString()));
+                updateTotalAmount();
+            }
         }
-       else {
-        if(bill_no_combo.getValue().isEmpty()||billAmount.isEmpty()||buyerName.isEmpty()||supplierName.isEmpty()||bank_field.getText().isEmpty()||
-                collection_due_field.getText().isEmpty()||amount_collected_field.getText().isEmpty()||dd_no_field.getText().isEmpty()||dd_date_field.getValue().toString().isEmpty())
-                {
-                    rrc.showAlert("Please check whether the fields are properly filled or not.",2);
-                }
-                else{
-            list.set(collection_tableview.getSelectionModel().getSelectedIndex(),
-                    new Collection(bill_no_combo.getValue(),bill_date_view.getText(),billAmount,supplierName,
-                    collection_due_field.getText(),
-                    amount_collected_field.getText(),bank_field.getText(),dd_no_field.getText(),dd_date_field.getValue().toString()));
-            updateTotalAmount();
-                    }
-    }
     }
 
     @FXML
     private void deleteCollection(ActionEvent event) {
-        if(collection_tableview.getSelectionModel().getSelectedIndex()==-1)
-        {
-            rrc.showAlert("Please select an item from the LR Table",2);
-        }
-        else{
+        if (collection_tableview.getSelectionModel().getSelectedIndex() == -1) {
+            Rrc.showAlert("Please select an item from the LR Table", 2);
+        } else {
             list.remove(collection_tableview.getSelectionModel().getSelectedIndex());
             updateTotalAmount();
         }
@@ -268,10 +246,10 @@ public class CollectionEntryController implements Initializable {
 
     private void clearRepeatingFields() {
         //bill_no_combo.setValue("");
-        buyerName=null;
-        billDate=null;
-        supplierName=null;
-        billAmount=null;
+        buyerName = null;
+        billDate = null;
+        supplierName = null;
+        billAmount = null;
         //buyer_name_view.setText("");
         bill_date_view.setText("");
         supplier_name_view.setText("");
@@ -280,9 +258,10 @@ public class CollectionEntryController implements Initializable {
         amount_collected_field.setText("0");
         bank_field.setText("");
         dd_no_field.setText("");
-        
+
         dd_date_field.setValue(null);
     }
+
     private void clearAllFields() {
         clearRepeatingFields();
         //error
@@ -292,33 +271,32 @@ public class CollectionEntryController implements Initializable {
         //buyer_name_view.setValue(null);
         billNoComboList.clear();
         //bill_no_combo.setValue(null);
-        
+
     }
 
     @FXML
     private void updateCollectionDue() {
         collection_due_field.setText(Integer.toString(previouslyDue
-                -Integer.parseInt(amount_collected_field.getText())));
+                - Integer.parseInt(amount_collected_field.getText())));
     }
 
     private void fillBuyerNameCombo() {
         try {
-            
-            sql="select Name from `Buyer_Master_Table` order by name collate nocase";
-            ps=conn.prepareStatement(sql);
-            rs=ps.executeQuery();
-            
+
+            sql = "select Name from `Buyer_Master_Table` order by name collate nocase";
+            ps = conn.prepareStatement(sql);
+            rs = ps.executeQuery();
+
             buyerNameComboList.clear();
-            while(rs.next())
-            {
+            while (rs.next()) {
                 buyerNameComboList.add(rs.getString("Name"));
             }
-            
-            
+
+
             buyer_name_view.setItems(buyerNameComboList);
-            
+
         } catch (SQLException ex) {
-            rrc.showAlert(ex.toString());
+            Rrc.showAlert(ex.toString());
             Logger.getLogger(CollectionEntryController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -326,214 +304,200 @@ public class CollectionEntryController implements Initializable {
     @FXML
     private void fillBillNoCombo() {
         try {
-            
-            sql="select `Bill No.` from `Bill_Entry_Table` where `Buyer Name`=? and not `Collection Due`='0' order by `Bill No.` collate nocase";
-            
-            ps=conn.prepareStatement(sql);
+
+            sql = "select `Bill No.` from `Bill_Entry_Table` where `Buyer Name`=? and not `Collection Due`='0' order by `Bill No.` collate nocase";
+
+            ps = conn.prepareStatement(sql);
             //rrc.showAlert(buyer_name_view.getValue());
             ps.setString(1, buyer_name_view.getValue());
-            rs=ps.executeQuery();
-            
+            rs = ps.executeQuery();
+
             billNoComboList.clear();
-            while(rs.next())
-            {
+            while (rs.next()) {
                 billNoComboList.add(rs.getString("Bill No."));
             }
             bill_no_combo.setItems(billNoComboList);
             display_board_label.setText(buyer_name_view.getValue());
-            
+
         } catch (SQLException ex) {
-            rrc.showAlert(ex.toString());
+            Rrc.showAlert(ex.toString());
             Logger.getLogger(CollectionEntryController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
     @FXML
     private void saveData(ActionEvent event) {
-        Alert alert=new Alert(AlertType.CONFIRMATION, "Are you sure that you want save " + voucher_no_field_2.getText()+" ?", ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
+        Alert alert = new Alert(AlertType.CONFIRMATION, "Are you sure that you want save " + voucher_no_field_2.getText() + " ?", ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
         alert.showAndWait();
-        
-        if(alert.getResult()==ButtonType.YES)
-        {
-        if(voucher_no_field.getText().isEmpty()||voucher_date_field.getValue().toString().isEmpty())
-        {
-            rrc.showAlert("Check whether the Voucher No. and the Voucher Date is properly filled",2);
-        }
-        else{
-            try {
-                conn.setAutoCommit(false);
-                sql="INSERT INTO `Collection_Entry_Table`(`Voucher No.`,`Voucher Date`,`Buyer Name`,`Total Amount`) VALUES (?,?,?,?)";
-                ps=conn.prepareStatement(sql);
-                ps.setString(1, voucher_no_field.getText());
-                ps.setString(2, formatter.format(voucher_date_field.getValue()));
-                ps.setString(3, buyer_name_view.getValue());
-                ps.setString(4, total_amount_field.getText());
-                ps.execute();
-                
-                for(Collection temp:list)
-                {
-                    sql="INSERT INTO `Collection_Entry_Extended_Table`(`Voucher No.`,`Supplier Name`,`Bill No.`,`Bill Date`,`Bill Amount`,`Collection Due`,`Amount Collected`,`Bank`,`DD No.`,`DD Date`) VALUES (?,?,?,?,?,?,?,?,?,?);";
-                    ps=conn.prepareStatement(sql);
-                    ps.setString(1, voucher_no_field.getText());
-                    ps.setString(2, temp.getSupplierName());
-                    ps.setString(3, temp.getBillNo());
-                    ps.setString(4, temp.getBillDate());
-                    ps.setString(5, temp.getBillAmount());
-                    ps.setString(6, temp.getDue());
-                    ps.setString(7, temp.getAmountCollected());
-                    ps.setString(8, temp.getBank());
-                    ps.setString(9, temp.getDdNo());
-                    ps.setString(10, temp.getDdDate());
-                    
-                    ps.execute();
-                    
-                    //Update Bill Entry Table
-                    sql="UPDATE `Bill_Entry_Table` SET `Collection Due`=? WHERE `BILL NO.`=?";
-                    ps=conn.prepareStatement(sql);
-                    ps.setString(1, temp.getDue());
-                    ps.setString(2, temp.getBillNo());
-                    ps.execute();
-                }
-                list.clear();
-                conn.commit();
-                rrc.showAlert("Saved Successfully",1);
-                //clearAllFields();
-                loadScreenAgain();
-              } catch (SQLException ex) {
-                  rrc.showAlert(ex.toString());
+
+        if (alert.getResult() == ButtonType.YES) {
+            if (voucher_no_field.getText().isEmpty() || voucher_date_field.getValue().toString().isEmpty()) {
+                Rrc.showAlert("Check whether the Voucher No. and the Voucher Date is properly filled", 2);
+            } else {
                 try {
-                    conn.rollback();
-                } catch (SQLException ex1) {
-                    rrc.showAlert(ex.toString());
-                    Logger.getLogger(CollectionEntryController.class.getName()).log(Level.SEVERE, null, ex1);
+                    conn.setAutoCommit(false);
+                    sql = "INSERT INTO `Collection_Entry_Table`(`Voucher No.`,`Voucher Date`,`Buyer Name`,`Total Amount`) VALUES (?,?,?,?)";
+                    ps = conn.prepareStatement(sql);
+                    ps.setString(1, voucher_no_field.getText());
+                    ps.setString(2, formatter.format(voucher_date_field.getValue()));
+                    ps.setString(3, buyer_name_view.getValue());
+                    ps.setString(4, total_amount_field.getText());
+                    ps.execute();
+
+                    for (Collection temp : list) {
+                        sql = "INSERT INTO `Collection_Entry_Extended_Table`(`Voucher No.`,`Supplier Name`,`Bill No.`,`Bill Date`,`Bill Amount`,`Collection Due`,`Amount Collected`,`Bank`,`DD No.`,`DD Date`) VALUES (?,?,?,?,?,?,?,?,?,?);";
+                        ps = conn.prepareStatement(sql);
+                        ps.setString(1, voucher_no_field.getText());
+                        ps.setString(2, temp.getSupplierName());
+                        ps.setString(3, temp.getBillNo());
+                        ps.setString(4, temp.getBillDate());
+                        ps.setString(5, temp.getBillAmount());
+                        ps.setString(6, temp.getDue());
+                        ps.setString(7, temp.getAmountCollected());
+                        ps.setString(8, temp.getBank());
+                        ps.setString(9, temp.getDdNo());
+                        ps.setString(10, temp.getDdDate());
+
+                        ps.execute();
+
+                        //Update Bill Entry Table
+                        sql = "UPDATE `Bill_Entry_Table` SET `Collection Due`=? WHERE `BILL NO.`=?";
+                        ps = conn.prepareStatement(sql);
+                        ps.setString(1, temp.getDue());
+                        ps.setString(2, temp.getBillNo());
+                        ps.execute();
+                    }
+                    list.clear();
+                    conn.commit();
+                    Rrc.showAlert("Saved Successfully", 1);
+                    //clearAllFields();
+                    loadScreenAgain();
+                } catch (SQLException ex) {
+                    Rrc.showAlert(ex.toString());
+                    try {
+                        conn.rollback();
+                    } catch (SQLException ex1) {
+                        Rrc.showAlert(ex.toString());
+                        Logger.getLogger(CollectionEntryController.class.getName()).log(Level.SEVERE, null, ex1);
+                    }
+                    Logger.getLogger(CollectionEntryController.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                Logger.getLogger(CollectionEntryController.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }
-        //@TODO clear the variables
-        list.clear();
+            //@TODO clear the variables
+            list.clear();
         }
     }
 
     @FXML
     private void getDetails(ActionEvent event) {
-        
-        if(voucher_no_field_2.getText().isEmpty())
-        {
-            rrc.showAlert("Voucher No. Field is kept empty. Please fill the voucher no.");
-        }
-        else
-        {
+
+        if (voucher_no_field_2.getText().isEmpty()) {
+            Rrc.showAlert("Voucher No. Field is kept empty. Please fill the voucher no.");
+        } else {
             try {
-                sql="select * from `Collection_Entry_Table` where `Voucher No.`=? collate nocase";
-                ps=conn.prepareStatement(sql);
+                sql = "select * from `Collection_Entry_Table` where `Voucher No.`=? collate nocase";
+                ps = conn.prepareStatement(sql);
                 ps.setString(1, voucher_no_field_2.getText());
-                rs=ps.executeQuery();
-                
+                rs = ps.executeQuery();
+
                 voucher_date_2.setText(rs.getString("Voucher Date"));
                 buyer_name_2.setText(rs.getString("Buyer Name"));
                 total_amount_field_2.setText(rs.getString("Total Amount"));
                 display_board_label_2.setText(rs.getString("Buyer Name"));
-                
+
                 list.clear();
-                sql="select * from `Collection_Entry_Extended_Table` where `Voucher No.`=? collate nocase";
-                ps=conn.prepareStatement(sql);
+                sql = "select * from `Collection_Entry_Extended_Table` where `Voucher No.`=? collate nocase";
+                ps = conn.prepareStatement(sql);
                 ps.setString(1, voucher_no_field_2.getText());
-                rs=ps.executeQuery();
-                if(rs.isClosed())
-                {
-                    rrc.showAlert("No Results found",1);
-                }
-                else{
-                    while(rs.next())
-                    {
-                        list.add(new Collection(rs.getString("Bill No."),rs.getString("Bill Date"),rs.getString("Bill Amount"),
-                                                rs.getString("Supplier Name"),rs.getString("collection due"),rs.getString("amount collected"),
-                                                rs.getString("bank"),rs.getString("DD No."),
-                                                rs.getString("DD Date")));
+                rs = ps.executeQuery();
+                if (rs.isClosed()) {
+                    Rrc.showAlert("No Results found", 1);
+                } else {
+                    while (rs.next()) {
+                        list.add(new Collection(rs.getString("Bill No."), rs.getString("Bill Date"), rs.getString("Bill Amount"),
+                                rs.getString("Supplier Name"), rs.getString("collection due"), rs.getString("amount collected"),
+                                rs.getString("bank"), rs.getString("DD No."),
+                                rs.getString("DD Date")));
                     }
                     collection_tableview_2.setItems(list);
                     delete_entry_btn.setDisable(false);
                 }
             } catch (SQLException ex) {
-                rrc.showAlert(ex.toString());
+                Rrc.showAlert(ex.toString());
                 Logger.getLogger(CollectionEntryController.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
-    
+
 
     @FXML
     private void deleteEntry(ActionEvent event) {
-        Alert alert=new Alert(AlertType.CONFIRMATION, "Are you sure that you want delete " + voucher_no_field_2.getText()+" ?", ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
+        Alert alert = new Alert(AlertType.CONFIRMATION, "Are you sure that you want delete " + voucher_no_field_2.getText() + " ?", ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
         alert.showAndWait();
-        
-        if(alert.getResult()==ButtonType.YES)
-        {
-        try {
-            //EDIT
-            conn.setAutoCommit(false);
-            sql="SELECT `Bill No.`,`Amount Collected` FROM `Collection_Entry_Extended_Table` where `Voucher No.`=? collate nocase";
-            ps=conn.prepareStatement(sql);
-            ps.setString(1, voucher_no_field_2.getText());
-            rs=ps.executeQuery();
-            while(rs.next())
-            {
-                sql="UPDATE `Bill_Entry_Table` SET `Collection Due`=`Collection Due`+? WHERE `BILL NO.`=?";
-                ps=conn.prepareStatement(sql);
-                ps.setString(1, rs.getString("Amount Collected"));
-                ps.setString(2, rs.getString("Bill No."));
-                ps.execute();
-            }
-            
-            
-            sql="DELETE FROM `Collection_Entry_Table` where `Voucher No.`=? collate nocase";
-            
-            ps=conn.prepareStatement(sql);
-            ps.setString(1, voucher_no_field_2.getText());
-            ps.execute();
-            
-            sql="DELETE FROM `Collection_Entry_Extended_Table` where `Voucher No.`=? collate nocase";
-            
-            ps=conn.prepareStatement(sql);
-            ps.setString(1, voucher_no_field_2.getText());
-            ps.execute();
-            list.clear();
-            voucher_date_2.setText("");
-            buyer_name_2.setText("");
-            display_board_label_2.setText("");
-            total_amount_field_2.setText("");
-            conn.commit();
-            rrc.showAlert(voucher_no_field_2.getText().toUpperCase()+" Entry was successfully deleted.",1);
-            updateLastVoucher();
-        } catch (SQLException ex) {
-            rrc.showAlert(ex.toString());
+
+        if (alert.getResult() == ButtonType.YES) {
             try {
-                conn.rollback();
-            } catch (SQLException ex1) {
-                rrc.showAlert(ex1.toString());
-                Logger.getLogger(CollectionEntryController.class.getName()).log(Level.SEVERE, null, ex1);
+                //EDIT
+                conn.setAutoCommit(false);
+                sql = "SELECT `Bill No.`,`Amount Collected` FROM `Collection_Entry_Extended_Table` where `Voucher No.`=? collate nocase";
+                ps = conn.prepareStatement(sql);
+                ps.setString(1, voucher_no_field_2.getText());
+                rs = ps.executeQuery();
+                while (rs.next()) {
+                    sql = "UPDATE `Bill_Entry_Table` SET `Collection Due`=`Collection Due`+? WHERE `BILL NO.`=?";
+                    ps = conn.prepareStatement(sql);
+                    ps.setString(1, rs.getString("Amount Collected"));
+                    ps.setString(2, rs.getString("Bill No."));
+                    ps.execute();
+                }
+
+
+                sql = "DELETE FROM `Collection_Entry_Table` where `Voucher No.`=? collate nocase";
+
+                ps = conn.prepareStatement(sql);
+                ps.setString(1, voucher_no_field_2.getText());
+                ps.execute();
+
+                sql = "DELETE FROM `Collection_Entry_Extended_Table` where `Voucher No.`=? collate nocase";
+
+                ps = conn.prepareStatement(sql);
+                ps.setString(1, voucher_no_field_2.getText());
+                ps.execute();
+                list.clear();
+                voucher_date_2.setText("");
+                buyer_name_2.setText("");
+                display_board_label_2.setText("");
+                total_amount_field_2.setText("");
+                conn.commit();
+                Rrc.showAlert(voucher_no_field_2.getText().toUpperCase() + " Entry was successfully deleted.", 1);
+                updateLastVoucher();
+            } catch (SQLException ex) {
+                Rrc.showAlert(ex.toString());
+                try {
+                    conn.rollback();
+                } catch (SQLException ex1) {
+                    Rrc.showAlert(ex1.toString());
+                    Logger.getLogger(CollectionEntryController.class.getName()).log(Level.SEVERE, null, ex1);
+                }
+                Logger.getLogger(CollectionEntryController.class.getName()).log(Level.SEVERE, null, ex);
             }
-            Logger.getLogger(CollectionEntryController.class.getName()).log(Level.SEVERE, null, ex);
-        }
         }
     }
 
     private void updateTotalAmount() {
-        totalAmount=0;
-        for(Collection temp: list)
-        {
-            totalAmount+=Integer.parseInt(temp.getAmountCollected());
+        totalAmount = 0;
+        for (Collection temp : list) {
+            totalAmount += Integer.parseInt(temp.getAmountCollected());
         }
         total_amount_field.setText(Integer.toString(totalAmount));
     }
 
     private void loadScreenAgain() {
         try {
-            Parent parent=FXMLLoader.load(getClass().getResource("/satyamconsignment/ui/Input/CollectionEntry/CollectionEntry.fxml"));
+            Parent parent = FXMLLoader.load(getClass().getResource("/satyamconsignment/ui/Input/CollectionEntry/CollectionEntry.fxml"));
             root2.getChildren().setAll(parent);
         } catch (IOException ex) {
-            rrc.showAlert(ex.toString());
+            Rrc.showAlert(ex.toString());
             Logger.getLogger(CollectionEntryController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -541,25 +505,24 @@ public class CollectionEntryController implements Initializable {
     @FXML
     private void printCollection(ActionEvent event) {
         try {
-            String pdfFileName="Report.pdf";
-            String jrxmlFileName="Collection.jrxml";
+            String pdfFileName = "Report.pdf";
+            String jrxmlFileName = "Collection.jrxml";
             JasperReport jasperReport = JasperCompileManager.compileReport(getClass().getResourceAsStream(jrxmlFileName));
-            Map map=new HashMap();
+            Map map = new HashMap();
             map.put("voucherNo", voucher_no_field_2.getText());
             map.put("voucherDate", voucher_date_2.getText());
             map.put("buyerName", buyer_name_2.getText());
             map.put("billAmount", total_amount_field_2.getText());
             JasperPrint jprint = JasperFillManager.fillReport(jasperReport, map, conn);
             JasperExportManager.exportReportToPdfFile(jprint, pdfFileName);
-            rrc.showAlert("Report Successfully Generated", 1);
+            Rrc.showAlert("Report Successfully Generated", 1);
         } catch (JRException ex) {
-            rrc.showAlert(ex.toString());
+            Rrc.showAlert(ex.toString());
             Logger.getLogger(CollectionEntryController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    private void updateLastVoucher()
-    {
+
+    private void updateLastVoucher() {
         try {
             String sql = "SELECT MAX(`Voucher No.`) from `COLLECTION_ENTRY_TABLE`;";
             ps = conn.prepareStatement(sql);
@@ -569,6 +532,6 @@ public class CollectionEntryController implements Initializable {
         } catch (SQLException ex) {
             Logger.getLogger(CollectionEntryController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }
 }

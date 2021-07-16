@@ -5,9 +5,10 @@
  */
 package satyamconsignment.ui.Main.WelcomeScreen;
 
+import javafx.fxml.Initializable;
+
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.fxml.Initializable;
 
 /**
  * FXML Controller class
@@ -22,6 +23,6 @@ public class WelcomeScreenController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }    
-    
+    }
+
 }

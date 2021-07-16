@@ -1,9 +1,11 @@
-JFXButton{
+JFXButton {
     -fx-background-color: #87d4f9;
 }
-JFXButton:hover{
+
+JFXButton:hover {
     -fx-background-color: #00ba4e;
 }
-AnchorPane{
+
+AnchorPane {
     -fx-background-color: #000000;
 }
