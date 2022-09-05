@@ -1,7 +1,10 @@
 #!/usr/bin/bash
 
+RED='\033[0;31m'
+NC='\033[0m'
+
 if [[ -z "$PATH_TO_FX" ]]; then
-	echo "Please the environment variable PATH_TO_FX and try to rerun"
+	echo -e "${RED}Please set the environment variable PATH_TO_FX and rerun."
 	exit 1
 fi
 
