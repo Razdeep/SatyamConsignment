@@ -1,6 +1,5 @@
 package satyamconsignment.ui.Input.CollectionEntry.ViewAndDeleteCollection;
 
-import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDatePicker;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -29,26 +28,14 @@ import java.util.logging.Logger;
 
 public class ViewAndDeleteCollection implements Initializable {
     int totalAmount;
-    ObservableList<CollectionItem> list;
+    ObservableList<CollectionItem> collectionItemObservableList;
     ObservableList<String> buyerNameComboList;
     ObservableList<String> billNoComboList;
-    String buyerName, supplierName, billDate, billAmount;
     DateTimeFormatter formatter;
-    int previouslyDue;
-    @FXML
-    private TextField dd_no_field;
-    @FXML
-    private JFXDatePicker dd_date_field;
-    @FXML
-    private JFXButton save_btn;
-    @FXML
-    private JFXButton clear_btn;
     @FXML
     private TextField voucher_no_field;
     @FXML
     private JFXDatePicker voucher_date_field;
-    @FXML
-    private Button add_collection_btn;
     @FXML
     private Button replace_collection_btn;
     @FXML
@@ -115,7 +102,7 @@ public class ViewAndDeleteCollection implements Initializable {
         totalAmount = 0;
         formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
-        list = FXCollections.observableArrayList();
+        collectionItemObservableList = FXCollections.observableArrayList();
         buyerNameComboList = FXCollections.observableArrayList();
         billNoComboList = FXCollections.observableArrayList();
 
@@ -149,7 +136,7 @@ public class ViewAndDeleteCollection implements Initializable {
             total_amount_field.setText(collectionResultSet.getString("Total Amount"));
             display_board_label.setText(collectionResultSet.getString("Buyer Name"));
 
-            list.clear();
+            collectionItemObservableList.clear();
             sql = "select * from `Collection_Entry_Extended_Table` where `Voucher No.`=? collate nocase";
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, voucher_no_field.getText());
@@ -159,12 +146,12 @@ public class ViewAndDeleteCollection implements Initializable {
                 return;
             }
             while (collectionResultSet.next()) {
-                list.add(new CollectionItem(collectionResultSet.getString("Bill No."), collectionResultSet.getString("Bill Date"), collectionResultSet.getString("Bill Amount"),
+                collectionItemObservableList.add(new CollectionItem(collectionResultSet.getString("Bill No."), collectionResultSet.getString("Bill Date"), collectionResultSet.getString("Bill Amount"),
                         collectionResultSet.getString("Supplier Name"), collectionResultSet.getString("collection due"), collectionResultSet.getString("amount collected"),
                         collectionResultSet.getString("bank"), collectionResultSet.getString("DD No."),
                         collectionResultSet.getString("DD Date")));
             }
-            collection_tableview.setItems(list);
+            collection_tableview.setItems(collectionItemObservableList);
             delete_entry_btn.setDisable(false);
         } catch (SQLException ex) {
             Rrc.showAlert(ex.toString());
@@ -179,7 +166,7 @@ public class ViewAndDeleteCollection implements Initializable {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure that you want delete " + voucher_no_field.getText() + " ?", ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
         alert.showAndWait();
 
-        if (alert.getResult() == ButtonType.NO) {
+        if (alert.getResult() != ButtonType.YES) {
             return;
         }
 
@@ -211,7 +198,7 @@ public class ViewAndDeleteCollection implements Initializable {
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, voucher_no_field.getText());
             preparedStatement.execute();
-            list.clear();
+            collectionItemObservableList.clear();
             voucher_date.setText("");
             buyer_name.setText("");
             display_board_label.setText("");

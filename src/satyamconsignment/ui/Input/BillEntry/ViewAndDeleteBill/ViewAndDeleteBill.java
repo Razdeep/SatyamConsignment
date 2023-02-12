@@ -22,9 +22,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -84,9 +82,9 @@ public class ViewAndDeleteBill implements Initializable {
             Logger.getLogger(BillEntryController.class.getName()).log(Level.SEVERE, null, ex);
         }
         try {
-            supplierList = new ArrayList();
-            buyerList = new ArrayList();
-            transportList = new ArrayList();
+            supplierList = new ArrayList<>();
+            buyerList = new ArrayList<>();
+            transportList = new ArrayList<>();
             while (supplierListResultSet.next()) {
                 supplierList.add(supplierListResultSet.getString("name"));
             }
@@ -154,7 +152,7 @@ public class ViewAndDeleteBill implements Initializable {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure that you want delete " + bill_no_field.getText() + " ?", ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
         alert.showAndWait();
 
-        if (alert.getResult() == ButtonType.NO) {
+        if (alert.getResult() != ButtonType.YES) {
             return;
         }
 
