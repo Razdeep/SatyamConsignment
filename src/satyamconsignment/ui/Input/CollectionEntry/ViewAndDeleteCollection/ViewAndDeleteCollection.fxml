@@ -29,7 +29,7 @@
                 <Font size="16.0"/>
             </font>
         </Text>
-        <TextField fx:id="voucher_no_field_2" layoutX="308.0" layoutY="14.0"
+        <TextField fx:id="voucher_no_field" layoutX="308.0" layoutY="14.0"
                    prefHeight="25.0" prefWidth="108.0"/>
         <Button fx:id="get_details_btn" layoutX="463.0" layoutY="20.0"
                 mnemonicParsing="false" onAction="#getDetails" text="Get Details">
@@ -37,23 +37,23 @@
                 <Font size="18.0"/>
             </font>
         </Button>
-        <TableView fx:id="collection_tableview_2" layoutX="10.0" layoutY="218.0"
+        <TableView fx:id="collection_tableview" layoutX="10.0" layoutY="218.0"
                    prefHeight="255.0" prefWidth="677.0">
             <columns>
-                <TableColumn fx:id="bill_no_col_2" prefWidth="49.0" text="Bill No."/>
-                <TableColumn fx:id="bill_amt_col_2" prefWidth="58.0" text="Bill Amt"/>
-                <TableColumn fx:id="bill_date_col_2" prefWidth="70.0" text="Bill Dt"/>
-                <TableColumn fx:id="supplier_col_2" prefWidth="134.0" text="Supplier"/>
-                <TableColumn fx:id="amount_collection_col_2" prefWidth="137.0"
+                <TableColumn fx:id="bill_no_col" prefWidth="49.0" text="Bill No."/>
+                <TableColumn fx:id="bill_amt_col" prefWidth="58.0" text="Bill Amt"/>
+                <TableColumn fx:id="bill_date_col" prefWidth="70.0" text="Bill Dt"/>
+                <TableColumn fx:id="supplier_col" prefWidth="134.0" text="Supplier"/>
+                <TableColumn fx:id="amount_collection_col" prefWidth="137.0"
                              text="Amount Collected"/>
-                <TableColumn fx:id="bank_col_2" minWidth="0.0" prefWidth="82.0"
+                <TableColumn fx:id="bank_col" minWidth="0.0" prefWidth="82.0"
                              text="Bank"/>
-                <TableColumn fx:id="dd_no_col_2" minWidth="5.0" prefWidth="63.0"
+                <TableColumn fx:id="dd_no_col" minWidth="5.0" prefWidth="63.0"
                              text="DD No."/>
-                <TableColumn fx:id="dd_date_col_2" prefWidth="82.0" text="DD Date"/>
+                <TableColumn fx:id="dd_date_col" prefWidth="82.0" text="DD Date"/>
             </columns>
         </TableView>
-        <Label fx:id="display_board_label_2" layoutX="43.0" layoutY="152.0"
+        <Label fx:id="display_board_label" layoutX="43.0" layoutY="152.0"
                prefHeight="43.0" prefWidth="346.0">
             <font>
                 <Font size="29.0"/>
@@ -65,11 +65,11 @@
                 <Font size="16.0"/>
             </font>
         </Text>
-        <TextField fx:id="voucher_date_2" editable="false" layoutX="141.0"
+        <TextField fx:id="voucher_date" editable="false" layoutX="141.0"
                    layoutY="68.0" prefHeight="25.0" prefWidth="185.0"/>
-        <TextField fx:id="buyer_name_2" editable="false" layoutX="141.0" layoutY="101.0"
+        <TextField fx:id="buyer_name" editable="false" layoutX="141.0" layoutY="101.0"
                    prefHeight="25.0" prefWidth="185.0"/>
-        <TextField fx:id="total_amount_field_2" alignment="CENTER_RIGHT"
+        <TextField fx:id="total_amount_field" alignment="CENTER_RIGHT"
                    editable="false" layoutX="546.0" layoutY="174.0" prefHeight="25.0"
                    prefWidth="81.0" text="0"/>
         <Button fx:id="delete_entry_btn" disable="true" layoutX="506.0" layoutY="482.0"
