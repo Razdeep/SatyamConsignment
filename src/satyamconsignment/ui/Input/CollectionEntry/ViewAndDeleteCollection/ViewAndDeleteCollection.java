@@ -13,8 +13,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import net.sf.jasperreports.engine.*;
 import satyamconsignment.misc.DatabaseHandler;
 import satyamconsignment.misc.Rrc;
-import satyamconsignment.ui.Input.CollectionEntry.Collection;
-import satyamconsignment.ui.Input.CollectionEntry.CollectionEntryController;
+import satyamconsignment.ui.Input.CollectionEntry.CollectionItem;
 
 import java.net.URL;
 import java.sql.Connection;
@@ -30,7 +29,7 @@ import java.util.logging.Logger;
 
 public class ViewAndDeleteCollection implements Initializable {
     int totalAmount;
-    ObservableList<Collection> list;
+    ObservableList<CollectionItem> list;
     ObservableList<String> buyerNameComboList;
     ObservableList<String> billNoComboList;
     String buyerName, supplierName, billDate, billAmount;
@@ -55,21 +54,21 @@ public class ViewAndDeleteCollection implements Initializable {
     @FXML
     private Button delete_collection_btn;
     @FXML
-    private TableView<Collection> collection_tableview;
+    private TableView<CollectionItem> collection_tableview;
     @FXML
-    private TableColumn<Collection, String> bill_no_col;
+    private TableColumn<CollectionItem, String> bill_no_col;
     @FXML
-    private TableColumn<Collection, String> bill_amt_col;
+    private TableColumn<CollectionItem, String> bill_amt_col;
     @FXML
-    private TableColumn<Collection, String> supplier_col;
+    private TableColumn<CollectionItem, String> supplier_col;
     @FXML
-    private TableColumn<Collection, String> amount_collection_col;
+    private TableColumn<CollectionItem, String> amount_collection_col;
     @FXML
-    private TableColumn<Collection, String> bank_col;
+    private TableColumn<CollectionItem, String> bank_col;
     @FXML
-    private TableColumn<Collection, String> dd_no_col;
+    private TableColumn<CollectionItem, String> dd_no_col;
     @FXML
-    private TableColumn<Collection, String> dd_date_col;
+    private TableColumn<CollectionItem, String> dd_date_col;
     @FXML
     private TextField bill_date_view;
     @FXML
@@ -160,7 +159,7 @@ public class ViewAndDeleteCollection implements Initializable {
                 return;
             }
             while (collectionResultSet.next()) {
-                list.add(new Collection(collectionResultSet.getString("Bill No."), collectionResultSet.getString("Bill Date"), collectionResultSet.getString("Bill Amount"),
+                list.add(new CollectionItem(collectionResultSet.getString("Bill No."), collectionResultSet.getString("Bill Date"), collectionResultSet.getString("Bill Amount"),
                         collectionResultSet.getString("Supplier Name"), collectionResultSet.getString("collection due"), collectionResultSet.getString("amount collected"),
                         collectionResultSet.getString("bank"), collectionResultSet.getString("DD No."),
                         collectionResultSet.getString("DD Date")));

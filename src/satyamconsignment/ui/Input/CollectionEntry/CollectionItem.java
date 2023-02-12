@@ -14,7 +14,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-public class Collection {
+public class CollectionItem {
     private String billNo;
     private String billDate;
     private String billAmount;
