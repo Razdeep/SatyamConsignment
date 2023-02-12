@@ -63,10 +63,15 @@ jar {
       "Class-Path": configurations.runtimeClasspath.collect { "lib/" + it.getName() }.join(' ')
     )
   }
-  from {
-    configurations.compile.collect { it.isDirectory() ? zipTree(it) : it }
-    configurations.runtimeClasspath.collect { it.isDirectory() ? zipTree(it) : it }
-  }
+/*
+    this part is commented because it is unnecessarily creating the fat jar though the actual dependencies are using from the lib directory.
+    In future, I'll try to create a fat jar without the lib directory.
+*/
+
+//  from {
+//    configurations.compile.collect { it.isDirectory() ? zipTree(it) : it }
+//    configurations.runtimeClasspath.collect { it.isDirectory() ? zipTree(it) : it }
+//  }
 }
 
 def dependency_directory = "${buildDir}/libs/lib/"
