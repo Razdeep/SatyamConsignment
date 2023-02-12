@@ -14,10 +14,16 @@
                 <Font size="17.0"/>
             </font>
         </Text>
-        <TextField fx:id="bill_no_field_2" layoutX="335.0" layoutY="23.0"
+        <TextField fx:id="bill_no_field" layoutX="335.0" layoutY="23.0"
                    prefHeight="25.0" prefWidth="169.0" promptText="Bill Number"/>
         <Button fx:id="get_details_btn" layoutX="538.0" layoutY="16.0"
                 mnemonicParsing="false" onAction="#getDetails" text="Get Details">
+            <font>
+                <Font size="18.0"/>
+            </font>
+        </Button>
+        <Button fx:id="update_bill_btn" layoutX="538.0" layoutY="60.0"
+                mnemonicParsing="false" onAction="#updateBill" text="Update Bill">
             <font>
                 <Font size="18.0"/>
             </font>
@@ -58,42 +64,42 @@
                 <Font size="18.0"/>
             </font>
         </Text>
-        <TextField fx:id="supplier_field_2" editable="false" layoutX="168.0"
+        <TextField fx:id="supplier_field" layoutX="168.0"
                    layoutY="68.0" prefHeight="25.0" prefWidth="279.0"
                    promptText="Supplier Name">
             <font>
                 <Font size="13.0"/>
             </font>
         </TextField>
-        <TextField fx:id="buyer_name_field_2" editable="false" layoutX="170.0"
+        <TextField fx:id="buyer_name_field" layoutX="170.0"
                    layoutY="100.0" prefHeight="25.0" prefWidth="276.0"
                    promptText="Buyer Name">
             <font>
                 <Font size="13.0"/>
             </font>
         </TextField>
-        <TextField fx:id="bill_date_field_2" editable="false" layoutX="170.0"
+        <TextField fx:id="bill_date_field" layoutX="170.0"
                    layoutY="137.0" prefHeight="25.0" prefWidth="276.0"
                    promptText="Bill Date">
             <font>
                 <Font size="13.0"/>
             </font>
         </TextField>
-        <TextField fx:id="transport_field_2" editable="false" layoutX="170.0"
+        <TextField fx:id="transport_field" layoutX="170.0"
                    layoutY="171.0" prefHeight="25.0" prefWidth="276.0"
                    promptText="Transport">
             <font>
                 <Font size="13.0"/>
             </font>
         </TextField>
-        <TextField fx:id="lr_date_field_2" editable="false" layoutX="170.0"
+        <TextField fx:id="lr_date_field" layoutX="170.0"
                    layoutY="209.0" prefHeight="25.0" prefWidth="276.0"
                    promptText="LR Date">
             <font>
                 <Font size="13.0"/>
             </font>
         </TextField>
-        <TextField fx:id="bill_amount_field_2" editable="false" layoutX="170.0"
+        <TextField fx:id="bill_amount_field" layoutX="170.0"
                    layoutY="245.0" prefHeight="25.0" prefWidth="178.0"
                    promptText="Bill Amount"/>
         <Button fx:id="delete_entry_btn" disable="true" layoutX="533.0" layoutY="486.0"
@@ -103,11 +109,11 @@
                 <Font size="18.0"/>
             </font>
         </Button>
-        <TableView fx:id="lr_table_2" layoutX="29.0" layoutY="288.0" prefHeight="277.0"
+        <TableView fx:id="lr_table" layoutX="29.0" layoutY="288.0" prefHeight="277.0"
                    prefWidth="404.0">
             <columns>
-                <TableColumn fx:id="lr_no_col_2" prefWidth="175.0" text="LR No."/>
-                <TableColumn fx:id="pm_col_2" prefWidth="228.0" text="PM"/>
+                <TableColumn fx:id="lr_no_col" prefWidth="175.0" text="LR No."/>
+                <TableColumn fx:id="pm_col" prefWidth="228.0" text="PM"/>
             </columns>
         </TableView>
     </children>
