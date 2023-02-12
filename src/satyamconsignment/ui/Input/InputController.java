@@ -30,7 +30,6 @@ public class InputController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        rrc = new Rrc();
     }
 
     @FXML
@@ -40,7 +39,7 @@ public class InputController implements Initializable {
             root2.getChildren().setAll(parent);
         } catch (IOException ex) {
             Rrc.showAlert(ex.toString());
-            Logger.getLogger(InputController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(InputController.class.getName()).log(Level.SEVERE, ex.toString(), ex);
         }
     }
 
@@ -51,7 +50,7 @@ public class InputController implements Initializable {
             root2.getChildren().setAll(parent);
         } catch (IOException ex) {
             Rrc.showAlert(ex.toString());
-            Logger.getLogger(InputController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(InputController.class.getName()).log(Level.SEVERE, ex.toString(), ex);
         }
     }
 
@@ -62,7 +61,7 @@ public class InputController implements Initializable {
             root2.getChildren().setAll(parent);
         } catch (IOException ex) {
             Rrc.showAlert(ex.toString());
-            Logger.getLogger(InputController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(InputController.class.getName()).log(Level.SEVERE, ex.toString(), ex);
         }
     }
 
