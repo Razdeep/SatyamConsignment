@@ -31,14 +31,7 @@ import java.util.logging.Logger;
 
 public class ViewAndDeleteBill implements Initializable {
     List<String> supplierList, buyerList, transportList;
-    DatabaseHandler databaseHandler;
-    Connection conn1, conn2, conn3;
-    PreparedStatement ps1, ps2, ps3;
-    ResultSet rs1, rs2, rs3;
-    String sql, sql2;
-
     ObservableList<LR> list = FXCollections.observableArrayList();
-
     DateTimeFormatter formatter;
     @FXML
     private Group root;
@@ -70,35 +63,36 @@ public class ViewAndDeleteBill implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        ResultSet supplierListResultSet = null, buyerListResultSet = null, transportListResultSet = null;
+        formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         try {
-            // TODO
-            formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-            supplierList = new ArrayList();
-            buyerList = new ArrayList();
-            transportList = new ArrayList();
-            databaseHandler = DatabaseHandler.getInstance();
-            conn1 = databaseHandler.getConnection();
-            conn2 = databaseHandler.getConnection();
-            conn3 = databaseHandler.getConnection();
-            ps1 = conn1.prepareStatement("select * from Supplier_Master_Table order by name collate nocase");
-            ps2 = conn2.prepareStatement("select * from Buyer_Master_Table order by name collate nocase");
-            ps3 = conn3.prepareStatement("select * from Transport_Master_Table order by name collate nocase");
-            rs1 = ps1.executeQuery();
-            rs2 = ps2.executeQuery();
-            rs3 = ps3.executeQuery();
+            DatabaseHandler databaseHandler = DatabaseHandler.getInstance();
+            Connection connection = databaseHandler.getConnection();
+
+            PreparedStatement preparedStatement = connection.prepareStatement("select * from Supplier_Master_Table order by name collate nocase");
+            supplierListResultSet = preparedStatement.executeQuery();
+
+            preparedStatement = connection.prepareStatement("select * from Buyer_Master_Table order by name collate nocase");
+            buyerListResultSet = preparedStatement.executeQuery();
+
+            preparedStatement = connection.prepareStatement("select * from Transport_Master_Table order by name collate nocase");
+            transportListResultSet = preparedStatement.executeQuery();
         } catch (SQLException ex) {
             Rrc.showAlert(ex.toString());
             Logger.getLogger(BillEntryController.class.getName()).log(Level.SEVERE, null, ex);
         }
         try {
-            while (rs1.next()) {
-                supplierList.add(rs1.getString("name"));
+            supplierList = new ArrayList();
+            buyerList = new ArrayList();
+            transportList = new ArrayList();
+            while (supplierListResultSet.next()) {
+                supplierList.add(supplierListResultSet.getString("name"));
             }
-            while (rs2.next()) {
-                buyerList.add(rs2.getString("name"));
+            while (buyerListResultSet.next()) {
+                buyerList.add(buyerListResultSet.getString("name"));
             }
-            while (rs3.next()) {
-                transportList.add(rs3.getString("name"));
+            while (transportListResultSet.next()) {
+                transportList.add(transportListResultSet.getString("name"));
             }
         } catch (SQLException ex) {
             Logger.getLogger(BillEntryController.class.getName()).log(Level.SEVERE, null, ex);
@@ -120,31 +114,33 @@ public class ViewAndDeleteBill implements Initializable {
     @FXML
     private void getDetails(ActionEvent event) {
         try {
-            sql = "select * from `Bill_Entry_Table` where `Bill No.`=? collate nocase";
-            ps1 = conn1.prepareStatement(sql);
-            ps1.setString(1, bill_no_field_2.getText());
-            rs1 = ps1.executeQuery();
-            sql2 = "select * from `LR_Table` where `Bill No.`=? collate nocase";
-            ps1 = conn1.prepareStatement(sql2);
-            ps1.setString(1, bill_no_field_2.getText());
-            rs2 = ps1.executeQuery();
-            if (rs1.isClosed()) {
-                Rrc.showAlert("Record not found. Please try again later. ", 2);
-            } else {
-                supplier_field_2.setText(rs1.getString("Supplier Name"));
-                buyer_name_field_2.setText(rs1.getString("Buyer Name"));
-                bill_date_field_2.setText(rs1.getString("Bill Date"));
-                transport_field_2.setText(rs1.getString("Transport"));
-                lr_date_field_2.setText(rs1.getString("LR Date"));
-                bill_amount_field_2.setText(rs1.getString("Bill Amount"));
-                list.clear();
-                while (rs2.next()) {
-                    list.add(new LR(rs2.getString("Bill No."), rs2.getString("LR No."), rs2.getString("PM")));
-                }
-                lr_table_2.setItems(list);
-                delete_entry_btn.setDisable(false);
+            Connection connection = DatabaseHandler.getInstance().getConnection();
+            String sql = "select * from `Bill_Entry_Table` where `Bill No.`=? collate nocase";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, bill_no_field_2.getText());
+            ResultSet billResultSet = preparedStatement.executeQuery();
+            String sql2 = "select * from `LR_Table` where `Bill No.`=? collate nocase";
+            preparedStatement = connection.prepareStatement(sql2);
+            preparedStatement.setString(1, bill_no_field_2.getText());
+            ResultSet lrPmResultSet = preparedStatement.executeQuery();
+
+            if (billResultSet.isClosed()) {
+                Rrc.showAlert("Record not found. Please try again later.", 2);
+                return;
             }
 
+            supplier_field_2.setText(billResultSet.getString("Supplier Name"));
+            buyer_name_field_2.setText(billResultSet.getString("Buyer Name"));
+            bill_date_field_2.setText(billResultSet.getString("Bill Date"));
+            transport_field_2.setText(billResultSet.getString("Transport"));
+            lr_date_field_2.setText(billResultSet.getString("LR Date"));
+            bill_amount_field_2.setText(billResultSet.getString("Bill Amount"));
+            list.clear();
+            while (lrPmResultSet.next()) {
+                list.add(new LR(lrPmResultSet.getString("Bill No."), lrPmResultSet.getString("LR No."), lrPmResultSet.getString("PM")));
+            }
+            lr_table_2.setItems(list);
+            delete_entry_btn.setDisable(false);
         } catch (SQLException ex) {
             Rrc.showAlert(ex.toString());
             Logger.getLogger(BillEntryController.class.getName()).log(Level.SEVERE, null, ex);
@@ -156,37 +152,41 @@ public class ViewAndDeleteBill implements Initializable {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure that you want delete " + bill_no_field_2.getText() + " ?", ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
         alert.showAndWait();
 
-        if (alert.getResult() == ButtonType.YES) {
-            try {
-                conn1.setAutoCommit(false);
-                sql = "DELETE FROM `Bill_Entry_Table` where `Bill No.`=? collate nocase";
-                sql2 = "DELETE FROM `LR_Table` where `Bill No.`=? collate nocase";
-                ps1 = conn1.prepareStatement(sql);
-                ps1.setString(1, bill_no_field_2.getText());
-                ps1.execute();
-                ps1 = conn1.prepareStatement(sql2);
-                ps1.setString(1, bill_no_field_2.getText());
-                ps1.execute();
-                supplier_field_2.setText("");
-                buyer_name_field_2.setText("");
-                bill_date_field_2.setText("");
-                transport_field_2.setText("");
-                lr_date_field_2.setText("");
-                bill_amount_field_2.setText("");
-                list.clear();
-                conn1.commit();
-                Rrc.showAlert(bill_no_field_2.getText().toUpperCase() + " Entry was successfully deleted.", 1);
-            } catch (SQLException ex) {
-                try {
-                    conn1.rollback();
-                } catch (SQLException ex1) {
-                    Rrc.showAlert(ex1.toString());
-                    Logger.getLogger(BillEntryController.class.getName()).log(Level.SEVERE, null, ex1);
-                }
-                Rrc.showAlert(ex.toString());
-                Logger.getLogger(BillEntryController.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        if (alert.getResult() == ButtonType.NO) {
+            return;
         }
 
+        Connection connection = DatabaseHandler.getInstance().getConnection();
+
+        try {
+            connection.setAutoCommit(false);
+            String sql = "DELETE FROM `Bill_Entry_Table` where `Bill No.`=? collate nocase";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, bill_no_field_2.getText());
+            preparedStatement.execute();
+
+            String sql2 = "DELETE FROM `LR_Table` where `Bill No.`=? collate nocase";
+            preparedStatement = connection.prepareStatement(sql2);
+            preparedStatement.setString(1, bill_no_field_2.getText());
+            preparedStatement.execute();
+            supplier_field_2.setText("");
+            buyer_name_field_2.setText("");
+            bill_date_field_2.setText("");
+            transport_field_2.setText("");
+            lr_date_field_2.setText("");
+            bill_amount_field_2.setText("");
+            list.clear();
+            connection.commit();
+            Rrc.showAlert(bill_no_field_2.getText().toUpperCase() + " Entry was successfully deleted.", 1);
+        } catch (SQLException ex) {
+            try {
+                connection.rollback();
+            } catch (SQLException ex1) {
+                Rrc.showAlert(ex1.toString());
+                Logger.getLogger(BillEntryController.class.getName()).log(Level.SEVERE, null, ex1);
+            }
+            Rrc.showAlert(ex.toString());
+            Logger.getLogger(BillEntryController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }
