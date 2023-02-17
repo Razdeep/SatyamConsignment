@@ -18,6 +18,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -123,16 +125,50 @@ public class AddCollection implements Initializable {
     private void fillBillNoCombo() {
         try {
             Connection connection = DatabaseHandler.getInstance().getConnection();
-            String sql = "select `Bill No.` from `Bill_Entry_Table` where `Buyer Name`=? and not `Collection Due`='0' order by `Bill No.` collate nocase";
 
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            String getCollectionAmountsForEveryoneSql = "select `Bill No.`, sum(`Amount Collected`) as `Amount Collected` " +
+                    "from `Collection_Entry_Extended_Table` group by `Bill No.`";
+            Map<String, Double> collectionAmountMap = new HashMap<>();
+            PreparedStatement preparedStatement = connection.prepareStatement(getCollectionAmountsForEveryoneSql);
+            ResultSet collectionAmountsResultSet = preparedStatement.executeQuery();
+            while (collectionAmountsResultSet.next()) {
+                String amountCollectedStr = collectionAmountsResultSet.getString("Amount Collected");
+                double amountCollected = 0;
+                try {
+                    amountCollected = Double.valueOf(amountCollectedStr);
+                } catch (NumberFormatException ex) {
+                    ex.printStackTrace();
+                }
+                collectionAmountMap.put(collectionAmountsResultSet.getString("Bill No."), amountCollected);
+            }
+
+            String getBillAmountsForBuyerSql = "select `Bill No.`, `Bill Amount` from `Bill_Entry_Table` " +
+                    "where `Buyer Name`=? order by `Bill No.` collate nocase";
+
+            preparedStatement = connection.prepareStatement(getBillAmountsForBuyerSql);
             preparedStatement.setString(1, buyer_name.getValue());
-            ResultSet pendingBillNoResultSet = preparedStatement.executeQuery();
+            ResultSet billNoResultSet = preparedStatement.executeQuery();
 
             billNoComboList.clear();
-            while (pendingBillNoResultSet.next()) {
-                billNoComboList.add(pendingBillNoResultSet.getString("Bill No."));
+
+            while (billNoResultSet.next()) {
+                String billNo = billNoResultSet.getString("Bill No.");
+                String billAmountStr = billNoResultSet.getString("Bill Amount");
+                Double billAmount = 1.0;
+                try {
+                    billAmount = Double.valueOf(billAmountStr);
+                } catch (NumberFormatException ex) {
+                    ex.printStackTrace();
+                }
+                if (collectionAmountMap.containsKey(billNo)) {
+                    if (billAmount - collectionAmountMap.get(billNo) > 0) {
+                        billNoComboList.add(billNo);
+                    }
+                } else {
+                    billNoComboList.add(billNo);
+                }
             }
+
             bill_no_combo.setItems(billNoComboList);
             display_board_label.setText(buyer_name.getValue());
 
