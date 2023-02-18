@@ -25,6 +25,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -130,44 +132,49 @@ public class AddPayment implements Initializable {
                 supplier_name_combo.getValue().isEmpty() || bank_field.getText().isEmpty() || bank_field.getText().isEmpty() ||
                 due_amount_field.getText().isEmpty() || amount_paid_field.getText().isEmpty() || dd_no_field.getText().isEmpty() || dd_date_field.getValue().toString().isEmpty()) {
             Rrc.showAlert("Please check whether the fields are properly filled or not.", 2);
-        } else {
-            paymentItems.add(new PaymentItem(bill_no_combo.getValue(), bill_amount_field.getText(), bill_date_field.getText(), buyer_name_field.getText(),
-                    due_amount_field.getText(), amount_paid_field.getText(),
-                    bank_field.getText(), dd_no_field.getText(), formatter.format(dd_date_field.getValue())));
-            clearRepeatingFields();
-            updateTotalAmountPaid();
-
+            return;
         }
+
+        paymentItems.add(new PaymentItem(bill_no_combo.getValue(), bill_amount_field.getText(), bill_date_field.getText(), buyer_name_field.getText(),
+                due_amount_field.getText(), amount_paid_field.getText(),
+                bank_field.getText(), dd_no_field.getText(), formatter.format(dd_date_field.getValue())));
+        clearRepeatingFields();
+        updateTotalAmountPaid();
+
     }
 
     @FXML
     private void replacePayment(ActionEvent event) {
+
         if (payment_tableview.getSelectionModel().getSelectedIndex() == -1) {
             Rrc.showAlert("Please select an item from the Payment Table", 2);
-        } else {
-            if (bill_no_combo.getValue().isEmpty() || bill_amount_field.getText().isEmpty() || buyer_name_field.getText().isEmpty() ||
-                    supplier_name_combo.getValue().isEmpty() || bank_field.getText().isEmpty() || bank_field.getText().isEmpty() ||
-                    due_amount_field.getText().isEmpty() || amount_paid_field.getText().isEmpty() || dd_no_field.getText().isEmpty() || dd_date_field.getValue().toString().isEmpty()) {
-                Rrc.showAlert("Please check whether the fields are properly filled or not.", 2);
-            } else {
-                paymentItems.set(payment_tableview.getSelectionModel().getSelectedIndex(),
-                        new PaymentItem(bill_no_combo.getValue(), bill_amount_field.getText(), bill_date_field.getText(), buyer_name_field.getText(),
-                                due_amount_field.getText(), amount_paid_field.getText(),
-                                bank_field.getText(), dd_no_field.getText(), formatter.format(dd_date_field.getValue())));
-                clearRepeatingFields();
-                updateTotalAmountPaid();
-            }
+            return;
         }
+
+        if (bill_no_combo.getValue().isEmpty() || bill_amount_field.getText().isEmpty() || buyer_name_field.getText().isEmpty() ||
+                supplier_name_combo.getValue().isEmpty() || bank_field.getText().isEmpty() || bank_field.getText().isEmpty() ||
+                due_amount_field.getText().isEmpty() || amount_paid_field.getText().isEmpty() || dd_no_field.getText().isEmpty() || dd_date_field.getValue().toString().isEmpty()) {
+            Rrc.showAlert("Please check whether the fields are properly filled or not.", 2);
+            return;
+        }
+
+        paymentItems.set(payment_tableview.getSelectionModel().getSelectedIndex(),
+                new PaymentItem(bill_no_combo.getValue(), bill_amount_field.getText(), bill_date_field.getText(), buyer_name_field.getText(),
+                        due_amount_field.getText(), amount_paid_field.getText(),
+                        bank_field.getText(), dd_no_field.getText(), formatter.format(dd_date_field.getValue())));
+        clearRepeatingFields();
+        updateTotalAmountPaid();
+
     }
 
     @FXML
     private void deletePayment(ActionEvent event) {
         if (payment_tableview.getSelectionModel().getSelectedIndex() == -1) {
             Rrc.showAlert("Please select an item from the Payment Table", 2);
-        } else {
-            paymentItems.remove(payment_tableview.getSelectionModel().getSelectedIndex());
-            updateTotalAmountPaid();
+            return;
         }
+        paymentItems.remove(payment_tableview.getSelectionModel().getSelectedIndex());
+        updateTotalAmountPaid();
     }
 
     private void clearRepeatingFields() {
@@ -292,18 +299,49 @@ public class AddPayment implements Initializable {
     private void fillBillNoCombo(ActionEvent event) {
         try {
             Connection connection = DatabaseHandler.getInstance().getConnection();
-            String sql = "SELECT `Bill No.` FROM `Bill_Entry_Table` where NOT `Due`='0' and `Supplier Name`=?";
 
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            String getPaymentAmountsForEveryoneSql = "select `Bill No.`, sum(`Amount Paid`) as `Amount Paid` " +
+                    "from `Payment_Entry_Extended_Table` group by `Bill No.`";
+            Map<String, Double> paymentAmountMap = new HashMap<>();
+            PreparedStatement preparedStatement = connection.prepareStatement(getPaymentAmountsForEveryoneSql);
+            ResultSet paidAmountsResultSet = preparedStatement.executeQuery();
+            while (paidAmountsResultSet.next()) {
+                String amountPaidStr = paidAmountsResultSet.getString("Amount Paid");
+                double amountPaid = 0;
+                try {
+                    amountPaid = Double.valueOf(amountPaidStr);
+                } catch (NumberFormatException ex) {
+                    ex.printStackTrace();
+                }
+                paymentAmountMap.put(paidAmountsResultSet.getString("Bill No."), amountPaid);
+            }
+
+            String sql = "SELECT `Bill No.`, `Bill Amount` FROM `Bill_Entry_Table` where  `Supplier Name`=? " +
+                    "order by `Bill No.` collate nocase";
+
+            preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, supplier_name_combo.getSelectionModel().getSelectedItem());
-            ResultSet resultSet = preparedStatement.executeQuery();
+            ResultSet billNoResultSet = preparedStatement.executeQuery();
 
             billNoComboList.clear();
-            while (resultSet.next()) {
-                billNoComboList.add(resultSet.getString("Bill No."));
+            while (billNoResultSet.next()) {
+                String billNo = billNoResultSet.getString("Bill No.");
+                String billAmountStr = billNoResultSet.getString("Bill Amount");
+                Double billAmount = 1.0;
+                try {
+                    billAmount = Double.valueOf(billAmountStr);
+                } catch (NumberFormatException ex) {
+                    ex.printStackTrace();
+                }
+                if (paymentAmountMap.containsKey(billNo)) {
+                    if (billAmount - paymentAmountMap.get(billNo) > 0) {
+                        billNoComboList.add(billNo);
+                    }
+                } else {
+                    billNoComboList.add(billNo);
+                }
             }
             bill_no_combo.setItems(billNoComboList);
-
 
         } catch (SQLException ex) {
             Rrc.showAlert(ex.toString());
