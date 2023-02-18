@@ -15,7 +15,7 @@ import net.sf.jasperreports.engine.*;
 import satyamconsignment.misc.DatabaseHandler;
 import satyamconsignment.misc.Rrc;
 import satyamconsignment.ui.Input.CollectionEntry.CollectionEntryController;
-import satyamconsignment.ui.Input.PaymentEntry.Payment;
+import satyamconsignment.ui.Input.PaymentEntry.PaymentItem;
 import satyamconsignment.ui.Input.PaymentEntry.PaymentEntryController;
 
 import java.io.IOException;
@@ -40,7 +40,7 @@ public class ViewAndDeletePayment implements Initializable {
     ResultSet rs;
     String sql;
     DateTimeFormatter formatter;
-    ObservableList<Payment> list;
+    ObservableList<PaymentItem> list;
     ObservableList<String> supplierNameComboList;
     ObservableList<String> billNoComboList;
     int previouslyDue;
@@ -83,7 +83,7 @@ public class ViewAndDeletePayment implements Initializable {
     @FXML
     private TableColumn<?, ?> due_col_2;
     @FXML
-    private TableView<Payment> payment_tableview_2;
+    private TableView<PaymentItem> payment_tableview_2;
     @FXML
     private Group root2;
     @FXML
@@ -141,7 +141,7 @@ public class ViewAndDeletePayment implements Initializable {
                     Rrc.showAlert("No Results found", 1);
                 } else {
                     while (rs.next()) {
-                        Payment payment = Payment.builder()
+                        PaymentItem paymentItem = PaymentItem.builder()
                                 .billNo(rs.getString("Bill No."))
                                 .billAmount(rs.getString("Bill Amount"))
                                 .billDate(rs.getString("Bill Date"))
@@ -153,7 +153,7 @@ public class ViewAndDeletePayment implements Initializable {
                                 .ddDate(rs.getString("DD Date"))
                                 .build();
 
-                        list.add(payment);
+                        list.add(paymentItem);
                     }
                     payment_tableview_2.setItems(list);
                     delete_entry_btn.setDisable(false);

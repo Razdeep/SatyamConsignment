@@ -9,7 +9,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-public class Payment {
+public class PaymentItem {
     private String billNo;
     private String billAmount;
     private String billDate;
