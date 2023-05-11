@@ -100,8 +100,6 @@ public class AddPayment implements Initializable {
     @FXML
     private Text last_voucher_field;
 
-    @FXML
-    private Group root2;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -197,6 +195,15 @@ public class AddPayment implements Initializable {
     }
 
     @FXML
+    private void clearAllFields() {
+        clearRepeatingFields();
+        voucher_no_field.setText("");
+        voucher_date_field.setValue(null);
+        supplier_name_combo.setDisable(false);
+        billNoComboList.clear();
+    }
+
+    @FXML
     private void saveData(ActionEvent event) {
         if (voucher_no_field.getText().isEmpty() || voucher_date_field.getValue().toString().isEmpty()) {
             Rrc.showAlert("Check whether the Voucher No. and the Voucher Date is properly filled", 2);
@@ -239,7 +246,7 @@ public class AddPayment implements Initializable {
             }
             connection.commit();
             Rrc.showAlert("Saved Successfully", 1);
-            loadScreenAgain();
+            clearAllFields();
         } catch (SQLException ex) {
             Rrc.showAlert(ex.toString());
             try {
@@ -251,20 +258,6 @@ public class AddPayment implements Initializable {
         }
         paymentItems.clear();
 
-    }
-
-    private void loadScreenAgain() {
-        try {
-            URL currentWindowResource = getClass().getResource("/satyamconsignment/ui/Input/PaymentEntry/AddPayment/AddPayment.fxml");
-            if (currentWindowResource == null) {
-                throw new Exception("FXML not found");
-            }
-            Parent parent = FXMLLoader.load(currentWindowResource);
-            root2.getChildren().setAll(parent);
-        } catch (Exception ex) {
-            Rrc.showAlert(ex.toString());
-            Logger.getLogger(PaymentEntryController.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 
     private void updateLastVoucher() {
