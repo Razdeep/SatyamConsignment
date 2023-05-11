@@ -255,9 +255,13 @@ public class AddPayment implements Initializable {
 
     private void loadScreenAgain() {
         try {
-            Parent parent = FXMLLoader.load(getClass().getResource("/satyamconsignment/ui/Input/PaymentEntry/PaymentEntry.fxml"));
+            URL currentWindowResource = getClass().getResource("/satyamconsignment/ui/Input/PaymentEntry/AddPayment/AddPayment.fxml");
+            if (currentWindowResource == null) {
+                throw new Exception("FXML not found");
+            }
+            Parent parent = FXMLLoader.load(currentWindowResource);
             root2.getChildren().setAll(parent);
-        } catch (IOException ex) {
+        } catch (Exception ex) {
             Rrc.showAlert(ex.toString());
             Logger.getLogger(PaymentEntryController.class.getName()).log(Level.SEVERE, null, ex);
         }
