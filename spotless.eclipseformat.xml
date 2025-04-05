@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<profiles version="12">
+    <profile kind="CodeFormatterProfile" name="GoogleStyleWith4Space" version="12">
+        <!-- INDENTATION -->
+        <setting id="org.eclipse.jdt.core.formatter.tabulation.char" value="space"/>
+        <setting id="org.eclipse.jdt.core.formatter.tabulation.size" value="4"/>
+        <setting id="org.eclipse.jdt.core.formatter.indentation.size" value="4"/>
+
+        <!-- WRAPPING & LINE SPLITS -->
+        <setting id="org.eclipse.jdt.core.formatter.lineSplit" value="100"/>
+
+        <!-- BRACES: same as Google -->
+        <setting id="org.eclipse.jdt.core.formatter.brace_position_for_type_declaration" value="end_of_line"/>
+        <setting id="org.eclipse.jdt.core.formatter.brace_position_for_method_declaration" value="end_of_line"/>
+        <setting id="org.eclipse.jdt.core.formatter.brace_position_for_constructor_declaration" value="end_of_line"/>
+        <setting id="org.eclipse.jdt.core.formatter.brace_position_for_block" value="end_of_line"/>
+        <setting id="org.eclipse.jdt.core.formatter.brace_position_for_switch" value="end_of_line"/>
+        <setting id="org.eclipse.jdt.core.formatter.brace_position_for_annotation_type_declaration" value="end_of_line"/>
+        <setting id="org.eclipse.jdt.core.formatter.brace_position_for_enum_declaration" value="end_of_line"/>
+        <setting id="org.eclipse.jdt.core.formatter.brace_position_for_enum_constant" value="end_of_line"/>
+
+        <!-- SPACING AFTER COMMAS -->
+        <setting id="org.eclipse.jdt.core.formatter.insert_space_after_comma_in_method_arguments" value="true"/>
+        <setting id="org.eclipse.jdt.core.formatter.insert_space_after_comma_in_parameter_list" value="true"/>
+    </profile>
+</profiles>

@@ -15,13 +15,13 @@ import lombok.Setter;
 @Setter
 @Builder
 public class CollectionItem {
-	private String billNo;
-	private String billDate;
-	private String billAmount;
-	private String supplierName;
-	private String due;
-	private String amountCollected;
-	private String bank;
-	private String ddNo;
-	private String ddDate;
+    private String billNo;
+    private String billDate;
+    private String billAmount;
+    private String supplierName;
+    private String due;
+    private String amountCollected;
+    private String bank;
+    private String ddNo;
+    private String ddDate;
 }

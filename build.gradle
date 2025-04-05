@@ -47,7 +47,7 @@ javafx {
 spotless {
     java {
         target 'src/**/*.java'
-        eclipse()
+        eclipse().configFile('spotless.eclipseformat.xml')
     }
 }
 

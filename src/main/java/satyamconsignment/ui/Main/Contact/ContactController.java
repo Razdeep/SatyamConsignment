@@ -13,10 +13,10 @@ import javafx.scene.Group;
 
 public class ContactController implements Initializable {
 
-	@FXML
-	private Group root2;
+    @FXML
+    private Group root2;
 
-	@Override
-	public void initialize(URL url, ResourceBundle rb) {
-	}
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+    }
 }

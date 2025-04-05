@@ -8,7 +8,7 @@ import net.sf.jasperreports.engine.*;
 
 public class CollectionEntryController implements Initializable {
 
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-	}
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+    }
 }

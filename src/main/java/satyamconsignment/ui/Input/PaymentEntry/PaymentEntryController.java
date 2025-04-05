@@ -6,7 +6,7 @@ import javafx.fxml.Initializable;
 
 public class PaymentEntryController implements Initializable {
 
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-	}
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+    }
 }

@@ -18,34 +18,34 @@ import satyamconsignment.common.Utils;
 
 public class LoginController implements Initializable {
 
-	Utils utils;
-	@FXML
-	private Label label;
-	@FXML
-	private JFXButton login_btn;
-	@FXML
-	private JFXPasswordField password_field;
-	@FXML
-	private BorderPane root;
+    Utils utils;
+    @FXML
+    private Label label;
+    @FXML
+    private JFXButton login_btn;
+    @FXML
+    private JFXPasswordField password_field;
+    @FXML
+    private BorderPane root;
 
-	@Override
-	public void initialize(URL url, ResourceBundle rb) {
-		utils = new Utils();
-	}
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        utils = new Utils();
+    }
 
-	@FXML
-	private void openMainWindow(ActionEvent event) {
-		if (password_field.getText().compareTo("satyam") == 0) {
-			try {
-				// rrc.loadWindowMaximized("/satyamconsignment/ui/Main/Main.fxml", "Satyam
-				// Consignment");
-				Parent parent = FXMLLoader.load(getClass().getResource("/ui/Main.fxml"));
-				// root.getChildren().setAll(parent);
-				root.setCenter(parent);
-			} catch (IOException ex) {
-				Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
-				Utils.showAlert(ex.toString());
-			}
-		}
-	}
+    @FXML
+    private void openMainWindow(ActionEvent event) {
+        if (password_field.getText().compareTo("satyam") == 0) {
+            try {
+                // rrc.loadWindowMaximized("/satyamconsignment/ui/Main/Main.fxml", "Satyam
+                // Consignment");
+                Parent parent = FXMLLoader.load(getClass().getResource("/ui/Main.fxml"));
+                // root.getChildren().setAll(parent);
+                root.setCenter(parent);
+            } catch (IOException ex) {
+                Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
+                Utils.showAlert(ex.toString());
+            }
+        }
+    }
 }

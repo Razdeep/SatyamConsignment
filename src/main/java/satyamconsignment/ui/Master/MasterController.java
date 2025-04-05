@@ -26,54 +26,54 @@ import satyamconsignment.common.Utils;
  */
 public class MasterController implements Initializable {
 
-	Utils utils;
-	@FXML
-	private JFXButton supplier_master_btn;
-	@FXML
-	private JFXButton buyer_master_btn;
-	@FXML
-	private JFXButton transport_master_btn;
-	@FXML
-	private Group root;
+    Utils utils;
+    @FXML
+    private JFXButton supplier_master_btn;
+    @FXML
+    private JFXButton buyer_master_btn;
+    @FXML
+    private JFXButton transport_master_btn;
+    @FXML
+    private Group root;
 
-	@Override
-	public void initialize(URL url, ResourceBundle rb) {
-		utils = new Utils();
-	}
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        utils = new Utils();
+    }
 
-	@FXML
-	private void showSupplierMaster(ActionEvent event) {
-		try {
-			Parent parent = FXMLLoader
-					.load(getClass().getResource("/satyamconsignment/ui/Master/Supplier/MasterSupplier.fxml"));
-			root.getChildren().setAll(parent);
-		} catch (IOException ex) {
-			Utils.showAlert(ex.toString());
-			Logger.getLogger(MasterController.class.getName()).log(Level.SEVERE, null, ex);
-		}
-	}
+    @FXML
+    private void showSupplierMaster(ActionEvent event) {
+        try {
+            Parent parent = FXMLLoader.load(getClass()
+                    .getResource("/satyamconsignment/ui/Master/Supplier/MasterSupplier.fxml"));
+            root.getChildren().setAll(parent);
+        } catch (IOException ex) {
+            Utils.showAlert(ex.toString());
+            Logger.getLogger(MasterController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
-	@FXML
-	private void showBuyerMaster(ActionEvent event) {
-		try {
-			Parent parent = FXMLLoader
-					.load(getClass().getResource("/satyamconsignment/ui/Master/Buyer/MasterBuyer.fxml"));
-			root.getChildren().setAll(parent);
-		} catch (IOException ex) {
-			Utils.showAlert(ex.toString());
-			Logger.getLogger(MasterController.class.getName()).log(Level.SEVERE, null, ex);
-		}
-	}
+    @FXML
+    private void showBuyerMaster(ActionEvent event) {
+        try {
+            Parent parent = FXMLLoader.load(
+                    getClass().getResource("/satyamconsignment/ui/Master/Buyer/MasterBuyer.fxml"));
+            root.getChildren().setAll(parent);
+        } catch (IOException ex) {
+            Utils.showAlert(ex.toString());
+            Logger.getLogger(MasterController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
-	@FXML
-	private void showTransportMaster(ActionEvent event) {
-		try {
-			Parent parent = FXMLLoader
-					.load(getClass().getResource("/satyamconsignment/ui/Master/Transport/MasterTransport.fxml"));
-			root.getChildren().setAll(parent);
-		} catch (IOException ex) {
-			Utils.showAlert(ex.toString());
-			Logger.getLogger(MasterController.class.getName()).log(Level.SEVERE, null, ex);
-		}
-	}
+    @FXML
+    private void showTransportMaster(ActionEvent event) {
+        try {
+            Parent parent = FXMLLoader.load(getClass()
+                    .getResource("/satyamconsignment/ui/Master/Transport/MasterTransport.fxml"));
+            root.getChildren().setAll(parent);
+        } catch (IOException ex) {
+            Utils.showAlert(ex.toString());
+            Logger.getLogger(MasterController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }

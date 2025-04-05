@@ -8,7 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class LR {
-	private String billNo;
-	private String lrNo;
-	private String pm;
+    private String billNo;
+    private String lrNo;
+    private String pm;
 }

@@ -6,7 +6,7 @@ import javafx.fxml.Initializable;
 
 public class AboutController implements Initializable {
 
-	@Override
-	public void initialize(URL url, ResourceBundle rb) {
-	}
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+    }
 }

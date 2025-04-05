@@ -8,27 +8,27 @@ import java.util.logging.Logger;
 
 public final class DatabaseHandler {
 
-	private static DatabaseHandler databaseHandler = null;
-	private Connection conn = null;
+    private static DatabaseHandler databaseHandler = null;
+    private Connection conn = null;
 
-	private DatabaseHandler() {
-		try {
-			Class.forName("org.sqlite.JDBC");
-			conn = DriverManager.getConnection("jdbc:sqlite:database.db");
-		} catch (ClassNotFoundException | SQLException ex) {
-			Utils.showAlert(ex.toString());
-			Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, ex.toString(), ex);
-		}
-	}
+    private DatabaseHandler() {
+        try {
+            Class.forName("org.sqlite.JDBC");
+            conn = DriverManager.getConnection("jdbc:sqlite:database.db");
+        } catch (ClassNotFoundException | SQLException ex) {
+            Utils.showAlert(ex.toString());
+            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+        }
+    }
 
-	public static DatabaseHandler getInstance() {
-		if (databaseHandler == null) {
-			databaseHandler = new DatabaseHandler();
-		}
-		return databaseHandler;
-	}
+    public static DatabaseHandler getInstance() {
+        if (databaseHandler == null) {
+            databaseHandler = new DatabaseHandler();
+        }
+        return databaseHandler;
+    }
 
-	public Connection getConnection() {
-		return conn;
-	}
+    public Connection getConnection() {
+        return conn;
+    }
 }
