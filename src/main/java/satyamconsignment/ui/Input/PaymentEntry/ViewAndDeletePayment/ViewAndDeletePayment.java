@@ -28,7 +28,7 @@ import satyamconsignment.common.DatabaseHandler;
 import satyamconsignment.common.Utils;
 import satyamconsignment.ui.Input.CollectionEntry.CollectionEntryController;
 import satyamconsignment.ui.Input.PaymentEntry.PaymentEntryController;
-import satyamconsignment.ui.Input.PaymentEntry.PaymentItem;
+import satyamconsignment.model.PaymentItem;
 
 public class ViewAndDeletePayment implements Initializable {
     // My variables

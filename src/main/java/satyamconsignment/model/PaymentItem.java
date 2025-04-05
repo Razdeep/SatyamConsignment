@@ -1,4 +1,4 @@
-package satyamconsignment.ui.Input.PaymentEntry;
+package satyamconsignment.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -18,6 +18,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import satyamconsignment.common.DatabaseHandler;
 import satyamconsignment.common.Utils;
+import satyamconsignment.model.BillRecord;
 
 public class InputHistoryController implements Initializable {
 
@@ -27,25 +28,25 @@ public class InputHistoryController implements Initializable {
     Connection conn;
     PreparedStatement ps;
     ResultSet rs;
-    ObservableList<Record> list;
+    ObservableList<BillRecord> list;
     @FXML
     private Group root2;
     @FXML
-    private TableColumn<Record, String> supplier_name_col;
+    private TableColumn<BillRecord, String> supplier_name_col;
     @FXML
-    private TableColumn<Record, String> buyer_name_col;
+    private TableColumn<BillRecord, String> buyer_name_col;
     @FXML
-    private TableColumn<Record, String> bill_no_col;
+    private TableColumn<BillRecord, String> bill_no_col;
     @FXML
-    private TableColumn<Record, String> bill_date_col;
+    private TableColumn<BillRecord, String> bill_date_col;
     @FXML
-    private TableColumn<Record, String> transport_col;
+    private TableColumn<BillRecord, String> transport_col;
     @FXML
-    private TableColumn<Record, String> lr_date_col;
+    private TableColumn<BillRecord, String> lr_date_col;
     @FXML
-    private TableColumn<Record, String> bill_amount_col;
+    private TableColumn<BillRecord, String> bill_amount_col;
     @FXML
-    private TableView<Record> tableView;
+    private TableView<BillRecord> tableView;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -67,7 +68,7 @@ public class InputHistoryController implements Initializable {
             ps = conn.prepareStatement(sql);
             rs = ps.executeQuery();
             while (rs.next()) {
-                list.add(new Record(rs.getString("Supplier Name"), rs.getString("Buyer Name"),
+                list.add(new BillRecord(rs.getString("Supplier Name"), rs.getString("Buyer Name"),
                         rs.getString("Bill No."), rs.getString("Bill Date"),
                         rs.getString("Transport"), rs.getString("LR Date"),
                         rs.getString("Bill Amount")));

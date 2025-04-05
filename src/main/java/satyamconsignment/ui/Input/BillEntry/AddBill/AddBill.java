@@ -27,7 +27,7 @@ import org.controlsfx.control.textfield.TextFields;
 import satyamconsignment.common.DatabaseHandler;
 import satyamconsignment.common.Utils;
 import satyamconsignment.ui.Input.BillEntry.BillEntryController;
-import satyamconsignment.ui.Input.BillEntry.LR;
+import satyamconsignment.model.LR;
 
 public class AddBill implements Initializable {
 

@@ -21,7 +21,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import satyamconsignment.common.DatabaseHandler;
 import satyamconsignment.common.Utils;
-import satyamconsignment.ui.Input.CollectionEntry.CollectionItem;
+import satyamconsignment.model.CollectionItem;
 
 public class AddCollection implements Initializable {
     private int totalAmount;

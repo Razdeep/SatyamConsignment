@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package satyamconsignment.ui.Input.CollectionEntry;
+package satyamconsignment.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

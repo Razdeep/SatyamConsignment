@@ -24,7 +24,7 @@ import javafx.scene.text.Text;
 import satyamconsignment.common.DatabaseHandler;
 import satyamconsignment.common.Utils;
 import satyamconsignment.ui.Input.PaymentEntry.PaymentEntryController;
-import satyamconsignment.ui.Input.PaymentEntry.PaymentItem;
+import satyamconsignment.model.PaymentItem;
 
 public class AddPayment implements Initializable {
 

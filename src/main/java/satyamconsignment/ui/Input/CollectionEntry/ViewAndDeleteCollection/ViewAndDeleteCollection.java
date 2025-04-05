@@ -23,7 +23,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import net.sf.jasperreports.engine.*;
 import satyamconsignment.common.DatabaseHandler;
 import satyamconsignment.common.Utils;
-import satyamconsignment.ui.Input.CollectionEntry.CollectionItem;
+import satyamconsignment.model.CollectionItem;
 
 public class ViewAndDeleteCollection implements Initializable {
     int totalAmount;

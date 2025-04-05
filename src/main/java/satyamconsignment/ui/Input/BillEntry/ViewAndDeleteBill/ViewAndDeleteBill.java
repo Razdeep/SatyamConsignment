@@ -25,7 +25,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import satyamconsignment.common.DatabaseHandler;
 import satyamconsignment.common.Utils;
 import satyamconsignment.ui.Input.BillEntry.BillEntryController;
-import satyamconsignment.ui.Input.BillEntry.LR;
+import satyamconsignment.model.LR;
 import satyamconsignment.ui.Main.MainController;
 
 public class ViewAndDeleteBill implements Initializable {
