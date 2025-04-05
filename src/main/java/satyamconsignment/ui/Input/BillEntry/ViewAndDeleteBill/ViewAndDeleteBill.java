@@ -22,8 +22,8 @@ import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import satyamconsignment.misc.DatabaseHandler;
-import satyamconsignment.misc.Rrc;
+import satyamconsignment.common.DatabaseHandler;
+import satyamconsignment.common.Utils;
 import satyamconsignment.ui.Input.BillEntry.BillEntryController;
 import satyamconsignment.ui.Input.BillEntry.LR;
 import satyamconsignment.ui.Main.MainController;
@@ -80,7 +80,7 @@ public class ViewAndDeleteBill implements Initializable {
 					.prepareStatement("select * from Transport_Master_Table order by name collate nocase");
 			transportListResultSet = preparedStatement.executeQuery();
 		} catch (SQLException ex) {
-			Rrc.showAlert(ex.toString());
+			Utils.showAlert(ex.toString());
 			Logger.getLogger(BillEntryController.class.getName()).log(Level.SEVERE, null, ex);
 		}
 		try {
@@ -108,7 +108,7 @@ public class ViewAndDeleteBill implements Initializable {
 			Parent parent = FXMLLoader.load(getClass().getResource("/satyamconsignment/ui/Input/Input.fxml"));
 			root.getChildren().setAll(parent);
 		} catch (IOException ex) {
-			Rrc.showAlert(ex.toString());
+			Utils.showAlert(ex.toString());
 			Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
 		}
 	}
@@ -127,7 +127,7 @@ public class ViewAndDeleteBill implements Initializable {
 			ResultSet lrPmResultSet = preparedStatement.executeQuery();
 
 			if (billResultSet.isClosed()) {
-				Rrc.showAlert("Record not found. Please try again later.", 2);
+				Utils.showAlert("Record not found. Please try again later.", 2);
 				return;
 			}
 
@@ -145,7 +145,7 @@ public class ViewAndDeleteBill implements Initializable {
 			lr_table.setItems(list);
 			delete_entry_btn.setDisable(false);
 		} catch (SQLException ex) {
-			Rrc.showAlert(ex.toString());
+			Utils.showAlert(ex.toString());
 			Logger.getLogger(BillEntryController.class.getName()).log(Level.SEVERE, null, ex);
 		}
 	}
@@ -182,15 +182,15 @@ public class ViewAndDeleteBill implements Initializable {
 			bill_amount_field.setText("");
 			list.clear();
 			connection.commit();
-			Rrc.showAlert(bill_no_field.getText().toUpperCase() + " Entry was successfully deleted.", 1);
+			Utils.showAlert(bill_no_field.getText().toUpperCase() + " Entry was successfully deleted.", 1);
 		} catch (SQLException ex) {
 			try {
 				connection.rollback();
 			} catch (SQLException ex1) {
-				Rrc.showAlert(ex1.toString());
+				Utils.showAlert(ex1.toString());
 				Logger.getLogger(BillEntryController.class.getName()).log(Level.SEVERE, null, ex1);
 			}
-			Rrc.showAlert(ex.toString());
+			Utils.showAlert(ex.toString());
 			Logger.getLogger(BillEntryController.class.getName()).log(Level.SEVERE, null, ex);
 		}
 	}
@@ -214,7 +214,7 @@ public class ViewAndDeleteBill implements Initializable {
 			preparedStatement.setString(9, bill_no_field.getText());
 			preparedStatement.execute();
 		} catch (SQLException ex) {
-			Rrc.showAlert(ex.toString());
+			Utils.showAlert(ex.toString());
 			Logger.getLogger(BillEntryController.class.getName()).log(Level.SEVERE, ex.toString(), ex);
 		}
 	}

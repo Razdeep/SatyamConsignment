@@ -24,8 +24,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import org.controlsfx.control.textfield.TextFields;
-import satyamconsignment.misc.DatabaseHandler;
-import satyamconsignment.misc.Rrc;
+import satyamconsignment.common.DatabaseHandler;
+import satyamconsignment.common.Utils;
 import satyamconsignment.ui.Input.BillEntry.BillEntryController;
 import satyamconsignment.ui.Input.BillEntry.LR;
 
@@ -97,7 +97,7 @@ public class AddBill implements Initializable {
 			rs2 = ps2.executeQuery();
 			rs3 = ps3.executeQuery();
 		} catch (SQLException ex) {
-			Rrc.showAlert(ex.toString());
+			Utils.showAlert(ex.toString());
 			Logger.getLogger(BillEntryController.class.getName()).log(Level.SEVERE, null, ex);
 		}
 		try {
@@ -124,7 +124,7 @@ public class AddBill implements Initializable {
 	@FXML
 	private void addToList(ActionEvent event) {
 		if (bill_no_field.getText().isEmpty() || lr_field.getText().isEmpty() || pm_field.getText().isEmpty()) {
-			Rrc.showAlert("Please ensure that the Bill No., LR No. and PM fields are filled up properly.", 2);
+			Utils.showAlert("Please ensure that the Bill No., LR No. and PM fields are filled up properly.", 2);
 		} else {
 			list.add(new LR(bill_no_field.getText(), lr_field.getText(), pm_field.getText()));
 			lrTable.setItems(list);
@@ -139,7 +139,7 @@ public class AddBill implements Initializable {
 				|| bill_no_field.getText().isEmpty() || date_field.getValue().toString().isEmpty()
 				|| transport_field.getText().isEmpty() || lr_date.getValue().toString().isEmpty()
 				|| bill_amount_field.getText().isEmpty() || list.isEmpty()) {
-			Rrc.showAlert("Please ensure to fill up all the fields");
+			Utils.showAlert("Please ensure to fill up all the fields");
 		} else {
 			/* Code for saving data into Bill_Entry_Table */
 			try {
@@ -169,15 +169,15 @@ public class AddBill implements Initializable {
 				}
 				clearAllFields();
 				conn1.commit();
-				Rrc.showAlert("Saved Successfully", 1);
+				Utils.showAlert("Saved Successfully", 1);
 			} catch (SQLException ex) {
 				try {
 					conn1.rollback();
 				} catch (SQLException ex1) {
-					Rrc.showAlert(ex1.toString());
+					Utils.showAlert(ex1.toString());
 					Logger.getLogger(BillEntryController.class.getName()).log(Level.SEVERE, null, ex1);
 				}
-				Rrc.showAlert(ex.toString());
+				Utils.showAlert(ex.toString());
 				Logger.getLogger(BillEntryController.class.getName()).log(Level.SEVERE, null, ex);
 			}
 		}
@@ -200,10 +200,10 @@ public class AddBill implements Initializable {
 	@FXML
 	private void replaceInList(ActionEvent event) {
 		if (lrTable.getSelectionModel().getSelectedIndex() == -1) {
-			Rrc.showAlert("Please select an item from the LR Table", 2);
+			Utils.showAlert("Please select an item from the LR Table", 2);
 		} else {
 			if (bill_no_field.getText().isEmpty() || lr_field.getText().isEmpty() || pm_field.getText().isEmpty()) {
-				Rrc.showAlert("Please ensure that the Bill No., LR No. and PM fields are filled up properly.", 2);
+				Utils.showAlert("Please ensure that the Bill No., LR No. and PM fields are filled up properly.", 2);
 			} else {
 				list.set(lrTable.getSelectionModel().getSelectedIndex(),
 						new LR(bill_no_field.getText(), lr_field.getText(), pm_field.getText()));
@@ -216,7 +216,7 @@ public class AddBill implements Initializable {
 	@FXML
 	private void deleteFromList(ActionEvent event) {
 		if (lrTable.getSelectionModel().getSelectedIndex() == -1) {
-			Rrc.showAlert("Please select an item from the LR Table", 2);
+			Utils.showAlert("Please select an item from the LR Table", 2);
 		} else {
 			list.remove(lrTable.getSelectionModel().getSelectedIndex());
 		}

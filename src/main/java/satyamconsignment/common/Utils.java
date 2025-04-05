@@ -1,9 +1,9 @@
-package satyamconsignment.misc;
+package satyamconsignment.common;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
-public class Rrc {
+public class Utils {
 
 	public static void showAlert(String message) {
 		Alert alert = new Alert(AlertType.ERROR);

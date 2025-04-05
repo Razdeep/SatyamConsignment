@@ -16,8 +16,8 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import satyamconsignment.misc.DatabaseHandler;
-import satyamconsignment.misc.Rrc;
+import satyamconsignment.common.DatabaseHandler;
+import satyamconsignment.common.Utils;
 import satyamconsignment.ui.Master.Supplier.MasterSupplierController;
 
 public class MasterBuyerController implements Initializable {
@@ -27,7 +27,7 @@ public class MasterBuyerController implements Initializable {
 	PreparedStatement ps;
 	ResultSet rs;
 	ObservableList<String> buyerList;
-	Rrc rrc;
+	Utils utils;
 	@FXML
 	private JFXButton add_btn;
 	@FXML
@@ -47,14 +47,14 @@ public class MasterBuyerController implements Initializable {
 	public void initialize(URL url, ResourceBundle rb) {
 		databaseHandler = DatabaseHandler.getInstance();
 		buyerList = FXCollections.observableArrayList();
-		rrc = new Rrc();
+		utils = new Utils();
 		refreshList();
 	}
 
 	@FXML
 	private void addMaster(ActionEvent event) {
 		if (add_field.getText().compareTo("") == 0) {
-			Rrc.showAlert("Add field is left blank. Please ensure to fill up the field properly.");
+			Utils.showAlert("Add field is left blank. Please ensure to fill up the field properly.");
 
 		} else {
 			try {
@@ -65,7 +65,7 @@ public class MasterBuyerController implements Initializable {
 				ps.execute();
 				refreshList();
 			} catch (SQLException ex) {
-				Rrc.showAlert(ex.toString());
+				Utils.showAlert(ex.toString());
 				Logger.getLogger(MasterSupplierController.class.getName()).log(Level.SEVERE, null, ex);
 			}
 		}
@@ -74,7 +74,7 @@ public class MasterBuyerController implements Initializable {
 	@FXML
 	private void deleteMaster(ActionEvent event) {
 		if (listView.getSelectionModel().getSelectedItem() == null) {
-			Rrc.showAlert("Supplier to be deleted not selected. Please Retry");
+			Utils.showAlert("Supplier to be deleted not selected. Please Retry");
 		} else {
 			try {
 				String sql = "DELETE FROM `Buyer_Master_Table` WHERE name=?";
@@ -87,7 +87,7 @@ public class MasterBuyerController implements Initializable {
 
 				refreshList();
 			} catch (SQLException ex) {
-				Rrc.showAlert(ex.toString());
+				Utils.showAlert(ex.toString());
 				Logger.getLogger(MasterSupplierController.class.getName()).log(Level.SEVERE, null, ex);
 			}
 		}
@@ -107,7 +107,7 @@ public class MasterBuyerController implements Initializable {
 			listView.getItems().clear();
 			listView.getItems().setAll(buyerList);
 		} catch (SQLException ex) {
-			Rrc.showAlert(ex.toString());
+			Utils.showAlert(ex.toString());
 			Logger.getLogger(MasterSupplierController.class.getName()).log(Level.SEVERE, null, ex);
 		}
 	}
@@ -115,7 +115,7 @@ public class MasterBuyerController implements Initializable {
 	@FXML
 	private void renameMaster(ActionEvent event) {
 		if (rename_field.getText().compareTo("") == 0) {
-			Rrc.showAlert("Rename field is left blank. Please ensure to fill up the field properly.");
+			Utils.showAlert("Rename field is left blank. Please ensure to fill up the field properly.");
 		} else {
 			try {
 				String sql = "UPDATE `Buyer_Master_Table` SET Name=? WHERE Name=?";
@@ -128,11 +128,11 @@ public class MasterBuyerController implements Initializable {
 				boolean execute = false;
 				ps.execute();
 				if (execute == true) {
-					Rrc.showAlert("Success", 1);
+					Utils.showAlert("Success", 1);
 				}
 				refreshList();
 			} catch (SQLException ex) {
-				Rrc.showAlert(ex.toString());
+				Utils.showAlert(ex.toString());
 				Logger.getLogger(MasterSupplierController.class.getName()).log(Level.SEVERE, null, ex);
 			}
 		}

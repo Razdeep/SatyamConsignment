@@ -14,11 +14,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
-import satyamconsignment.misc.Rrc;
+import satyamconsignment.common.Utils;
 
 public class LoginController implements Initializable {
 
-	Rrc rrc;
+	Utils utils;
 	@FXML
 	private Label label;
 	@FXML
@@ -30,7 +30,7 @@ public class LoginController implements Initializable {
 
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
-		rrc = new Rrc();
+		utils = new Utils();
 	}
 
 	@FXML
@@ -44,7 +44,7 @@ public class LoginController implements Initializable {
 				root.setCenter(parent);
 			} catch (IOException ex) {
 				Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
-				Rrc.showAlert(ex.toString());
+				Utils.showAlert(ex.toString());
 			}
 		}
 	}

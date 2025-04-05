@@ -12,11 +12,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
 import javafx.scene.Parent;
-import satyamconsignment.misc.Rrc;
+import satyamconsignment.common.Utils;
 
 public class ReportController implements Initializable {
 
-	Rrc rrc;
+	Utils utils;
 	@FXML
 	private JFXButton supplier_ledger_btn;
 	@FXML
@@ -32,7 +32,7 @@ public class ReportController implements Initializable {
 
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
-		rrc = new Rrc();
+		utils = new Utils();
 	}
 
 	@FXML
@@ -47,7 +47,7 @@ public class ReportController implements Initializable {
 					.load(getClass().getResource("/satyamconsignment/ui/Report/SupplierLedger/SupplierLedger.fxml"));
 			root.getChildren().setAll(parent);
 		} catch (IOException ex) {
-			Rrc.showAlert(ex.toString());
+			Utils.showAlert(ex.toString());
 			Logger.getLogger(ReportController.class.getName()).log(Level.SEVERE, null, ex);
 		}
 	}
@@ -59,7 +59,7 @@ public class ReportController implements Initializable {
 					.load(getClass().getResource("/satyamconsignment/ui/Report/BuyerLedger/BuyerLedger.fxml"));
 			root.getChildren().setAll(parent);
 		} catch (IOException ex) {
-			Rrc.showAlert(ex.toString());
+			Utils.showAlert(ex.toString());
 			Logger.getLogger(ReportController.class.getName()).log(Level.SEVERE, null, ex);
 		}
 	}
@@ -71,7 +71,7 @@ public class ReportController implements Initializable {
 					.load(getClass().getResource("/satyamconsignment/ui/Report/TransportLedger/TransportLedger.fxml"));
 			root.getChildren().setAll(parent);
 		} catch (IOException ex) {
-			Rrc.showAlert(ex.toString());
+			Utils.showAlert(ex.toString());
 			Logger.getLogger(ReportController.class.getName()).log(Level.SEVERE, null, ex);
 		}
 	}

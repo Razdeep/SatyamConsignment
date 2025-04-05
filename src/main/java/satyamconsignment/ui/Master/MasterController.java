@@ -17,7 +17,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
 import javafx.scene.Parent;
-import satyamconsignment.misc.Rrc;
+import satyamconsignment.common.Utils;
 
 /**
  * FXML Controller class
@@ -26,7 +26,7 @@ import satyamconsignment.misc.Rrc;
  */
 public class MasterController implements Initializable {
 
-	Rrc rrc;
+	Utils utils;
 	@FXML
 	private JFXButton supplier_master_btn;
 	@FXML
@@ -38,7 +38,7 @@ public class MasterController implements Initializable {
 
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
-		rrc = new Rrc();
+		utils = new Utils();
 	}
 
 	@FXML
@@ -48,7 +48,7 @@ public class MasterController implements Initializable {
 					.load(getClass().getResource("/satyamconsignment/ui/Master/Supplier/MasterSupplier.fxml"));
 			root.getChildren().setAll(parent);
 		} catch (IOException ex) {
-			Rrc.showAlert(ex.toString());
+			Utils.showAlert(ex.toString());
 			Logger.getLogger(MasterController.class.getName()).log(Level.SEVERE, null, ex);
 		}
 	}
@@ -60,7 +60,7 @@ public class MasterController implements Initializable {
 					.load(getClass().getResource("/satyamconsignment/ui/Master/Buyer/MasterBuyer.fxml"));
 			root.getChildren().setAll(parent);
 		} catch (IOException ex) {
-			Rrc.showAlert(ex.toString());
+			Utils.showAlert(ex.toString());
 			Logger.getLogger(MasterController.class.getName()).log(Level.SEVERE, null, ex);
 		}
 	}
@@ -72,7 +72,7 @@ public class MasterController implements Initializable {
 					.load(getClass().getResource("/satyamconsignment/ui/Master/Transport/MasterTransport.fxml"));
 			root.getChildren().setAll(parent);
 		} catch (IOException ex) {
-			Rrc.showAlert(ex.toString());
+			Utils.showAlert(ex.toString());
 			Logger.getLogger(MasterController.class.getName()).log(Level.SEVERE, null, ex);
 		}
 	}

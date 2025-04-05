@@ -21,11 +21,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import net.sf.jasperreports.engine.*;
-import satyamconsignment.misc.DatabaseHandler;
-import satyamconsignment.misc.Rrc;
+import satyamconsignment.common.DatabaseHandler;
+import satyamconsignment.common.Utils;
 
 public class TransportLedgerController implements Initializable {
-	Rrc rrc;
+	Utils utils;
 	DatabaseHandler databaseHandler;
 	Connection conn;
 	PreparedStatement ps;
@@ -52,7 +52,7 @@ public class TransportLedgerController implements Initializable {
 		try {
 			formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 			pdfFileName = "Report.pdf";
-			rrc = new Rrc();
+			utils = new Utils();
 			databaseHandler = DatabaseHandler.getInstance();
 			conn = databaseHandler.getConnection();
 			ps = conn.prepareStatement("select * from Transport_Master_Table order by name collate nocase");
@@ -64,7 +64,7 @@ public class TransportLedgerController implements Initializable {
 			transport_name_combo.setItems(transportList);
 
 		} catch (SQLException ex) {
-			Rrc.showAlert(ex.toString());
+			Utils.showAlert(ex.toString());
 			Logger.getLogger(TransportLedgerController.class.getName()).log(Level.SEVERE, null, ex);
 		}
 	}
@@ -83,7 +83,7 @@ public class TransportLedgerController implements Initializable {
 			map.put("toDate", "31-12-2100");
 			if (all_time_checkbox.isSelected() == false) {
 				if (from_date.getValue() == null || to_date.getValue() == null) {
-					Rrc.showAlert("Select dates properly");
+					Utils.showAlert("Select dates properly");
 					return;
 				}
 				map.put("fromDate", from_date.getValue().format(formatter));
@@ -91,10 +91,10 @@ public class TransportLedgerController implements Initializable {
 			}
 			JasperPrint jprint = JasperFillManager.fillReport(jasperReport, map, conn);
 			JasperExportManager.exportReportToPdfFile(jprint, pdfFileName);
-			Rrc.showAlert("Report Successfully Generated", 1);
+			Utils.showAlert("Report Successfully Generated", 1);
 
 		} catch (JRException ex) {
-			Rrc.showAlert(ex.toString());
+			Utils.showAlert(ex.toString());
 			Logger.getLogger(TransportLedgerController.class.getName()).log(Level.SEVERE, ex.toString(), ex);
 		}
 	}

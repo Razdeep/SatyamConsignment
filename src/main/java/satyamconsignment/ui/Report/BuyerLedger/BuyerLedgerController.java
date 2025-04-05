@@ -20,11 +20,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ToggleGroup;
 import net.sf.jasperreports.engine.*;
-import satyamconsignment.misc.DatabaseHandler;
-import satyamconsignment.misc.Rrc;
+import satyamconsignment.common.DatabaseHandler;
+import satyamconsignment.common.Utils;
 
 public class BuyerLedgerController implements Initializable {
-	Rrc rrc;
+	Utils utils;
 	DatabaseHandler databaseHandler;
 	Connection conn;
 	PreparedStatement ps;
@@ -50,7 +50,7 @@ public class BuyerLedgerController implements Initializable {
 	public void initialize(URL url, ResourceBundle rb) {
 		try {
 			pdfFileName = "Report.pdf";
-			rrc = new Rrc();
+			utils = new Utils();
 			databaseHandler = DatabaseHandler.getInstance();
 			conn = databaseHandler.getConnection();
 			ps = conn.prepareStatement("select * from Buyer_Master_Table order by name collate nocase");
@@ -61,7 +61,7 @@ public class BuyerLedgerController implements Initializable {
 			}
 			buyer_name_combo.setItems(buyerList);
 		} catch (SQLException ex) {
-			Rrc.showAlert(ex.toString());
+			Utils.showAlert(ex.toString());
 			Logger.getLogger(BuyerLedgerController.class.getName()).log(Level.SEVERE, null, ex);
 		}
 	}
@@ -82,9 +82,9 @@ public class BuyerLedgerController implements Initializable {
 			map.put("buyerName", buyer_name_combo.getSelectionModel().getSelectedItem());
 			JasperPrint jprint = JasperFillManager.fillReport(jasperReport, map, conn);
 			JasperExportManager.exportReportToPdfFile(jprint, pdfFileName);
-			Rrc.showAlert("Report Successfully Generated", 1);
+			Utils.showAlert("Report Successfully Generated", 1);
 		} catch (JRException ex) {
-			Rrc.showAlert(ex.toString());
+			Utils.showAlert(ex.toString());
 			Logger.getLogger(BuyerLedgerController.class.getName()).log(Level.SEVERE, ex.toString(), ex);
 		}
 	}

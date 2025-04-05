@@ -16,13 +16,13 @@ import javafx.scene.Group;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import satyamconsignment.misc.DatabaseHandler;
-import satyamconsignment.misc.Rrc;
+import satyamconsignment.common.DatabaseHandler;
+import satyamconsignment.common.Utils;
 
 public class InputHistoryController implements Initializable {
 
 	String sql;
-	Rrc rrc;
+	Utils utils;
 	DatabaseHandler databaseHandler;
 	Connection conn;
 	PreparedStatement ps;
@@ -50,7 +50,7 @@ public class InputHistoryController implements Initializable {
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
 
-		rrc = new Rrc();
+		utils = new Utils();
 		databaseHandler = DatabaseHandler.getInstance();
 		list = FXCollections.observableArrayList();
 		supplier_name_col.setCellValueFactory(new PropertyValueFactory<>("supplierName"));
@@ -72,7 +72,7 @@ public class InputHistoryController implements Initializable {
 						rs.getString("Bill Amount")));
 			}
 		} catch (SQLException ex) {
-			Rrc.showAlert(ex.toString());
+			Utils.showAlert(ex.toString());
 			Logger.getLogger(InputHistoryController.class.getName()).log(Level.SEVERE, null, ex);
 		}
 		tableView.setItems(list);

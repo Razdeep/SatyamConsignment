@@ -24,15 +24,15 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
 import net.sf.jasperreports.engine.*;
-import satyamconsignment.misc.DatabaseHandler;
-import satyamconsignment.misc.Rrc;
+import satyamconsignment.common.DatabaseHandler;
+import satyamconsignment.common.Utils;
 import satyamconsignment.ui.Input.CollectionEntry.CollectionEntryController;
 import satyamconsignment.ui.Input.PaymentEntry.PaymentEntryController;
 import satyamconsignment.ui.Input.PaymentEntry.PaymentItem;
 
 public class ViewAndDeletePayment implements Initializable {
 	// My variables
-	Rrc rrc;
+	Utils utils;
 	DatabaseHandler databaseHandler;
 	Connection conn;
 	PreparedStatement ps;
@@ -92,7 +92,7 @@ public class ViewAndDeletePayment implements Initializable {
 
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
-		rrc = new Rrc();
+		utils = new Utils();
 		databaseHandler = DatabaseHandler.getInstance();
 		conn = databaseHandler.getConnection();
 		formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
@@ -116,7 +116,7 @@ public class ViewAndDeletePayment implements Initializable {
 		// Copy Paste Edit
 
 		if (voucher_no_field_2.getText().isEmpty()) {
-			Rrc.showAlert("Voucher No. Field is kept empty. Please fill the voucher no.");
+			Utils.showAlert("Voucher No. Field is kept empty. Please fill the voucher no.");
 		} else {
 			try {
 				sql = "select * from `Payment_Entry_Table` where `Voucher No.`=? collate nocase";
@@ -135,7 +135,7 @@ public class ViewAndDeletePayment implements Initializable {
 				ps.setString(1, voucher_no_field_2.getText());
 				rs = ps.executeQuery();
 				if (rs.isClosed()) {
-					Rrc.showAlert("No Results found", 1);
+					Utils.showAlert("No Results found", 1);
 				} else {
 					while (rs.next()) {
 						PaymentItem paymentItem = PaymentItem.builder().billNo(rs.getString("Bill No."))
@@ -150,7 +150,7 @@ public class ViewAndDeletePayment implements Initializable {
 					delete_entry_btn.setDisable(false);
 				}
 			} catch (SQLException ex) {
-				Rrc.showAlert(ex.toString());
+				Utils.showAlert(ex.toString());
 				Logger.getLogger(CollectionEntryController.class.getName()).log(Level.SEVERE, null, ex);
 			}
 		}
@@ -193,13 +193,13 @@ public class ViewAndDeletePayment implements Initializable {
 				display_board_label_2.setText("");
 				total_amount_field_2.setText("");
 				conn.commit();
-				Rrc.showAlert(voucher_no_field_2.getText().toUpperCase() + " Entry was successfully deleted.", 1);
+				Utils.showAlert(voucher_no_field_2.getText().toUpperCase() + " Entry was successfully deleted.", 1);
 			} catch (SQLException ex) {
-				Rrc.showAlert(ex.toString());
+				Utils.showAlert(ex.toString());
 				try {
 					conn.rollback();
 				} catch (SQLException ex1) {
-					Rrc.showAlert(ex1.toString());
+					Utils.showAlert(ex1.toString());
 					Logger.getLogger(PaymentEntryController.class.getName()).log(Level.SEVERE, null, ex1);
 				}
 				Logger.getLogger(PaymentEntryController.class.getName()).log(Level.SEVERE, null, ex);
@@ -213,7 +213,7 @@ public class ViewAndDeletePayment implements Initializable {
 					.load(getClass().getResource("/satyamconsignment/ui/Input/PaymentEntry/PaymentEntry.fxml"));
 			root2.getChildren().setAll(parent);
 		} catch (IOException ex) {
-			Rrc.showAlert(ex.toString());
+			Utils.showAlert(ex.toString());
 			Logger.getLogger(PaymentEntryController.class.getName()).log(Level.SEVERE, null, ex);
 		}
 	}
@@ -232,9 +232,9 @@ public class ViewAndDeletePayment implements Initializable {
 			map.put("billAmount", total_amount_field_2.getText());
 			JasperPrint jprint = JasperFillManager.fillReport(jasperReport, map, conn);
 			JasperExportManager.exportReportToPdfFile(jprint, pdfFileName);
-			Rrc.showAlert("Report Successfully Generated", 1);
+			Utils.showAlert("Report Successfully Generated", 1);
 		} catch (JRException ex) {
-			Rrc.showAlert(ex.toString());
+			Utils.showAlert(ex.toString());
 			Logger.getLogger(PaymentEntryController.class.getName()).log(Level.SEVERE, null, ex);
 		}
 	}

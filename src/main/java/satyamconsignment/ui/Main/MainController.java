@@ -13,11 +13,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.BorderPane;
-import satyamconsignment.misc.Rrc;
+import satyamconsignment.common.Utils;
 
 public class MainController implements Initializable {
 
-	Rrc rrc;
+	Utils utils;
 	@FXML
 	private JFXButton input_btn;
 	@FXML
@@ -37,13 +37,13 @@ public class MainController implements Initializable {
 
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
-		rrc = new Rrc();
+		utils = new Utils();
 		try {
 			Parent parent = FXMLLoader
 					.load(getClass().getResource("/satyamconsignment/ui/Main/WelcomeScreen/WelcomeScreen.fxml"));
 			root.setCenter(parent);
 		} catch (IOException ex) {
-			Rrc.showAlert(ex.toString());
+			Utils.showAlert(ex.toString());
 			Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
 		}
 	}
@@ -54,7 +54,7 @@ public class MainController implements Initializable {
 			Parent parent = FXMLLoader.load(getClass().getResource("/satyamconsignment/ui/Input/Input.fxml"));
 			root.setCenter(parent);
 		} catch (IOException ex) {
-			Rrc.showAlert(ex.toString());
+			Utils.showAlert(ex.toString());
 			Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
 		}
 	}
@@ -66,7 +66,7 @@ public class MainController implements Initializable {
 			Parent parent = FXMLLoader.load(getClass().getResource("/satyamconsignment/ui/Report/Report.fxml"));
 			root.setCenter(parent);
 		} catch (IOException ex) {
-			Rrc.showAlert(ex.toString());
+			Utils.showAlert(ex.toString());
 			Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
 		}
 	}
@@ -77,7 +77,7 @@ public class MainController implements Initializable {
 			Parent parent = FXMLLoader.load(getClass().getResource("/satyamconsignment/ui/Master/Master.fxml"));
 			root.setCenter(parent);
 		} catch (IOException ex) {
-			Rrc.showAlert(ex.toString());
+			Utils.showAlert(ex.toString());
 			Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
 		}
 	}
@@ -89,7 +89,7 @@ public class MainController implements Initializable {
 					.load(getClass().getResource("/satyamconsignment/ui/Main/WelcomeScreen/WelcomeScreen.fxml"));
 			root.setCenter(parent);
 		} catch (IOException ex) {
-			Rrc.showAlert(ex.toString());
+			Utils.showAlert(ex.toString());
 			Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
 		}
 	}
@@ -100,7 +100,7 @@ public class MainController implements Initializable {
 			Parent parent = FXMLLoader.load(getClass().getResource("/satyamconsignment/ui/Main/Contact/Contact.fxml"));
 			root.setCenter(parent);
 		} catch (IOException ex) {
-			Rrc.showAlert(ex.toString());
+			Utils.showAlert(ex.toString());
 			Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
 		}
 	}
@@ -111,7 +111,7 @@ public class MainController implements Initializable {
 			Parent parent = FXMLLoader.load(getClass().getResource("/satyamconsignment/ui/Main/About/About.fxml"));
 			root.setCenter(parent);
 		} catch (IOException ex) {
-			Rrc.showAlert(ex.toString());
+			Utils.showAlert(ex.toString());
 			Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
 		}
 	}
@@ -123,7 +123,7 @@ public class MainController implements Initializable {
 					.load(getClass().getResource("/satyamconsignment/ui/Main/InstructionScreen/Instructions.fxml"));
 			root.setCenter(parent);
 		} catch (IOException ex) {
-			Rrc.showAlert(ex.toString());
+			Utils.showAlert(ex.toString());
 			Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
 		}
 	}
@@ -135,7 +135,7 @@ public class MainController implements Initializable {
 					.load(getClass().getResource("/satyamconsignment/ui/Main/InputHistory/InputHistory.fxml"));
 			root.setCenter(parent);
 		} catch (IOException ex) {
-			Rrc.showAlert(ex.toString());
+			Utils.showAlert(ex.toString());
 			Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
 		}
 	}
@@ -147,7 +147,7 @@ public class MainController implements Initializable {
 					getClass().getResource("/satyamconsignment/ui/Main/CollectionHistory/CollectionHistory.fxml"));
 			root.setCenter(parent);
 		} catch (IOException ex) {
-			Rrc.showAlert(ex.toString());
+			Utils.showAlert(ex.toString());
 			Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
 		}
 	}
@@ -159,7 +159,7 @@ public class MainController implements Initializable {
 					.load(getClass().getResource("/satyamconsignment/ui/Main/PaymentHistory/PaymentHistory.fxml"));
 			root.setCenter(parent);
 		} catch (IOException ex) {
-			Rrc.showAlert(ex.toString());
+			Utils.showAlert(ex.toString());
 			Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
 		}
 	}

@@ -19,8 +19,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import satyamconsignment.misc.DatabaseHandler;
-import satyamconsignment.misc.Rrc;
+import satyamconsignment.common.DatabaseHandler;
+import satyamconsignment.common.Utils;
 import satyamconsignment.ui.Input.CollectionEntry.CollectionItem;
 
 public class AddCollection implements Initializable {
@@ -115,7 +115,7 @@ public class AddCollection implements Initializable {
 			buyer_name.setItems(buyerNameComboList);
 
 		} catch (SQLException ex) {
-			Rrc.showAlert(ex.toString());
+			Utils.showAlert(ex.toString());
 			Logger.getLogger(AddCollection.class.getName()).log(Level.SEVERE, ex.toString(), ex);
 		}
 	}
@@ -172,7 +172,7 @@ public class AddCollection implements Initializable {
 			display_board_label.setText(buyer_name.getValue());
 
 		} catch (SQLException ex) {
-			Rrc.showAlert(ex.toString());
+			Utils.showAlert(ex.toString());
 			Logger.getLogger(AddCollection.class.getName()).log(Level.SEVERE, ex.toString(), ex);
 		}
 	}
@@ -196,7 +196,7 @@ public class AddCollection implements Initializable {
 			buyer_name.setDisable(true);
 
 		} catch (SQLException ex) {
-			Rrc.showAlert(ex.toString());
+			Utils.showAlert(ex.toString());
 			Logger.getLogger(AddCollection.class.getName()).log(Level.SEVERE, ex.toString(), ex);
 		}
 	}
@@ -207,7 +207,7 @@ public class AddCollection implements Initializable {
 				|| supplier_name.getText().isEmpty() || bank_field.getText().isEmpty()
 				|| collection_due_field.getText().isEmpty() || amount_collected_field.getText().isEmpty()
 				|| dd_no_field.getText().isEmpty() || dd_date_field.getValue().toString().isEmpty()) {
-			Rrc.showAlert("Please check whether the fields are properly filled or not.", 2);
+			Utils.showAlert("Please check whether the fields are properly filled or not.", 2);
 			return;
 		}
 
@@ -248,14 +248,14 @@ public class AddCollection implements Initializable {
 	@FXML
 	private void replaceCollection(ActionEvent event) {
 		if (collection_tableview.getSelectionModel().getSelectedIndex() == -1) {
-			Rrc.showAlert("Please select an item from the Collection Table", 2);
+			Utils.showAlert("Please select an item from the Collection Table", 2);
 			return;
 		}
 		if (bill_no_combo.getValue().isEmpty() || bill_amount.getText().isEmpty() || buyer_name.getValue().isEmpty()
 				|| supplier_name.getText().isEmpty() || bank_field.getText().isEmpty()
 				|| collection_due_field.getText().isEmpty() || amount_collected_field.getText().isEmpty()
 				|| dd_no_field.getText().isEmpty() || dd_date_field.getValue().toString().isEmpty()) {
-			Rrc.showAlert("Please check whether the fields are properly filled or not.", 2);
+			Utils.showAlert("Please check whether the fields are properly filled or not.", 2);
 			return;
 		}
 		collectionItemObservableList.set(collection_tableview.getSelectionModel().getSelectedIndex(),
@@ -271,7 +271,7 @@ public class AddCollection implements Initializable {
 	@FXML
 	private void deleteCollection(ActionEvent event) {
 		if (collection_tableview.getSelectionModel().getSelectedIndex() == -1) {
-			Rrc.showAlert("Please select an item from the LR Table", 2);
+			Utils.showAlert("Please select an item from the LR Table", 2);
 			return;
 		}
 		collectionItemObservableList.remove(collection_tableview.getSelectionModel().getSelectedIndex());
@@ -298,7 +298,7 @@ public class AddCollection implements Initializable {
 			return;
 		}
 		if (voucher_no_field.getText().isEmpty() || voucher_date_field.getValue().toString().isEmpty()) {
-			Rrc.showAlert("Check whether the Voucher No. and the Voucher Date is properly filled", 2);
+			Utils.showAlert("Check whether the Voucher No. and the Voucher Date is properly filled", 2);
 			return;
 		}
 		Connection connection = DatabaseHandler.getInstance().getConnection();
@@ -337,15 +337,15 @@ public class AddCollection implements Initializable {
 			}
 			collectionItemObservableList.clear();
 			connection.commit();
-			Rrc.showAlert("Saved Successfully", 1);
+			Utils.showAlert("Saved Successfully", 1);
 			clearAllFields();
 		} catch (SQLException ex) {
-			Rrc.showAlert(ex.toString());
+			Utils.showAlert(ex.toString());
 			Logger.getLogger(AddCollection.class.getName()).log(Level.SEVERE, ex.toString(), ex);
 			try {
 				connection.rollback();
 			} catch (SQLException ex1) {
-				Rrc.showAlert(ex.toString());
+				Utils.showAlert(ex.toString());
 				Logger.getLogger(AddCollection.class.getName()).log(Level.SEVERE, ex1.toString(), ex1);
 			}
 		}
@@ -362,7 +362,7 @@ public class AddCollection implements Initializable {
 			String answer = resultSet.getString("Max(`Voucher No.`)");
 			last_voucher_field.setText("Last Voucher No. : " + answer);
 		} catch (SQLException ex) {
-			Rrc.showAlert(ex.toString());
+			Utils.showAlert(ex.toString());
 			Logger.getLogger(AddCollection.class.getName()).log(Level.SEVERE, ex.toString(), ex);
 		}
 	}

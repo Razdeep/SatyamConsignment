@@ -1,4 +1,4 @@
-package satyamconsignment.misc;
+package satyamconsignment.common;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -12,13 +12,12 @@ public final class DatabaseHandler {
 	private Connection conn = null;
 
 	private DatabaseHandler() {
-		Rrc rrc = new Rrc();
 		try {
 			Class.forName("org.sqlite.JDBC");
 			conn = DriverManager.getConnection("jdbc:sqlite:database.db");
 		} catch (ClassNotFoundException | SQLException ex) {
-			Rrc.showAlert(ex.toString());
-			Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, null, ex);
+			Utils.showAlert(ex.toString());
+			Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, ex.toString(), ex);
 		}
 	}
 

@@ -21,8 +21,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
-import satyamconsignment.misc.DatabaseHandler;
-import satyamconsignment.misc.Rrc;
+import satyamconsignment.common.DatabaseHandler;
+import satyamconsignment.common.Utils;
 import satyamconsignment.ui.Input.PaymentEntry.PaymentEntryController;
 import satyamconsignment.ui.Input.PaymentEntry.PaymentItem;
 
@@ -125,7 +125,7 @@ public class AddPayment implements Initializable {
 				|| bank_field.getText().isEmpty() || bank_field.getText().isEmpty()
 				|| due_amount_field.getText().isEmpty() || amount_paid_field.getText().isEmpty()
 				|| dd_no_field.getText().isEmpty() || dd_date_field.getValue().toString().isEmpty()) {
-			Rrc.showAlert("Please check whether the fields are properly filled or not.", 2);
+			Utils.showAlert("Please check whether the fields are properly filled or not.", 2);
 			return;
 		}
 
@@ -141,7 +141,7 @@ public class AddPayment implements Initializable {
 	private void replacePayment(ActionEvent event) {
 
 		if (payment_tableview.getSelectionModel().getSelectedIndex() == -1) {
-			Rrc.showAlert("Please select an item from the Payment Table", 2);
+			Utils.showAlert("Please select an item from the Payment Table", 2);
 			return;
 		}
 
@@ -150,7 +150,7 @@ public class AddPayment implements Initializable {
 				|| bank_field.getText().isEmpty() || bank_field.getText().isEmpty()
 				|| due_amount_field.getText().isEmpty() || amount_paid_field.getText().isEmpty()
 				|| dd_no_field.getText().isEmpty() || dd_date_field.getValue().toString().isEmpty()) {
-			Rrc.showAlert("Please check whether the fields are properly filled or not.", 2);
+			Utils.showAlert("Please check whether the fields are properly filled or not.", 2);
 			return;
 		}
 
@@ -165,7 +165,7 @@ public class AddPayment implements Initializable {
 	@FXML
 	private void deletePayment(ActionEvent event) {
 		if (payment_tableview.getSelectionModel().getSelectedIndex() == -1) {
-			Rrc.showAlert("Please select an item from the Payment Table", 2);
+			Utils.showAlert("Please select an item from the Payment Table", 2);
 			return;
 		}
 		paymentItems.remove(payment_tableview.getSelectionModel().getSelectedIndex());
@@ -203,7 +203,7 @@ public class AddPayment implements Initializable {
 	@FXML
 	private void saveData(ActionEvent event) {
 		if (voucher_no_field.getText().isEmpty() || voucher_date_field.getValue().toString().isEmpty()) {
-			Rrc.showAlert("Check whether the Voucher No. and the Voucher Date is properly filled", 2);
+			Utils.showAlert("Check whether the Voucher No. and the Voucher Date is properly filled", 2);
 			return;
 		}
 		Connection connection = DatabaseHandler.getInstance().getConnection();
@@ -241,10 +241,10 @@ public class AddPayment implements Initializable {
 				preparedStatement.execute();
 			}
 			connection.commit();
-			Rrc.showAlert("Saved Successfully", 1);
+			Utils.showAlert("Saved Successfully", 1);
 			clearAllFields();
 		} catch (SQLException ex) {
-			Rrc.showAlert(ex.toString());
+			Utils.showAlert(ex.toString());
 			try {
 				connection.rollback();
 			} catch (SQLException ex1) {
@@ -281,7 +281,7 @@ public class AddPayment implements Initializable {
 			}
 			supplier_name_combo.setItems(supplierNameComboList);
 		} catch (SQLException ex) {
-			Rrc.showAlert(ex.toString());
+			Utils.showAlert(ex.toString());
 			Logger.getLogger(AddPayment.class.getName()).log(Level.SEVERE, "Failed to populate the supplier combo", ex);
 		}
 	}
@@ -335,7 +335,7 @@ public class AddPayment implements Initializable {
 			bill_no_combo.setItems(billNoComboList);
 
 		} catch (SQLException ex) {
-			Rrc.showAlert(ex.toString());
+			Utils.showAlert(ex.toString());
 			Logger.getLogger(AddPayment.class.getName()).log(Level.SEVERE, "Failed to populate bill number combo", ex);
 		}
 	}
@@ -355,7 +355,7 @@ public class AddPayment implements Initializable {
 			updateDueAmount();
 			supplier_name_combo.setDisable(true);
 		} catch (SQLException ex) {
-			Rrc.showAlert(ex.toString());
+			Utils.showAlert(ex.toString());
 			Logger.getLogger(AddPayment.class.getName()).log(Level.SEVERE, "Failed to fetch data", ex);
 		}
 	}

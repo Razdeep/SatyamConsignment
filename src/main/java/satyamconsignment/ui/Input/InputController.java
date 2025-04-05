@@ -12,11 +12,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
 import javafx.scene.Parent;
-import satyamconsignment.misc.Rrc;
+import satyamconsignment.common.Utils;
 
 public class InputController implements Initializable {
 
-	Rrc rrc;
+	Utils utils;
 	@FXML
 	private JFXButton bill_entry_btn;
 	@FXML
@@ -37,7 +37,7 @@ public class InputController implements Initializable {
 					.load(getClass().getResource("/satyamconsignment/ui/Input/BillEntry/BillEntry.fxml"));
 			root2.getChildren().setAll(parent);
 		} catch (IOException ex) {
-			Rrc.showAlert(ex.toString());
+			Utils.showAlert(ex.toString());
 			Logger.getLogger(InputController.class.getName()).log(Level.SEVERE, ex.toString(), ex);
 		}
 	}
@@ -49,7 +49,7 @@ public class InputController implements Initializable {
 					.load(getClass().getResource("/satyamconsignment/ui/Input/CollectionEntry/CollectionEntry.fxml"));
 			root2.getChildren().setAll(parent);
 		} catch (IOException ex) {
-			Rrc.showAlert(ex.toString());
+			Utils.showAlert(ex.toString());
 			Logger.getLogger(InputController.class.getName()).log(Level.SEVERE, ex.toString(), ex);
 		}
 	}
@@ -61,7 +61,7 @@ public class InputController implements Initializable {
 					.load(getClass().getResource("/satyamconsignment/ui/Input/PaymentEntry/PaymentEntry.fxml"));
 			root2.getChildren().setAll(parent);
 		} catch (IOException ex) {
-			Rrc.showAlert(ex.toString());
+			Utils.showAlert(ex.toString());
 			Logger.getLogger(InputController.class.getName()).log(Level.SEVERE, ex.toString(), ex);
 		}
 	}

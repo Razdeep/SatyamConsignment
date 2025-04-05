@@ -21,8 +21,8 @@ import javafx.scene.Group;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import net.sf.jasperreports.engine.*;
-import satyamconsignment.misc.DatabaseHandler;
-import satyamconsignment.misc.Rrc;
+import satyamconsignment.common.DatabaseHandler;
+import satyamconsignment.common.Utils;
 import satyamconsignment.ui.Input.CollectionEntry.CollectionItem;
 
 public class ViewAndDeleteCollection implements Initializable {
@@ -118,7 +118,7 @@ public class ViewAndDeleteCollection implements Initializable {
 	private void getDetails(ActionEvent event) {
 
 		if (voucher_no_field.getText().isEmpty()) {
-			Rrc.showAlert("Voucher No. Field is kept empty. Please fill the voucher no.");
+			Utils.showAlert("Voucher No. Field is kept empty. Please fill the voucher no.");
 			return;
 		}
 		Connection connection = DatabaseHandler.getInstance().getConnection();
@@ -139,7 +139,7 @@ public class ViewAndDeleteCollection implements Initializable {
 			preparedStatement.setString(1, voucher_no_field.getText());
 			collectionResultSet = preparedStatement.executeQuery();
 			if (collectionResultSet.isClosed()) {
-				Rrc.showAlert("No Results found", 1);
+				Utils.showAlert("No Results found", 1);
 				return;
 			}
 			while (collectionResultSet.next()) {
@@ -152,7 +152,7 @@ public class ViewAndDeleteCollection implements Initializable {
 			collection_tableview.setItems(collectionItemObservableList);
 			delete_entry_btn.setDisable(false);
 		} catch (SQLException ex) {
-			Rrc.showAlert(ex.toString());
+			Utils.showAlert(ex.toString());
 			Logger.getLogger(ViewAndDeleteCollection.class.getName()).log(Level.SEVERE, ex.toString(), ex);
 		}
 	}
@@ -201,15 +201,15 @@ public class ViewAndDeleteCollection implements Initializable {
 			display_board_label.setText("");
 			total_amount_field.setText("");
 			connection.commit();
-			Rrc.showAlert(voucher_no_field.getText().toUpperCase() + " Entry was successfully deleted.", 1);
+			Utils.showAlert(voucher_no_field.getText().toUpperCase() + " Entry was successfully deleted.", 1);
 			updateLastVoucher();
 		} catch (SQLException ex) {
-			Rrc.showAlert(ex.toString());
+			Utils.showAlert(ex.toString());
 			Logger.getLogger(ViewAndDeleteCollection.class.getName()).log(Level.SEVERE, ex.toString(), ex);
 			try {
 				connection.rollback();
 			} catch (SQLException ex1) {
-				Rrc.showAlert(ex1.toString());
+				Utils.showAlert(ex1.toString());
 				Logger.getLogger(ViewAndDeleteCollection.class.getName()).log(Level.SEVERE, ex.toString(), ex1);
 			}
 		}
@@ -230,9 +230,9 @@ public class ViewAndDeleteCollection implements Initializable {
 			map.put("billAmount", total_amount_field.getText());
 			JasperPrint jprint = JasperFillManager.fillReport(jasperReport, map, connection);
 			JasperExportManager.exportReportToPdfFile(jprint, pdfFileName);
-			Rrc.showAlert("Report Successfully Generated", 1);
+			Utils.showAlert("Report Successfully Generated", 1);
 		} catch (JRException ex) {
-			Rrc.showAlert(ex.toString());
+			Utils.showAlert(ex.toString());
 			Logger.getLogger(ViewAndDeleteCollection.class.getName()).log(Level.SEVERE, ex.toString(), ex);
 		}
 	}
