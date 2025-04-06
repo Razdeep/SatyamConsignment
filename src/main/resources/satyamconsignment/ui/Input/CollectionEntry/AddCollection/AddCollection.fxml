@@ -1,186 +1,144 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.control.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="satyamconsignment.ui.Input.CollectionEntry.AddCollection.AddCollection"
-            prefWidth="673.0" style="-fx-background-color: #f1ff59;">
+<AnchorPane prefHeight="608.0" prefWidth="972.0" style="-fx-background-color: #f1ff59;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="satyamconsignment.ui.Input.CollectionEntry.AddCollection.AddCollection">
     <children>
-        <Text layoutX="7.0" layoutY="110.0" strokeType="OUTSIDE" strokeWidth="0.0"
-              text="Buyer Name" wrappingWidth="99.90430307388306">
+        <Text layoutX="52.0" layoutY="231.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Buyer" wrappingWidth="99.90430307388306">
             <font>
-                <Font size="16.0"/>
+                <Font size="16.0" />
             </font>
         </Text>
-        <Text layoutX="9.0" layoutY="206.0" strokeType="OUTSIDE" strokeWidth="0.0"
-              text="Supplier Name" wrappingWidth="108.00000536441803">
+        <Text layoutX="40.0" layoutY="128.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Supplier" wrappingWidth="108.00000536441803">
             <font>
-                <Font size="16.0"/>
+                <Font size="16.0" />
             </font>
         </Text>
-        <Text layoutX="112.0" layoutY="158.0" strokeType="OUTSIDE" strokeWidth="0.0"
-              text="Bill No." wrappingWidth="62.90429401397705">
+        <Text layoutX="685.0" layoutY="112.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bill No." wrappingWidth="62.90429401397705">
             <font>
-                <Font size="16.0"/>
+                <Font size="16.0" />
             </font>
         </Text>
-        <Text layoutX="345.0" layoutY="207.0" strokeType="OUTSIDE" strokeWidth="0.0"
-              text="Bill Amount" wrappingWidth="96.90429401397705">
+        <Text layoutX="655.0" layoutY="194.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bill Amount" wrappingWidth="96.90429401397705">
             <font>
-                <Font size="16.0"/>
+                <Font size="16.0" />
             </font>
         </Text>
-        <Text layoutX="346.0" layoutY="171.0" strokeType="OUTSIDE" strokeWidth="0.0"
-              text="Bill Date" wrappingWidth="79.90429401397705">
+        <Text layoutX="670.0" layoutY="152.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bill Date" wrappingWidth="79.90429401397705">
             <font>
-                <Font size="16.0"/>
+                <Font size="16.0" />
             </font>
         </Text>
-        <TextField fx:id="voucher_no_field" layoutX="104.0" layoutY="53.0"
-                   prefHeight="25.0" prefWidth="108.0"/>
-        <DatePicker fx:id="voucher_date_field" editable="false" layoutX="336.0"
-                       layoutY="53.0" prefHeight="28.0" prefWidth="173.0"/>
-        <ComboBox fx:id="buyer_name" layoutX="113.0" layoutY="91.0"
-                  onAction="#fillBillNoCombo" prefHeight="25.0" prefWidth="192.0"/>
-        <ComboBox fx:id="bill_no_combo" layoutX="175.0" layoutY="139.0"
-                  onAction="#fetchData" prefHeight="25.0" prefWidth="132.0"/>
-        <TextField fx:id="supplier_name" editable="false" layoutX="127.0"
-                   layoutY="188.0" prefHeight="25.0" prefWidth="185.0"/>
-        <TextField fx:id="bill_date" editable="false" layoutX="433.0"
-                   layoutY="151.0" prefHeight="25.0" prefWidth="108.0"/>
-        <TextField fx:id="bill_amount" editable="false" layoutX="434.0"
-                   layoutY="188.0" prefHeight="25.0" prefWidth="108.0"/>
-        <Text layoutX="92.0" layoutY="257.0" strokeType="OUTSIDE" strokeWidth="0.0"
-              text="Collect Due" wrappingWidth="86.00000536441803">
+        <TextField fx:id="voucher_no_field" layoutX="119.0" layoutY="52.0" prefHeight="30.0" prefWidth="183.0" />
+        <DatePicker fx:id="voucher_date_field" editable="false" layoutX="783.0" layoutY="46.0" prefHeight="30.0" prefWidth="146.0" />
+        <ComboBox fx:id="buyer_name" layoutX="116.0" layoutY="107.0" onAction="#fillBillNoCombo" prefHeight="30.0" prefWidth="395.0" />
+        <ComboBox fx:id="bill_no_combo" layoutX="785.0" layoutY="87.0" onAction="#fetchData" prefHeight="30.0" prefWidth="145.0" />
+        <TextField fx:id="supplier_name" editable="false" layoutX="112.0" layoutY="209.0" prefHeight="30.0" prefWidth="395.0" />
+        <TextField fx:id="bill_date" editable="false" layoutX="782.0" layoutY="133.0" prefHeight="30.0" prefWidth="146.0" />
+        <TextField fx:id="bill_amount" editable="false" layoutX="784.0" layoutY="171.0" prefHeight="30.0" prefWidth="146.0" />
+        <Text layoutX="51.0" layoutY="279.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Collect Due" wrappingWidth="86.00000536441803">
             <font>
-                <Font size="16.0"/>
+                <Font size="16.0" />
             </font>
         </Text>
-        <Text layoutX="387.0" layoutY="258.0" strokeType="OUTSIDE" strokeWidth="0.0"
-              text="DD No." wrappingWidth="63.90429966151714">
+        <Text layoutX="387.0" layoutY="278.0" strokeType="OUTSIDE" strokeWidth="0.0" text="DD No." wrappingWidth="63.90429966151714">
             <font>
-                <Font size="16.0"/>
+                <Font size="16.0" />
             </font>
         </Text>
-        <Text layoutX="472.0" layoutY="258.0" strokeType="OUTSIDE" strokeWidth="0.0"
-              text="DD Date" wrappingWidth="70.90429966151714">
+        <Text layoutX="499.0" layoutY="277.0" strokeType="OUTSIDE" strokeWidth="0.0" text="DD Date" wrappingWidth="79.90429401397728">
             <font>
-                <Font size="16.0"/>
+                <Font size="16.0" />
             </font>
         </Text>
-        <Text layoutX="10.0" layoutY="72.0" strokeType="OUTSIDE" strokeWidth="0.0"
-              text="Voucher No." wrappingWidth="107.90430307388306">
+        <Text layoutX="10.0" layoutY="72.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Voucher No." wrappingWidth="107.90430307388306">
             <font>
-                <Font size="16.0"/>
+                <Font size="16.0" />
             </font>
         </Text>
-        <Text layoutX="228.0" layoutY="74.0" strokeType="OUTSIDE" strokeWidth="0.0"
-              text="Voucher Date" wrappingWidth="107.90430307388306">
+        <Text layoutX="631.0" layoutY="70.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Voucher Date" wrappingWidth="107.90430307388306">
             <font>
-                <Font size="16.0"/>
+                <Font size="16.0" />
             </font>
         </Text>
-        <Text layoutX="311.0" layoutY="258.0" strokeType="OUTSIDE" strokeWidth="0.0"
-              text="Bank" wrappingWidth="45.90429966151714">
+        <Text layoutX="291.0" layoutY="279.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bank" wrappingWidth="45.90429966151714">
             <font>
-                <Font size="16.0"/>
+                <Font size="16.0" />
             </font>
         </Text>
-        <Text layoutX="457.0" layoutY="337.0" strokeType="OUTSIDE" strokeWidth="0.0"
-              text="Total Amount" wrappingWidth="96.90429401397705">
+        <Text layoutX="642.0" layoutY="230.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total Amount" wrappingWidth="96.90429401397705">
             <font>
-                <Font size="16.0"/>
+                <Font size="16.0" />
             </font>
         </Text>
-        <TextField fx:id="collection_due_field" alignment="CENTER_RIGHT"
-                   editable="false" layoutX="99.0" layoutY="268.0" prefHeight="25.0"
-                   prefWidth="73.0" text="0"/>
-        <TextField fx:id="bank_field" layoutX="299.0" layoutY="268.0" prefHeight="25.0"
-                   prefWidth="73.0"/>
-        <TextField fx:id="dd_no_field" layoutX="380.0" layoutY="268.0" prefHeight="25.0"
-                   prefWidth="73.0"/>
-        <DatePicker fx:id="dd_date_field" layoutX="472.0" layoutY="263.0"
-                       prefHeight="28.0" prefWidth="100.0"/>
-        <Button fx:id="add_collection_btn" layoutX="24.0" layoutY="314.0"
-                mnemonicParsing="false" onAction="#addCollection" prefHeight="29.0"
-                prefWidth="108.0" text="Add Collection"/>
-        <Button fx:id="replace_collection_btn" layoutX="151.0" layoutY="314.0"
-                mnemonicParsing="false" onAction="#replaceCollection" prefHeight="29.0"
-                prefWidth="130.0" text="Replace Collection"/>
-        <Button fx:id="delete_collection_btn" layoutX="302.0" layoutY="314.0"
-                mnemonicParsing="false" onAction="#deleteCollection" prefHeight="29.0"
-                prefWidth="130.0" text="Delete Collection"/>
-        <TableView fx:id="collection_tableview" layoutX="10.0" layoutY="361.0"
-                   prefHeight="153.0" prefWidth="687.0">
+        <TextField fx:id="collection_due_field" alignment="CENTER_RIGHT" editable="false" layoutX="52.0" layoutY="298.0" prefHeight="25.0" prefWidth="73.0" text="0" />
+        <TextField fx:id="bank_field" layoutX="286.0" layoutY="298.0" prefHeight="25.0" prefWidth="73.0" />
+        <TextField fx:id="dd_no_field" layoutX="382.0" layoutY="298.0" prefHeight="30.0" prefWidth="86.0" />
+        <DatePicker fx:id="dd_date_field" layoutX="499.0" layoutY="298.0" prefHeight="30.0" prefWidth="130.0" />
+        <Button fx:id="add_collection_btn" layoutX="676.0" layoutY="277.0" mnemonicParsing="false" onAction="#addCollection" prefHeight="62.0" prefWidth="108.0" text="Add Collection" />
+        <Button fx:id="replace_collection_btn" layoutX="801.0" layoutY="314.0" mnemonicParsing="false" onAction="#replaceCollection" prefHeight="29.0" prefWidth="130.0" text="Replace Collection" />
+        <Button fx:id="delete_collection_btn" layoutX="801.0" layoutY="272.0" mnemonicParsing="false" onAction="#deleteCollection" prefHeight="29.0" prefWidth="130.0" text="Delete Collection" />
+        <TableView fx:id="collection_tableview" layoutX="10.0" layoutY="361.0" prefHeight="169.0" prefWidth="920.0">
             <columns>
-                <TableColumn fx:id="bill_no_col" prefWidth="54.0" text="Bill No."/>
-                <TableColumn fx:id="bill_amt_col" prefWidth="62.0" text="Bill Amt"/>
-                <TableColumn fx:id="supplier_col" prefWidth="146.0" text="Supplier"/>
-                <TableColumn fx:id="amount_collection_col" prefWidth="163.0"
-                             text="Amount Collected"/>
-                <TableColumn fx:id="bank_col" prefWidth="60.0" text="Bank"/>
-                <TableColumn fx:id="dd_no_col" minWidth="5.0" prefWidth="106.0"
-                             text="DD No."/>
-                <TableColumn fx:id="dd_date_col" prefWidth="75.0" text="DD Date"/>
+                <TableColumn fx:id="bill_no_col" prefWidth="76.7999849319458" text="Bill No." />
+                <TableColumn fx:id="bill_amt_col" prefWidth="98.39999389648438" style="-fx-alignment: CENTER-RIGHT;" text="Bill Amt" />
+                <TableColumn fx:id="supplier_col" prefWidth="297.6000518798828" text="Supplier" />
+                <TableColumn fx:id="amount_collection_col" prefWidth="123.199951171875" style="-fx-alignment: CENTER-RIGHT;" text="Amt Collected" />
+                <TableColumn fx:id="bank_col" prefWidth="109.5999755859375" text="Bank" />
+                <TableColumn fx:id="dd_no_col" minWidth="5.0" prefWidth="106.4000244140625" text="DD No." />
+                <TableColumn fx:id="dd_date_col" prefWidth="108.0001220703125" text="DD Date" />
             </columns>
         </TableView>
-        <Label fx:id="display_board_label" layoutX="332.0" layoutY="95.0"
-               prefHeight="43.0" prefWidth="346.0">
+        <Label fx:id="display_board_label" layoutX="39.0" layoutY="155.0" prefHeight="43.0" prefWidth="550.0">
             <font>
-                <Font size="29.0"/>
+                <Font size="29.0" />
             </font>
         </Label>
-        <Button fx:id="save_btn" layoutX="251.0" layoutY="527.0"
-                   onAction="#saveData" prefHeight="52.0" prefWidth="125.0" text="Save">
+        <Button fx:id="save_btn" layoutX="448.0" layoutY="542.0" onAction="#saveData" prefHeight="52.0" prefWidth="125.0" text="Save">
             <graphic>
-                <ImageView fitHeight="49.0" fitWidth="40.0" pickOnBounds="true"
-                           preserveRatio="true">
+                <ImageView fitHeight="49.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../../../../icons/Save.png"/>
+                        <Image url="@../../../../icons/Save.png" />
                     </image>
                 </ImageView>
             </graphic>
             <font>
-                <Font size="18.0"/>
+                <Font size="18.0" />
             </font>
         </Button>
-        <Button fx:id="clear_btn" layoutX="89.0" layoutY="527.0" prefHeight="52.0"
-                   onAction="#clearAllFields" prefWidth="125.0" text="Clear">
+        <Button fx:id="clear_btn" layoutX="286.0" layoutY="542.0" onAction="#clearAllFields" prefHeight="52.0" prefWidth="125.0" text="Clear">
             <graphic>
-                <ImageView fitHeight="49.0" fitWidth="40.0" pickOnBounds="true"
-                           preserveRatio="true">
+                <ImageView fitHeight="49.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../../../../icons/Clear.png"/>
+                        <Image url="@../../../../icons/Clear.png" />
                     </image>
                 </ImageView>
             </graphic>
             <font>
-                <Font size="18.0"/>
+                <Font size="18.0" />
             </font>
         </Button>
-        <TextField fx:id="total_amount_field" alignment="CENTER_RIGHT" editable="false"
-                   layoutX="562.0" layoutY="316.0" prefHeight="25.0" prefWidth="81.0"
-                   text="0"/>
-        <Text layoutX="184.0" layoutY="257.0" strokeType="OUTSIDE" strokeWidth="0.0"
-              text="Amt Collected" wrappingWidth="102.00000536441803">
+        <TextField fx:id="total_amount_field" alignment="CENTER_RIGHT" editable="false" layoutX="784.0" layoutY="209.0" prefHeight="30.0" prefWidth="146.0" text="0" />
+        <Text layoutX="164.0" layoutY="280.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Amt Collected" wrappingWidth="102.00000536441803">
             <font>
-                <Font size="16.0"/>
+                <Font size="16.0" />
             </font>
         </Text>
-        <TextField fx:id="amount_collected_field" alignment="CENTER_RIGHT"
-                   layoutX="196.0" layoutY="268.0" onKeyReleased="#updateCollectionDue"
-                   prefHeight="25.0" prefWidth="73.0" text="0"/>
-        <Label fx:id="last_voucher_field" layoutX="8.0" layoutY="14.0" prefHeight="28.0"
-               prefWidth="212.0" text="&lt;Last Voucher&gt;">
+        <TextField fx:id="amount_collected_field" alignment="CENTER_RIGHT" layoutX="165.0" layoutY="298.0" onKeyReleased="#updateCollectionDue" prefHeight="30.0" prefWidth="97.0" text="0" />
+        <Label fx:id="last_voucher_field" layoutX="366.0" layoutY="53.0" prefHeight="28.0" prefWidth="212.0" text="&lt;Last Voucher&gt;">
             <font>
-                <Font size="16.0"/>
+                <Font size="16.0" />
             </font>
         </Label>
     </children>

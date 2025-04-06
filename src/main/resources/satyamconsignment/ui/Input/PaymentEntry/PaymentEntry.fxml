@@ -1,36 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Tab?>
+<?import java.net.URL?>
 <?import javafx.scene.Group?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
-<?import java.net.URL?>
-<?import javafx.scene.control.TabPane?>
-<Group xmlns:fx="http://javafx.com/fxml/1" fx:id="root2" xmlns="http://javafx.com/javafx/8.0.111"
-       fx:controller="satyamconsignment.ui.Input.PaymentEntry.PaymentEntryController">
+
+<Group fx:id="root2" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="satyamconsignment.ui.Input.PaymentEntry.PaymentEntryController">
     <children>
         <AnchorPane id="AnchorPane" layoutY="14.0" prefHeight="699.0" prefWidth="761.0" styleClass="mainFxmlClass">
             <stylesheets>
-                <URL value="@paymententry.css"/>
+                <URL value="@paymententry.css" />
             </stylesheets>
             <children>
-                <Text layoutX="304.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Payment Entry"
-                      wrappingWidth="211.99999898672104">
+                <Text layoutX="304.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Payment Entry" wrappingWidth="211.99999898672104">
                     <font>
-                        <Font size="29.0"/>
+                        <Font size="29.0" />
                     </font>
                 </Text>
-                <TabPane layoutY="63.0" prefHeight="591.0" prefWidth="751.0">
+                <TabPane layoutY="63.0" prefHeight="611.0" prefWidth="968.0">
                     <tabs>
-                        <Tab text="Add" closable="false">
+                        <Tab closable="false" text="Add">
                             <content>
-                                <fx:include fx:id="AddPayment" source="AddPayment/AddPayment.fxml"/>
+                                <fx:include fx:id="AddPayment" source="AddPayment/AddPayment.fxml" />
                             </content>
                         </Tab>
-                        <Tab text="View &amp; Delete" closable="false">
+                        <Tab closable="false" text="View &amp; Delete">
                             <content>
-                                <fx:include fx:id="ViewAndDeletePayment" source="ViewAndDeletePayment/ViewAndDeletePayment.fxml"/>
+                                <fx:include fx:id="ViewAndDeletePayment" source="ViewAndDeletePayment/ViewAndDeletePayment.fxml" />
                             </content>
                         </Tab>
                     </tabs>
