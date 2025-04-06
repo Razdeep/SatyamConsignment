@@ -10,17 +10,17 @@
 
 <Group fx:id="root2" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="satyamconsignment.ui.Input.CollectionEntry.CollectionEntryController">
     <children>
-        <AnchorPane id="AnchorPane" prefHeight="704.0" prefWidth="968.0" styleClass="mainFxmlClass">
+        <AnchorPane id="AnchorPane" prefHeight="664.0" prefWidth="968.0" styleClass="mainFxmlClass">
             <stylesheets>
                 <URL value="@collectionentry.css" />
             </stylesheets>
             <children>
-                <Text layoutX="229.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Collection Entry" wrappingWidth="211.99999898672104">
+                <Text layoutX="366.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Collection Entry" wrappingWidth="211.99999898672104">
                     <font>
                         <Font size="29.0" />
                     </font>
                 </Text>
-                <TabPane layoutY="63.0" prefHeight="642.0" prefWidth="968.0">
+                <TabPane layoutY="63.0" prefHeight="600.0" prefWidth="968.0">
                     <tabs>
                         <Tab closable="false" text="Add">
                             <content>
