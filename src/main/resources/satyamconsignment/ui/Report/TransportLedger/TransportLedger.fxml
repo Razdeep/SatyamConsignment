@@ -40,7 +40,7 @@
                 <Font size="15.0"/>
             </font>
         </Button>
-        <Button fx:id="launch_report_btn" layoutX="332.0" layoutY="287.0" mnemonicParsing="false" prefHeight="62.0"
+        <Button fx:id="launch_report_btn" layoutX="332.0" layoutY="287.0" mnemonicParsing="false" prefHeight="62.0" onAction="#launchPdf"
                 prefWidth="104.0" text="Launch&#10;Report" textAlignment="CENTER">
             <font>
                 <Font size="15.0"/>

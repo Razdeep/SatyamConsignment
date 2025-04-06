@@ -3,6 +3,12 @@ package satyamconsignment.common;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
+import java.awt.*;
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class Utils {
 
     public static void showAlert(String message) {
@@ -30,5 +36,27 @@ public class Utils {
     public static void showAlert(String message, int choice) {
         Alert alert = new Alert(getAlertTypeFromCustomValue(choice), message);
         alert.show();
+    }
+
+    public static void launchPdf(String filename) {
+        File pdfFile = new File(filename);
+
+        if (!pdfFile.exists()) {
+            showAlert("File does not exist: " + pdfFile.getAbsolutePath());
+            return;
+        }
+
+        if (!Desktop.isDesktopSupported()) {
+            showAlert("Desktop is not supported on this platform.");
+            return;
+        }
+
+        try {
+            Desktop.getDesktop().open(pdfFile);
+            showAlert("PDF opened successfully.");
+        } catch (IOException e) {
+            String msg = ("Error opening PDF: " + e.getMessage());
+            Logger.getLogger(Utils.class.getName()).log(Level.SEVERE, msg, e);
+        }
     }
 }

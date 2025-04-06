@@ -100,4 +100,9 @@ public class TransportLedgerController implements Initializable {
                     ex.toString(), ex);
         }
     }
+
+    @FXML
+    private void launchPdf(ActionEvent event) {
+        Utils.launchPdf("report.pdf");
+    }
 }

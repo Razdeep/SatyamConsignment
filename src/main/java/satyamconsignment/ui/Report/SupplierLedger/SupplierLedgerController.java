@@ -1,5 +1,8 @@
 package satyamconsignment.ui.Report.SupplierLedger;
 
+import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -91,12 +94,6 @@ public class SupplierLedgerController implements Initializable {
 
     @FXML
     private void launchPdf(ActionEvent event) {
-        /*
-         * try { //Runtime.getRuntime().exec("cmd start Report.pdf");
-         * Desktop.getDesktop().open("Report.pdf"); } catch (IOException ex) {
-         * rrc.showAlert(ex.toString());
-         * Logger.getLogger(SupplierLedgerController.class.getName()).log(Level.SEVERE,
-         * null, ex); }
-         */
+        Utils.launchPdf("report.pdf");
     }
 }

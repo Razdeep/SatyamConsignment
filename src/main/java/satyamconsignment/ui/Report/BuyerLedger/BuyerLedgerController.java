@@ -91,5 +91,6 @@ public class BuyerLedgerController implements Initializable {
 
     @FXML
     private void launchPdf(ActionEvent event) {
+        Utils.launchPdf("report.pdf");
     }
 }
