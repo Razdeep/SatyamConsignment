@@ -53,7 +53,7 @@ public class Utils {
 
         try {
             Desktop.getDesktop().open(pdfFile);
-            showAlert("PDF opened successfully.");
+            showAlert("PDF opened successfully.", 1);
         } catch (IOException e) {
             String msg = ("Error opening PDF: " + e.getMessage());
             Logger.getLogger(Utils.class.getName()).log(Level.SEVERE, msg, e);

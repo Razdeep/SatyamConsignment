@@ -195,7 +195,7 @@ public class AddCollection implements Initializable {
             bill_date.setText(billDate);
             bill_amount.setText(billAmount);
             updateCollectionDue();
-            buyer_name.setDisable(true);
+//            buyer_name.setDisable(true);
 
         } catch (SQLException ex) {
             Utils.showAlert(ex.toString());

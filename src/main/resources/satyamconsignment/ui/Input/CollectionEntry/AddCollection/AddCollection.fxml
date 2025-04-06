@@ -15,7 +15,7 @@
 
 <AnchorPane prefHeight="554.0" prefWidth="972.0" style="-fx-background-color: #f1ff59;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="satyamconsignment.ui.Input.CollectionEntry.AddCollection.AddCollection">
     <children>
-        <Text layoutX="58.0" layoutY="93.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Buyer" wrappingWidth="99.90430307388306">
+        <Text layoutX="58.0" layoutY="97.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Buyer" wrappingWidth="99.90430307388306">
             <font>
                 <Font size="16.0" />
             </font>
@@ -45,9 +45,9 @@
             <Font size="16.0" />
          </font></TextField>
         <DatePicker fx:id="voucher_date_field" editable="false" layoutX="791.0" layoutY="20.0" prefHeight="30.0" prefWidth="146.0" />
-        <ComboBox fx:id="buyer_name" layoutX="117.0" layoutY="130.0" onAction="#fillBillNoCombo" prefHeight="30.0" prefWidth="395.0" />
+        <ComboBox fx:id="buyer_name" layoutX="116.0" layoutY="76.0" onAction="#fillBillNoCombo" prefHeight="30.0" prefWidth="395.0" />
         <ComboBox fx:id="bill_no_combo" layoutX="793.0" layoutY="64.0" onAction="#fetchData" prefHeight="30.0" prefWidth="145.0" />
-        <TextField fx:id="supplier_name" editable="false" layoutX="118.0" layoutY="71.0" prefHeight="30.0" prefWidth="395.0">
+        <TextField fx:id="supplier_name" editable="false" layoutX="116.0" layoutY="126.0" prefHeight="30.0" prefWidth="395.0">
          <font>
             <Font size="16.0" />
          </font></TextField>
@@ -106,7 +106,7 @@
          <font>
             <Font size="16.0" />
          </font></TextField>
-        <DatePicker fx:id="dd_date_field" layoutX="499.0" layoutY="236.0" prefHeight="30.0" prefWidth="130.0" />
+        <DatePicker fx:id="dd_date_field" layoutX="496.0" layoutY="232.0" prefHeight="38.0" prefWidth="130.0" />
         <Button fx:id="add_collection_btn" layoutX="676.0" layoutY="212.0" mnemonicParsing="false" onAction="#addCollection" prefHeight="62.0" prefWidth="108.0" text="Add Collection" />
         <Button fx:id="replace_collection_btn" layoutX="801.0" layoutY="242.0" mnemonicParsing="false" onAction="#replaceCollection" prefHeight="29.0" prefWidth="130.0" text="Replace Collection" />
         <Button fx:id="delete_collection_btn" layoutX="801.0" layoutY="207.0" mnemonicParsing="false" onAction="#deleteCollection" prefHeight="29.0" prefWidth="130.0" text="Delete Collection" />
