@@ -1,6 +1,5 @@
 package satyamconsignment.ui.Report;
 
-import com.jfoenix.controls.JFXButton;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -12,21 +11,22 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
 import javafx.scene.Parent;
+import javafx.scene.control.Button;
 import satyamconsignment.common.Utils;
 
 public class ReportController implements Initializable {
 
     Utils utils;
     @FXML
-    private JFXButton supplier_ledger_btn;
+    private Button supplier_ledger_btn;
     @FXML
-    private JFXButton buyer_ledger_brn;
+    private Button buyer_ledger_brn;
     @FXML
-    private JFXButton transport_ledger_btn;
+    private Button transport_ledger_btn;
     @FXML
-    private JFXButton back_btn;
+    private Button back_btn;
     @FXML
-    private JFXButton commission_report_btn;
+    private Button commission_report_btn;
     @FXML
     private Group root;
 

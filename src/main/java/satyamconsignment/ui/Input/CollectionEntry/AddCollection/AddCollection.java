@@ -1,6 +1,5 @@
 package satyamconsignment.ui.Input.CollectionEntry.AddCollection;
 
-import com.jfoenix.controls.JFXDatePicker;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -33,11 +32,11 @@ public class AddCollection implements Initializable {
     @FXML
     private TextField dd_no_field;
     @FXML
-    private JFXDatePicker dd_date_field;
+    private DatePicker dd_date_field;
     @FXML
     private TextField voucher_no_field;
     @FXML
-    private JFXDatePicker voucher_date_field;
+    private DatePicker voucher_date_field;
     @FXML
     private TableView<CollectionItem> collection_tableview;
     @FXML

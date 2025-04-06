@@ -1,8 +1,5 @@
 package satyamconsignment.ui.Master.Supplier;
 
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXListView;
-import com.jfoenix.controls.JFXTextField;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -16,6 +13,9 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
 import satyamconsignment.common.DatabaseHandler;
 import satyamconsignment.common.Utils;
 
@@ -30,19 +30,19 @@ public class MasterSupplierController implements Initializable {
     ObservableList<String> supplierList;
     String temp;
     @FXML
-    private JFXButton add_btn;
+    private Button add_btn;
     @FXML
-    private JFXTextField add_field;
+    private TextField add_field;
     @FXML
-    private JFXButton rename_btn;
+    private Button rename_btn;
     @FXML
-    private JFXTextField rename_field;
+    private TextField rename_field;
     @FXML
-    private JFXButton delete_btn;
+    private Button delete_btn;
     @FXML
-    private JFXButton refresh_btn;
+    private Button refresh_btn;
     @FXML
-    private JFXListView<String> listView;
+    private ListView<String> listView;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.Group?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -20,7 +19,7 @@
                         <Font size="29.0"/>
                     </font>
                 </Text>
-                <JFXTabPane layoutY="63.0" prefHeight="624.0" prefWidth="711.0">
+                <TabPane layoutY="63.0" prefHeight="624.0" prefWidth="711.0">
                     <tabs>
                         <Tab text="Add">
                             <content>
@@ -33,7 +32,7 @@
                             </content>
                         </Tab>
                     </tabs>
-                </JFXTabPane>
+                </TabPane>
             </children>
         </AnchorPane>
     </children>

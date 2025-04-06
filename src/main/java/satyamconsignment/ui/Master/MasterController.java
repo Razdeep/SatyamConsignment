@@ -5,7 +5,6 @@
  */
 package satyamconsignment.ui.Master;
 
-import com.jfoenix.controls.JFXButton;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -17,6 +16,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
 import javafx.scene.Parent;
+import javafx.scene.control.Button;
 import satyamconsignment.common.Utils;
 
 /**
@@ -28,11 +28,11 @@ public class MasterController implements Initializable {
 
     Utils utils;
     @FXML
-    private JFXButton supplier_master_btn;
+    private Button supplier_master_btn;
     @FXML
-    private JFXButton buyer_master_btn;
+    private Button buyer_master_btn;
     @FXML
-    private JFXButton transport_master_btn;
+    private Button transport_master_btn;
     @FXML
     private Group root;
 

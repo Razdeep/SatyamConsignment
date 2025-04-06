@@ -1,6 +1,5 @@
 package satyamconsignment.ui.Report.BuyerLedger;
 
-import com.jfoenix.controls.JFXRadioButton;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -18,13 +17,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import net.sf.jasperreports.engine.*;
 import satyamconsignment.common.DatabaseHandler;
 import satyamconsignment.common.Utils;
 
 public class BuyerLedgerController implements Initializable {
-    Utils utils;
     DatabaseHandler databaseHandler;
     Connection conn;
     PreparedStatement ps;
@@ -34,11 +33,11 @@ public class BuyerLedgerController implements Initializable {
     Map map;
 
     @FXML
-    private JFXRadioButton buyer_ledger_radio;
+    private RadioButton buyer_ledger_radio;
     @FXML
     private ToggleGroup choice;
     @FXML
-    private JFXRadioButton agewise_outstanding_radio;
+    private RadioButton agewise_outstanding_radio;
     @FXML
     private Button generate_pdf_btn;
     @FXML
@@ -50,7 +49,6 @@ public class BuyerLedgerController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         try {
             pdfFileName = "Report.pdf";
-            utils = new Utils();
             databaseHandler = DatabaseHandler.getInstance();
             conn = databaseHandler.getConnection();
             ps = conn.prepareStatement(

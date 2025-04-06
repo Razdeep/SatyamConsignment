@@ -1,6 +1,5 @@
 package satyamconsignment.ui.Main;
 
-import com.jfoenix.controls.JFXButton;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -11,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.BorderPane;
 import satyamconsignment.common.Utils;
@@ -19,13 +19,13 @@ public class MainController implements Initializable {
 
     Utils utils;
     @FXML
-    private JFXButton input_btn;
+    private Button input_btn;
     @FXML
     private BorderPane root;
     @FXML
-    private JFXButton report_btn;
+    private Button report_btn;
     @FXML
-    private JFXButton master_btn;
+    private Button master_btn;
     @FXML
     private MenuItem welcome_screen;
     @FXML

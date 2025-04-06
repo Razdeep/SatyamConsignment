@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXDatePicker?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.*?>
+<?import javafx.scene.control.DatePicker?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" id="AnchorPane" prefHeight="400.0" prefWidth="600.0"
             xmlns="http://javafx.com/javafx/8.0.111"
             fx:controller="satyamconsignment.ui.Report.TransportLedger.TransportLedgerController">
     <children>
         <ComboBox fx:id="transport_name_combo" layoutX="237.0" layoutY="106.0" prefHeight="25.0" prefWidth="254.0"/>
-        <JFXDatePicker fx:id="from_date" layoutX="116.0" layoutY="216.0" prefHeight="28.0" prefWidth="137.0"/>
-        <JFXDatePicker fx:id="to_date" layoutX="372.0" layoutY="217.0" prefHeight="28.0" prefWidth="137.0"/>
+        <DatePicker fx:id="from_date" layoutX="116.0" layoutY="216.0" prefHeight="28.0" prefWidth="137.0"/>
+        <DatePicker fx:id="to_date" layoutX="372.0" layoutY="217.0" prefHeight="28.0" prefWidth="137.0"/>
         <Text layoutX="96.0" layoutY="126.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Transport Name">
             <font>
                 <Font size="18.0"/>

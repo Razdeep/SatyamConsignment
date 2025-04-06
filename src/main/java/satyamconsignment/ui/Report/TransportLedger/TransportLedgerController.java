@@ -1,6 +1,5 @@
 package satyamconsignment.ui.Report.TransportLedger;
 
-import com.jfoenix.controls.JFXDatePicker;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -20,6 +19,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import net.sf.jasperreports.engine.*;
 import satyamconsignment.common.DatabaseHandler;
 import satyamconsignment.common.Utils;
@@ -39,9 +39,9 @@ public class TransportLedgerController implements Initializable {
     @FXML
     private ComboBox<String> transport_name_combo;
     @FXML
-    private JFXDatePicker from_date;
+    private DatePicker from_date;
     @FXML
-    private JFXDatePicker to_date;
+    private DatePicker to_date;
     @FXML
     private Button generate_pdf_report_btn;
     @FXML

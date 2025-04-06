@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXRadioButton?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.*?>
 <?import java.net.URL?>
+<?import javafx.scene.control.RadioButton?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" id="AnchorPane" prefHeight="400.0" prefWidth="600.0"
             styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8.0.111"
             fx:controller="satyamconsignment.ui.Report.BuyerLedger.BuyerLedgerController">
@@ -14,20 +14,20 @@
         <URL value="@buyerledger.css"/>
     </stylesheets>
     <children>
-        <JFXRadioButton fx:id="buyer_ledger_radio" layoutX="35.0" layoutY="194.0" selected="true" text="Buyer Ledger">
+        <RadioButton fx:id="buyer_ledger_radio" layoutX="35.0" layoutY="194.0" selected="true" text="Buyer Ledger">
             <font>
                 <Font size="18.0"/>
             </font>
             <toggleGroup>
                 <ToggleGroup fx:id="choice"/>
             </toggleGroup>
-        </JFXRadioButton>
-        <JFXRadioButton fx:id="agewise_outstanding_radio" layoutX="243.0" layoutY="194.0" text="Agewise Outstanding"
+        </RadioButton>
+        <RadioButton fx:id="agewise_outstanding_radio" layoutX="243.0" layoutY="194.0" text="Agewise Outstanding"
                         toggleGroup="$choice">
             <font>
                 <Font size="18.0"/>
             </font>
-        </JFXRadioButton>
+        </RadioButton>
         <Button fx:id="generate_pdf_btn" layoutX="68.0" layoutY="241.0" mnemonicParsing="false" onAction="#generatePDF"
                 prefHeight="71.0" prefWidth="154.0" style="-fx-background-color: #1FE4BD;"
                 text="Generate PDF&#10;Report&#10;" textAlignment="CENTER">

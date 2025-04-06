@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXDatePicker?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -93,7 +91,7 @@
         </Text>
         <TextField fx:id="voucher_no_field" layoutX="115.0" layoutY="68.0"
                    prefHeight="25.0" prefWidth="108.0"/>
-        <JFXDatePicker fx:id="voucher_date_field" layoutX="347.0" layoutY="62.0"
+        <DatePicker fx:id="voucher_date_field" layoutX="347.0" layoutY="62.0"
                        prefHeight="28.0" prefWidth="173.0"/>
         <ComboBox fx:id="supplier_name_combo" layoutX="133.0" layoutY="103.0"
                   onAction="#fillBillNoCombo" prefHeight="25.0" prefWidth="202.0"/>
@@ -114,7 +112,7 @@
                    prefWidth="45.0"/>
         <TextField fx:id="dd_no_field" layoutX="373.0" layoutY="227.0" prefHeight="25.0"
                    prefWidth="73.0"/>
-        <JFXDatePicker fx:id="dd_date_field" layoutX="463.0" layoutY="224.0"
+        <DatePicker fx:id="dd_date_field" layoutX="463.0" layoutY="224.0"
                        prefHeight="28.0" prefWidth="99.0"/>
         <Button fx:id="add_payment_btn" layoutX="37.0" layoutY="259.0"
                 mnemonicParsing="false" onAction="#addPayment" prefHeight="29.0"
@@ -125,7 +123,7 @@
         <Button fx:id="delete_payment_btn" layoutX="315.0" layoutY="259.0"
                 mnemonicParsing="false" onAction="#deletePayment" prefHeight="29.0"
                 prefWidth="130.0" text="Delete Payment"/>
-        <JFXButton fx:id="save_btn" layoutX="264.0" layoutY="486.0" onAction="#saveData"
+        <Button fx:id="save_btn" layoutX="264.0" layoutY="486.0" onAction="#saveData"
                    prefHeight="52.0" prefWidth="125.0" text="Save">
             <graphic>
                 <ImageView fitHeight="49.0" fitWidth="40.0" pickOnBounds="true"
@@ -138,8 +136,8 @@
             <font>
                 <Font size="18.0"/>
             </font>
-        </JFXButton>
-        <JFXButton fx:id="clear_btn" layoutX="102.0" layoutY="486.0" prefHeight="52.0"
+        </Button>
+        <Button fx:id="clear_btn" layoutX="102.0" layoutY="486.0" prefHeight="52.0"
                    prefWidth="125.0" text="Clear">
             <graphic>
                 <ImageView fitHeight="49.0" fitWidth="40.0" pickOnBounds="true"
@@ -152,7 +150,7 @@
             <font>
                 <Font size="18.0"/>
             </font>
-        </JFXButton>
+        </Button>
         <TableView fx:id="payment_tableview" layoutX="5.0" layoutY="298.0"
                    prefHeight="172.0" prefWidth="743.0">
             <columns>

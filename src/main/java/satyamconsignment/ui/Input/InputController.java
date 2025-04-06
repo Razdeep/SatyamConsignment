@@ -1,6 +1,5 @@
 package satyamconsignment.ui.Input;
 
-import com.jfoenix.controls.JFXButton;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -12,17 +11,17 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
 import javafx.scene.Parent;
+import javafx.scene.control.Button;
 import satyamconsignment.common.Utils;
 
 public class InputController implements Initializable {
 
-    Utils utils;
     @FXML
-    private JFXButton bill_entry_btn;
+    private Button bill_entry_btn;
     @FXML
-    private JFXButton collection_entry_brn;
+    private Button collection_entry_brn;
     @FXML
-    private JFXButton payment_entry_btn;
+    private Button payment_entry_btn;
     @FXML
     private Group root2;
 

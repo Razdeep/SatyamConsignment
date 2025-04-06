@@ -1,6 +1,5 @@
 package satyamconsignment.ui.Input.CollectionEntry.ViewAndDeleteCollection;
 
-import com.jfoenix.controls.JFXDatePicker;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -34,7 +33,7 @@ public class ViewAndDeleteCollection implements Initializable {
     @FXML
     private TextField voucher_no_field;
     @FXML
-    private JFXDatePicker voucher_date_field;
+    private DatePicker voucher_date_field;
     @FXML
     private Button replace_collection_btn;
     @FXML

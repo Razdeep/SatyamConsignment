@@ -1,7 +1,5 @@
 package satyamconsignment.ui.Input.BillEntry.AddBill;
 
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXDatePicker;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -18,10 +16,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import org.controlsfx.control.textfield.TextFields;
 import satyamconsignment.common.DatabaseHandler;
@@ -48,9 +43,9 @@ public class AddBill implements Initializable {
     @FXML
     private TextField transport_field;
     @FXML
-    private JFXDatePicker date_field;
+    private DatePicker date_field;
     @FXML
-    private JFXDatePicker lr_date;
+    private DatePicker lr_date;
     @FXML
     private TextField bill_amount_field;
     @FXML
@@ -58,9 +53,9 @@ public class AddBill implements Initializable {
     @FXML
     private TextField lr_field;
     @FXML
-    private JFXButton save_btn;
+    private Button save_btn;
     @FXML
-    private JFXButton clear_btn;
+    private Button clear_btn;
     @FXML
     private Button add_btn;
     private TableColumn<LR, String> lrNo;

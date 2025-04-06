@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXButton?>
 <?import javafx.scene.Group?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.paint.RadialGradient?>
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.*?>
+<?import javafx.scene.control.Button?>
 <Group xmlns:fx="http://javafx.com/fxml/1" fx:id="root" xmlns="http://javafx.com/javafx/8.0.111"
        fx:controller="satyamconsignment.ui.Master.MasterController">
     <children>
@@ -28,7 +28,7 @@
                 </RadialGradient>
             </fill>
         </Rectangle>
-        <JFXButton fx:id="supplier_master_btn" buttonType="RAISED" contentDisplay="TOP" layoutX="43.0" layoutY="179.0"
+        <Button fx:id="supplier_master_btn" contentDisplay="TOP" layoutX="43.0" layoutY="179.0"
                    onAction="#showSupplierMaster" prefHeight="145.0" prefWidth="180.0" text="Supplier Master">
             <graphic>
                 <ImageView fitHeight="99.0" fitWidth="122.0" pickOnBounds="true" preserveRatio="true">
@@ -40,8 +40,8 @@
             <font>
                 <Font size="18.0"/>
             </font>
-        </JFXButton>
-        <JFXButton fx:id="buyer_master_btn" buttonType="RAISED" contentDisplay="TOP" layoutX="257.0" layoutY="178.0"
+        </Button>
+        <Button fx:id="buyer_master_btn" contentDisplay="TOP" layoutX="257.0" layoutY="178.0"
                    onAction="#showBuyerMaster" prefHeight="145.0" prefWidth="180.0" text="Buyer Master">
             <graphic>
                 <ImageView fitHeight="99.0" fitWidth="127.0" pickOnBounds="true" preserveRatio="true">
@@ -53,9 +53,9 @@
             <font>
                 <Font size="18.0"/>
             </font>
-        </JFXButton>
-        <JFXButton fx:id="transport_master_btn" buttonType="RAISED" contentDisplay="TOP" layoutX="475.0" layoutY="177.0"
-                   onAction="#showTransportMaster" prefHeight="145.0" prefWidth="180.0" text="Transport Master">
+        </Button>
+        <Button fx:id="transport_master_btn" contentDisplay="TOP" layoutX="475.0" layoutY="177.0"
+                onAction="#showTransportMaster" prefHeight="145.0" prefWidth="180.0" text="Transport Master">
             <graphic>
                 <ImageView fitHeight="99.0" fitWidth="76.0" pickOnBounds="true" preserveRatio="true">
                     <image>
@@ -66,6 +66,6 @@
             <font>
                 <Font size="18.0"/>
             </font>
-        </JFXButton>
+        </Button>
     </children>
 </Group>

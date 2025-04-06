@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXButton?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.Group?>
@@ -10,6 +9,7 @@
 <BorderPane xmlns:fx="http://javafx.com/fxml/1" fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
             minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" stylesheets="@main.css"
             xmlns="http://javafx.com/javafx/8.0.111" fx:controller="satyamconsignment.ui.Main.MainController">
+
     <center>
         <Group BorderPane.alignment="CENTER">
             <children>
@@ -17,6 +17,7 @@
             </children>
         </Group>
     </center>
+
     <top>
         <MenuBar BorderPane.alignment="CENTER">
             <menus>
@@ -34,23 +35,22 @@
                 </Menu>
                 <Menu mnemonicParsing="false" text="Help">
                     <items>
-                        <MenuItem fx:id="instructions" mnemonicParsing="false" onAction="#showInstructionScreen"
-                                  text="Instructions"/>
+                        <MenuItem fx:id="instructions" mnemonicParsing="false" onAction="#showInstructionScreen" text="Instructions"/>
                         <MenuItem fx:id="contact" mnemonicParsing="false" onAction="#showContactScreen" text="Contact"/>
                         <MenuItem fx:id="about" mnemonicParsing="false" onAction="#showAboutScreen" text="About"/>
-                        <MenuItem fx:id="welcome_screen" mnemonicParsing="false" onAction="#showWelcomeScreen"
-                                  text="Welcome Screen"/>
+                        <MenuItem fx:id="welcome_screen" mnemonicParsing="false" onAction="#showWelcomeScreen" text="Welcome Screen"/>
                     </items>
                 </Menu>
             </menus>
         </MenuBar>
     </top>
+
     <right>
         <VBox prefHeight="375.0" prefWidth="200.0" style="-fx-background-color: #0039a3;" BorderPane.alignment="CENTER">
             <children>
-                <JFXButton fx:id="input_btn" buttonType="RAISED" contentDisplay="TOP" graphicTextGap="5.0"
-                           onAction="#showInputScreen" prefHeight="200.0" prefWidth="200.0" ripplerFill="#eaff00"
-                           text="Input">
+                <Button fx:id="input_btn" contentDisplay="TOP" graphicTextGap="5.0"
+                        onAction="#showInputScreen" prefHeight="200.0" prefWidth="200.0" text="Input"
+                        style="-fx-background-color: skyblue;">
                     <font>
                         <Font size="18.0"/>
                     </font>
@@ -59,18 +59,16 @@
                     </VBox.margin>
                     <graphic>
                         <ImageView fitHeight="70.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
-                            <viewport>
-                                <Rectangle2D/>
-                            </viewport>
                             <image>
                                 <Image url="@../../icons/Input.png"/>
                             </image>
                         </ImageView>
                     </graphic>
-                </JFXButton>
-                <JFXButton fx:id="report_btn" buttonType="RAISED" contentDisplay="TOP" graphicTextGap="5.0"
-                           onAction="#showReportScreen" prefHeight="200.0" prefWidth="200.0" ripplerFill="#f9ff8c"
-                           text="Report">
+                </Button>
+
+                <Button fx:id="report_btn" contentDisplay="TOP" graphicTextGap="5.0"
+                        onAction="#showReportScreen" prefHeight="200.0" prefWidth="200.0" text="Report"
+                        style="-fx-background-color: skyblue;">
                     <font>
                         <Font size="18.0"/>
                     </font>
@@ -84,10 +82,11 @@
                             </image>
                         </ImageView>
                     </graphic>
-                </JFXButton>
-                <JFXButton fx:id="master_btn" buttonType="RAISED" contentDisplay="TOP" graphicTextGap="5.0"
-                           onAction="#showMasterScreen" prefHeight="200.0" prefWidth="200.0" ripplerFill="#e6ff76"
-                           text="Master">
+                </Button>
+
+                <Button fx:id="master_btn" contentDisplay="TOP" graphicTextGap="5.0"
+                        onAction="#showMasterScreen" prefHeight="200.0" prefWidth="200.0" text="Master"
+                        style="-fx-background-color: skyblue;">
                     <font>
                         <Font size="18.0"/>
                     </font>
@@ -101,7 +100,7 @@
                             </image>
                         </ImageView>
                     </graphic>
-                </JFXButton>
+                </Button>
             </children>
             <padding>
                 <Insets top="10.0"/>
