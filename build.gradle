@@ -1,8 +1,9 @@
 plugins {
     id 'application'
     id 'java'
-    id "org.openjfx.javafxplugin" version "0.0.9"
+    id "org.openjfx.javafxplugin" version "0.1.0"
     id 'com.diffplug.spotless' version '7.0.2'
+//    id("com.github.johnrengelman.shadow") version "8.1.1"
 }
 
 repositories {
@@ -17,9 +18,10 @@ dependencies {
     implementation group: 'org.olap4j', name: 'olap4j', version: '1.2.0'
     implementation group: 'com.lowagie', name: 'itext', version: '2.1.7'
 
-    implementation("org.openjfx:javafx-controls:24")
-    implementation("org.openjfx:javafx-base:24")
-    implementation("org.openjfx:javafx-graphics:24")
+    implementation("org.openjfx:javafx-controls:11")
+    implementation("org.openjfx:javafx-base:11")
+    implementation("org.openjfx:javafx-graphics:11")
+    implementation("org.openjfx:javafx-fxml:11")
 
     compileOnly 'org.projectlombok:lombok:1.18.20'
     annotationProcessor 'org.projectlombok:lombok:1.18.20'
@@ -52,8 +54,9 @@ spotless {
 }
 
 mainClassName = 'satyamconsignment.Launcher'
+
 application {
-    mainClassName = 'satyamconsignment.Launcher'
+    mainClassName = mainClassName
 }
 
 run {
@@ -64,24 +67,60 @@ run {
     jvmArgs += ['--add-exports=javafx.graphics/com.sun.javafx.stage=ALL-UNNAMED']
 }
 
-//jar {
-//  manifest {
-//    attributes(
-//      'Manifest-Version': 1.0,
-//      'Main-Class': 'main.java.satyamconsignment.ui.login.Launcher',
-//      "Class-Path": configurations.runtimeClasspath.collect { "lib/" + it.getName() }.join(' ')
-//    )
+jar {
+  manifest {
+    attributes(
+      'Manifest-Version': 1.0,
+      'Main-Class': mainClassName,
+      "Class-Path": configurations.runtimeClasspath.collect { "lib/" + it.getName() }.join(' ')
+    )
+  }
+/*
+    this part is commented because it is unnecessarily creating the fat jar though the actual dependencies are using from the lib directory.
+    In future, I'll try to create a fat jar without the lib directory.
+*/
+
+//  from {
+//    configurations.compile.collect { it.isDirectory() ? zipTree(it) : it }
+//    configurations.runtimeClasspath.collect { it.isDirectory() ? zipTree(it) : it }
 //  }
-///*
-//    this part is commented because it is unnecessarily creating the fat jar though the actual dependencies are using from the lib directory.
-//    In future, I'll try to create a fat jar without the lib directory.
-//*/
-//
-////  from {
-////    configurations.compile.collect { it.isDirectory() ? zipTree(it) : it }
-////    configurations.runtimeClasspath.collect { it.isDirectory() ? zipTree(it) : it }
-////  }
-//}
+}
+
+def dependencyDirectory = layout.buildDirectory.dir("libs/lib")
+
+tasks.register('copyDatabase', Copy) {
+    from('example') {
+        include 'database.db'
+    }
+    into "${layout.buildDirectory.get()}/libs"
+    doLast {
+        println "Copied database.db to build directory"
+    }
+}
+
+tasks.register('copyRuntimeDeps', Copy) {
+    from(configurations.runtimeClasspath)
+    into(dependencyDirectory)
+    doLast {
+        println "Copied runtime dependencies"
+    }
+}
+
+tasks.register('copyDeps', Copy) {
+    from(configurations.compileClasspath)
+    into(dependencyDirectory)
+    doLast {
+        println "Copied compile-time dependencies"
+    }
+}
+
+tasks.named('jar') {
+    dependsOn (
+        tasks.named('copyDatabase'),
+        tasks.named('copyDeps'),
+        tasks.named('copyRuntimeDeps')
+    )
+}
 
 //def dependency_directory = "${buildDir}/libs/lib/"
 //
@@ -99,16 +138,32 @@ run {
 //jar.finalizedBy(copyDeps)
 
 
-tasks.register('fatJar', Jar) {
-    manifest {
-        attributes 'Main-Class': mainClassName
-    }
+//tasks.register('fatJar', Jar) {
+//    manifest {
+//        attributes 'Main-Class': mainClassName
+//    }
+//
+//    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+//
+//    from {
+//        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+//    }
+//
+//    with jar
+//}
 
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-
-    from {
-        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
-    }
-
-    with jar
-}
+//tasks {
+//    shadowJar {
+//        archiveBaseName.set("SatyamConsignment")
+//        archiveClassifier.set("")
+//        archiveVersion.set("")
+//        mergeServiceFiles()
+//        manifest {
+//            attributes["Main-Class"] = application.mainClass.get()
+//        }
+//    }
+//
+//    build {
+//        dependsOn(shadowJar)
+//    }
+//}
