@@ -67,8 +67,6 @@ public class AddCollection implements Initializable {
     private TextField bank_field;
 
     @FXML
-    private Label display_board_label;
-    @FXML
     private TextField total_amount_field;
 
     @FXML
@@ -138,6 +136,8 @@ public class AddCollection implements Initializable {
                     amountCollected = Double.valueOf(amountCollectedStr);
                 } catch (NumberFormatException ex) {
                     ex.printStackTrace();
+                    Logger.getLogger(AddCollection.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+                    Utils.showAlert(ex.toString());
                 }
                 collectionAmountMap.put(collectionAmountsResultSet.getString("Bill No."),
                         amountCollected);
@@ -171,7 +171,6 @@ public class AddCollection implements Initializable {
             }
 
             bill_no_combo.setItems(billNoComboList);
-            display_board_label.setText(buyer_name.getValue());
 
         } catch (SQLException ex) {
             Utils.showAlert(ex.toString());
@@ -306,7 +305,7 @@ public class AddCollection implements Initializable {
             return;
         }
         if (voucher_no_field.getText().isEmpty()
-                || voucher_date_field.getValue().toString().isEmpty()) {
+                || voucher_date_field.getValue() == null || voucher_date_field.getValue().toString().isEmpty()) {
             Utils.showAlert("Check whether the Voucher No. and the Voucher Date is properly filled",
                     2);
             return;
