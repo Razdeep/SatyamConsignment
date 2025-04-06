@@ -23,12 +23,12 @@
                 </Text>
                 <TabPane layoutY="63.0" prefHeight="591.0" prefWidth="751.0">
                     <tabs>
-                        <Tab text="Add">
+                        <Tab text="Add" closable="false">
                             <content>
                                 <fx:include fx:id="AddPayment" source="AddPayment/AddPayment.fxml"/>
                             </content>
                         </Tab>
-                        <Tab text="View &amp; Delete">
+                        <Tab text="View &amp; Delete" closable="false">
                             <content>
                                 <fx:include fx:id="ViewAndDeletePayment" source="ViewAndDeletePayment/ViewAndDeletePayment.fxml"/>
                             </content>
