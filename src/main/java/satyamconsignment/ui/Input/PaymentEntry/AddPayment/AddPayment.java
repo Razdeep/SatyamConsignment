@@ -7,12 +7,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -27,11 +27,13 @@ import satyamconsignment.model.PaymentItem;
 public class AddPayment implements Initializable {
 
     private DateTimeFormatter formatter;
-    ObservableList<PaymentItem> paymentItems;
-    ObservableList<String> supplierNameComboList;
-    ObservableList<String> billNoComboList;
-    int previouslyDue;
-    int totalAmountPaid;
+    private List<PaymentItem> paymentItems;
+    private List<String> supplierNameComboList;
+    private List<String> billNoComboList;
+    private int previouslyDue;
+
+    private static final Logger logger = Logger.getLogger(AddPayment.class.getName());
+
     @FXML
     private TextField dd_no_field;
     @FXML
@@ -110,14 +112,14 @@ public class AddPayment implements Initializable {
         due_col.setCellValueFactory(new PropertyValueFactory<>("due"));
         amount_paid_col.setCellValueFactory(new PropertyValueFactory<>("amountPaid"));
 
-        payment_tableview.setItems(paymentItems);
+        payment_tableview.setItems(FXCollections.observableArrayList(paymentItems));
         fillSupplierCombo();
 
         updateLastVoucher();
     }
 
     @FXML
-    private void addPayment(ActionEvent event) {
+    private void addPayment(ActionEvent ignoredEvent) {
         if (bill_no_combo.getValue().isEmpty() || bill_amount_field.getText().isEmpty()
                 || buyer_name_field.getText().isEmpty() || supplier_name_combo.getValue().isEmpty()
                 || bank_field.getText().isEmpty() || bank_field.getText().isEmpty()
@@ -132,12 +134,15 @@ public class AddPayment implements Initializable {
                 bill_date_field.getText(), buyer_name_field.getText(), due_amount_field.getText(),
                 amount_paid_field.getText(), bank_field.getText(), dd_no_field.getText(),
                 formatter.format(dd_date_field.getValue())));
+
+        payment_tableview.setItems(FXCollections.observableArrayList(paymentItems));
+
         clearRepeatingFields();
         updateTotalAmountPaid();
     }
 
     @FXML
-    private void replacePayment(ActionEvent event) {
+    private void replacePayment(ActionEvent ignoredEvent) {
 
         if (payment_tableview.getSelectionModel().getSelectedIndex() == -1) {
             Utils.showAlert("Please select an item from the Payment Table", 2);
@@ -165,7 +170,7 @@ public class AddPayment implements Initializable {
     }
 
     @FXML
-    private void deletePayment(ActionEvent event) {
+    private void deletePayment(ActionEvent ignoredEvent) {
         if (payment_tableview.getSelectionModel().getSelectedIndex() == -1) {
             Utils.showAlert("Please select an item from the Payment Table", 2);
             return;
@@ -186,9 +191,9 @@ public class AddPayment implements Initializable {
     }
 
     private void updateTotalAmountPaid() {
-        totalAmountPaid = 0;
-        for (PaymentItem temp : paymentItems) {
-            totalAmountPaid += Integer.parseInt(temp.getAmountPaid());
+        int totalAmountPaid = 0;
+        for (PaymentItem paymentItem : paymentItems) {
+            totalAmountPaid += Integer.parseInt(paymentItem.getAmountPaid());
         }
         total_amount_paid_field.setText(Integer.toString(totalAmountPaid));
     }
@@ -203,7 +208,7 @@ public class AddPayment implements Initializable {
     }
 
     @FXML
-    private void saveData(ActionEvent event) {
+    private void saveData(ActionEvent ignoredEvent) {
         if (voucher_no_field.getText().isEmpty()
                 || voucher_date_field.getValue().toString().isEmpty()) {
             Utils.showAlert("Check whether the Voucher No. and the Voucher Date is properly filled",
@@ -269,8 +274,7 @@ public class AddPayment implements Initializable {
             String lastVoucherNo = resultSet.getString("Max(`Voucher No.`)");
             last_voucher_field.setText("Last Voucher No. : " + lastVoucherNo);
         } catch (SQLException ex) {
-            Logger.getLogger(AddPayment.class.getName()).log(Level.SEVERE,
-                    "Failed to update Last Payment Voucher", ex);
+            logger.log(Level.SEVERE, "Failed to update Last Payment Voucher", ex);
         }
     }
 
@@ -285,16 +289,15 @@ public class AddPayment implements Initializable {
             while (resultSet.next()) {
                 supplierNameComboList.add(resultSet.getString("Name"));
             }
-            supplier_name_combo.setItems(supplierNameComboList);
+            supplier_name_combo.setItems(FXCollections.observableArrayList(supplierNameComboList));
         } catch (SQLException ex) {
             Utils.showAlert(ex.toString());
-            Logger.getLogger(AddPayment.class.getName()).log(Level.SEVERE,
-                    "Failed to populate the supplier combo", ex);
+            logger.log(Level.SEVERE, "Failed to populate the supplier combo", ex);
         }
     }
 
     @FXML
-    private void fillBillNoCombo(ActionEvent event) {
+    private void fillBillNoCombo(ActionEvent ignoredEvent) {
         try {
             Connection connection = DatabaseHandler.getInstance().getConnection();
 
@@ -308,9 +311,10 @@ public class AddPayment implements Initializable {
                 String amountPaidStr = paidAmountsResultSet.getString("Amount Paid");
                 double amountPaid = 0;
                 try {
-                    amountPaid = Double.valueOf(amountPaidStr);
+                    amountPaid = Double.parseDouble(amountPaidStr);
                 } catch (NumberFormatException ex) {
                     ex.printStackTrace();
+                    logger.log(Level.SEVERE, ex.toString());
                 }
                 paymentAmountMap.put(paidAmountsResultSet.getString("Bill No."), amountPaid);
             }
@@ -327,11 +331,12 @@ public class AddPayment implements Initializable {
             while (billNoResultSet.next()) {
                 String billNo = billNoResultSet.getString("Bill No.");
                 String billAmountStr = billNoResultSet.getString("Bill Amount");
-                Double billAmount = 1.0;
+                double billAmount = 1.0;
                 try {
-                    billAmount = Double.valueOf(billAmountStr);
+                    billAmount = Double.parseDouble(billAmountStr);
                 } catch (NumberFormatException ex) {
                     ex.printStackTrace();
+                    logger.log(Level.SEVERE, ex.toString());
                 }
                 if (paymentAmountMap.containsKey(billNo)) {
                     if (billAmount - paymentAmountMap.get(billNo) > 0) {
@@ -341,17 +346,16 @@ public class AddPayment implements Initializable {
                     billNoComboList.add(billNo);
                 }
             }
-            bill_no_combo.setItems(billNoComboList);
+            bill_no_combo.setItems(FXCollections.observableArrayList(billNoComboList));
 
         } catch (SQLException ex) {
             Utils.showAlert(ex.toString());
-            Logger.getLogger(AddPayment.class.getName()).log(Level.SEVERE,
-                    "Failed to populate bill number combo", ex);
+            logger.log(Level.SEVERE, "Failed to populate bill number combo", ex);
         }
     }
 
     @FXML
-    private void fetchData(ActionEvent event) {
+    private void fetchData(ActionEvent ignoredEvent) {
         try {
             Connection connection = DatabaseHandler.getInstance().getConnection();
             String sql = "Select * from Bill_Entry_Table where `Bill No.`=?";
@@ -366,15 +370,18 @@ public class AddPayment implements Initializable {
             supplier_name_combo.setDisable(true);
         } catch (SQLException ex) {
             Utils.showAlert(ex.toString());
-            Logger.getLogger(AddPayment.class.getName()).log(Level.SEVERE, "Failed to fetch data",
-                    ex);
+            logger.log(Level.SEVERE, "Failed to fetch data", ex);
         }
     }
 
     @FXML
     private void updateDueAmount() {
-        String temp;
-        temp = Integer.toString(previouslyDue - Integer.parseInt(amount_paid_field.getText()));
-        due_amount_field.setText(temp);
+        int amountPaid = 0;
+        try {
+            amountPaid = Integer.parseInt(amount_paid_field.getText());
+        } catch (Exception ex) {
+            logger.log(Level.WARNING, "cannot be converted to integer");
+        }
+        due_amount_field.setText(Integer.toString(previouslyDue - amountPaid));
     }
 }
