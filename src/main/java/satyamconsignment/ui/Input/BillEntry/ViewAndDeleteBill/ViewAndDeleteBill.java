@@ -1,6 +1,5 @@
 package satyamconsignment.ui.Input.BillEntry.ViewAndDeleteBill;
 
-import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,26 +11,26 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
-import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import satyamconsignment.common.DatabaseHandler;
 import satyamconsignment.common.Utils;
-import satyamconsignment.ui.Input.BillEntry.BillEntryController;
 import satyamconsignment.model.LR;
-import satyamconsignment.ui.Main.MainController;
 
 public class ViewAndDeleteBill implements Initializable {
-    List<String> supplierList, buyerList, transportList;
-    ObservableList<LR> list = FXCollections.observableArrayList();
-    DateTimeFormatter formatter;
+
+    private static final Logger logger = Logger.getLogger(ViewAndDeleteBill.class.getName());
+
+    private List<String> supplierList, buyerList, transportList;
+    private List<LR> lrpmList;
+    private DateTimeFormatter formatter;
+
     @FXML
     private Group root;
 
@@ -62,57 +61,48 @@ public class ViewAndDeleteBill implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        ResultSet supplierListResultSet = null, buyerListResultSet = null,
-                transportListResultSet = null;
         formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+
+        supplierList = new ArrayList<>();
+        buyerList = new ArrayList<>();
+        transportList = new ArrayList<>();
+        lrpmList = new ArrayList<>();
+
         try {
             DatabaseHandler databaseHandler = DatabaseHandler.getInstance();
             Connection connection = databaseHandler.getConnection();
 
             PreparedStatement preparedStatement = connection.prepareStatement(
                     "select * from Supplier_Master_Table order by name collate nocase");
-            supplierListResultSet = preparedStatement.executeQuery();
+            ResultSet supplierListResultSet = preparedStatement.executeQuery();
 
             preparedStatement = connection.prepareStatement(
                     "select * from Buyer_Master_Table order by name collate nocase");
-            buyerListResultSet = preparedStatement.executeQuery();
+            ResultSet buyerListResultSet = preparedStatement.executeQuery();
 
             preparedStatement = connection.prepareStatement(
                     "select * from Transport_Master_Table order by name collate nocase");
-            transportListResultSet = preparedStatement.executeQuery();
+            ResultSet transportListResultSet = preparedStatement.executeQuery();
+
+            while (!supplierListResultSet.isClosed()) {
+                supplierList.add(supplierListResultSet.getString("name"));
+                supplierListResultSet.next();
+            }
+            while (!buyerListResultSet.isClosed()) {
+                buyerList.add(buyerListResultSet.getString("name"));
+                buyerListResultSet.next();
+            }
+            while (!transportListResultSet.isClosed()) {
+                transportList.add(transportListResultSet.getString("name"));
+                transportListResultSet.next();
+            }
+
         } catch (SQLException ex) {
             Utils.showAlert(ex.toString());
-            Logger.getLogger(BillEntryController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        try {
-            supplierList = new ArrayList<>();
-            buyerList = new ArrayList<>();
-            transportList = new ArrayList<>();
-            while (supplierListResultSet.next()) {
-                supplierList.add(supplierListResultSet.getString("name"));
-            }
-            while (buyerListResultSet.next()) {
-                buyerList.add(buyerListResultSet.getString("name"));
-            }
-            while (transportListResultSet.next()) {
-                transportList.add(transportListResultSet.getString("name"));
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(BillEntryController.class.getName()).log(Level.SEVERE, null, ex);
+            logger.log(Level.SEVERE, ex.toString(), ex);
         }
         lr_no_col.setCellValueFactory(new PropertyValueFactory<>("lrNo"));
         pm_col.setCellValueFactory(new PropertyValueFactory<>("pm"));
-    }
-
-    private void showInputScreen(ActionEvent event) {
-        try {
-            Parent parent = FXMLLoader
-                    .load(getClass().getResource("/satyamconsignment/ui/Input/Input.fxml"));
-            root.getChildren().setAll(parent);
-        } catch (IOException ex) {
-            Utils.showAlert(ex.toString());
-            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 
     @FXML
@@ -139,16 +129,16 @@ public class ViewAndDeleteBill implements Initializable {
             transport_field.setText(billResultSet.getString("Transport"));
             lr_date_field.setText(billResultSet.getString("LR Date"));
             bill_amount_field.setText(billResultSet.getString("Bill Amount"));
-            list.clear();
+            lrpmList.clear();
             while (lrPmResultSet.next()) {
-                list.add(new LR(lrPmResultSet.getString("Bill No."),
+                lrpmList.add(new LR(lrPmResultSet.getString("Bill No."),
                         lrPmResultSet.getString("LR No."), lrPmResultSet.getString("PM")));
             }
-            lr_table.setItems(list);
+            lr_table.setItems(FXCollections.observableArrayList(lrpmList));
             delete_entry_btn.setDisable(false);
         } catch (SQLException ex) {
             Utils.showAlert(ex.toString());
-            Logger.getLogger(BillEntryController.class.getName()).log(Level.SEVERE, null, ex);
+            logger.log(Level.SEVERE, null, ex);
         }
     }
 
@@ -182,7 +172,7 @@ public class ViewAndDeleteBill implements Initializable {
             transport_field.setText("");
             lr_date_field.setText("");
             bill_amount_field.setText("");
-            list.clear();
+            lrpmList.clear();
             connection.commit();
             Utils.showAlert(
                     bill_no_field.getText().toUpperCase() + " Entry was successfully deleted.", 1);
@@ -191,10 +181,10 @@ public class ViewAndDeleteBill implements Initializable {
                 connection.rollback();
             } catch (SQLException ex1) {
                 Utils.showAlert(ex1.toString());
-                Logger.getLogger(BillEntryController.class.getName()).log(Level.SEVERE, null, ex1);
+                logger.log(Level.SEVERE, ex1.toString(), ex1);
             }
             Utils.showAlert(ex.toString());
-            Logger.getLogger(BillEntryController.class.getName()).log(Level.SEVERE, null, ex);
+            logger.log(Level.SEVERE, ex.toString(), ex);
         }
     }
 
@@ -218,8 +208,7 @@ public class ViewAndDeleteBill implements Initializable {
             preparedStatement.execute();
         } catch (SQLException ex) {
             Utils.showAlert(ex.toString());
-            Logger.getLogger(BillEntryController.class.getName()).log(Level.SEVERE, ex.toString(),
-                    ex);
+            logger.log(Level.SEVERE, ex.toString(), ex);
         }
     }
 }

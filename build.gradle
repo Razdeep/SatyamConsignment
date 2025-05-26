@@ -50,6 +50,7 @@ spotless {
     java {
         target 'src/**/*.java'
         eclipse().configFile('spotless.eclipseformat.xml')
+        removeUnusedImports()
     }
 }
 

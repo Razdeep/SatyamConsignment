@@ -1,8 +1,6 @@
 package satyamconsignment.ui.Report.SupplierLedger;
 
 import java.awt.*;
-import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;

@@ -7,12 +7,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -25,11 +25,11 @@ import satyamconsignment.common.Utils;
 import satyamconsignment.model.CollectionItem;
 
 public class ViewAndDeleteCollection implements Initializable {
-    int totalAmount;
-    ObservableList<CollectionItem> collectionItemObservableList;
-    ObservableList<String> buyerNameComboList;
-    ObservableList<String> billNoComboList;
-    DateTimeFormatter formatter;
+    private List<CollectionItem> collectionItemList;
+    private List<String> buyerNameComboList;
+    private List<String> billNoComboList;
+    private DateTimeFormatter formatter;
+
     @FXML
     private TextField voucher_no_field;
     @FXML
@@ -96,10 +96,10 @@ public class ViewAndDeleteCollection implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        totalAmount = 0;
+        // int totalAmount = 0;
         formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
-        collectionItemObservableList = FXCollections.observableArrayList();
+        collectionItemList = FXCollections.observableArrayList();
         buyerNameComboList = FXCollections.observableArrayList();
         billNoComboList = FXCollections.observableArrayList();
 
@@ -126,13 +126,17 @@ public class ViewAndDeleteCollection implements Initializable {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, voucher_no_field.getText());
             ResultSet collectionResultSet = preparedStatement.executeQuery();
+            if (collectionResultSet.isClosed()) {
+                Utils.showAlert("No Results found", 1);
+                return;
+            }
 
             voucher_date.setText(collectionResultSet.getString("Voucher Date"));
             buyer_name.setText(collectionResultSet.getString("Buyer Name"));
             total_amount_field.setText(collectionResultSet.getString("Total Amount"));
             display_board_label.setText(collectionResultSet.getString("Buyer Name"));
 
-            collectionItemObservableList.clear();
+            collectionItemList.clear();
             sql = "select * from `Collection_Entry_Extended_Table` where `Voucher No.`=? collate nocase";
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, voucher_no_field.getText());
@@ -142,18 +146,17 @@ public class ViewAndDeleteCollection implements Initializable {
                 return;
             }
             while (collectionResultSet.next()) {
-                collectionItemObservableList
-                        .add(new CollectionItem(collectionResultSet.getString("Bill No."),
-                                collectionResultSet.getString("Bill Date"),
-                                collectionResultSet.getString("Bill Amount"),
-                                collectionResultSet.getString("Supplier Name"),
-                                collectionResultSet.getString("collection due"),
-                                collectionResultSet.getString("amount collected"),
-                                collectionResultSet.getString("bank"),
-                                collectionResultSet.getString("DD No."),
-                                collectionResultSet.getString("DD Date")));
+                collectionItemList.add(new CollectionItem(collectionResultSet.getString("Bill No."),
+                        collectionResultSet.getString("Bill Date"),
+                        collectionResultSet.getString("Bill Amount"),
+                        collectionResultSet.getString("Supplier Name"),
+                        collectionResultSet.getString("collection due"),
+                        collectionResultSet.getString("amount collected"),
+                        collectionResultSet.getString("bank"),
+                        collectionResultSet.getString("DD No."),
+                        collectionResultSet.getString("DD Date")));
             }
-            collection_tableview.setItems(collectionItemObservableList);
+            collection_tableview.setItems(FXCollections.observableArrayList(collectionItemList));
             delete_entry_btn.setDisable(false);
         } catch (SQLException ex) {
             Utils.showAlert(ex.toString());
@@ -200,7 +203,7 @@ public class ViewAndDeleteCollection implements Initializable {
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, voucher_no_field.getText());
             preparedStatement.execute();
-            collectionItemObservableList.clear();
+            collectionItemList.clear();
             voucher_date.setText("");
             buyer_name.setText("");
             display_board_label.setText("");
