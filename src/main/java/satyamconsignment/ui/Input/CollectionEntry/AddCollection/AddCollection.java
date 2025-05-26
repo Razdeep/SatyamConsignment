@@ -136,7 +136,8 @@ public class AddCollection implements Initializable {
                     amountCollected = Double.valueOf(amountCollectedStr);
                 } catch (NumberFormatException ex) {
                     ex.printStackTrace();
-                    Logger.getLogger(AddCollection.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+                    Logger.getLogger(AddCollection.class.getName()).log(Level.SEVERE, ex.toString(),
+                            ex);
                     Utils.showAlert(ex.toString());
                 }
                 collectionAmountMap.put(collectionAmountsResultSet.getString("Bill No."),
@@ -194,7 +195,7 @@ public class AddCollection implements Initializable {
             bill_date.setText(billDate);
             bill_amount.setText(billAmount);
             updateCollectionDue();
-//            buyer_name.setDisable(true);
+            // buyer_name.setDisable(true);
 
         } catch (SQLException ex) {
             Utils.showAlert(ex.toString());
@@ -304,8 +305,8 @@ public class AddCollection implements Initializable {
         if (alert.getResult() != ButtonType.YES) {
             return;
         }
-        if (voucher_no_field.getText().isEmpty()
-                || voucher_date_field.getValue() == null || voucher_date_field.getValue().toString().isEmpty()) {
+        if (voucher_no_field.getText().isEmpty() || voucher_date_field.getValue() == null
+                || voucher_date_field.getValue().toString().isEmpty()) {
             Utils.showAlert("Check whether the Voucher No. and the Voucher Date is properly filled",
                     2);
             return;
