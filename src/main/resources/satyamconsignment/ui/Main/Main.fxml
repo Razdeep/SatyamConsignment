@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.*?>
+<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.Group?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.Font?>
-<BorderPane xmlns:fx="http://javafx.com/fxml/1" fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-            minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" stylesheets="@main.css"
-            xmlns="http://javafx.com/javafx/8.0.111" fx:controller="satyamconsignment.ui.Main.MainController">
+<?import javafx.scene.text.*?>
+
+<BorderPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" stylesheets="@main.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="satyamconsignment.ui.Main.MainController">
 
     <center>
         <Group BorderPane.alignment="CENTER">
             <children>
-                <AnchorPane layoutX="34.0" layoutY="67.0"/>
+                <AnchorPane layoutX="34.0" layoutY="67.0" />
             </children>
         </Group>
     </center>
@@ -23,22 +22,19 @@
             <menus>
                 <Menu mnemonicParsing="false" text="File">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="Close"/>
+                        <MenuItem mnemonicParsing="false" text="Close" />
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Navigate">
                     <items>
-                        <MenuItem mnemonicParsing="false" onAction="#showInputHistory" text="Input History"/>
-                        <MenuItem mnemonicParsing="false" onAction="#showCollectionHistory" text="Collection History"/>
-                        <MenuItem mnemonicParsing="false" onAction="#showPaymentHistory" text="Payment History"/>
+                        <MenuItem mnemonicParsing="false" onAction="#showInputHistory" text="Input History" />
+                        <MenuItem mnemonicParsing="false" onAction="#showCollectionHistory" text="Collection History" />
+                        <MenuItem mnemonicParsing="false" onAction="#showPaymentHistory" text="Payment History" />
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Help">
                     <items>
-                        <MenuItem fx:id="instructions" mnemonicParsing="false" onAction="#showInstructionScreen" text="Instructions"/>
-                        <MenuItem fx:id="contact" mnemonicParsing="false" onAction="#showContactScreen" text="Contact"/>
-                        <MenuItem fx:id="about" mnemonicParsing="false" onAction="#showAboutScreen" text="About"/>
-                        <MenuItem fx:id="welcome_screen" mnemonicParsing="false" onAction="#showWelcomeScreen" text="Welcome Screen"/>
+                        <MenuItem fx:id="welcome_screen" mnemonicParsing="false" onAction="#showWelcomeScreen" text="Welcome Screen" />
                     </items>
                 </Menu>
             </menus>
@@ -48,62 +44,56 @@
     <right>
         <VBox prefHeight="375.0" prefWidth="200.0" style="-fx-background-color: #0039a3;" BorderPane.alignment="CENTER">
             <children>
-                <Button fx:id="input_btn" contentDisplay="TOP" graphicTextGap="5.0"
-                        onAction="#showInputScreen" prefHeight="200.0" prefWidth="200.0" text="Input"
-                        style="-fx-background-color: skyblue;">
+                <Button fx:id="input_btn" contentDisplay="TOP" graphicTextGap="5.0" onAction="#showInputScreen" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: skyblue;" text="Input">
                     <font>
-                        <Font size="18.0"/>
+                        <Font size="18.0" />
                     </font>
                     <VBox.margin>
-                        <Insets top="25.0"/>
+                        <Insets top="25.0" />
                     </VBox.margin>
                     <graphic>
                         <ImageView fitHeight="70.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@../../icons/Input.png"/>
+                                <Image url="@../../icons/Input.png" />
                             </image>
                         </ImageView>
                     </graphic>
                 </Button>
 
-                <Button fx:id="report_btn" contentDisplay="TOP" graphicTextGap="5.0"
-                        onAction="#showReportScreen" prefHeight="200.0" prefWidth="200.0" text="Report"
-                        style="-fx-background-color: skyblue;">
+                <Button fx:id="report_btn" contentDisplay="TOP" graphicTextGap="5.0" onAction="#showReportScreen" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: skyblue;" text="Report">
                     <font>
-                        <Font size="18.0"/>
+                        <Font size="18.0" />
                     </font>
                     <VBox.margin>
-                        <Insets top="25.0"/>
+                        <Insets top="25.0" />
                     </VBox.margin>
                     <graphic>
                         <ImageView fitHeight="82.0" fitWidth="89.0" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@../../icons/Report.png"/>
+                                <Image url="@../../icons/Report.png" />
                             </image>
                         </ImageView>
                     </graphic>
                 </Button>
 
-                <Button fx:id="master_btn" contentDisplay="TOP" graphicTextGap="5.0"
-                        onAction="#showMasterScreen" prefHeight="200.0" prefWidth="200.0" text="Master"
-                        style="-fx-background-color: skyblue;">
+                <Button fx:id="master_btn" contentDisplay="TOP" graphicTextGap="5.0" onAction="#showMasterScreen" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: skyblue;" text="Master">
                     <font>
-                        <Font size="18.0"/>
+                        <Font size="18.0" />
                     </font>
                     <VBox.margin>
-                        <Insets top="25.0"/>
+                        <Insets top="25.0" />
                     </VBox.margin>
                     <graphic>
                         <ImageView fitHeight="108.0" fitWidth="104.0" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@../../icons/Master.png"/>
+                                <Image url="@../../icons/Master.png" />
                             </image>
                         </ImageView>
                     </graphic>
                 </Button>
             </children>
             <padding>
-                <Insets top="10.0"/>
+                <Insets top="10.0" />
             </padding>
         </VBox>
     </right>
