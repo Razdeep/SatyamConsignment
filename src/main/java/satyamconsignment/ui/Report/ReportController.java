@@ -37,18 +37,18 @@ public class ReportController implements Initializable {
 
     @FXML
     private void showSupplierLedger(ActionEvent event) {
-        viewLoader.load("/satyamconsignment/ui/Report/SupplierLedger/SupplierLedger.fxml",
+        viewLoader.loadRoot("/satyamconsignment/ui/Report/SupplierLedger/SupplierLedger.fxml",
                 root);
     }
 
     @FXML
     private void showBuyerLedger(ActionEvent event) {
-        viewLoader.load("/satyamconsignment/ui/Report/BuyerLedger/BuyerLedger.fxml", root);
+        viewLoader.loadRoot("/satyamconsignment/ui/Report/BuyerLedger/BuyerLedger.fxml", root);
     }
 
     @FXML
     private void showTransportLedger(ActionEvent event) {
-        viewLoader.load("/satyamconsignment/ui/Report/TransportLedger/TransportLedger.fxml",
+        viewLoader.loadRoot("/satyamconsignment/ui/Report/TransportLedger/TransportLedger.fxml",
                 root);
     }
 

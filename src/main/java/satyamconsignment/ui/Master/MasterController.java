@@ -39,16 +39,16 @@ public class MasterController implements Initializable {
 
     @FXML
     private void showSupplierMaster(ActionEvent event) {
-        viewLoader.load("/satyamconsignment/ui/Master/Supplier/MasterSupplier.fxml", root);
+        viewLoader.loadRoot("/satyamconsignment/ui/Master/Supplier/MasterSupplier.fxml", root);
     }
 
     @FXML
     private void showBuyerMaster(ActionEvent event) {
-        viewLoader.load("/satyamconsignment/ui/Master/Buyer/MasterBuyer.fxml", root);
+        viewLoader.loadRoot("/satyamconsignment/ui/Master/Buyer/MasterBuyer.fxml", root);
     }
 
     @FXML
     private void showTransportMaster(ActionEvent event) {
-        viewLoader.load("/satyamconsignment/ui/Master/Transport/MasterTransport.fxml", root);
+        viewLoader.loadRoot("/satyamconsignment/ui/Master/Transport/MasterTransport.fxml", root);
     }
 }
