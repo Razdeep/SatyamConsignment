@@ -66,9 +66,9 @@ public class AddBill implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
-            ArrayList<String> supplierList = new ArrayList();
-            ArrayList<String> buyerList = new ArrayList();
-            ArrayList<String> transportList = new ArrayList();
+            ArrayList<String> supplierList = new ArrayList<>();
+            ArrayList<String> buyerList = new ArrayList<>();
+            ArrayList<String> transportList = new ArrayList<>();
             Connection connection = DatabaseHandler.getInstance().getConnection();
             ResultSet supplierResultSet = connection
                     .prepareStatement(

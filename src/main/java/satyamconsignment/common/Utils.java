@@ -59,4 +59,5 @@ public class Utils {
             Logger.getLogger(Utils.class.getName()).log(Level.SEVERE, msg, e);
         }
     }
+
 }

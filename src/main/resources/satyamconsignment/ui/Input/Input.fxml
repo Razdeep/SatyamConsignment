@@ -8,7 +8,7 @@
 <?import javafx.scene.text.*?>
 <?import javafx.scene.control.Button?>
 
-<Group xmlns:fx="http://javafx.com/fxml/1" fx:id="root2" xmlns="http://javafx.com/javafx/8.0.111"
+<Group xmlns:fx="http://javafx.com/fxml/1" fx:id="root" xmlns="http://javafx.com/javafx/8.0.111"
        fx:controller="satyamconsignment.ui.Input.InputController">
     <children>
         <Rectangle arcHeight="5.0" arcWidth="5.0" height="218.0" layoutX="5.0" layoutY="161.0" stroke="BLACK"

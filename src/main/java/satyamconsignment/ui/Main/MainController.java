@@ -98,42 +98,6 @@ public class MainController implements Initializable {
     }
 
     @FXML
-    private void showContactScreen(ActionEvent event) {
-        try {
-            Parent parent = FXMLLoader.load(
-                    getClass().getResource("/satyamconsignment/ui/Main/Contact/Contact.fxml"));
-            root.setCenter(parent);
-        } catch (IOException ex) {
-            Utils.showAlert(ex.toString());
-            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    @FXML
-    private void showAboutScreen(ActionEvent event) {
-        try {
-            Parent parent = FXMLLoader
-                    .load(getClass().getResource("/satyamconsignment/ui/Main/About/About.fxml"));
-            root.setCenter(parent);
-        } catch (IOException ex) {
-            Utils.showAlert(ex.toString());
-            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    @FXML
-    private void showInstructionScreen(ActionEvent event) {
-        try {
-            Parent parent = FXMLLoader.load(getClass()
-                    .getResource("/satyamconsignment/ui/Main/InstructionScreen/Instructions.fxml"));
-            root.setCenter(parent);
-        } catch (IOException ex) {
-            Utils.showAlert(ex.toString());
-            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    @FXML
     private void showInputHistory(ActionEvent event) {
         try {
             Parent parent = FXMLLoader.load(getClass()
