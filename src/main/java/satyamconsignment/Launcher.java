@@ -10,6 +10,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import satyamconsignment.common.CustomControllerFactory;
+import satyamconsignment.common.DatabaseProvider;
 import satyamconsignment.common.Utils;
 
 public class Launcher extends Application {
@@ -26,7 +28,15 @@ public class Launcher extends Application {
             if (resource == null) {
                 throw new RuntimeException("Resource not found");
             }
-            Parent root = FXMLLoader.load(resource);
+
+
+//            Parent root = FXMLLoader.load(resource);
+
+            DatabaseProvider dbProvider = new DatabaseProvider();
+            FXMLLoader loader = new FXMLLoader(resource);
+            loader.setControllerFactory(new CustomControllerFactory(dbProvider.getConnection()));
+
+            Parent root = loader.load();
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.setMaximized(true);

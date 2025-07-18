@@ -17,11 +17,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import satyamconsignment.common.BaseController;
 import satyamconsignment.common.DatabaseHandler;
 import satyamconsignment.common.Utils;
 import satyamconsignment.model.LR;
 
-public class ViewAndDeleteBill implements Initializable {
+public class ViewAndDeleteBill extends BaseController implements Initializable {
 
     private static final Logger logger = Logger.getLogger(ViewAndDeleteBill.class.getName());
 
@@ -59,7 +60,7 @@ public class ViewAndDeleteBill implements Initializable {
     @FXML
     private void getDetails(ActionEvent event) {
         try {
-            Connection connection = DatabaseHandler.getInstance().getConnection();
+//            Connection connection = DatabaseHandler.getInstance().getConnection();
             String sql = "select * from `Bill_Entry_Table` where `Bill No.`=? collate nocase";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, bill_no_field.getText());
@@ -105,7 +106,7 @@ public class ViewAndDeleteBill implements Initializable {
             return;
         }
 
-        Connection connection = DatabaseHandler.getInstance().getConnection();
+//        Connection connection = DatabaseHandler.getInstance().getConnection();
 
         try {
             connection.setAutoCommit(false);
@@ -142,7 +143,7 @@ public class ViewAndDeleteBill implements Initializable {
 
     @FXML
     public void updateBill(ActionEvent actionEvent) {
-        Connection connection = DatabaseHandler.getInstance().getConnection();
+//        Connection connection = DatabaseHandler.getInstance().getConnection();
         try {
             connection.setAutoCommit(false);
             String sql = "UPDATE `Bill_Entry_Table` SET `Supplier Name`=?,`Buyer Name`=?,`Bill Date`=?,"

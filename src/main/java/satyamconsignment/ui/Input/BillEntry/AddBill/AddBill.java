@@ -17,13 +17,14 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import org.controlsfx.control.textfield.TextFields;
+import satyamconsignment.common.BaseController;
 import satyamconsignment.common.Constants;
 import satyamconsignment.common.DatabaseHandler;
 import satyamconsignment.common.Utils;
 import satyamconsignment.ui.Input.BillEntry.BillEntryController;
 import satyamconsignment.model.LR;
 
-public class AddBill implements Initializable {
+public class AddBill extends BaseController implements Initializable  {
 
     @FXML
     private TextField supplier_field;
@@ -68,7 +69,7 @@ public class AddBill implements Initializable {
             ArrayList<String> supplierList = new ArrayList<>();
             ArrayList<String> buyerList = new ArrayList<>();
             ArrayList<String> transportList = new ArrayList<>();
-            Connection connection = DatabaseHandler.getInstance().getConnection();
+//            Connection connection = DatabaseHandler.getInstance().getConnection();
             ResultSet supplierResultSet = connection
                     .prepareStatement(
                             "select * from Supplier_Master_Table order by name collate nocase")
@@ -131,7 +132,7 @@ public class AddBill implements Initializable {
             return;
         }
         /* Code for saving data into Bill_Entry_Table */
-        Connection connection = DatabaseHandler.getInstance().getConnection();
+//        Connection connection = DatabaseHandler.getInstance().getConnection();
         try {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Constants.DATE_TIME_FORMAT);
             String sql = "INSERT INTO `Bill_Entry_Table`(`Supplier Name`,`Buyer Name`,`Bill No.`,`Bill Date`,`Transport`,`LR Date`,`Bill Amount`,`Collection Due`,`Due`) VALUES (?,?,?,?,?,?,?,?,?);";
