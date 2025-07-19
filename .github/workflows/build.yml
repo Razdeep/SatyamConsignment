@@ -37,7 +37,7 @@ jobs:
         run: ./gradlew clean build
 
       - name: Upload JAR artifact
-        uses: github/upload-artifact@v4
+        uses: actions/upload-artifact@v4
         with:
           name: javafx-app
           path: build/libs/*.jar
