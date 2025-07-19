@@ -9,7 +9,7 @@
 <?import javafx.scene.text.*?>
 <?import java.net.URL?>
 <Group xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.141"
-       fx:controller="satyamconsignment.ui.Main.WelcomeScreen.WelcomeScreenController">
+       fx:controller="satyamconsignment.ui.Main.WelcomeScreen.WelcomeScreen">
     <children>
         <AnchorPane id="AnchorPane" prefHeight="490.0" prefWidth="757.0">
             <stylesheets>

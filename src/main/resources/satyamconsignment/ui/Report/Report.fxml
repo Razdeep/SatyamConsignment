@@ -1,84 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.Group?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
-<?import javafx.scene.paint.RadialGradient?>
-<?import javafx.scene.paint.Stop?>
-<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
-<?import javafx.scene.control.Button?>
-<Group xmlns:fx="http://javafx.com/fxml/1" fx:id="root" xmlns="http://javafx.com/javafx/8.0.111"
-       fx:controller="satyamconsignment.ui.Report.ReportController">
+
+<Group fx:id="root" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="satyamconsignment.ui.Report.ReportController">
     <children>
-        <Rectangle arcHeight="5.0" arcWidth="5.0" height="362.0" layoutX="5.0" layoutY="161.0" stroke="BLACK"
-                   strokeType="INSIDE" width="800.0">
+        <Rectangle arcHeight="5.0" arcWidth="5.0" height="263.0" layoutX="5.0" layoutY="161.0" stroke="BLACK" strokeType="INSIDE" width="800.0">
             <fill>
                 <RadialGradient centerX="0.5" centerY="0.5" focusAngle="-169.7" radius="1.0">
                     <stops>
-                        <Stop color="#ffbf2e"/>
-                        <Stop color="#ffea00" offset="0.007662835249042145"/>
-                        <Stop color="#ed3b00" offset="1.0"/>
+                        <Stop color="#ffbf2e" />
+                        <Stop color="#ffea00" offset="0.007662835249042145" />
+                        <Stop color="#ed3b00" offset="1.0" />
                     </stops>
                 </RadialGradient>
             </fill>
         </Rectangle>
-        <Text layoutX="282.0" layoutY="90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Reports"
-              wrappingWidth="144.00001107156277">
+        <Text layoutX="282.0" layoutY="90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Reports" wrappingWidth="144.00001107156277">
             <font>
-                <Font size="40.0"/>
+                <Font size="40.0" />
             </font>
         </Text>
-        <Button fx:id="supplier_ledger_btn" contentDisplay="TOP" layoutX="25.0" layoutY="193.0"
-                onAction="#showSupplierLedger" prefHeight="145.0" prefWidth="180.0" text="Supplier Ledger">
+        <Button fx:id="supplier_ledger_btn" contentDisplay="TOP" layoutX="81.0" layoutY="196.0" onAction="#showSupplierLedger" prefHeight="145.0" prefWidth="180.0" text="Supplier Ledger">
             <graphic>
                 <ImageView fitHeight="99.0" fitWidth="127.0" pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../../icons/SupplierLedger.png"/>
+                        <Image url="@../../icons/SupplierLedger.png" />
                     </image>
                 </ImageView>
             </graphic>
             <font>
-                <Font size="18.0"/>
+                <Font size="18.0" />
             </font>
         </Button>
-        <Button fx:id="buyer_ledger_brn" contentDisplay="TOP" layoutX="387.0" layoutY="193.0"
-                   onAction="#showBuyerLedger" prefHeight="145.0" prefWidth="180.0" text="Buyer  Ledger">
+        <Button fx:id="buyer_ledger_brn" contentDisplay="TOP" layoutX="541.0" layoutY="193.0" onAction="#showBuyerLedger" prefHeight="145.0" prefWidth="180.0" text="Buyer  Ledger">
             <graphic>
                 <ImageView fitHeight="95.0" fitWidth="95.0" pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../../icons/BuyerLedger.png"/>
+                        <Image url="@../../icons/BuyerLedger.png" />
                     </image>
                 </ImageView>
             </graphic>
             <font>
-                <Font size="18.0"/>
+                <Font size="18.0" />
             </font>
         </Button>
-        <Button fx:id="transport_ledger_btn" contentDisplay="TOP" layoutX="207.0" layoutY="353.0"
-                   onAction="#showTransportLedger" prefHeight="145.0" prefWidth="180.0" text="Transport  Ledger">
+        <Button fx:id="transport_ledger_btn" contentDisplay="TOP" layoutX="315.0" layoutY="194.0" onAction="#showTransportLedger" prefHeight="150.0" prefWidth="180.0" text="Transport  Ledger">
             <graphic>
                 <ImageView fitHeight="95.0" fitWidth="94.0" pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../../icons/Transport.png"/>
+                        <Image url="@../../icons/Transport.png" />
                     </image>
                 </ImageView>
             </graphic>
             <font>
-                <Font size="18.0"/>
-            </font>
-        </Button>
-        <Button fx:id="commission_report_btn" contentDisplay="TOP" layoutX="567.0"
-                   layoutY="353.0" onAction="#showCommissionReport" prefHeight="145.0" prefWidth="201.0"
-                   text="Commission Report">
-            <graphic>
-                <ImageView fitHeight="95.0" fitWidth="94.0" pickOnBounds="true" preserveRatio="true">
-                    <image>
-                        <Image url="@../../icons/Commission.png"/>
-                    </image>
-                </ImageView>
-            </graphic>
-            <font>
-                <Font size="18.0"/>
+                <Font size="18.0" />
             </font>
         </Button>
     </children>

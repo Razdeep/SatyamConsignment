@@ -47,8 +47,4 @@ public class ReportController implements Initializable {
         viewLoader.loadRoot("/satyamconsignment/ui/Report/TransportLedger/TransportLedger.fxml",
                 root);
     }
-
-    @FXML
-    private void showCommissionReport(ActionEvent event) {
-    }
 }

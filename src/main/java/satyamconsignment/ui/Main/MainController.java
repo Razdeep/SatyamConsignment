@@ -13,7 +13,6 @@ import satyamconsignment.common.ViewLoader;
 
 public class MainController implements Initializable {
 
-    Utils utils;
     @FXML
     private Button input_btn;
     @FXML
