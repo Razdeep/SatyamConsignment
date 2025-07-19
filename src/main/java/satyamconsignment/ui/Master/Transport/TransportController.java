@@ -27,7 +27,7 @@ public class TransportController implements Initializable {
     PreparedStatement ps;
     ResultSet rs;
     ObservableList<String> buyerList;
-    Utils utils;
+
     @FXML
     private Button add_btn;
     @FXML
@@ -47,7 +47,6 @@ public class TransportController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         databaseHandler = DatabaseHandler.getInstance();
         buyerList = FXCollections.observableArrayList();
-        utils = new Utils();
         refreshList();
     }
 
@@ -56,44 +55,45 @@ public class TransportController implements Initializable {
         if (add_field.getText().compareTo("") == 0) {
             Utils.showAlert(
                     "Add field is left blank. Please ensure to fill up the field properly.");
-
-        } else {
-            try {
-                String sql = "INSERT INTO `Transport_Master_Table`(`Name`) VALUES (?);";
-                conn = databaseHandler.getConnection();
-                ps = conn.prepareStatement(sql);
-                ps.setString(1, add_field.getText());
-                ps.execute();
-                refreshList();
-            } catch (SQLException ex) {
-                Utils.showAlert(ex.toString());
-                Logger.getLogger(SupplierController.class.getName()).log(Level.SEVERE, null,
-                        ex);
-            }
+            return;
         }
+        try {
+            String sql = "INSERT INTO `Transport_Master_Table`(`Name`) VALUES (?);";
+            conn = databaseHandler.getConnection();
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, add_field.getText());
+            ps.execute();
+            refreshList();
+        } catch (SQLException ex) {
+            Utils.showAlert(ex.toString());
+            Logger.getLogger(SupplierController.class.getName()).log(Level.SEVERE, ex.toString(),
+                    ex);
+        }
+
     }
 
     @FXML
     private void deleteMaster(ActionEvent event) {
         if (listView.getSelectionModel().getSelectedItem() == null) {
             Utils.showAlert("Supplier to be deleted not selected. Please Retry");
-        } else {
-            try {
-                String sql = "DELETE FROM `Transport_Master_Table` WHERE name=?";
-                conn = databaseHandler.getConnection();
-                ps = conn.prepareStatement(sql);
-
-                ps.setString(1, listView.getSelectionModel().getSelectedItem());
-
-                ps.execute();
-
-                refreshList();
-            } catch (SQLException ex) {
-                Utils.showAlert(ex.toString());
-                Logger.getLogger(SupplierController.class.getName()).log(Level.SEVERE, null,
-                        ex);
-            }
+            return;
         }
+        try {
+            String sql = "DELETE FROM `Transport_Master_Table` WHERE name=?";
+            conn = databaseHandler.getConnection();
+            ps = conn.prepareStatement(sql);
+
+            ps.setString(1, listView.getSelectionModel().getSelectedItem());
+
+            ps.execute();
+
+            refreshList();
+        } catch (SQLException ex) {
+            Utils.showAlert(ex.toString());
+            Logger.getLogger(SupplierController.class.getName()).log(Level.SEVERE, ex.toString(),
+                    ex);
+        }
+
     }
 
     @FXML
@@ -111,7 +111,8 @@ public class TransportController implements Initializable {
             listView.getItems().setAll(buyerList);
         } catch (SQLException ex) {
             Utils.showAlert(ex.toString());
-            Logger.getLogger(SupplierController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SupplierController.class.getName()).log(Level.SEVERE, ex.toString(),
+                    ex);
         }
     }
 
@@ -120,26 +121,26 @@ public class TransportController implements Initializable {
         if (rename_field.getText().compareTo("") == 0) {
             Utils.showAlert(
                     "Rename field is left blank. Please ensure to fill up the field properly.");
-        } else {
-            try {
-                String sql = "UPDATE `Transport_Master_Table` SET Name=? WHERE Name=?";
-                conn = databaseHandler.getConnection();
-                ps = conn.prepareStatement(sql);
-                ps.setString(1, rename_field.getText());
-                ps.setString(2, listView.getSelectionModel().getSelectedItem());
-
-                // rrc.showAlert(listView.getSelectionModel().getSelectedItem(),1);
-                boolean execute = false;
-                ps.execute();
-                if (execute == true) {
-                    Utils.showAlert("Success", 1);
-                }
-                refreshList();
-            } catch (SQLException ex) {
-                Utils.showAlert(ex.toString());
-                Logger.getLogger(SupplierController.class.getName()).log(Level.SEVERE, null,
-                        ex);
-            }
+            return;
         }
+        try {
+            String sql = "UPDATE `Transport_Master_Table` SET Name=? WHERE Name=?";
+            conn = databaseHandler.getConnection();
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, rename_field.getText());
+            ps.setString(2, listView.getSelectionModel().getSelectedItem());
+
+            boolean execute = false;
+            ps.execute();
+            if (execute == true) {
+                Utils.showAlert("Success", 1);
+            }
+            refreshList();
+        } catch (SQLException ex) {
+            Utils.showAlert(ex.toString());
+            Logger.getLogger(SupplierController.class.getName()).log(Level.SEVERE, ex.toString(),
+                    ex);
+        }
+
     }
 }

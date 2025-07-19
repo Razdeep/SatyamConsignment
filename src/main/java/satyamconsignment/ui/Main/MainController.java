@@ -8,7 +8,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.BorderPane;
-import satyamconsignment.common.Utils;
 import satyamconsignment.common.ViewLoader;
 
 public class MainController implements Initializable {

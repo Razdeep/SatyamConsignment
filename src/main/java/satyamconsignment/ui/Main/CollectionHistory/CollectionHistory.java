@@ -61,8 +61,7 @@ public class CollectionHistory implements Initializable {
             }
         } catch (SQLException ex) {
             Utils.showAlert(ex.toString());
-            Logger.getLogger(CollectionHistory.class.getName()).log(Level.SEVERE, null,
-                    ex);
+            Logger.getLogger(CollectionHistory.class.getName()).log(Level.SEVERE, null, ex);
         }
         tableView.setItems(list);
     }
