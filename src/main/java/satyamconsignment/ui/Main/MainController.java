@@ -28,6 +28,7 @@ public class MainController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        viewLoader = new ViewLoader();
         viewLoader.loadCenter("/satyamconsignment/ui/Main/WelcomeScreen/WelcomeScreen.fxml", root);
     }
 

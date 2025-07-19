@@ -18,10 +18,10 @@ dependencies {
     implementation group: 'org.olap4j', name: 'olap4j', version: '1.2.0'
     implementation group: 'com.lowagie', name: 'itext', version: '2.1.7'
 
-    implementation("org.openjfx:javafx-controls:11")
-    implementation("org.openjfx:javafx-base:11")
-    implementation("org.openjfx:javafx-graphics:11")
-    implementation("org.openjfx:javafx-fxml:11")
+    implementation("org.openjfx:javafx-controls:17")
+    implementation("org.openjfx:javafx-base:17")
+    implementation("org.openjfx:javafx-graphics:17")
+    implementation("org.openjfx:javafx-fxml:17")
 
     compileOnly 'org.projectlombok:lombok:1.18.20'
     annotationProcessor 'org.projectlombok:lombok:1.18.20'
@@ -31,7 +31,7 @@ dependencies {
 }
 
 javafx {
-    version = "11"
+    version = "17"
     modules = [ 'javafx.controls', 'javafx.fxml', 'javafx.graphics', 'javafx.base' ]
 }
 

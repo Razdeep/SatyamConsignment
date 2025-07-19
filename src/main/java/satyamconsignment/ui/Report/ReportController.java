@@ -32,10 +32,6 @@ public class ReportController implements Initializable {
     }
 
     @FXML
-    private void loadInitialScreen(ActionEvent event) {
-    }
-
-    @FXML
     private void showSupplierLedger(ActionEvent event) {
         viewLoader.loadRoot("/satyamconsignment/ui/Report/SupplierLedger/SupplierLedger.fxml",
                 root);
