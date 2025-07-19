@@ -48,6 +48,7 @@ javafx {
 
 spotless {
     java {
+        lineEndings 'WINDOWS'
         target 'src/**/*.java'
         eclipse().configFile('spotless.eclipseformat.xml')
         removeUnusedImports()
