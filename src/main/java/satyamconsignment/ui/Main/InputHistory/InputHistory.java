@@ -22,15 +22,8 @@ import satyamconsignment.model.BillRecord;
 
 public class InputHistory implements Initializable {
 
-    String sql;
-    Utils utils;
-    DatabaseHandler databaseHandler;
-    Connection conn;
-    PreparedStatement ps;
-    ResultSet rs;
-    ObservableList<BillRecord> list;
     @FXML
-    private Group root2;
+    private Group root;
     @FXML
     private TableColumn<BillRecord, String> supplier_name_col;
     @FXML
@@ -51,9 +44,8 @@ public class InputHistory implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
-        utils = new Utils();
-        databaseHandler = DatabaseHandler.getInstance();
-        list = FXCollections.observableArrayList();
+        DatabaseHandler databaseHandler = DatabaseHandler.getInstance();
+        ObservableList<BillRecord> list = FXCollections.observableArrayList();
         supplier_name_col.setCellValueFactory(new PropertyValueFactory<>("supplierName"));
         buyer_name_col.setCellValueFactory(new PropertyValueFactory<>("buyerName"));
         bill_no_col.setCellValueFactory(new PropertyValueFactory<>("billNo"));
@@ -63,10 +55,10 @@ public class InputHistory implements Initializable {
         bill_amount_col.setCellValueFactory(new PropertyValueFactory<>("billAmount"));
 
         try {
-            sql = "SELECT * FROM `Bill_Entry_Table`;";
-            conn = databaseHandler.getConnection();
-            ps = conn.prepareStatement(sql);
-            rs = ps.executeQuery();
+            String sql = "SELECT * FROM `Bill_Entry_Table`;";
+            Connection conn = databaseHandler.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 list.add(new BillRecord(rs.getString("Supplier Name"), rs.getString("Buyer Name"),
                         rs.getString("Bill No."), rs.getString("Bill Date"),
@@ -75,7 +67,7 @@ public class InputHistory implements Initializable {
             }
         } catch (SQLException ex) {
             Utils.showAlert(ex.toString());
-            Logger.getLogger(InputHistory.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(InputHistory.class.getName()).log(Level.SEVERE, ex.toString(), ex);
         }
         tableView.setItems(list);
     }

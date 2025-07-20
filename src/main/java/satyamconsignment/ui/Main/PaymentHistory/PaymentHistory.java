@@ -21,20 +21,15 @@ import javafx.scene.Group;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import satyamconsignment.common.DatabaseHandler;
 import satyamconsignment.common.Utils;
 
 public class PaymentHistory implements Initializable {
 
-    String sql;
-    Utils utils;
-    DatabaseHandler databaseHandler;
-    Connection conn;
-    PreparedStatement ps;
-    ResultSet rs;
-    ObservableList<Record> list;
     @FXML
-    private Group root2;
+    private Group root;
     @FXML
     private TableView<Record> tableView;
     @FXML
@@ -48,57 +43,34 @@ public class PaymentHistory implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        utils = new Utils();
-        databaseHandler = DatabaseHandler.getInstance();
-        list = FXCollections.observableArrayList();
+        DatabaseHandler databaseHandler = DatabaseHandler.getInstance();
+        ObservableList<Record> list = FXCollections.observableArrayList();
         voucher_no_col.setCellValueFactory(new PropertyValueFactory<>("voucherNo"));
         voucher_date_col.setCellValueFactory(new PropertyValueFactory<>("voucherDate"));
         supplier_name_col.setCellValueFactory(new PropertyValueFactory<>("supplierName"));
         total_amount_col.setCellValueFactory(new PropertyValueFactory<>("totalAmount"));
         try {
-            sql = "SELECT * FROM `Payment_Entry_Table`;";
-            conn = databaseHandler.getConnection();
-            ps = conn.prepareStatement(sql);
-            rs = ps.executeQuery();
+            String sql = "SELECT * FROM `Payment_Entry_Table`;";
+            Connection conn = databaseHandler.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 list.add(new Record(rs.getString("Voucher No."), rs.getString("Voucher Date"),
                         rs.getString("Supplier Name"), rs.getString("Total Amount")));
             }
         } catch (SQLException ex) {
             Utils.showAlert(ex.toString());
-            Logger.getLogger(PaymentHistory.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PaymentHistory.class.getName()).log(Level.SEVERE, ex.toString(), ex);
         }
         tableView.setItems(list);
     }
 
+    @AllArgsConstructor
+    @Getter
     public static class Record {
         private final String voucherNo;
         private final String voucherDate;
         private final String supplierName;
         private final String totalAmount;
-
-        public Record(String voucherNo, String voucherDate, String supplierName,
-                String totalAmount) {
-            this.voucherNo = voucherNo;
-            this.voucherDate = voucherDate;
-            this.supplierName = supplierName;
-            this.totalAmount = totalAmount;
-        }
-
-        public String getVoucherNo() {
-            return voucherNo;
-        }
-
-        public String getVoucherDate() {
-            return voucherDate;
-        }
-
-        public String getSupplierName() {
-            return supplierName;
-        }
-
-        public String getTotalAmount() {
-            return totalAmount;
-        }
     }
 }
