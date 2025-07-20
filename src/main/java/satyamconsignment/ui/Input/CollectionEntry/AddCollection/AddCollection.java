@@ -27,7 +27,7 @@ public class AddCollection implements Initializable {
     private DateTimeFormatter formatter;
     private int previouslyDue;
 
-    private static Logger logger = Logger.getLogger(AddCollection.class.getName());
+    private static final Logger logger = Logger.getLogger(AddCollection.class.getName());
 
     @FXML
     private TextField dd_no_field;
@@ -135,7 +135,6 @@ public class AddCollection implements Initializable {
                 try {
                     amountCollected = Double.parseDouble(amountCollectedStr);
                 } catch (NumberFormatException ex) {
-                    ex.printStackTrace();
                     logger.log(Level.SEVERE, ex.toString(), ex);
                     Utils.showAlert(ex.toString());
                 }
@@ -159,7 +158,6 @@ public class AddCollection implements Initializable {
                 try {
                     billAmount = Double.parseDouble(billAmountStr);
                 } catch (NumberFormatException ex) {
-                    ex.printStackTrace();
                     logger.log(Level.SEVERE, ex.toString(), ex);
                     Utils.showAlert(ex.toString());
                 }

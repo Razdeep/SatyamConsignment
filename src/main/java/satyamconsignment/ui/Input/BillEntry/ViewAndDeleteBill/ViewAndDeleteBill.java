@@ -5,7 +5,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -16,7 +15,6 @@ import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Group;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import satyamconsignment.common.DatabaseHandler;
@@ -26,13 +24,6 @@ import satyamconsignment.model.LR;
 public class ViewAndDeleteBill implements Initializable {
 
     private static final Logger logger = Logger.getLogger(ViewAndDeleteBill.class.getName());
-
-    private List<String> supplierList, buyerList, transportList;
-    private List<LR> lrpmList;
-    private DateTimeFormatter formatter;
-
-    @FXML
-    private Group root;
 
     @FXML
     private TextField supplier_field;
@@ -61,46 +52,6 @@ public class ViewAndDeleteBill implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-
-        supplierList = new ArrayList<>();
-        buyerList = new ArrayList<>();
-        transportList = new ArrayList<>();
-        lrpmList = new ArrayList<>();
-
-        try {
-            DatabaseHandler databaseHandler = DatabaseHandler.getInstance();
-            Connection connection = databaseHandler.getConnection();
-
-            PreparedStatement preparedStatement = connection.prepareStatement(
-                    "select * from Supplier_Master_Table order by name collate nocase");
-            ResultSet supplierListResultSet = preparedStatement.executeQuery();
-
-            preparedStatement = connection.prepareStatement(
-                    "select * from Buyer_Master_Table order by name collate nocase");
-            ResultSet buyerListResultSet = preparedStatement.executeQuery();
-
-            preparedStatement = connection.prepareStatement(
-                    "select * from Transport_Master_Table order by name collate nocase");
-            ResultSet transportListResultSet = preparedStatement.executeQuery();
-
-            while (!supplierListResultSet.isClosed()) {
-                supplierList.add(supplierListResultSet.getString("name"));
-                supplierListResultSet.next();
-            }
-            while (!buyerListResultSet.isClosed()) {
-                buyerList.add(buyerListResultSet.getString("name"));
-                buyerListResultSet.next();
-            }
-            while (!transportListResultSet.isClosed()) {
-                transportList.add(transportListResultSet.getString("name"));
-                transportListResultSet.next();
-            }
-
-        } catch (SQLException ex) {
-            Utils.showAlert(ex.toString());
-            logger.log(Level.SEVERE, ex.toString(), ex);
-        }
         lr_no_col.setCellValueFactory(new PropertyValueFactory<>("lrNo"));
         pm_col.setCellValueFactory(new PropertyValueFactory<>("pm"));
     }
@@ -129,7 +80,8 @@ public class ViewAndDeleteBill implements Initializable {
             transport_field.setText(billResultSet.getString("Transport"));
             lr_date_field.setText(billResultSet.getString("LR Date"));
             bill_amount_field.setText(billResultSet.getString("Bill Amount"));
-            lrpmList.clear();
+
+            List<LR> lrpmList = new ArrayList<>();
             while (lrPmResultSet.next()) {
                 lrpmList.add(new LR(lrPmResultSet.getString("Bill No."),
                         lrPmResultSet.getString("LR No."), lrPmResultSet.getString("PM")));
@@ -172,7 +124,7 @@ public class ViewAndDeleteBill implements Initializable {
             transport_field.setText("");
             lr_date_field.setText("");
             bill_amount_field.setText("");
-            lrpmList.clear();
+            lr_table.setItems(FXCollections.observableArrayList());
             connection.commit();
             Utils.showAlert(
                     bill_no_field.getText().toUpperCase() + " Entry was successfully deleted.", 1);
