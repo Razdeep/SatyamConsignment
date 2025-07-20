@@ -18,10 +18,6 @@ public class ReportController implements Initializable {
     @FXML
     private Button transport_ledger_btn;
     @FXML
-    private Button back_btn;
-    @FXML
-    private Button commission_report_btn;
-    @FXML
     private Group root;
 
     private ViewLoader viewLoader;

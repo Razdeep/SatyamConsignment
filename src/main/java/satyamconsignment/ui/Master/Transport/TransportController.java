@@ -130,11 +130,8 @@ public class TransportController implements Initializable {
             ps.setString(1, rename_field.getText());
             ps.setString(2, listView.getSelectionModel().getSelectedItem());
 
-            boolean execute = false;
             ps.execute();
-            if (execute == true) {
-                Utils.showAlert("Success", 1);
-            }
+            Utils.showAlert("Success", 1);
             refreshList();
         } catch (SQLException ex) {
             Utils.showAlert(ex.toString());

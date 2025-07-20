@@ -313,7 +313,7 @@ public class AddPayment implements Initializable {
                 try {
                     amountPaid = Double.parseDouble(amountPaidStr);
                 } catch (NumberFormatException ex) {
-                    ex.printStackTrace();
+                    Utils.showAlert(ex.toString());
                     logger.log(Level.SEVERE, ex.toString());
                 }
                 paymentAmountMap.put(paidAmountsResultSet.getString("Bill No."), amountPaid);
@@ -335,7 +335,7 @@ public class AddPayment implements Initializable {
                 try {
                     billAmount = Double.parseDouble(billAmountStr);
                 } catch (NumberFormatException ex) {
-                    ex.printStackTrace();
+                    Utils.showAlert(ex.toString());
                     logger.log(Level.SEVERE, ex.toString());
                 }
                 if (paymentAmountMap.containsKey(billNo)) {

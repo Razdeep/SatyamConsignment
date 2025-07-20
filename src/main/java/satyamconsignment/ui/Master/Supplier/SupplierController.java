@@ -92,12 +92,8 @@ public class SupplierController implements Initializable {
             ps.setString(1, rename_field.getText());
             ps.setString(2, listView.getSelectionModel().getSelectedItem());
 
-            // rrc.showAlert(listView.getSelectionModel().getSelectedItem(),1);
-            boolean execute = false;
             ps.execute();
-            if (execute == true) {
-                Utils.showAlert("Success", 1);
-            }
+            Utils.showAlert("Success", 1);
             refreshList();
         } catch (SQLException ex) {
             Utils.showAlert(ex.toString());

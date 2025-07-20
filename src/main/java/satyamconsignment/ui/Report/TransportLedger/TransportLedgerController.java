@@ -77,7 +77,7 @@ public class TransportLedgerController implements Initializable {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
-        if (all_time_checkbox.isSelected() == false) {
+        if (!all_time_checkbox.isSelected()) {
             if (from_date.getValue() == null || to_date.getValue() == null) {
                 Utils.showAlert("Select dates properly");
                 return;

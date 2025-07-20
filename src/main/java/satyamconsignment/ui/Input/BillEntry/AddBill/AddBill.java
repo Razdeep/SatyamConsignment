@@ -48,8 +48,6 @@ public class AddBill implements Initializable {
     private Button clear_btn;
     @FXML
     private Button add_btn;
-    private TableColumn<LR, String> lrNo;
-    private TableColumn<LR, String> pm;
     @FXML
     private TableView<LR> lrTable;
     @FXML
