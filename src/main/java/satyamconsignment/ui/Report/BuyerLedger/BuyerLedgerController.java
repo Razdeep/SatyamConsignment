@@ -20,6 +20,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import net.sf.jasperreports.engine.*;
+import satyamconsignment.common.Constants;
 import satyamconsignment.common.DatabaseHandler;
 import satyamconsignment.common.Utils;
 
@@ -29,8 +30,6 @@ public class BuyerLedgerController implements Initializable {
     PreparedStatement ps;
     ResultSet rs;
     ObservableList<String> buyerList;
-    String jrxmlFileName, pdfFileName;
-    Map map;
 
     @FXML
     private RadioButton buyer_ledger_radio;
@@ -48,7 +47,7 @@ public class BuyerLedgerController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
-            pdfFileName = "Report.pdf";
+
             databaseHandler = DatabaseHandler.getInstance();
             conn = databaseHandler.getConnection();
             ps = conn.prepareStatement(
@@ -67,20 +66,22 @@ public class BuyerLedgerController implements Initializable {
 
     @FXML
     private void generatePDF(ActionEvent event) {
+        String jrxmlFileName;
+        if (agewise_outstanding_radio.isSelected()) {
+            jrxmlFileName = "BuyerLedgerAge.jrxml";
+        } else {
+            jrxmlFileName = "BuyerLedger.jrxml";
+        }
+        String jrxmlFilePath = "/satyamconsignment/ui/Report/BuyerLedger/" + jrxmlFileName;
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("buyerName", buyer_name_combo.getSelectionModel().getSelectedItem());
 
         try {
-            if (agewise_outstanding_radio.isSelected()) {
-                jrxmlFileName = "BuyerLedgerAge.jrxml";
-            } else {
-                jrxmlFileName = "BuyerLedger.jrxml";
-            }
-            String jrxmlFilePath = "/satyamconsignment/ui/Report/BuyerLedger/" + jrxmlFileName;
             JasperReport jasperReport = JasperCompileManager
                     .compileReport(getClass().getResourceAsStream(jrxmlFilePath));
-            map = new HashMap();
-            map.put("buyerName", buyer_name_combo.getSelectionModel().getSelectedItem());
-            JasperPrint jprint = JasperFillManager.fillReport(jasperReport, map, conn);
-            JasperExportManager.exportReportToPdfFile(jprint, pdfFileName);
+            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, map, conn);
+            JasperExportManager.exportReportToPdfFile(jasperPrint, Constants.REPORT_FILE_NAME);
             Utils.showAlert("Report Successfully Generated", 1);
         } catch (JRException ex) {
             Utils.showAlert(ex.toString());
@@ -91,6 +92,6 @@ public class BuyerLedgerController implements Initializable {
 
     @FXML
     private void launchPdf(ActionEvent event) {
-        Utils.launchPdf("report.pdf");
+        Utils.launchPdf(Constants.REPORT_FILE_NAME);
     }
 }

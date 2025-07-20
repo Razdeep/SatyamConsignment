@@ -21,19 +21,17 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import net.sf.jasperreports.engine.*;
+import satyamconsignment.common.Constants;
 import satyamconsignment.common.DatabaseHandler;
 import satyamconsignment.common.Utils;
 
 public class TransportLedgerController implements Initializable {
-    Utils utils;
     DatabaseHandler databaseHandler;
     Connection conn;
     PreparedStatement ps;
     ResultSet rs;
     ObservableList<String> transportList;
-    String jrxmlFileName, pdfFileName;
-    DateTimeFormatter formatter;
-    Map map;
+
     @FXML
     private CheckBox all_time_checkbox;
     @FXML
@@ -50,9 +48,6 @@ public class TransportLedgerController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
-            formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-            pdfFileName = "Report.pdf";
-            utils = new Utils();
             databaseHandler = DatabaseHandler.getInstance();
             conn = databaseHandler.getConnection();
             ps = conn.prepareStatement(
@@ -63,37 +58,40 @@ public class TransportLedgerController implements Initializable {
                 transportList.add(rs.getString("name"));
             }
             transport_name_combo.setItems(transportList);
-
         } catch (SQLException ex) {
             Utils.showAlert(ex.toString());
-            Logger.getLogger(TransportLedgerController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TransportLedgerController.class.getName()).log(Level.SEVERE,
+                    ex.toString(), ex);
         }
     }
 
     @FXML
     private void generatePDF(ActionEvent event) {
-        try {
+        String jrxmlFileName = "TransportLedger.jrxml";
+        String jrxmlFilePath = "/satyamconsignment/ui/Report/TransportLedger/" + jrxmlFileName;
 
-            jrxmlFileName = "TransportLedger.jrxml";
-            String jrxmlFilePath = "/satyamconsignment/ui/Report/TransportLedger/" + jrxmlFileName;
+        Map<String, Object> map = new HashMap<>();
+        map.put("transportName", transport_name_combo.getSelectionModel().getSelectedItem());
+        map.put("fromDate", "01-01-2000");
+        map.put("toDate", "31-12-2100");
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+
+        if (all_time_checkbox.isSelected() == false) {
+            if (from_date.getValue() == null || to_date.getValue() == null) {
+                Utils.showAlert("Select dates properly");
+                return;
+            }
+            map.put("fromDate", from_date.getValue().format(formatter));
+            map.put("toDate", to_date.getValue().format(formatter));
+        }
+
+        try {
             JasperReport jasperReport = JasperCompileManager
                     .compileReport(getClass().getResourceAsStream(jrxmlFilePath));
-            map = new HashMap();
-            map.put("transportName", transport_name_combo.getSelectionModel().getSelectedItem());
-            map.put("fromDate", "01-01-2000");
-            map.put("toDate", "31-12-2100");
-            if (all_time_checkbox.isSelected() == false) {
-                if (from_date.getValue() == null || to_date.getValue() == null) {
-                    Utils.showAlert("Select dates properly");
-                    return;
-                }
-                map.put("fromDate", from_date.getValue().format(formatter));
-                map.put("toDate", to_date.getValue().format(formatter));
-            }
-            JasperPrint jprint = JasperFillManager.fillReport(jasperReport, map, conn);
-            JasperExportManager.exportReportToPdfFile(jprint, pdfFileName);
+            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, map, conn);
+            JasperExportManager.exportReportToPdfFile(jasperPrint, Constants.REPORT_FILE_NAME);
             Utils.showAlert("Report Successfully Generated", 1);
-
         } catch (JRException ex) {
             Utils.showAlert(ex.toString());
             Logger.getLogger(TransportLedgerController.class.getName()).log(Level.SEVERE,
@@ -103,6 +101,6 @@ public class TransportLedgerController implements Initializable {
 
     @FXML
     private void launchPdf(ActionEvent event) {
-        Utils.launchPdf("report.pdf");
+        Utils.launchPdf(Constants.REPORT_FILE_NAME);
     }
 }
