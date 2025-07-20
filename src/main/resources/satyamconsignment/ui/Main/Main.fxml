@@ -42,17 +42,17 @@
     </top>
 
     <right>
-        <VBox prefHeight="375.0" prefWidth="200.0" style="-fx-background-color: #0039a3;" BorderPane.alignment="CENTER">
+        <VBox prefWidth="55.0" style="-fx-background-color: #0039a3;" BorderPane.alignment="CENTER">
             <children>
-                <Button fx:id="input_btn" contentDisplay="TOP" graphicTextGap="5.0" onAction="#showInputScreen" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: skyblue;" text="Input">
+                <Button fx:id="input_btn" contentDisplay="TOP" graphicTextGap="5.0" onAction="#showInputScreen" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: skyblue; -fx-border-color: darkblue;" text="Input" VBox.vgrow="ALWAYS">
                     <font>
                         <Font size="18.0" />
                     </font>
                     <VBox.margin>
-                        <Insets top="25.0" />
+                        <Insets />
                     </VBox.margin>
                     <graphic>
-                        <ImageView fitHeight="70.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="62.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
                             <image>
                                 <Image url="@../../icons/Input.png" />
                             </image>
@@ -60,15 +60,15 @@
                     </graphic>
                 </Button>
 
-                <Button fx:id="report_btn" contentDisplay="TOP" graphicTextGap="5.0" onAction="#showReportScreen" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: skyblue;" text="Report">
+                <Button fx:id="report_btn" contentDisplay="TOP" graphicTextGap="5.0" onAction="#showReportScreen" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: skyblue; -fx-border-color: darkblue;" text="Report" VBox.vgrow="ALWAYS">
                     <font>
                         <Font size="18.0" />
                     </font>
                     <VBox.margin>
-                        <Insets top="25.0" />
+                        <Insets />
                     </VBox.margin>
                     <graphic>
-                        <ImageView fitHeight="82.0" fitWidth="89.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="72.0" fitWidth="59.0" pickOnBounds="true" preserveRatio="true">
                             <image>
                                 <Image url="@../../icons/Report.png" />
                             </image>
@@ -76,15 +76,15 @@
                     </graphic>
                 </Button>
 
-                <Button fx:id="master_btn" contentDisplay="TOP" graphicTextGap="5.0" onAction="#showMasterScreen" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: skyblue;" text="Master">
+                <Button fx:id="master_btn" contentDisplay="TOP" graphicTextGap="5.0" onAction="#showMasterScreen" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: skyblue; -fx-border-color: darkblue;" text="Master" VBox.vgrow="ALWAYS">
                     <font>
                         <Font size="18.0" />
                     </font>
                     <VBox.margin>
-                        <Insets top="25.0" />
+                        <Insets />
                     </VBox.margin>
                     <graphic>
-                        <ImageView fitHeight="108.0" fitWidth="104.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="67.0" fitWidth="57.0" pickOnBounds="true" preserveRatio="true">
                             <image>
                                 <Image url="@../../icons/Master.png" />
                             </image>
@@ -92,9 +92,6 @@
                     </graphic>
                 </Button>
             </children>
-            <padding>
-                <Insets top="10.0" />
-            </padding>
         </VBox>
     </right>
 </BorderPane>
