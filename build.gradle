@@ -3,7 +3,6 @@ plugins {
     id 'java'
     id "org.openjfx.javafxplugin" version "0.1.0"
     id 'com.diffplug.spotless' version '7.0.2'
-//    id("com.github.johnrengelman.shadow") version "8.1.1"
 }
 
 repositories {
@@ -13,7 +12,6 @@ repositories {
 dependencies {
     implementation group: 'org.controlsfx', name: 'controlsfx', version: '11.2.2'
     implementation group: 'net.sf.jasperreports', name: 'jasperreports', version: '6.1.0'
-//    implementation group: 'com.jfoenix', name: 'jfoenix', version: '9.0.10'
     implementation group: 'org.xerial', name: 'sqlite-jdbc', version: '3.34.0'
     implementation group: 'org.olap4j', name: 'olap4j', version: '1.2.0'
     implementation group: 'com.lowagie', name: 'itext', version: '2.1.7'
@@ -34,17 +32,6 @@ javafx {
     version = "17"
     modules = [ 'javafx.controls', 'javafx.fxml', 'javafx.graphics', 'javafx.base' ]
 }
-
-//sourceSets {
-//    main {
-//        java {
-//            srcDirs = ['src']
-//        }
-//        resources {
-//            srcDirs = ['src']
-//        }
-//    }
-//}
 
 spotless {
     java {
@@ -77,15 +64,6 @@ jar {
       "Class-Path": configurations.runtimeClasspath.collect { "lib/" + it.getName() }.join(' ')
     )
   }
-/*
-    this part is commented because it is unnecessarily creating the fat jar though the actual dependencies are using from the lib directory.
-    In future, I'll try to create a fat jar without the lib directory.
-*/
-
-//  from {
-//    configurations.compile.collect { it.isDirectory() ? zipTree(it) : it }
-//    configurations.runtimeClasspath.collect { it.isDirectory() ? zipTree(it) : it }
-//  }
 }
 
 def dependencyDirectory = layout.buildDirectory.dir("libs/lib")
@@ -123,49 +101,3 @@ tasks.named('jar') {
         tasks.named('copyRuntimeDeps')
     )
 }
-
-//def dependency_directory = "${buildDir}/libs/lib/"
-//
-//tasks.register('copyRuntimeDeps', Copy) {
-//    from configurations.runtimeClasspath
-//    into "${dependency_directory}"
-//}
-//
-//tasks.register('copyDeps', Copy) {
-//    dependsOn tasks.copyRuntimeDeps
-//    from configurations.compile
-//    into "${dependency_directory}"
-//}
-//
-//jar.finalizedBy(copyDeps)
-
-
-//tasks.register('fatJar', Jar) {
-//    manifest {
-//        attributes 'Main-Class': mainClassName
-//    }
-//
-//    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-//
-//    from {
-//        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
-//    }
-//
-//    with jar
-//}
-
-//tasks {
-//    shadowJar {
-//        archiveBaseName.set("SatyamConsignment")
-//        archiveClassifier.set("")
-//        archiveVersion.set("")
-//        mergeServiceFiles()
-//        manifest {
-//            attributes["Main-Class"] = application.mainClass.get()
-//        }
-//    }
-//
-//    build {
-//        dependsOn(shadowJar)
-//    }
-//}
