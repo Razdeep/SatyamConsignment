@@ -15,6 +15,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import satyamconsignment.common.Constants;
 import satyamconsignment.common.DatabaseHandler;
 import satyamconsignment.common.Utils;
 import satyamconsignment.model.CollectionItem;
@@ -212,7 +213,8 @@ public class AddCollection implements Initializable {
             return;
         }
 
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter
+                .ofPattern(Constants.DATE_TIME_FORMAT);
 
         collectionItemList.add(new CollectionItem(bill_no_combo.getValue(), bill_date.getText(),
                 bill_amount.getText(), supplier_name.getText(), collection_due_field.getText(),
@@ -312,7 +314,8 @@ public class AddCollection implements Initializable {
             return;
         }
         Connection connection = DatabaseHandler.getInstance().getConnection();
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter
+                .ofPattern(Constants.DATE_TIME_FORMAT);
         try {
             connection.setAutoCommit(false);
             String sql = "INSERT INTO `Collection_Entry_Table`(`Voucher No.`,`Voucher Date`,`Buyer Name`,`Total Amount`) VALUES (?,?,?,?)";

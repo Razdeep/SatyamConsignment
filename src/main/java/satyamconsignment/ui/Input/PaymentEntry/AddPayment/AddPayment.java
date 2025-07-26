@@ -6,10 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
@@ -19,6 +16,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
+import satyamconsignment.common.Constants;
 import satyamconsignment.common.DatabaseHandler;
 import satyamconsignment.common.Utils;
 import satyamconsignment.ui.Input.PaymentEntry.PaymentEntryController;
@@ -26,7 +24,6 @@ import satyamconsignment.model.PaymentItem;
 
 public class AddPayment implements Initializable {
 
-    private DateTimeFormatter formatter;
     private List<PaymentItem> paymentItems;
     private List<String> supplierNameComboList;
     private List<String> billNoComboList;
@@ -97,10 +94,9 @@ public class AddPayment implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        paymentItems = FXCollections.observableArrayList();
-        supplierNameComboList = FXCollections.observableArrayList();
-        billNoComboList = FXCollections.observableArrayList();
+        paymentItems = new ArrayList<>();
+        supplierNameComboList = new ArrayList<>();
+        billNoComboList = new ArrayList<>();
 
         bill_no_col.setCellValueFactory(new PropertyValueFactory<>("billNo"));
         bill_amt_col.setCellValueFactory(new PropertyValueFactory<>("billAmount"));
@@ -112,10 +108,14 @@ public class AddPayment implements Initializable {
         due_col.setCellValueFactory(new PropertyValueFactory<>("due"));
         amount_paid_col.setCellValueFactory(new PropertyValueFactory<>("amountPaid"));
 
-        payment_tableview.setItems(FXCollections.observableArrayList(paymentItems));
+        refreshPaymentTableView();
         fillSupplierCombo();
 
         updateLastVoucher();
+    }
+
+    private void refreshPaymentTableView() {
+        payment_tableview.setItems(FXCollections.observableArrayList(paymentItems));
     }
 
     @FXML
@@ -130,12 +130,15 @@ public class AddPayment implements Initializable {
             return;
         }
 
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter
+                .ofPattern(Constants.DATE_TIME_FORMAT);
+
         paymentItems.add(new PaymentItem(bill_no_combo.getValue(), bill_amount_field.getText(),
                 bill_date_field.getText(), buyer_name_field.getText(), due_amount_field.getText(),
                 amount_paid_field.getText(), bank_field.getText(), dd_no_field.getText(),
-                formatter.format(dd_date_field.getValue())));
+                dateTimeFormatter.format(dd_date_field.getValue())));
 
-        payment_tableview.setItems(FXCollections.observableArrayList(paymentItems));
+        refreshPaymentTableView();
 
         clearRepeatingFields();
         updateTotalAmountPaid();
@@ -159,12 +162,18 @@ public class AddPayment implements Initializable {
             return;
         }
 
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter
+                .ofPattern(Constants.DATE_TIME_FORMAT);
+
         paymentItems.set(payment_tableview.getSelectionModel().getSelectedIndex(),
                 new PaymentItem(bill_no_combo.getValue(), bill_amount_field.getText(),
                         bill_date_field.getText(), buyer_name_field.getText(),
                         due_amount_field.getText(), amount_paid_field.getText(),
                         bank_field.getText(), dd_no_field.getText(),
-                        formatter.format(dd_date_field.getValue())));
+                        dateTimeFormatter.format(dd_date_field.getValue())));
+
+        refreshPaymentTableView();
+
         clearRepeatingFields();
         updateTotalAmountPaid();
     }
@@ -176,6 +185,7 @@ public class AddPayment implements Initializable {
             return;
         }
         paymentItems.remove(payment_tableview.getSelectionModel().getSelectedIndex());
+        refreshPaymentTableView();
         updateTotalAmountPaid();
     }
 
@@ -216,12 +226,14 @@ public class AddPayment implements Initializable {
             return;
         }
         Connection connection = DatabaseHandler.getInstance().getConnection();
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter
+                .ofPattern(Constants.DATE_TIME_FORMAT);
         try {
             connection.setAutoCommit(false);
             String sql = "INSERT INTO `Payment_Entry_Table`(`Voucher No.`,`Voucher Date`,`Supplier Name`,`Total Amount`) VALUES (?,?,?,?)";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, voucher_no_field.getText());
-            preparedStatement.setString(2, formatter.format(voucher_date_field.getValue()));
+            preparedStatement.setString(2, dateTimeFormatter.format(voucher_date_field.getValue()));
             preparedStatement.setString(3, supplier_name_combo.getValue());
             preparedStatement.setString(4, total_amount_paid_field.getText());
             preparedStatement.execute();
@@ -263,6 +275,7 @@ public class AddPayment implements Initializable {
             Logger.getLogger(PaymentEntryController.class.getName()).log(Level.SEVERE, null, ex);
         }
         paymentItems.clear();
+        refreshPaymentTableView();
     }
 
     private void updateLastVoucher() {
