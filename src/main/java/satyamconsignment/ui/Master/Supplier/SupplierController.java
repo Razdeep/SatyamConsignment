@@ -21,13 +21,8 @@ import satyamconsignment.common.Utils;
 
 public class SupplierController implements Initializable {
 
-    DatabaseHandler databaseHandler;
-    Connection conn;
-    PreparedStatement ps;
-    ResultSet rs;
-    // List<String> supplierList;
     ObservableList<String> supplierList;
-    String temp;
+
     @FXML
     private Button add_btn;
     @FXML
@@ -45,7 +40,6 @@ public class SupplierController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        databaseHandler = DatabaseHandler.getInstance();
         supplierList = FXCollections.observableArrayList();
         refreshList();
     }
@@ -59,8 +53,8 @@ public class SupplierController implements Initializable {
         }
         try {
             String sql = "INSERT INTO `Supplier_Master_Table`(`Name`) VALUES (?);";
-            conn = databaseHandler.getConnection();
-            ps = conn.prepareStatement(sql);
+            Connection conn = DatabaseHandler.getInstance().getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, add_field.getText());
             ps.execute();
             refreshList();
@@ -72,11 +66,6 @@ public class SupplierController implements Initializable {
 
     }
 
-    //
-    //
-    // Bugs to be fixed in rename master
-    //
-    //
     @FXML
     private void renameMaster(ActionEvent event) {
 
@@ -87,8 +76,8 @@ public class SupplierController implements Initializable {
         }
         try {
             String sql = "UPDATE `Supplier_Master_Table` SET Name=? WHERE Name=?";
-            conn = databaseHandler.getConnection();
-            ps = conn.prepareStatement(sql);
+            Connection conn = DatabaseHandler.getInstance().getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, rename_field.getText());
             ps.setString(2, listView.getSelectionModel().getSelectedItem());
 
@@ -111,8 +100,8 @@ public class SupplierController implements Initializable {
         }
         try {
             String sql = "DELETE FROM `Supplier_Master_Table` WHERE name=?";
-            conn = databaseHandler.getConnection();
-            ps = conn.prepareStatement(sql);
+            Connection conn = DatabaseHandler.getInstance().getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql);
 
             ps.setString(1, listView.getSelectionModel().getSelectedItem());
 
@@ -131,9 +120,9 @@ public class SupplierController implements Initializable {
     private void refreshList() {
         try {
             String sql = "select * from Supplier_Master_Table order by name collate nocase";
-            conn = databaseHandler.getConnection();
-            ps = conn.prepareStatement(sql);
-            rs = ps.executeQuery();
+            Connection conn = DatabaseHandler.getInstance().getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
             supplierList.clear();
             while (rs.next()) {
                 supplierList.add(rs.getString("name"));

@@ -59,7 +59,7 @@ public class AddBill implements Initializable {
     @FXML
     private Button delete_btn;
 
-    ObservableList<LR> lrList = FXCollections.observableArrayList();
+    final ObservableList<LR> lrList = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
