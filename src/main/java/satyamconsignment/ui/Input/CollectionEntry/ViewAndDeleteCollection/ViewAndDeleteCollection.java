@@ -195,7 +195,7 @@ public class ViewAndDeleteCollection implements Initializable {
     private void printCollection(ActionEvent event) {
         try {
             Connection connection = DatabaseHandler.getInstance().getConnection();
-            String jrxmlFileName = "Collection.jrxml";
+            String jrxmlFileName = "/satyamconsignment/ui/Input/CollectionEntry/Collection.jrxml";
             JasperReport jasperReport = JasperCompileManager
                     .compileReport(getClass().getResourceAsStream(jrxmlFileName));
             Map<String, Object> map = new HashMap<>();
@@ -211,5 +211,6 @@ public class ViewAndDeleteCollection implements Initializable {
             Logger.getLogger(ViewAndDeleteCollection.class.getName()).log(Level.SEVERE,
                     ex.toString(), ex);
         }
+        Utils.launchPdf(Constants.REPORT_FILE_NAME);
     }
 }

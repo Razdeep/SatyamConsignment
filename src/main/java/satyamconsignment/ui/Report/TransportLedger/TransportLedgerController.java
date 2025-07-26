@@ -97,6 +97,7 @@ public class TransportLedgerController implements Initializable {
             Logger.getLogger(TransportLedgerController.class.getName()).log(Level.SEVERE,
                     ex.toString(), ex);
         }
+        Utils.launchPdf(Constants.REPORT_FILE_NAME);
     }
 
     @FXML

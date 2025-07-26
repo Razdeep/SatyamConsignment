@@ -88,6 +88,7 @@ public class BuyerLedgerController implements Initializable {
             Logger.getLogger(BuyerLedgerController.class.getName()).log(Level.SEVERE, ex.toString(),
                     ex);
         }
+        Utils.launchPdf(Constants.REPORT_FILE_NAME);
     }
 
     @FXML

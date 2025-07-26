@@ -88,6 +88,7 @@ public class SupplierLedgerController implements Initializable {
             Logger.getLogger(SupplierLedgerController.class.getName()).log(Level.SEVERE,
                     ex.toString(), ex);
         }
+        Utils.launchPdf(Constants.REPORT_FILE_NAME);
     }
 
     @FXML
