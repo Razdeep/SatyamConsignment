@@ -1,24 +1,25 @@
 plugins {
     id 'application'
     id 'java'
-    id "org.openjfx.javafxplugin" version "0.0.9"
+    id "org.openjfx.javafxplugin" version "0.1.0"
+    id 'com.diffplug.spotless' version '7.0.2'
 }
 
 repositories {
     mavenCentral()
-    maven{url "http://jasperreports.sourceforge.net/maven2/"}
-    maven{url "http://jaspersoft.artifactoryonline.com/jaspersoft/third-party-ce-artifacts/"}
-    maven{url "http://maven.geomajas.org/"}
 }
 
 dependencies {
-    implementation group: 'org.controlsfx', name: 'controlsfx', version: '8.40.9'
+    implementation group: 'org.controlsfx', name: 'controlsfx', version: '11.2.2'
     implementation group: 'net.sf.jasperreports', name: 'jasperreports', version: '6.1.0'
-    implementation group: 'com.jfoenix', name: 'jfoenix', version: '9.0.10'
-    implementation group: 'com.ibm.icu', name: 'icu4j', version: '68.2'
     implementation group: 'org.xerial', name: 'sqlite-jdbc', version: '3.34.0'
     implementation group: 'org.olap4j', name: 'olap4j', version: '1.2.0'
     implementation group: 'com.lowagie', name: 'itext', version: '2.1.7'
+
+    implementation("org.openjfx:javafx-controls:17")
+    implementation("org.openjfx:javafx-base:17")
+    implementation("org.openjfx:javafx-graphics:17")
+    implementation("org.openjfx:javafx-fxml:17")
 
     compileOnly 'org.projectlombok:lombok:1.18.20'
     annotationProcessor 'org.projectlombok:lombok:1.18.20'
@@ -28,23 +29,23 @@ dependencies {
 }
 
 javafx {
-    version = "11"
+    version = "17"
     modules = [ 'javafx.controls', 'javafx.fxml', 'javafx.graphics', 'javafx.base' ]
 }
 
-sourceSets {
-    main {
-        java {
-            srcDirs = ['src']
-        }
-        resources {
-            srcDirs = ['src']
-        }
+spotless {
+    java {
+        lineEndings 'WINDOWS'
+        target 'src/**/*.java'
+        eclipse().configFile('spotless.eclipseformat.xml')
+        removeUnusedImports()
     }
 }
-mainClassName = 'satyamconsignment.ui.login.Launcher'
+
+mainClassName = 'satyamconsignment.Launcher'
+
 application {
-    mainClassName = 'satyamconsignment.ui.login.Launcher'
+    mainClassName = mainClassName
 }
 
 run {
@@ -59,32 +60,44 @@ jar {
   manifest {
     attributes(
       'Manifest-Version': 1.0,
-      'Main-Class': 'satyamconsignment.ui.login.Launcher',
+      'Main-Class': mainClassName,
       "Class-Path": configurations.runtimeClasspath.collect { "lib/" + it.getName() }.join(' ')
     )
   }
-/*
-    this part is commented because it is unnecessarily creating the fat jar though the actual dependencies are using from the lib directory.
-    In future, I'll try to create a fat jar without the lib directory.
-*/
-
-//  from {
-//    configurations.compile.collect { it.isDirectory() ? zipTree(it) : it }
-//    configurations.runtimeClasspath.collect { it.isDirectory() ? zipTree(it) : it }
-//  }
 }
 
-def dependency_directory = "${buildDir}/libs/lib/"
+def dependencyDirectory = layout.buildDirectory.dir("libs/lib")
+
+tasks.register('copyDatabase', Copy) {
+    from('example') {
+        include 'database.db'
+    }
+    into "${layout.buildDirectory.get()}/libs"
+    doLast {
+        println "Copied database.db to build directory"
+    }
+}
 
 tasks.register('copyRuntimeDeps', Copy) {
-    from configurations.runtimeClasspath
-    into "${dependency_directory}"
+    from(configurations.runtimeClasspath)
+    into(dependencyDirectory)
+    doLast {
+        println "Copied runtime dependencies"
+    }
 }
 
 tasks.register('copyDeps', Copy) {
-    dependsOn tasks.copyRuntimeDeps
-    from configurations.compile
-    into "${dependency_directory}"
+    from(configurations.compileClasspath)
+    into(dependencyDirectory)
+    doLast {
+        println "Copied compile-time dependencies"
+    }
 }
 
-jar.finalizedBy(copyDeps)
+tasks.named('jar') {
+    dependsOn (
+        tasks.named('copyDatabase'),
+        tasks.named('copyDeps'),
+        tasks.named('copyRuntimeDeps')
+    )
+}
