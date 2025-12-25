@@ -2,9 +2,9 @@ name: JavaFX Build (Gradle)
 
 on:
   push:
-    branches: [ main, modern ]
+    branches: [ main, modern-dependency-injection ]
   pull_request:
-    branches: [ main, modern ]
+    branches: [ main, modern-dependency-injection ]
 
 jobs:
   build:
