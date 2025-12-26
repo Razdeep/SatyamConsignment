@@ -1,13 +1,15 @@
-name: JavaFX Build (Gradle)
+name: Release JAR
 
 on:
   push:
-    branches: [ main, modern ]
-  pull_request:
-    branches: [ main, modern ]
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
 
 jobs:
-  build:
+  build-and-release:
     runs-on: ubuntu-latest
 
     steps:
@@ -27,11 +29,10 @@ jobs:
       - name: Build JAR
         run: ./gradlew clean shadowJar
 
-      - name: Build using Gradle
-        run: ./gradlew clean build --exclude-task spotlessCheck
-
-      - name: Upload JAR artifact
-        uses: actions/upload-artifact@v4
+      - name: Create GitHub Release and upload JAR
+        uses: softprops/action-gh-release@v2
         with:
-          name: satyam-consignment
-          path: build/libs/*
+          files: |
+            build/libs/*
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
