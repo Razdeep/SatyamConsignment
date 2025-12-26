@@ -3,6 +3,7 @@ plugins {
     id 'java'
     id "org.openjfx.javafxplugin" version "0.1.0"
     id 'com.diffplug.spotless' version '7.0.2'
+    id "com.github.johnrengelman.shadow" version "7.1.2"
 }
 
 repositories {
@@ -66,10 +67,14 @@ jar {
   }
 }
 
+shadowJar {
+    archiveClassifier.set("")
+}
+
 def dependencyDirectory = layout.buildDirectory.dir("libs/lib")
 
 tasks.register('copyDatabase', Copy) {
-    from('example') {
+    from('data') {
         include 'database.db'
     }
     into "${layout.buildDirectory.get()}/libs"
@@ -77,6 +82,18 @@ tasks.register('copyDatabase', Copy) {
         println "Copied database.db to build directory"
     }
 }
+
+tasks.register('copyScripts', Copy) {
+    from('scripts') {
+        include 'start.sh'
+        include 'start.bat'
+    }
+    into "${layout.buildDirectory.get()}/libs"
+    doLast {
+        println "Copied scripts to build directory"
+    }
+}
+
 
 tasks.register('copyRuntimeDeps', Copy) {
     from(configurations.runtimeClasspath)
@@ -96,8 +113,16 @@ tasks.register('copyDeps', Copy) {
 
 tasks.named('jar') {
     dependsOn (
+        tasks.named('copyScripts'),
         tasks.named('copyDatabase'),
         tasks.named('copyDeps'),
         tasks.named('copyRuntimeDeps')
+    )
+}
+
+tasks.named('shadowJar') {
+    dependsOn (
+            tasks.named('copyScripts'),
+            tasks.named('copyDatabase'),
     )
 }
