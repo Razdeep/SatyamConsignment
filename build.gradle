@@ -78,6 +78,18 @@ tasks.register('copyDatabase', Copy) {
     }
 }
 
+tasks.register('copyScripts', Copy) {
+    from('scripts') {
+        include 'start.sh'
+        include 'start.bat'
+    }
+    into "${layout.buildDirectory.get()}/libs"
+    doLast {
+        println "Copied scripts to build directory"
+    }
+}
+
+
 tasks.register('copyRuntimeDeps', Copy) {
     from(configurations.runtimeClasspath)
     into(dependencyDirectory)
@@ -96,6 +108,7 @@ tasks.register('copyDeps', Copy) {
 
 tasks.named('jar') {
     dependsOn (
+        tasks.named('copyScripts'),
         tasks.named('copyDatabase'),
         tasks.named('copyDeps'),
         tasks.named('copyRuntimeDeps')

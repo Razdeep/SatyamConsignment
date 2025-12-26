@@ -1,1 +1,0 @@
-copy database.db dist\database.db
