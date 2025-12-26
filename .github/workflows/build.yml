@@ -22,9 +22,6 @@ jobs:
       - name: Make Gradle executable
         run: chmod +x gradlew
 
-      - name: Build JAR
-        run: ./gradlew clean shadowJar
-
       - name: Build using Gradle
         run: ./gradlew clean build --exclude-task spotlessCheck
 

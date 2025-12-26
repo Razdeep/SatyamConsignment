@@ -380,7 +380,7 @@ public class AddPayment implements Initializable {
             bill_amount_field.setText(resultSet.getString("Bill Amount"));
             previouslyDue = Integer.parseInt(resultSet.getString("Due"));
             updateDueAmount();
-            supplier_name_combo.setDisable(true);
+//            supplier_name_combo.setDisable(true);
         } catch (SQLException ex) {
             Utils.showAlert(ex.toString());
             logger.log(Level.SEVERE, "Failed to fetch data", ex);
