@@ -13,7 +13,7 @@
                 <TabPane layoutX="41.0" layoutY="87.0" prefHeight="633.0" prefWidth="717.0"
                          tabClosingPolicy="UNAVAILABLE" style="-fx-tab-min-width: 120px; -fx-tab-max-width: 120px;">
                     <tabs>
-                        <Tab text="Add" closable="false">
+                        <Tab fx:id="TabButtonAdd" text="Add" closable="false">
                             <content>
                                 <fx:include fx:id="AddBill" source="AddBill/AddBill.fxml"/>
                             </content>
