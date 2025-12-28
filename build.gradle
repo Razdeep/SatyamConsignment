@@ -80,30 +80,8 @@ run {
     jvmArgs += ['--add-exports=javafx.graphics/com.sun.javafx.stage=ALL-UNNAMED']
 }
 
-jar {
-  manifest {
-    attributes(
-      'Manifest-Version': 1.0,
-      'Main-Class': mainClassName,
-      "Class-Path": configurations.runtimeClasspath.collect { "lib/" + it.getName() }.join(' ')
-    )
-  }
-}
-
 shadowJar {
     archiveClassifier.set("")
-}
-
-def dependencyDirectory = layout.buildDirectory.dir("libs/lib")
-
-tasks.register('copyDatabase', Copy) {
-    from('data') {
-        include 'database.db'
-    }
-    into "${layout.buildDirectory.get()}/libs"
-    doLast {
-        println "Copied database.db to build directory"
-    }
 }
 
 tasks.register('copyScripts', Copy) {
@@ -117,35 +95,8 @@ tasks.register('copyScripts', Copy) {
     }
 }
 
-
-tasks.register('copyRuntimeDeps', Copy) {
-    from(configurations.runtimeClasspath)
-    into(dependencyDirectory)
-    doLast {
-        println "Copied runtime dependencies"
-    }
-}
-
-tasks.register('copyDeps', Copy) {
-    from(configurations.compileClasspath)
-    into(dependencyDirectory)
-    doLast {
-        println "Copied compile-time dependencies"
-    }
-}
-
-tasks.named('jar') {
-    dependsOn (
-        tasks.named('copyScripts'),
-        tasks.named('copyDatabase'),
-        tasks.named('copyDeps'),
-        tasks.named('copyRuntimeDeps')
-    )
-}
-
 tasks.named('shadowJar') {
     dependsOn (
             tasks.named('copyScripts')
     )
 }
-
