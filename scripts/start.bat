@@ -1,5 +1,5 @@
-set JAVA_HOME="C:\Program Files\Java\jdk-11.0.16\lib"
-set PATH="C:\Program Files\Java\jdk-11.0.16\bin"
+set JAVA_HOME="C:\Program Files\Java\jdk-17\lib"
+set PATH="C:\Program Files\Java\jdk-17\bin"
 
 java --module-path "C:\Users\rrajd\openjfx-19_windows-x64_bin-sdk\javafx-sdk-19\lib" ^
 --add-modules javafx.controls,javafx.base,javafx.graphics,javafx.fxml ^
