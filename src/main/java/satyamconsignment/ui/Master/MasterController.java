@@ -23,10 +23,13 @@ public class MasterController implements Initializable {
 
     @FXML
     private Button supplier_master_btn;
+
     @FXML
     private Button buyer_master_btn;
+
     @FXML
     private Button transport_master_btn;
+
     @FXML
     private Group root;
 

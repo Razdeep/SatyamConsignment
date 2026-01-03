@@ -7,6 +7,5 @@ import javafx.fxml.Initializable;
 public class CollectionEntryController implements Initializable {
 
     @Override
-    public void initialize(URL location, ResourceBundle resources) {
-    }
+    public void initialize(URL location, ResourceBundle resources) {}
 }

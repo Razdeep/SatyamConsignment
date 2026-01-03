@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -27,26 +26,37 @@ public class ViewAndDeleteBill implements Initializable {
 
     @FXML
     private TextField supplier_field;
+
     @FXML
     private TableView<LR> lr_table;
+
     @FXML
     private TableColumn<LR, String> lr_no_col;
+
     @FXML
     private TableColumn<LR, String> pm_col;
+
     @FXML
     private TextField buyer_name_field;
+
     @FXML
     private TextField bill_date_field;
+
     @FXML
     private TextField transport_field;
+
     @FXML
     private TextField bill_amount_field;
+
     @FXML
     private TextField lr_date_field;
+
     @FXML
     private Button get_details_btn;
+
     @FXML
     private Button delete_entry_btn;
+
     @FXML
     private TextField bill_no_field;
 
@@ -83,8 +93,10 @@ public class ViewAndDeleteBill implements Initializable {
 
             List<LR> lrpmList = new ArrayList<>();
             while (lrPmResultSet.next()) {
-                lrpmList.add(new LR(lrPmResultSet.getString("Bill No."),
-                        lrPmResultSet.getString("LR No."), lrPmResultSet.getString("PM")));
+                lrpmList.add(new LR(
+                        lrPmResultSet.getString("Bill No."),
+                        lrPmResultSet.getString("LR No."),
+                        lrPmResultSet.getString("PM")));
             }
             lr_table.setItems(FXCollections.observableArrayList(lrpmList));
             delete_entry_btn.setDisable(false);
@@ -96,9 +108,12 @@ public class ViewAndDeleteBill implements Initializable {
 
     @FXML
     private void deleteEntry(ActionEvent event) {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
+        Alert alert = new Alert(
+                Alert.AlertType.CONFIRMATION,
                 "Are you sure that you want delete " + bill_no_field.getText() + " ?",
-                ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
+                ButtonType.YES,
+                ButtonType.NO,
+                ButtonType.CANCEL);
         alert.showAndWait();
 
         if (alert.getResult() != ButtonType.YES) {
@@ -126,8 +141,7 @@ public class ViewAndDeleteBill implements Initializable {
             bill_amount_field.setText("");
             lr_table.setItems(FXCollections.observableArrayList());
             connection.commit();
-            Utils.showAlert(
-                    bill_no_field.getText().toUpperCase() + " Entry was successfully deleted.", 1);
+            Utils.showAlert(bill_no_field.getText().toUpperCase() + " Entry was successfully deleted.", 1);
         } catch (SQLException ex) {
             try {
                 connection.rollback();

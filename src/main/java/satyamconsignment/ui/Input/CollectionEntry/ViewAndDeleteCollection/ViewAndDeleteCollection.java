@@ -28,36 +28,49 @@ public class ViewAndDeleteCollection implements Initializable {
 
     @FXML
     private TextField voucher_no_field;
+
     @FXML
     private TableView<CollectionItem> collection_tableview;
+
     @FXML
     private TableColumn<CollectionItem, String> bill_no_col;
+
     @FXML
     private TableColumn<CollectionItem, String> bill_amt_col;
+
     @FXML
     private TableColumn<CollectionItem, String> supplier_col;
+
     @FXML
     private TableColumn<CollectionItem, String> amount_collection_col;
+
     @FXML
     private TableColumn<CollectionItem, String> bank_col;
+
     @FXML
     private TableColumn<CollectionItem, String> dd_no_col;
+
     @FXML
     private TableColumn<CollectionItem, String> dd_date_col;
 
     @FXML
     private Label display_board_label;
+
     @FXML
     private TextField total_amount_field;
+
     @FXML
     private Button get_details_btn;
+
     @FXML
     private Button delete_entry_btn;
 
     @FXML
     private TableColumn<?, ?> bill_date_col;
+
     @FXML
     private TextField voucher_date;
+
     @FXML
     private TextField buyer_name;
 
@@ -111,7 +124,8 @@ public class ViewAndDeleteCollection implements Initializable {
                 return;
             }
             while (collectionResultSet.next()) {
-                collectionItemList.add(new CollectionItem(collectionResultSet.getString("Bill No."),
+                collectionItemList.add(new CollectionItem(
+                        collectionResultSet.getString("Bill No."),
                         collectionResultSet.getString("Bill Date"),
                         collectionResultSet.getString("Bill Amount"),
                         collectionResultSet.getString("Supplier Name"),
@@ -125,16 +139,18 @@ public class ViewAndDeleteCollection implements Initializable {
             delete_entry_btn.setDisable(false);
         } catch (SQLException ex) {
             Utils.showAlert(ex.toString());
-            Logger.getLogger(ViewAndDeleteCollection.class.getName()).log(Level.SEVERE,
-                    ex.toString(), ex);
+            Logger.getLogger(ViewAndDeleteCollection.class.getName()).log(Level.SEVERE, ex.toString(), ex);
         }
     }
 
     @FXML
     private void deleteEntry(ActionEvent event) {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
+        Alert alert = new Alert(
+                Alert.AlertType.CONFIRMATION,
                 "Are you sure that you want delete " + voucher_no_field.getText() + " ?",
-                ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
+                ButtonType.YES,
+                ButtonType.NO,
+                ButtonType.CANCEL);
         alert.showAndWait();
 
         if (alert.getResult() != ButtonType.YES) {
@@ -145,7 +161,8 @@ public class ViewAndDeleteCollection implements Initializable {
 
         try {
             connection.setAutoCommit(false);
-            String sql = "SELECT `Bill No.`,`Amount Collected` FROM `Collection_Entry_Extended_Table` where `Voucher No.`=? collate nocase";
+            String sql =
+                    "SELECT `Bill No.`,`Amount Collected` FROM `Collection_Entry_Extended_Table` where `Voucher No.`=? collate nocase";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, voucher_no_field.getText());
             ResultSet rs = preparedStatement.executeQuery();
@@ -174,19 +191,15 @@ public class ViewAndDeleteCollection implements Initializable {
             display_board_label.setText("");
             total_amount_field.setText("");
             connection.commit();
-            Utils.showAlert(
-                    voucher_no_field.getText().toUpperCase() + " Entry was successfully deleted.",
-                    1);
+            Utils.showAlert(voucher_no_field.getText().toUpperCase() + " Entry was successfully deleted.", 1);
         } catch (SQLException ex) {
             Utils.showAlert(ex.toString());
-            Logger.getLogger(ViewAndDeleteCollection.class.getName()).log(Level.SEVERE,
-                    ex.toString(), ex);
+            Logger.getLogger(ViewAndDeleteCollection.class.getName()).log(Level.SEVERE, ex.toString(), ex);
             try {
                 connection.rollback();
             } catch (SQLException ex1) {
                 Utils.showAlert(ex1.toString());
-                Logger.getLogger(ViewAndDeleteCollection.class.getName()).log(Level.SEVERE,
-                        ex.toString(), ex1);
+                Logger.getLogger(ViewAndDeleteCollection.class.getName()).log(Level.SEVERE, ex.toString(), ex1);
             }
         }
     }
@@ -196,8 +209,8 @@ public class ViewAndDeleteCollection implements Initializable {
         try {
             Connection connection = DatabaseHandler.getInstance().getConnection();
             String jrxmlFileName = "/satyamconsignment/ui/Input/CollectionEntry/Collection.jrxml";
-            JasperReport jasperReport = JasperCompileManager
-                    .compileReport(getClass().getResourceAsStream(jrxmlFileName));
+            JasperReport jasperReport =
+                    JasperCompileManager.compileReport(getClass().getResourceAsStream(jrxmlFileName));
             Map<String, Object> map = new HashMap<>();
             map.put("voucherNo", voucher_no_field.getText());
             map.put("voucherDate", voucher_date.getText());
@@ -208,8 +221,7 @@ public class ViewAndDeleteCollection implements Initializable {
             Utils.showAlert("Report Successfully Generated", 1);
         } catch (JRException ex) {
             Utils.showAlert(ex.toString());
-            Logger.getLogger(ViewAndDeleteCollection.class.getName()).log(Level.SEVERE,
-                    ex.toString(), ex);
+            Logger.getLogger(ViewAndDeleteCollection.class.getName()).log(Level.SEVERE, ex.toString(), ex);
         }
         Utils.launchPdf(Constants.REPORT_FILE_NAME);
     }

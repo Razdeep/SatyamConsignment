@@ -17,11 +17,9 @@ public final class DatabaseHandler {
 
     private String getInitSQL() throws IOException {
         return new String(
-                Objects.requireNonNull(
-                        DatabaseHandler.class.getResourceAsStream("/sql/init.sql")
-                ).readAllBytes(),
-                StandardCharsets.UTF_8
-        );
+                Objects.requireNonNull(DatabaseHandler.class.getResourceAsStream("/sql/init.sql"))
+                        .readAllBytes(),
+                StandardCharsets.UTF_8);
     }
 
     private void initDatabase(Connection conn) {
@@ -46,7 +44,6 @@ public final class DatabaseHandler {
         } catch (Exception ex) {
             System.out.println(ex.toString());
         }
-
     }
 
     private DatabaseHandler() {

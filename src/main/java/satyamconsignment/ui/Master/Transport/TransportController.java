@@ -30,16 +30,22 @@ public class TransportController implements Initializable {
 
     @FXML
     private Button add_btn;
+
     @FXML
     private ListView<String> listView;
+
     @FXML
     private Button delete_btn;
+
     @FXML
     private Button refresh_btn;
+
     @FXML
     private TextField add_field;
+
     @FXML
     private Button rename_btn;
+
     @FXML
     private TextField rename_field;
 
@@ -53,8 +59,7 @@ public class TransportController implements Initializable {
     @FXML
     private void addMaster(ActionEvent event) {
         if (add_field.getText().compareTo("") == 0) {
-            Utils.showAlert(
-                    "Add field is left blank. Please ensure to fill up the field properly.");
+            Utils.showAlert("Add field is left blank. Please ensure to fill up the field properly.");
             return;
         }
         try {
@@ -66,10 +71,8 @@ public class TransportController implements Initializable {
             refreshList();
         } catch (SQLException ex) {
             Utils.showAlert(ex.toString());
-            Logger.getLogger(SupplierController.class.getName()).log(Level.SEVERE, ex.toString(),
-                    ex);
+            Logger.getLogger(SupplierController.class.getName()).log(Level.SEVERE, ex.toString(), ex);
         }
-
     }
 
     @FXML
@@ -90,10 +93,8 @@ public class TransportController implements Initializable {
             refreshList();
         } catch (SQLException ex) {
             Utils.showAlert(ex.toString());
-            Logger.getLogger(SupplierController.class.getName()).log(Level.SEVERE, ex.toString(),
-                    ex);
+            Logger.getLogger(SupplierController.class.getName()).log(Level.SEVERE, ex.toString(), ex);
         }
-
     }
 
     @FXML
@@ -111,16 +112,14 @@ public class TransportController implements Initializable {
             listView.getItems().setAll(buyerList);
         } catch (SQLException ex) {
             Utils.showAlert(ex.toString());
-            Logger.getLogger(SupplierController.class.getName()).log(Level.SEVERE, ex.toString(),
-                    ex);
+            Logger.getLogger(SupplierController.class.getName()).log(Level.SEVERE, ex.toString(), ex);
         }
     }
 
     @FXML
     private void renameMaster(ActionEvent event) {
         if (rename_field.getText().compareTo("") == 0) {
-            Utils.showAlert(
-                    "Rename field is left blank. Please ensure to fill up the field properly.");
+            Utils.showAlert("Rename field is left blank. Please ensure to fill up the field properly.");
             return;
         }
         try {
@@ -135,9 +134,7 @@ public class TransportController implements Initializable {
             refreshList();
         } catch (SQLException ex) {
             Utils.showAlert(ex.toString());
-            Logger.getLogger(SupplierController.class.getName()).log(Level.SEVERE, ex.toString(),
-                    ex);
+            Logger.getLogger(SupplierController.class.getName()).log(Level.SEVERE, ex.toString(), ex);
         }
-
     }
 }

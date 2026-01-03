@@ -33,14 +33,19 @@ public class BuyerLedgerController implements Initializable {
 
     @FXML
     private RadioButton buyer_ledger_radio;
+
     @FXML
     private ToggleGroup choice;
+
     @FXML
     private RadioButton agewise_outstanding_radio;
+
     @FXML
     private Button generate_pdf_btn;
+
     @FXML
     private ComboBox<String> buyer_name_combo;
+
     @FXML
     private Button launch_pdf_btn;
 
@@ -50,8 +55,7 @@ public class BuyerLedgerController implements Initializable {
 
             databaseHandler = DatabaseHandler.getInstance();
             conn = databaseHandler.getConnection();
-            ps = conn.prepareStatement(
-                    "select * from Buyer_Master_Table order by name collate nocase");
+            ps = conn.prepareStatement("select * from Buyer_Master_Table order by name collate nocase");
             rs = ps.executeQuery();
             buyerList = FXCollections.observableArrayList();
             while (rs.next()) {
@@ -78,15 +82,14 @@ public class BuyerLedgerController implements Initializable {
         map.put("buyerName", buyer_name_combo.getSelectionModel().getSelectedItem());
 
         try {
-            JasperReport jasperReport = JasperCompileManager
-                    .compileReport(getClass().getResourceAsStream(jrxmlFilePath));
+            JasperReport jasperReport =
+                    JasperCompileManager.compileReport(getClass().getResourceAsStream(jrxmlFilePath));
             JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, map, conn);
             JasperExportManager.exportReportToPdfFile(jasperPrint, Constants.REPORT_FILE_NAME);
             Utils.showAlert("Report Successfully Generated", 1);
         } catch (JRException ex) {
             Utils.showAlert(ex.toString());
-            Logger.getLogger(BuyerLedgerController.class.getName()).log(Level.SEVERE, ex.toString(),
-                    ex);
+            Logger.getLogger(BuyerLedgerController.class.getName()).log(Level.SEVERE, ex.toString(), ex);
         }
         Utils.launchPdf(Constants.REPORT_FILE_NAME);
     }

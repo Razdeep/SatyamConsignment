@@ -24,20 +24,28 @@ public class InputHistory implements Initializable {
 
     @FXML
     private Group root;
+
     @FXML
     private TableColumn<BillRecord, String> supplier_name_col;
+
     @FXML
     private TableColumn<BillRecord, String> buyer_name_col;
+
     @FXML
     private TableColumn<BillRecord, String> bill_no_col;
+
     @FXML
     private TableColumn<BillRecord, String> bill_date_col;
+
     @FXML
     private TableColumn<BillRecord, String> transport_col;
+
     @FXML
     private TableColumn<BillRecord, String> lr_date_col;
+
     @FXML
     private TableColumn<BillRecord, String> bill_amount_col;
+
     @FXML
     private TableView<BillRecord> tableView;
 
@@ -60,9 +68,13 @@ public class InputHistory implements Initializable {
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                list.add(new BillRecord(rs.getString("Supplier Name"), rs.getString("Buyer Name"),
-                        rs.getString("Bill No."), rs.getString("Bill Date"),
-                        rs.getString("Transport"), rs.getString("LR Date"),
+                list.add(new BillRecord(
+                        rs.getString("Supplier Name"),
+                        rs.getString("Buyer Name"),
+                        rs.getString("Bill No."),
+                        rs.getString("Bill Date"),
+                        rs.getString("Transport"),
+                        rs.getString("LR Date"),
                         rs.getString("Bill Amount")));
             }
         } catch (SQLException ex) {

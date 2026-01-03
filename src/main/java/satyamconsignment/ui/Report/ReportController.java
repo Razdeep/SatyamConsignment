@@ -13,10 +13,13 @@ public class ReportController implements Initializable {
 
     @FXML
     private Button supplier_ledger_btn;
+
     @FXML
     private Button buyer_ledger_brn;
+
     @FXML
     private Button transport_ledger_btn;
+
     @FXML
     private Group root;
 
@@ -29,8 +32,7 @@ public class ReportController implements Initializable {
 
     @FXML
     private void showSupplierLedger(ActionEvent event) {
-        viewLoader.loadRoot("/satyamconsignment/ui/Report/SupplierLedger/SupplierLedger.fxml",
-                root);
+        viewLoader.loadRoot("/satyamconsignment/ui/Report/SupplierLedger/SupplierLedger.fxml", root);
     }
 
     @FXML
@@ -40,7 +42,6 @@ public class ReportController implements Initializable {
 
     @FXML
     private void showTransportLedger(ActionEvent event) {
-        viewLoader.loadRoot("/satyamconsignment/ui/Report/TransportLedger/TransportLedger.fxml",
-                root);
+        viewLoader.loadRoot("/satyamconsignment/ui/Report/TransportLedger/TransportLedger.fxml", root);
     }
 }

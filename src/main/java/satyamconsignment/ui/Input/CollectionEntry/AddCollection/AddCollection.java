@@ -30,38 +30,55 @@ public class AddCollection implements Initializable {
 
     @FXML
     private TextField dd_no_field;
+
     @FXML
     private DatePicker dd_date_field;
+
     @FXML
     private TextField voucher_no_field;
+
     @FXML
     private DatePicker voucher_date_field;
+
     @FXML
     private TableView<CollectionItem> collection_tableview;
+
     @FXML
     private TableColumn<CollectionItem, String> bill_no_col;
+
     @FXML
     private TableColumn<CollectionItem, String> bill_amt_col;
+
     @FXML
     private TableColumn<CollectionItem, String> supplier_col;
+
     @FXML
     private TableColumn<CollectionItem, String> amount_collection_col;
+
     @FXML
     private TableColumn<CollectionItem, String> bank_col;
+
     @FXML
     private TableColumn<CollectionItem, String> dd_no_col;
+
     @FXML
     private TableColumn<CollectionItem, String> dd_date_col;
+
     @FXML
     private TextField bill_date;
+
     @FXML
     private TextField bill_amount;
+
     @FXML
     private ComboBox<String> buyer_name;
+
     @FXML
     private TextField supplier_name;
+
     @FXML
     private ComboBox<String> bill_no_combo;
+
     @FXML
     private TextField bank_field;
 
@@ -70,8 +87,10 @@ public class AddCollection implements Initializable {
 
     @FXML
     private TextField amount_collected_field;
+
     @FXML
     private TextField collection_due_field;
+
     @FXML
     private Label last_voucher_field;
 
@@ -121,15 +140,14 @@ public class AddCollection implements Initializable {
         try {
             Connection connection = DatabaseHandler.getInstance().getConnection();
 
-            String getCollectionAmountsForEveryoneSql = "select `Bill No.`, sum(`Amount Collected`) as `Amount Collected` "
-                    + "from `Collection_Entry_Extended_Table` group by `Bill No.`";
+            String getCollectionAmountsForEveryoneSql =
+                    "select `Bill No.`, sum(`Amount Collected`) as `Amount Collected` "
+                            + "from `Collection_Entry_Extended_Table` group by `Bill No.`";
             Map<String, Double> collectionAmountMap = new HashMap<>();
-            PreparedStatement preparedStatement = connection
-                    .prepareStatement(getCollectionAmountsForEveryoneSql);
+            PreparedStatement preparedStatement = connection.prepareStatement(getCollectionAmountsForEveryoneSql);
             ResultSet collectionAmountsResultSet = preparedStatement.executeQuery();
             while (collectionAmountsResultSet.next()) {
-                String amountCollectedStr = collectionAmountsResultSet
-                        .getString("Amount Collected");
+                String amountCollectedStr = collectionAmountsResultSet.getString("Amount Collected");
                 double amountCollected = 0;
                 try {
                     amountCollected = Double.parseDouble(amountCollectedStr);
@@ -137,8 +155,7 @@ public class AddCollection implements Initializable {
                     logger.log(Level.SEVERE, ex.toString(), ex);
                     Utils.showAlert(ex.toString());
                 }
-                collectionAmountMap.put(collectionAmountsResultSet.getString("Bill No."),
-                        amountCollected);
+                collectionAmountMap.put(collectionAmountsResultSet.getString("Bill No."), amountCollected);
             }
 
             String getBillAmountsForBuyerSql = "select `Bill No.`, `Bill Amount` from `Bill_Entry_Table` "
@@ -204,21 +221,30 @@ public class AddCollection implements Initializable {
 
     @FXML
     private void addCollection(ActionEvent ignoredEvent) {
-        if (bill_no_combo.getValue().isEmpty() || bill_amount.getText().isEmpty()
-                || buyer_name.getValue().isEmpty() || supplier_name.getText().isEmpty()
-                || bank_field.getText().isEmpty() || collection_due_field.getText().isEmpty()
-                || amount_collected_field.getText().isEmpty() || dd_no_field.getText().isEmpty()
+        if (bill_no_combo.getValue().isEmpty()
+                || bill_amount.getText().isEmpty()
+                || buyer_name.getValue().isEmpty()
+                || supplier_name.getText().isEmpty()
+                || bank_field.getText().isEmpty()
+                || collection_due_field.getText().isEmpty()
+                || amount_collected_field.getText().isEmpty()
+                || dd_no_field.getText().isEmpty()
                 || dd_date_field.getValue().toString().isEmpty()) {
             Utils.showAlert("Please check whether the fields are properly filled or not.", 2);
             return;
         }
 
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter
-                .ofPattern(Constants.DATE_TIME_FORMAT);
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(Constants.DATE_TIME_FORMAT);
 
-        collectionItemList.add(new CollectionItem(bill_no_combo.getValue(), bill_date.getText(),
-                bill_amount.getText(), supplier_name.getText(), collection_due_field.getText(),
-                amount_collected_field.getText(), bank_field.getText(), dd_no_field.getText(),
+        collectionItemList.add(new CollectionItem(
+                bill_no_combo.getValue(),
+                bill_date.getText(),
+                bill_amount.getText(),
+                supplier_name.getText(),
+                collection_due_field.getText(),
+                amount_collected_field.getText(),
+                bank_field.getText(),
+                dd_no_field.getText(),
                 dateTimeFormatter.format(dd_date_field.getValue())));
 
         refreshCollectionTableView();
@@ -228,8 +254,8 @@ public class AddCollection implements Initializable {
 
     @FXML
     private void updateCollectionDue() {
-        collection_due_field.setText(Integer
-                .toString(previouslyDue - Integer.parseInt(amount_collected_field.getText())));
+        collection_due_field.setText(
+                Integer.toString(previouslyDue - Integer.parseInt(amount_collected_field.getText())));
     }
 
     private void updateTotalAmount() {
@@ -258,21 +284,31 @@ public class AddCollection implements Initializable {
             Utils.showAlert("Please select an item from the Collection Table", 2);
             return;
         }
-        if (bill_no_combo.getValue().isEmpty() || bill_amount.getText().isEmpty()
-                || buyer_name.getValue().isEmpty() || supplier_name.getText().isEmpty()
-                || bank_field.getText().isEmpty() || collection_due_field.getText().isEmpty()
-                || amount_collected_field.getText().isEmpty() || dd_no_field.getText().isEmpty()
+        if (bill_no_combo.getValue().isEmpty()
+                || bill_amount.getText().isEmpty()
+                || buyer_name.getValue().isEmpty()
+                || supplier_name.getText().isEmpty()
+                || bank_field.getText().isEmpty()
+                || collection_due_field.getText().isEmpty()
+                || amount_collected_field.getText().isEmpty()
+                || dd_no_field.getText().isEmpty()
                 || dd_date_field.getValue().toString().isEmpty()) {
             Utils.showAlert("Please check whether the fields are properly filled or not.", 2);
             return;
         }
-        collectionItemList.set(collection_tableview.getSelectionModel().getSelectedIndex(),
-                CollectionItem.builder().billNo(bill_no_combo.getValue())
-                        .billDate(bill_date.getText()).billAmount(bill_amount.getText())
-                        .supplierName(supplier_name.getText()).due(collection_due_field.getText())
+        collectionItemList.set(
+                collection_tableview.getSelectionModel().getSelectedIndex(),
+                CollectionItem.builder()
+                        .billNo(bill_no_combo.getValue())
+                        .billDate(bill_date.getText())
+                        .billAmount(bill_amount.getText())
+                        .supplierName(supplier_name.getText())
+                        .due(collection_due_field.getText())
                         .amountCollected(amount_collected_field.getText())
-                        .bank(bank_field.getText()).ddNo(dd_no_field.getText())
-                        .ddDate(dd_date_field.getValue().toString()).build());
+                        .bank(bank_field.getText())
+                        .ddNo(dd_no_field.getText())
+                        .ddDate(dd_date_field.getValue().toString())
+                        .build());
         refreshCollectionTableView();
         updateTotalAmount();
     }
@@ -299,26 +335,29 @@ public class AddCollection implements Initializable {
 
     @FXML
     private void saveData(ActionEvent ignoredEvent) {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
+        Alert alert = new Alert(
+                Alert.AlertType.CONFIRMATION,
                 "Are you sure that you want save " + voucher_no_field.getText() + " ?",
-                ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
+                ButtonType.YES,
+                ButtonType.NO,
+                ButtonType.CANCEL);
         alert.showAndWait();
 
         if (alert.getResult() != ButtonType.YES) {
             return;
         }
-        if (voucher_no_field.getText().isEmpty() || voucher_date_field.getValue() == null
+        if (voucher_no_field.getText().isEmpty()
+                || voucher_date_field.getValue() == null
                 || voucher_date_field.getValue().toString().isEmpty()) {
-            Utils.showAlert("Check whether the Voucher No. and the Voucher Date is properly filled",
-                    2);
+            Utils.showAlert("Check whether the Voucher No. and the Voucher Date is properly filled", 2);
             return;
         }
         Connection connection = DatabaseHandler.getInstance().getConnection();
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter
-                .ofPattern(Constants.DATE_TIME_FORMAT);
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(Constants.DATE_TIME_FORMAT);
         try {
             connection.setAutoCommit(false);
-            String sql = "INSERT INTO `Collection_Entry_Table`(`Voucher No.`,`Voucher Date`,`Buyer Name`,`Total Amount`) VALUES (?,?,?,?)";
+            String sql =
+                    "INSERT INTO `Collection_Entry_Table`(`Voucher No.`,`Voucher Date`,`Buyer Name`,`Total Amount`) VALUES (?,?,?,?)";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, voucher_no_field.getText());
             preparedStatement.setString(2, dateTimeFormatter.format(voucher_date_field.getValue()));
@@ -327,7 +366,8 @@ public class AddCollection implements Initializable {
             preparedStatement.execute();
 
             for (CollectionItem collectionItem : collectionItemList) {
-                sql = "INSERT INTO `Collection_Entry_Extended_Table`(`Voucher No.`,`Supplier Name`,`Bill No.`,`Bill Date`,`Bill Amount`,`Collection Due`,`Amount Collected`,`Bank`,`DD No.`,`DD Date`) VALUES (?,?,?,?,?,?,?,?,?,?);";
+                sql =
+                        "INSERT INTO `Collection_Entry_Extended_Table`(`Voucher No.`,`Supplier Name`,`Bill No.`,`Bill Date`,`Bill Amount`,`Collection Due`,`Amount Collected`,`Bank`,`DD No.`,`DD Date`) VALUES (?,?,?,?,?,?,?,?,?,?);";
                 preparedStatement = connection.prepareStatement(sql);
                 preparedStatement.setString(1, voucher_no_field.getText());
                 preparedStatement.setString(2, collectionItem.getSupplierName());
