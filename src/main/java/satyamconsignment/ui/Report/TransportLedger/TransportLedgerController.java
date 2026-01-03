@@ -34,14 +34,19 @@ public class TransportLedgerController implements Initializable {
 
     @FXML
     private CheckBox all_time_checkbox;
+
     @FXML
     private ComboBox<String> transport_name_combo;
+
     @FXML
     private DatePicker from_date;
+
     @FXML
     private DatePicker to_date;
+
     @FXML
     private Button generate_pdf_report_btn;
+
     @FXML
     private Button launch_report_btn;
 
@@ -50,8 +55,7 @@ public class TransportLedgerController implements Initializable {
         try {
             databaseHandler = DatabaseHandler.getInstance();
             conn = databaseHandler.getConnection();
-            ps = conn.prepareStatement(
-                    "select * from Transport_Master_Table order by name collate nocase");
+            ps = conn.prepareStatement("select * from Transport_Master_Table order by name collate nocase");
             rs = ps.executeQuery();
             transportList = FXCollections.observableArrayList();
             while (rs.next()) {
@@ -60,8 +64,7 @@ public class TransportLedgerController implements Initializable {
             transport_name_combo.setItems(transportList);
         } catch (SQLException ex) {
             Utils.showAlert(ex.toString());
-            Logger.getLogger(TransportLedgerController.class.getName()).log(Level.SEVERE,
-                    ex.toString(), ex);
+            Logger.getLogger(TransportLedgerController.class.getName()).log(Level.SEVERE, ex.toString(), ex);
         }
     }
 
@@ -87,15 +90,14 @@ public class TransportLedgerController implements Initializable {
         }
 
         try {
-            JasperReport jasperReport = JasperCompileManager
-                    .compileReport(getClass().getResourceAsStream(jrxmlFilePath));
+            JasperReport jasperReport =
+                    JasperCompileManager.compileReport(getClass().getResourceAsStream(jrxmlFilePath));
             JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, map, conn);
             JasperExportManager.exportReportToPdfFile(jasperPrint, Constants.REPORT_FILE_NAME);
             Utils.showAlert("Report Successfully Generated", 1);
         } catch (JRException ex) {
             Utils.showAlert(ex.toString());
-            Logger.getLogger(TransportLedgerController.class.getName()).log(Level.SEVERE,
-                    ex.toString(), ex);
+            Logger.getLogger(TransportLedgerController.class.getName()).log(Level.SEVERE, ex.toString(), ex);
         }
         Utils.launchPdf(Constants.REPORT_FILE_NAME);
     }

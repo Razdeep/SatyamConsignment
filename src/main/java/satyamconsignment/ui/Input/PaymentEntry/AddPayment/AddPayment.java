@@ -19,8 +19,8 @@ import javafx.scene.text.Text;
 import satyamconsignment.common.Constants;
 import satyamconsignment.common.DatabaseHandler;
 import satyamconsignment.common.Utils;
-import satyamconsignment.ui.Input.PaymentEntry.PaymentEntryController;
 import satyamconsignment.model.PaymentItem;
+import satyamconsignment.ui.Input.PaymentEntry.PaymentEntryController;
 
 public class AddPayment implements Initializable {
 
@@ -33,59 +33,85 @@ public class AddPayment implements Initializable {
 
     @FXML
     private TextField dd_no_field;
+
     @FXML
     private DatePicker dd_date_field;
+
     @FXML
     private DatePicker voucher_date_field;
+
     @FXML
     private TextField voucher_no_field;
+
     @FXML
     private Button add_payment_btn;
+
     @FXML
     private Button replace_payment_btn;
+
     @FXML
     private Button delete_payment_btn;
+
     @FXML
     private TableColumn<?, ?> bill_no_col;
+
     @FXML
     private TableColumn<?, ?> bill_amt_col;
+
     @FXML
     private TableColumn<?, ?> dd_no_col;
+
     @FXML
     private TableColumn<?, ?> dd_date_col;
+
     @FXML
     private TableColumn<?, ?> bill_dt_col;
+
     @FXML
     private TableColumn<?, ?> buyer_col;
+
     @FXML
     private TableColumn<?, ?> due_col;
+
     @FXML
     private TableColumn<?, ?> amount_paid_col;
+
     @FXML
     private TableView<PaymentItem> payment_tableview;
+
     @FXML
     private TextField amount_paid_field;
+
     @FXML
     private TextField buyer_name_field;
+
     @FXML
     private TextField bill_date_field;
+
     @FXML
     private TextField bill_amount_field;
 
     @FXML
     private ComboBox<String> supplier_name_combo;
+
     @FXML
     private ComboBox<String> bill_no_combo;
+
     @FXML
     private TextField due_amount_field;
+
     @FXML
     private TableColumn<?, ?> bank_col;
+
     @FXML
     private TextField bank_field;
+
     @FXML
     private TextField total_amount_paid_field;
+
     @FXML
     private Button save_btn;
+
     @FXML
     private Button clear_btn;
 
@@ -120,22 +146,31 @@ public class AddPayment implements Initializable {
 
     @FXML
     private void addPayment(ActionEvent ignoredEvent) {
-        if (bill_no_combo.getValue().isEmpty() || bill_amount_field.getText().isEmpty()
-                || buyer_name_field.getText().isEmpty() || supplier_name_combo.getValue().isEmpty()
-                || bank_field.getText().isEmpty() || bank_field.getText().isEmpty()
-                || due_amount_field.getText().isEmpty() || amount_paid_field.getText().isEmpty()
+        if (bill_no_combo.getValue().isEmpty()
+                || bill_amount_field.getText().isEmpty()
+                || buyer_name_field.getText().isEmpty()
+                || supplier_name_combo.getValue().isEmpty()
+                || bank_field.getText().isEmpty()
+                || bank_field.getText().isEmpty()
+                || due_amount_field.getText().isEmpty()
+                || amount_paid_field.getText().isEmpty()
                 || dd_no_field.getText().isEmpty()
                 || dd_date_field.getValue().toString().isEmpty()) {
             Utils.showAlert("Please check whether the fields are properly filled or not.", 2);
             return;
         }
 
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter
-                .ofPattern(Constants.DATE_TIME_FORMAT);
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(Constants.DATE_TIME_FORMAT);
 
-        paymentItems.add(new PaymentItem(bill_no_combo.getValue(), bill_amount_field.getText(),
-                bill_date_field.getText(), buyer_name_field.getText(), due_amount_field.getText(),
-                amount_paid_field.getText(), bank_field.getText(), dd_no_field.getText(),
+        paymentItems.add(new PaymentItem(
+                bill_no_combo.getValue(),
+                bill_amount_field.getText(),
+                bill_date_field.getText(),
+                buyer_name_field.getText(),
+                due_amount_field.getText(),
+                amount_paid_field.getText(),
+                bank_field.getText(),
+                dd_no_field.getText(),
                 dateTimeFormatter.format(dd_date_field.getValue())));
 
         refreshPaymentTableView();
@@ -152,24 +187,33 @@ public class AddPayment implements Initializable {
             return;
         }
 
-        if (bill_no_combo.getValue().isEmpty() || bill_amount_field.getText().isEmpty()
-                || buyer_name_field.getText().isEmpty() || supplier_name_combo.getValue().isEmpty()
-                || bank_field.getText().isEmpty() || bank_field.getText().isEmpty()
-                || due_amount_field.getText().isEmpty() || amount_paid_field.getText().isEmpty()
+        if (bill_no_combo.getValue().isEmpty()
+                || bill_amount_field.getText().isEmpty()
+                || buyer_name_field.getText().isEmpty()
+                || supplier_name_combo.getValue().isEmpty()
+                || bank_field.getText().isEmpty()
+                || bank_field.getText().isEmpty()
+                || due_amount_field.getText().isEmpty()
+                || amount_paid_field.getText().isEmpty()
                 || dd_no_field.getText().isEmpty()
                 || dd_date_field.getValue().toString().isEmpty()) {
             Utils.showAlert("Please check whether the fields are properly filled or not.", 2);
             return;
         }
 
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter
-                .ofPattern(Constants.DATE_TIME_FORMAT);
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(Constants.DATE_TIME_FORMAT);
 
-        paymentItems.set(payment_tableview.getSelectionModel().getSelectedIndex(),
-                new PaymentItem(bill_no_combo.getValue(), bill_amount_field.getText(),
-                        bill_date_field.getText(), buyer_name_field.getText(),
-                        due_amount_field.getText(), amount_paid_field.getText(),
-                        bank_field.getText(), dd_no_field.getText(),
+        paymentItems.set(
+                payment_tableview.getSelectionModel().getSelectedIndex(),
+                new PaymentItem(
+                        bill_no_combo.getValue(),
+                        bill_amount_field.getText(),
+                        bill_date_field.getText(),
+                        buyer_name_field.getText(),
+                        due_amount_field.getText(),
+                        amount_paid_field.getText(),
+                        bank_field.getText(),
+                        dd_no_field.getText(),
                         dateTimeFormatter.format(dd_date_field.getValue())));
 
         refreshPaymentTableView();
@@ -221,16 +265,15 @@ public class AddPayment implements Initializable {
     private void saveData(ActionEvent ignoredEvent) {
         if (voucher_no_field.getText().isEmpty()
                 || voucher_date_field.getValue().toString().isEmpty()) {
-            Utils.showAlert("Check whether the Voucher No. and the Voucher Date is properly filled",
-                    2);
+            Utils.showAlert("Check whether the Voucher No. and the Voucher Date is properly filled", 2);
             return;
         }
         Connection connection = DatabaseHandler.getInstance().getConnection();
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter
-                .ofPattern(Constants.DATE_TIME_FORMAT);
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(Constants.DATE_TIME_FORMAT);
         try {
             connection.setAutoCommit(false);
-            String sql = "INSERT INTO `Payment_Entry_Table`(`Voucher No.`,`Voucher Date`,`Supplier Name`,`Total Amount`) VALUES (?,?,?,?)";
+            String sql =
+                    "INSERT INTO `Payment_Entry_Table`(`Voucher No.`,`Voucher Date`,`Supplier Name`,`Total Amount`) VALUES (?,?,?,?)";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, voucher_no_field.getText());
             preparedStatement.setString(2, dateTimeFormatter.format(voucher_date_field.getValue()));
@@ -239,7 +282,8 @@ public class AddPayment implements Initializable {
             preparedStatement.execute();
 
             for (PaymentItem paymentItem : paymentItems) {
-                sql = "INSERT INTO `Payment_Entry_Extended_Table`(`Voucher No.`,`Buyer Name`,`Bill No.`,`Bill Date`,`Bill Amount`,`Due Amount`,`Amount Paid`,`Bank`,`DD No.`,`DD Date`) VALUES (?,?,?,?,?,?,?,?,?,?)";
+                sql =
+                        "INSERT INTO `Payment_Entry_Extended_Table`(`Voucher No.`,`Buyer Name`,`Bill No.`,`Bill Date`,`Bill Amount`,`Due Amount`,`Amount Paid`,`Bank`,`DD No.`,`DD Date`) VALUES (?,?,?,?,?,?,?,?,?,?)";
                 preparedStatement = connection.prepareStatement(sql);
                 preparedStatement.setString(1, voucher_no_field.getText());
                 preparedStatement.setString(2, paymentItem.getBuyerName());
@@ -269,8 +313,7 @@ public class AddPayment implements Initializable {
             try {
                 connection.rollback();
             } catch (SQLException ex1) {
-                Logger.getLogger(PaymentEntryController.class.getName()).log(Level.SEVERE, null,
-                        ex1);
+                Logger.getLogger(PaymentEntryController.class.getName()).log(Level.SEVERE, null, ex1);
             }
             Logger.getLogger(PaymentEntryController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -317,8 +360,7 @@ public class AddPayment implements Initializable {
             String getPaymentAmountsForEveryoneSql = "select `Bill No.`, sum(`Amount Paid`) as `Amount Paid` "
                     + "from `Payment_Entry_Extended_Table` group by `Bill No.`";
             Map<String, Double> paymentAmountMap = new HashMap<>();
-            PreparedStatement preparedStatement = connection
-                    .prepareStatement(getPaymentAmountsForEveryoneSql);
+            PreparedStatement preparedStatement = connection.prepareStatement(getPaymentAmountsForEveryoneSql);
             ResultSet paidAmountsResultSet = preparedStatement.executeQuery();
             while (paidAmountsResultSet.next()) {
                 String amountPaidStr = paidAmountsResultSet.getString("Amount Paid");
@@ -336,8 +378,8 @@ public class AddPayment implements Initializable {
                     + "order by `Bill No.` collate nocase";
 
             preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1,
-                    supplier_name_combo.getSelectionModel().getSelectedItem());
+            preparedStatement.setString(
+                    1, supplier_name_combo.getSelectionModel().getSelectedItem());
             ResultSet billNoResultSet = preparedStatement.executeQuery();
 
             billNoComboList.clear();
@@ -380,7 +422,7 @@ public class AddPayment implements Initializable {
             bill_amount_field.setText(resultSet.getString("Bill Amount"));
             previouslyDue = Integer.parseInt(resultSet.getString("Due"));
             updateDueAmount();
-//            supplier_name_combo.setDisable(true);
+            //            supplier_name_combo.setDisable(true);
         } catch (SQLException ex) {
             Utils.showAlert(ex.toString());
             logger.log(Level.SEVERE, "Failed to fetch data", ex);

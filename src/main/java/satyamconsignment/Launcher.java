@@ -31,8 +31,7 @@ public class Launcher extends Application {
             stage.setScene(scene);
             stage.setMaximized(true);
             stage.show();
-            InputStream resourceAsStream = getClass()
-                    .getResourceAsStream("/satyamconsignment/icons/Icon.png");
+            InputStream resourceAsStream = getClass().getResourceAsStream("/satyamconsignment/icons/Icon.png");
             if (resourceAsStream != null) {
                 stage.getIcons().add(new Image(resourceAsStream));
             }

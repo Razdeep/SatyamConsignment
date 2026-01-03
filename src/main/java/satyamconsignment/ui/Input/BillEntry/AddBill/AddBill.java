@@ -20,43 +20,59 @@ import org.controlsfx.control.textfield.TextFields;
 import satyamconsignment.common.Constants;
 import satyamconsignment.common.DatabaseHandler;
 import satyamconsignment.common.Utils;
-import satyamconsignment.ui.Input.BillEntry.BillEntryController;
 import satyamconsignment.model.LR;
+import satyamconsignment.ui.Input.BillEntry.BillEntryController;
 
 public class AddBill implements Initializable {
 
     @FXML
     private TextField supplier_field;
+
     @FXML
     private TextField buyer_name_field;
+
     @FXML
     private TextField bill_no_field;
+
     @FXML
     private TextField transport_field;
+
     @FXML
     private DatePicker date_field;
+
     @FXML
     private DatePicker lr_date;
+
     @FXML
     private TextField bill_amount_field;
+
     @FXML
     private TextField pm_field;
+
     @FXML
     private TextField lr_field;
+
     @FXML
     private Button save_btn;
+
     @FXML
     private Button clear_btn;
+
     @FXML
     private Button add_btn;
+
     @FXML
     private TableView<LR> lrTable;
+
     @FXML
     private TableColumn<LR, String> lr_no_col;
+
     @FXML
     private TableColumn<LR, String> pm_col;
+
     @FXML
     private Button replace_btn;
+
     @FXML
     private Button delete_btn;
 
@@ -70,16 +86,13 @@ public class AddBill implements Initializable {
             ArrayList<String> transportList = new ArrayList<>();
             Connection connection = DatabaseHandler.getInstance().getConnection();
             ResultSet supplierResultSet = connection
-                    .prepareStatement(
-                            "select * from Supplier_Master_Table order by name collate nocase")
+                    .prepareStatement("select * from Supplier_Master_Table order by name collate nocase")
                     .executeQuery();
             ResultSet buyerResultSet = connection
-                    .prepareStatement(
-                            "select * from Buyer_Master_Table order by name collate nocase")
+                    .prepareStatement("select * from Buyer_Master_Table order by name collate nocase")
                     .executeQuery();
             ResultSet transportResultSet = connection
-                    .prepareStatement(
-                            "select * from Transport_Master_Table order by name collate nocase")
+                    .prepareStatement("select * from Transport_Master_Table order by name collate nocase")
                     .executeQuery();
             while (supplierResultSet.next()) {
                 supplierList.add(supplierResultSet.getString("name"));
@@ -100,33 +113,34 @@ public class AddBill implements Initializable {
 
         } catch (Exception ex) {
             Utils.showAlert(ex.toString());
-            Logger.getLogger(BillEntryController.class.getName()).log(Level.SEVERE, ex.toString(),
-                    ex);
+            Logger.getLogger(BillEntryController.class.getName()).log(Level.SEVERE, ex.toString(), ex);
         }
     }
 
     @FXML
     private void addToList(ActionEvent event) {
-        if (bill_no_field.getText().isEmpty() || lr_field.getText().isEmpty()
+        if (bill_no_field.getText().isEmpty()
+                || lr_field.getText().isEmpty()
                 || pm_field.getText().isEmpty()) {
-            Utils.showAlert(
-                    "Please ensure that the Bill No., LR No. and PM fields are filled up properly.",
-                    2);
+            Utils.showAlert("Please ensure that the Bill No., LR No. and PM fields are filled up properly.", 2);
             return;
         }
         lrList.add(new LR(bill_no_field.getText(), lr_field.getText(), pm_field.getText()));
         lrTable.setItems(lrList);
         lr_field.clear();
         pm_field.clear();
-
     }
 
     @FXML
     private void save(ActionEvent event) {
-        if (supplier_field.getText().isEmpty() || buyer_name_field.getText().isEmpty()
-                || bill_no_field.getText().isEmpty() || date_field.getValue().toString().isEmpty()
-                || transport_field.getText().isEmpty() || lr_date.getValue().toString().isEmpty()
-                || bill_amount_field.getText().isEmpty() || lrList.isEmpty()) {
+        if (supplier_field.getText().isEmpty()
+                || buyer_name_field.getText().isEmpty()
+                || bill_no_field.getText().isEmpty()
+                || date_field.getValue().toString().isEmpty()
+                || transport_field.getText().isEmpty()
+                || lr_date.getValue().toString().isEmpty()
+                || bill_amount_field.getText().isEmpty()
+                || lrList.isEmpty()) {
             Utils.showAlert("Please ensure to fill up all the fields");
             return;
         }
@@ -134,7 +148,8 @@ public class AddBill implements Initializable {
         Connection connection = DatabaseHandler.getInstance().getConnection();
         try {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Constants.DATE_TIME_FORMAT);
-            String sql = "INSERT INTO `Bill_Entry_Table`(`Supplier Name`,`Buyer Name`,`Bill No.`,`Bill Date`,`Transport`,`LR Date`,`Bill Amount`,`Collection Due`,`Due`) VALUES (?,?,?,?,?,?,?,?,?);";
+            String sql =
+                    "INSERT INTO `Bill_Entry_Table`(`Supplier Name`,`Buyer Name`,`Bill No.`,`Bill Date`,`Transport`,`LR Date`,`Bill Amount`,`Collection Due`,`Due`) VALUES (?,?,?,?,?,?,?,?,?);";
 
             connection.setAutoCommit(false);
 
@@ -167,14 +182,11 @@ public class AddBill implements Initializable {
                 connection.rollback();
             } catch (Exception ex1) {
                 Utils.showAlert(ex1.toString());
-                Logger.getLogger(BillEntryController.class.getName()).log(Level.SEVERE,
-                        ex1.toString(), ex1);
+                Logger.getLogger(BillEntryController.class.getName()).log(Level.SEVERE, ex1.toString(), ex1);
             }
             Utils.showAlert(ex.toString());
-            Logger.getLogger(BillEntryController.class.getName()).log(Level.SEVERE, ex.toString(),
-                    ex);
+            Logger.getLogger(BillEntryController.class.getName()).log(Level.SEVERE, ex.toString(), ex);
         }
-
     }
 
     @FXML
@@ -197,14 +209,14 @@ public class AddBill implements Initializable {
             Utils.showAlert("Please select an item from the LR Table", 2);
             return;
         }
-        if (bill_no_field.getText().isEmpty() || lr_field.getText().isEmpty()
+        if (bill_no_field.getText().isEmpty()
+                || lr_field.getText().isEmpty()
                 || pm_field.getText().isEmpty()) {
-            Utils.showAlert(
-                    "Please ensure that the Bill No., LR No. and PM fields are filled up properly.",
-                    2);
+            Utils.showAlert("Please ensure that the Bill No., LR No. and PM fields are filled up properly.", 2);
             return;
         }
-        lrList.set(lrTable.getSelectionModel().getSelectedIndex(),
+        lrList.set(
+                lrTable.getSelectionModel().getSelectedIndex(),
                 new LR(bill_no_field.getText(), lr_field.getText(), pm_field.getText()));
         lr_field.clear();
         pm_field.clear();

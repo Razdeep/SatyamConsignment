@@ -14,14 +14,19 @@ public class MainController implements Initializable {
 
     @FXML
     private Button input_btn;
+
     @FXML
     private BorderPane root;
+
     @FXML
     private Button report_btn;
+
     @FXML
     private Button master_btn;
+
     @FXML
     private MenuItem welcome_screen;
+
     private ViewLoader viewLoader;
 
     @Override
@@ -57,13 +62,11 @@ public class MainController implements Initializable {
 
     @FXML
     private void showCollectionHistory(ActionEvent event) {
-        viewLoader.loadCenter("/satyamconsignment/ui/Main/CollectionHistory/CollectionHistory.fxml",
-                root);
+        viewLoader.loadCenter("/satyamconsignment/ui/Main/CollectionHistory/CollectionHistory.fxml", root);
     }
 
     @FXML
     private void showPaymentHistory(ActionEvent event) {
-        viewLoader.loadCenter("/satyamconsignment/ui/Main/PaymentHistory/PaymentHistory.fxml",
-                root);
+        viewLoader.loadCenter("/satyamconsignment/ui/Main/PaymentHistory/PaymentHistory.fxml", root);
     }
 }

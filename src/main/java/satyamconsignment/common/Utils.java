@@ -1,13 +1,12 @@
 package satyamconsignment.common;
 
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
-
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 
 public class Utils {
 
@@ -19,15 +18,15 @@ public class Utils {
 
     private static AlertType getAlertTypeFromCustomValue(int choice) {
         switch (choice) {
-            case 0 :
+            case 0:
                 return AlertType.ERROR;
-            case 1 :
+            case 1:
                 return AlertType.INFORMATION;
-            case 2 :
+            case 2:
                 return AlertType.WARNING;
-            case 3 :
+            case 3:
                 return AlertType.CONFIRMATION;
-            default :
+            default:
                 showAlert("Programming Error. Select 1->error 2->info 3->warn 4->confirm");
         }
         return AlertType.NONE;
@@ -59,5 +58,4 @@ public class Utils {
             Logger.getLogger(Utils.class.getName()).log(Level.SEVERE, msg, e);
         }
     }
-
 }

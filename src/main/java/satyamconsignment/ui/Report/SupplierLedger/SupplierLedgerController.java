@@ -33,14 +33,19 @@ public class SupplierLedgerController implements Initializable {
 
     @FXML
     private ComboBox<String> supplier_name_combo;
+
     @FXML
     private ToggleGroup choice;
+
     @FXML
     private RadioButton supplier_ledger_radio;
+
     @FXML
     private RadioButton agewise_outstanding_radio;
+
     @FXML
     private Button generate_pdf_btn;
+
     @FXML
     private Button launch_pdf_btn;
 
@@ -49,8 +54,7 @@ public class SupplierLedgerController implements Initializable {
         try {
             databaseHandler = DatabaseHandler.getInstance();
             conn = databaseHandler.getConnection();
-            ps = conn.prepareStatement(
-                    "select * from Supplier_Master_Table order by name collate nocase");
+            ps = conn.prepareStatement("select * from Supplier_Master_Table order by name collate nocase");
             rs = ps.executeQuery();
             supplierList = FXCollections.observableArrayList();
             while (rs.next()) {
@@ -59,8 +63,7 @@ public class SupplierLedgerController implements Initializable {
             supplier_name_combo.setItems(supplierList);
         } catch (SQLException ex) {
             Utils.showAlert(ex.toString());
-            Logger.getLogger(SupplierLedgerController.class.getName()).log(Level.SEVERE,
-                    ex.toString(), ex);
+            Logger.getLogger(SupplierLedgerController.class.getName()).log(Level.SEVERE, ex.toString(), ex);
         }
     }
 
@@ -78,15 +81,14 @@ public class SupplierLedgerController implements Initializable {
 
         try {
 
-            JasperReport jasperReport = JasperCompileManager
-                    .compileReport(getClass().getResourceAsStream(jrxmlFilePath));
+            JasperReport jasperReport =
+                    JasperCompileManager.compileReport(getClass().getResourceAsStream(jrxmlFilePath));
             JasperPrint jprint = JasperFillManager.fillReport(jasperReport, map, conn);
             JasperExportManager.exportReportToPdfFile(jprint, Constants.REPORT_FILE_NAME);
             Utils.showAlert("Report Successfully Generated", 1);
         } catch (JRException ex) {
             Utils.showAlert(ex.toString());
-            Logger.getLogger(SupplierLedgerController.class.getName()).log(Level.SEVERE,
-                    ex.toString(), ex);
+            Logger.getLogger(SupplierLedgerController.class.getName()).log(Level.SEVERE, ex.toString(), ex);
         }
         Utils.launchPdf(Constants.REPORT_FILE_NAME);
     }

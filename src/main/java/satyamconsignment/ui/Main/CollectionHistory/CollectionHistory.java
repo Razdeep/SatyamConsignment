@@ -25,14 +25,19 @@ public class CollectionHistory implements Initializable {
 
     @FXML
     private Group root;
+
     @FXML
     private TableView<Record> tableView;
+
     @FXML
     private TableColumn<Record, String> voucher_no_col;
+
     @FXML
     private TableColumn<Record, String> voucher_date_col;
+
     @FXML
     private TableColumn<Record, String> buyer_name_col;
+
     @FXML
     private TableColumn<Record, String> total_amount_col;
 
@@ -50,13 +55,15 @@ public class CollectionHistory implements Initializable {
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                list.add(new Record(rs.getString("Voucher No."), rs.getString("Voucher Date"),
-                        rs.getString("Buyer Name"), rs.getString("Total Amount")));
+                list.add(new Record(
+                        rs.getString("Voucher No."),
+                        rs.getString("Voucher Date"),
+                        rs.getString("Buyer Name"),
+                        rs.getString("Total Amount")));
             }
         } catch (SQLException ex) {
             Utils.showAlert(ex.toString());
-            Logger.getLogger(CollectionHistory.class.getName()).log(Level.SEVERE, ex.toString(),
-                    ex);
+            Logger.getLogger(CollectionHistory.class.getName()).log(Level.SEVERE, ex.toString(), ex);
         }
         tableView.setItems(list);
     }
