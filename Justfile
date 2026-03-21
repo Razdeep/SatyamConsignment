@@ -1,0 +1,2 @@
+format:
+    ./gradlew spotlessApply
