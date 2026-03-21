@@ -13,7 +13,7 @@ hamcrest = "2.2"
 junit = "5.10.1"
 
 spotless = "7.0.2"
-shadow = "7.1.2"
+shadow = "9.4.0"
 javafxPlugin = "0.1.0"
 
 [libraries]
@@ -38,8 +38,10 @@ hamcrest = { module = "org.hamcrest:hamcrest", version.ref = "hamcrest" }
 
 junit-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit" }
 junit-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit" }
+junit-bom = { module = "org.junit:junit-bom", version = "5.10.2" }
+junit-jupiter = { module = "org.junit.jupiter:junit-jupiter" }
 
 [plugins]
 javafx = { id = "org.openjfx.javafxplugin", version.ref = "javafxPlugin" }
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
-shadow = { id = "com.github.johnrengelman.shadow", version.ref = "shadow" }
+shadow = { id = "com.gradleup.shadow", version.ref = "shadow" }

@@ -34,8 +34,11 @@ dependencies {
     testImplementation(libs.testfx.monocle)
     testImplementation(libs.hamcrest)
 
-    testImplementation(libs.junit.api)
-    testRuntimeOnly(libs.junit.engine)
+//    testImplementation(libs.junit.api)
+//    testRuntimeOnly(libs.junit.engine)
+    testImplementation(platform(libs.junit.bom))
+    testImplementation(libs.junit.jupiter)
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
     testImplementation(libs.testfx.core)
 }
@@ -88,6 +91,11 @@ tasks.named<JavaExec>("run") {
 tasks.named<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar>("shadowJar") {
     archiveClassifier.set("")
 }
+
+tasks.named("distZip") { enabled = false }
+tasks.named("distTar") { enabled = false }
+tasks.named("startScripts") { enabled = false }
+tasks.named<Jar>("jar") { enabled = false }
 
 val copyScripts by tasks.registering(Copy::class) {
     from("scripts") {
