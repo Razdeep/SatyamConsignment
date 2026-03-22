@@ -34,11 +34,9 @@ dependencies {
     testImplementation(libs.testfx.monocle)
     testImplementation(libs.hamcrest)
 
-//    testImplementation(libs.junit.api)
-//    testRuntimeOnly(libs.junit.engine)
     testImplementation(platform(libs.junit.bom))
     testImplementation(libs.junit.jupiter)
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    testRuntimeOnly(libs.junit.platform.launcher)
 
     testImplementation(libs.testfx.core)
 }
