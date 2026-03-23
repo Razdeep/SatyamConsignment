@@ -1,5 +1,5 @@
 [versions]
-javafx = "17"
+javafx = "17.0.18"
 controlsfx = "11.2.2"
 jasperreports = "6.1.0"
 sqlite = "3.34.0"
