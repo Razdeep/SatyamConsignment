@@ -2,8 +2,11 @@ package satyamconsignment.repository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import satyamconsignment.common.Constants;
@@ -16,11 +19,15 @@ public class BillRepository {
     public void save(BillEntity billEntity) throws SQLException {
         Connection connection = DatabaseHandler.getInstance().getConnection();
         try {
-            /* Code for saving data into Bill_Entry_Table */
 
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Constants.DATE_TIME_FORMAT);
+            // language=sql
             String sql =
-                    "INSERT INTO `Bill_Entry_Table`(`Supplier Name`,`Buyer Name`,`Bill No.`,`Bill Date`,`Transport`,`LR Date`,`Bill Amount`,`Collection Due`,`Due`) VALUES (?,?,?,?,?,?,?,?,?);";
+                    "INSERT INTO `Bill_Entry_Table`(`Supplier Name`,`Buyer Name`,`Bill No.`,`Bill Date`,`Transport`,`LR Date`,`Bill Amount`,`Collection Due`,`Due`) "
+                            + "VALUES (?,?,?,?,?,?,?,?,?) ON CONFLICT(`Bill No.`) DO UPDATE SET "
+                            + "`Supplier Name`=excluded.`Supplier Name`, `Buyer Name`=excluded.`Buyer Name`, `Bill Date`=excluded.`Bill Date`, "
+                            + "`Transport`=excluded.`Transport`, `LR Date`=excluded.`LR Date`, `Bill Amount`=excluded.`Bill Amount`, "
+                            + "`Collection Due`=excluded.`Collection Due`, `Due`=excluded.`Due`;";
 
             connection.setAutoCommit(false);
 
@@ -52,6 +59,49 @@ public class BillRepository {
             connection.commit();
         } catch (SQLException ex) {
             connection.rollback();
+            Logger.getLogger(BillRepository.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            throw ex;
+        }
+    }
+
+    public BillEntity getBill(String billNo) throws SQLException {
+        try {
+            Connection connection = DatabaseHandler.getInstance().getConnection();
+            String sql = "select * from `Bill_Entry_Table` where `Bill No.`=? collate nocase";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, billNo);
+            ResultSet billResultSet = preparedStatement.executeQuery();
+
+            if (billResultSet.isClosed()) {
+                return null;
+            }
+
+            BillEntity billEntity = BillEntity.builder()
+                    .billNo(billResultSet.getString("Bill No."))
+                    .supplierName(billResultSet.getString("Supplier Name"))
+                    .buyerName(billResultSet.getString("Buyer Name"))
+                    .billDate(billResultSet.getString("Bill Date"))
+                    .transport(billResultSet.getString("Transport"))
+                    .lrDate(billResultSet.getString("LR Date"))
+                    .billAmount(billResultSet.getString("Bill Amount"))
+                    .build();
+
+            sql = "select * from `LR_Table` where `Bill No.`=? collate nocase";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, billNo);
+            ResultSet lrPmResultSet = preparedStatement.executeQuery();
+
+            List<LREntity> lrpmList = new ArrayList<>();
+            while (lrPmResultSet.next()) {
+                lrpmList.add(new LREntity(
+                        lrPmResultSet.getString("Bill No."),
+                        lrPmResultSet.getString("LR No."),
+                        lrPmResultSet.getString("PM")));
+            }
+
+            billEntity.setLrEntities(lrpmList);
+            return billEntity;
+        } catch (SQLException ex) {
             Logger.getLogger(BillRepository.class.getName()).log(Level.SEVERE, ex.toString(), ex);
             throw ex;
         }

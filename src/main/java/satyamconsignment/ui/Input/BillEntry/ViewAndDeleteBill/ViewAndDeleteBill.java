@@ -3,10 +3,7 @@ package satyamconsignment.ui.Input.BillEntry.ViewAndDeleteBill;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,7 +15,10 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import satyamconsignment.common.DatabaseHandler;
 import satyamconsignment.common.Utils;
-import satyamconsignment.model.LR;
+import satyamconsignment.entity.BillEntity;
+import satyamconsignment.entity.LREntity;
+import satyamconsignment.repository.BillRepository;
+import satyamconsignment.service.BillService;
 
 public class ViewAndDeleteBill implements Initializable {
 
@@ -28,13 +28,13 @@ public class ViewAndDeleteBill implements Initializable {
     private TextField supplier_field;
 
     @FXML
-    private TableView<LR> lr_table;
+    private TableView<LREntity> lr_table;
 
     @FXML
-    private TableColumn<LR, String> lr_no_col;
+    private TableColumn<LREntity, String> lr_no_col;
 
     @FXML
-    private TableColumn<LR, String> pm_col;
+    private TableColumn<LREntity, String> pm_col;
 
     @FXML
     private TextField buyer_name_field;
@@ -60,46 +60,36 @@ public class ViewAndDeleteBill implements Initializable {
     @FXML
     private TextField bill_no_field;
 
+    private BillService billService;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         lr_no_col.setCellValueFactory(new PropertyValueFactory<>("lrNo"));
         pm_col.setCellValueFactory(new PropertyValueFactory<>("pm"));
+
+        billService = new BillService(new BillRepository());
     }
 
     @FXML
     private void getDetails(ActionEvent event) {
         try {
-            Connection connection = DatabaseHandler.getInstance().getConnection();
-            String sql = "select * from `Bill_Entry_Table` where `Bill No.`=? collate nocase";
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, bill_no_field.getText());
-            ResultSet billResultSet = preparedStatement.executeQuery();
-            String sql2 = "select * from `LR_Table` where `Bill No.`=? collate nocase";
-            preparedStatement = connection.prepareStatement(sql2);
-            preparedStatement.setString(1, bill_no_field.getText());
-            ResultSet lrPmResultSet = preparedStatement.executeQuery();
+            BillEntity billEntity = billService.getBill(bill_no_field.getText());
 
-            if (billResultSet.isClosed()) {
+            if (null == billEntity) {
                 Utils.showAlert("Record not found. Please try again later.", 2);
                 return;
             }
 
-            supplier_field.setText(billResultSet.getString("Supplier Name"));
-            buyer_name_field.setText(billResultSet.getString("Buyer Name"));
-            bill_date_field.setText(billResultSet.getString("Bill Date"));
-            transport_field.setText(billResultSet.getString("Transport"));
-            lr_date_field.setText(billResultSet.getString("LR Date"));
-            bill_amount_field.setText(billResultSet.getString("Bill Amount"));
+            supplier_field.setText(billEntity.getSupplierName());
+            buyer_name_field.setText(billEntity.getBuyerName());
+            bill_date_field.setText(billEntity.getBillDate());
+            transport_field.setText(billEntity.getTransport());
+            lr_date_field.setText(billEntity.getLrDate());
+            bill_amount_field.setText(billEntity.getBillAmount());
 
-            List<LR> lrpmList = new ArrayList<>();
-            while (lrPmResultSet.next()) {
-                lrpmList.add(new LR(
-                        lrPmResultSet.getString("Bill No."),
-                        lrPmResultSet.getString("LR No."),
-                        lrPmResultSet.getString("PM")));
-            }
-            lr_table.setItems(FXCollections.observableArrayList(lrpmList));
+            lr_table.setItems(FXCollections.observableArrayList(billEntity.getLrEntities()));
             delete_entry_btn.setDisable(false);
+
         } catch (SQLException ex) {
             Utils.showAlert(ex.toString());
             logger.log(Level.SEVERE, null, ex);

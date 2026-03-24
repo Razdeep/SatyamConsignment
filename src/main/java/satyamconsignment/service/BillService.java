@@ -15,4 +15,8 @@ public class BillService {
     public void saveBill(BillEntity billEntity) throws SQLException {
         billRepository.save(billEntity);
     }
+
+    public BillEntity getBill(String billNo) throws SQLException {
+        return billRepository.getBill(billNo);
+    }
 }
