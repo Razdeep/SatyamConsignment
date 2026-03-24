@@ -2,10 +2,9 @@ package satyamconsignment.ui.Input.BillEntry.AddBill;
 
 import java.net.URL;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -17,10 +16,13 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import org.controlsfx.control.textfield.TextFields;
-import satyamconsignment.common.Constants;
 import satyamconsignment.common.DatabaseHandler;
 import satyamconsignment.common.Utils;
+import satyamconsignment.entity.BillEntity;
+import satyamconsignment.entity.LREntity;
 import satyamconsignment.model.LR;
+import satyamconsignment.repository.BillRepository;
+import satyamconsignment.service.BillService;
 import satyamconsignment.ui.Input.BillEntry.BillEntryController;
 
 public class AddBill implements Initializable {
@@ -78,6 +80,8 @@ public class AddBill implements Initializable {
 
     final ObservableList<LR> lrList = FXCollections.observableArrayList();
 
+    private BillService billService;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
@@ -110,6 +114,8 @@ public class AddBill implements Initializable {
 
             lr_no_col.setCellValueFactory(new PropertyValueFactory<>("lrNo"));
             pm_col.setCellValueFactory(new PropertyValueFactory<>("pm"));
+
+            billService = new BillService(new BillRepository());
 
         } catch (Exception ex) {
             Utils.showAlert(ex.toString());
@@ -144,46 +150,26 @@ public class AddBill implements Initializable {
             Utils.showAlert("Please ensure to fill up all the fields");
             return;
         }
-        /* Code for saving data into Bill_Entry_Table */
-        Connection connection = DatabaseHandler.getInstance().getConnection();
+
+        List<LREntity> lrEntityList = lrList.stream()
+                .map(it -> new LREntity(it.getBillNo(), it.getLrNo(), it.getPm()))
+                .toList();
+
+        BillEntity billEntity = BillEntity.builder()
+                .supplierName(supplier_field.getText())
+                .buyerName(buyer_name_field.getText())
+                .billNo(bill_no_field.getText())
+                .billDate(date_field.getValue().toString())
+                .transport(transport_field.getText())
+                .lrDate(lr_date.getValue().toString())
+                .billAmount(bill_amount_field.getText())
+                .lrEntities(lrEntityList)
+                .build();
         try {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Constants.DATE_TIME_FORMAT);
-            String sql =
-                    "INSERT INTO `Bill_Entry_Table`(`Supplier Name`,`Buyer Name`,`Bill No.`,`Bill Date`,`Transport`,`LR Date`,`Bill Amount`,`Collection Due`,`Due`) VALUES (?,?,?,?,?,?,?,?,?);";
-
-            connection.setAutoCommit(false);
-
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, supplier_field.getText());
-            preparedStatement.setString(2, buyer_name_field.getText());
-            preparedStatement.setString(3, bill_no_field.getText());
-            preparedStatement.setString(4, formatter.format(date_field.getValue()));
-            preparedStatement.setString(5, transport_field.getText());
-            preparedStatement.setString(6, formatter.format(lr_date.getValue()));
-            preparedStatement.setString(7, bill_amount_field.getText());
-            preparedStatement.setString(8, bill_amount_field.getText());
-            preparedStatement.setString(9, bill_amount_field.getText());
-            preparedStatement.execute();
-
-            /* Code for Entering Data into LR_Table */
-            for (LR lr : lrList) {
-                sql = "INSERT INTO `LR_Table`(`Bill No.`,`LR No.`,`PM`) VALUES (?,?,?)";
-                preparedStatement = connection.prepareStatement(sql);
-                preparedStatement.setString(1, bill_no_field.getText());
-                preparedStatement.setString(2, lr.getLrNo());
-                preparedStatement.setString(3, lr.getPm());
-                preparedStatement.execute();
-            }
+            billService.saveBill(billEntity);
             clearAllFields();
-            connection.commit();
             Utils.showAlert("Saved Successfully", 1);
         } catch (Exception ex) {
-            try {
-                connection.rollback();
-            } catch (Exception ex1) {
-                Utils.showAlert(ex1.toString());
-                Logger.getLogger(BillEntryController.class.getName()).log(Level.SEVERE, ex1.toString(), ex1);
-            }
             Utils.showAlert(ex.toString());
             Logger.getLogger(BillEntryController.class.getName()).log(Level.SEVERE, ex.toString(), ex);
         }
