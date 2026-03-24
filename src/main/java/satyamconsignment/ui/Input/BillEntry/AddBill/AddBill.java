@@ -1,9 +1,6 @@
 package satyamconsignment.ui.Input.BillEntry.AddBill;
 
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -16,13 +13,18 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import org.controlsfx.control.textfield.TextFields;
-import satyamconsignment.common.DatabaseHandler;
 import satyamconsignment.common.Utils;
 import satyamconsignment.entity.BillEntity;
 import satyamconsignment.entity.LREntity;
 import satyamconsignment.model.LR;
 import satyamconsignment.repository.BillRepository;
+import satyamconsignment.repository.BuyerRepository;
+import satyamconsignment.repository.SupplierRepository;
+import satyamconsignment.repository.TransportRepository;
 import satyamconsignment.service.BillService;
+import satyamconsignment.service.BuyerService;
+import satyamconsignment.service.SupplierService;
+import satyamconsignment.service.TransportService;
 import satyamconsignment.ui.Input.BillEntry.BillEntryController;
 
 public class AddBill implements Initializable {
@@ -85,37 +87,17 @@ public class AddBill implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
-            ArrayList<String> supplierList = new ArrayList<>();
-            ArrayList<String> buyerList = new ArrayList<>();
-            ArrayList<String> transportList = new ArrayList<>();
-            Connection connection = DatabaseHandler.getInstance().getConnection();
-            ResultSet supplierResultSet = connection
-                    .prepareStatement("select * from Supplier_Master_Table order by name collate nocase")
-                    .executeQuery();
-            ResultSet buyerResultSet = connection
-                    .prepareStatement("select * from Buyer_Master_Table order by name collate nocase")
-                    .executeQuery();
-            ResultSet transportResultSet = connection
-                    .prepareStatement("select * from Transport_Master_Table order by name collate nocase")
-                    .executeQuery();
-            while (supplierResultSet.next()) {
-                supplierList.add(supplierResultSet.getString("name"));
-            }
-            while (buyerResultSet.next()) {
-                buyerList.add(buyerResultSet.getString("name"));
-            }
-            while (transportResultSet.next()) {
-                transportList.add(transportResultSet.getString("name"));
-            }
+            billService = new BillService(new BillRepository());
+            SupplierService supplierService = new SupplierService(new SupplierRepository());
+            BuyerService buyerService = new BuyerService(new BuyerRepository());
+            TransportService transportService = new TransportService(new TransportRepository());
 
-            TextFields.bindAutoCompletion(supplier_field, supplierList);
-            TextFields.bindAutoCompletion(buyer_name_field, buyerList);
-            TextFields.bindAutoCompletion(transport_field, transportList);
+            TextFields.bindAutoCompletion(supplier_field, supplierService.getAllSuppliers());
+            TextFields.bindAutoCompletion(buyer_name_field, buyerService.getAllBuyers());
+            TextFields.bindAutoCompletion(transport_field, transportService.getAllTransports());
 
             lr_no_col.setCellValueFactory(new PropertyValueFactory<>("lrNo"));
             pm_col.setCellValueFactory(new PropertyValueFactory<>("pm"));
-
-            billService = new BillService(new BillRepository());
 
         } catch (Exception ex) {
             Utils.showAlert(ex.toString());
