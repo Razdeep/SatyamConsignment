@@ -1,0 +1,50 @@
+[versions]
+javafx = "17.0.18"
+controlsfx = "11.2.2"
+jasperreports = "6.1.0"
+sqlite = "3.34.0"
+olap4j = "1.2.0"
+itext = "2.1.7"
+lombok = "1.18.20"
+testfx = "4.0.18"
+testfxCore = "4.0.17"
+monocle = "17.0.10"
+hamcrest = "2.2"
+#junit = "5.10.1"
+junitbom = "5.10.2"
+
+spotless = "7.0.2"
+shadow = "7.1.2"
+javafxPlugin = "0.1.0"
+
+[libraries]
+controlsfx = { module = "org.controlsfx:controlsfx", version.ref = "controlsfx" }
+jasperreports = { module = "net.sf.jasperreports:jasperreports", version.ref = "jasperreports" }
+sqlite = { module = "org.xerial:sqlite-jdbc", version.ref = "sqlite" }
+olap4j = { module = "org.olap4j:olap4j", version.ref = "olap4j" }
+itext = { module = "com.lowagie:itext", version.ref = "itext" }
+
+javafx-controls = { module = "org.openjfx:javafx-controls", version.ref = "javafx" }
+javafx-base = { module = "org.openjfx:javafx-base", version.ref = "javafx" }
+javafx-graphics = { module = "org.openjfx:javafx-graphics", version.ref = "javafx" }
+javafx-fxml = { module = "org.openjfx:javafx-fxml", version.ref = "javafx" }
+
+lombok = { module = "org.projectlombok:lombok", version.ref = "lombok" }
+
+testfx-junit5 = { module = "org.testfx:testfx-junit5", version.ref = "testfx" }
+testfx-core = { module = "org.testfx:testfx-core", version.ref = "testfxCore" }
+testfx-monocle = { module = "org.testfx:openjfx-monocle", version.ref = "monocle" }
+
+hamcrest = { module = "org.hamcrest:hamcrest", version.ref = "hamcrest" }
+
+#junit-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit" }
+#junit-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit" }
+junit-bom = { module = "org.junit:junit-bom", version.ref = "junitbom" }
+junit-jupiter = { module = "org.junit.jupiter:junit-jupiter" }
+junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher" }
+
+[plugins]
+javafx = { id = "org.openjfx.javafxplugin", version.ref = "javafxPlugin" }
+spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
+#shadow = { id = "com.gradleup.shadow", version.ref = "shadow" }
+shadow = { id = "com.github.johnrengelman.shadow", version.ref = "shadow" }
