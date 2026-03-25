@@ -19,6 +19,10 @@ import satyamconsignment.common.Constants;
 import satyamconsignment.common.DatabaseHandler;
 import satyamconsignment.common.Utils;
 import satyamconsignment.model.CollectionItem;
+import satyamconsignment.repository.BuyerRepository;
+import satyamconsignment.repository.CollectionRepository;
+import satyamconsignment.service.BuyerService;
+import satyamconsignment.service.CollectionService;
 
 public class AddCollection implements Initializable {
     private List<CollectionItem> collectionItemList;
@@ -94,8 +98,14 @@ public class AddCollection implements Initializable {
     @FXML
     private Label last_voucher_field;
 
+    private BuyerService buyerService;
+    private CollectionService collectionService;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        buyerService = new BuyerService(new BuyerRepository());
+        collectionService = new CollectionService(new CollectionRepository());
+
         collectionItemList = new ArrayList<>();
         buyerNameComboList = new ArrayList<>();
         billNoComboList = new ArrayList<>();
@@ -117,18 +127,8 @@ public class AddCollection implements Initializable {
 
     private void fillBuyerNameCombo() {
         try {
-            Connection connection = DatabaseHandler.getInstance().getConnection();
-            String sql = "select Name from `Buyer_Master_Table` order by name collate nocase";
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            ResultSet buyerMasterResultSet = preparedStatement.executeQuery();
-
-            buyerNameComboList.clear();
-            while (buyerMasterResultSet.next()) {
-                buyerNameComboList.add(buyerMasterResultSet.getString("Name"));
-            }
-
+            buyerNameComboList = buyerService.getAllBuyers();
             buyer_name.setItems(FXCollections.observableArrayList(buyerNameComboList));
-
         } catch (SQLException ex) {
             Utils.showAlert(ex.toString());
             logger.log(Level.SEVERE, ex.toString(), ex);
@@ -138,56 +138,9 @@ public class AddCollection implements Initializable {
     @FXML
     private void fillBillNoCombo() {
         try {
-            Connection connection = DatabaseHandler.getInstance().getConnection();
-
-            String getCollectionAmountsForEveryoneSql =
-                    "select `Bill No.`, sum(`Amount Collected`) as `Amount Collected` "
-                            + "from `Collection_Entry_Extended_Table` group by `Bill No.`";
-            Map<String, Double> collectionAmountMap = new HashMap<>();
-            PreparedStatement preparedStatement = connection.prepareStatement(getCollectionAmountsForEveryoneSql);
-            ResultSet collectionAmountsResultSet = preparedStatement.executeQuery();
-            while (collectionAmountsResultSet.next()) {
-                String amountCollectedStr = collectionAmountsResultSet.getString("Amount Collected");
-                double amountCollected = 0;
-                try {
-                    amountCollected = Double.parseDouble(amountCollectedStr);
-                } catch (NumberFormatException ex) {
-                    logger.log(Level.SEVERE, ex.toString(), ex);
-                    Utils.showAlert(ex.toString());
-                }
-                collectionAmountMap.put(collectionAmountsResultSet.getString("Bill No."), amountCollected);
-            }
-
-            String getBillAmountsForBuyerSql = "select `Bill No.`, `Bill Amount` from `Bill_Entry_Table` "
-                    + "where `Buyer Name`=? order by `Bill No.` collate nocase";
-
-            preparedStatement = connection.prepareStatement(getBillAmountsForBuyerSql);
-            preparedStatement.setString(1, buyer_name.getValue());
-            ResultSet billNoResultSet = preparedStatement.executeQuery();
-
             billNoComboList.clear();
-
-            while (billNoResultSet.next()) {
-                String billNo = billNoResultSet.getString("Bill No.");
-                String billAmountStr = billNoResultSet.getString("Bill Amount");
-                double billAmount = 1.0;
-                try {
-                    billAmount = Double.parseDouble(billAmountStr);
-                } catch (NumberFormatException ex) {
-                    logger.log(Level.SEVERE, ex.toString(), ex);
-                    Utils.showAlert(ex.toString());
-                }
-                if (collectionAmountMap.containsKey(billNo)) {
-                    if (billAmount - collectionAmountMap.get(billNo) > 0) {
-                        billNoComboList.add(billNo);
-                    }
-                } else {
-                    billNoComboList.add(billNo);
-                }
-            }
-
+            billNoComboList = collectionService.fetchPendingBillsForBuyer(buyer_name.getValue());
             bill_no_combo.setItems(FXCollections.observableArrayList(billNoComboList));
-
         } catch (SQLException ex) {
             Utils.showAlert(ex.toString());
             logger.log(Level.SEVERE, ex.toString(), ex);
