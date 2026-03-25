@@ -4,12 +4,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import satyamconsignment.common.Constants;
 import satyamconsignment.common.DatabaseHandler;
 import satyamconsignment.entity.BillEntity;
 import satyamconsignment.entity.LREntity;
@@ -20,7 +18,6 @@ public class BillRepository {
         Connection connection = DatabaseHandler.getInstance().getConnection();
         try {
 
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Constants.DATE_TIME_FORMAT);
             // language=sql
             String sql =
                     "INSERT INTO `Bill_Entry_Table`(`Supplier Name`,`Buyer Name`,`Bill No.`,`Bill Date`,`Transport`,`LR Date`,`Bill Amount`,`Collection Due`,`Due`) "
@@ -45,8 +42,7 @@ public class BillRepository {
             preparedStatement.setString(9, billEntity.getBillAmount());
             preparedStatement.execute();
 
-            /* Code for Entering Data into LR_Table */
-            if (!billEntity.getLrEntities().isEmpty()) {
+            if (null != billEntity.getLrEntities()) {
                 for (LREntity lr : billEntity.getLrEntities()) {
                     sql = "INSERT INTO `LR_Table`(`Bill No.`,`LR No.`,`PM`) VALUES (?,?,?)";
                     preparedStatement = connection.prepareStatement(sql);

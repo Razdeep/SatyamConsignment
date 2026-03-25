@@ -1,5 +1,7 @@
 package satyamconsignment.ui.Input.BillEntry.AddBill;
 
+import static satyamconsignment.common.Utils.formatDate;
+
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -141,9 +143,9 @@ public class AddBill implements Initializable {
                 .supplierName(supplier_field.getText())
                 .buyerName(buyer_name_field.getText())
                 .billNo(bill_no_field.getText())
-                .billDate(date_field.getValue().toString())
+                .billDate(formatDate(date_field.getValue().toString()))
                 .transport(transport_field.getText())
-                .lrDate(lr_date.getValue().toString())
+                .lrDate(formatDate(lr_date.getValue().toString()))
                 .billAmount(bill_amount_field.getText())
                 .lrEntities(lrEntityList)
                 .build();
