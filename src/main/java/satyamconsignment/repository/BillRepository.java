@@ -106,4 +106,28 @@ public class BillRepository {
             throw ex;
         }
     }
+
+    public void deleteBill(String billNo) throws SQLException {
+
+        Connection connection = DatabaseHandler.getInstance().getConnection();
+
+        try {
+            connection.setAutoCommit(false);
+            String sql = "DELETE FROM `Bill_Entry_Table` where `Bill No.`=? collate nocase";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, billNo);
+            preparedStatement.execute();
+
+            String sql2 = "DELETE FROM `LR_Table` where `Bill No.`=? collate nocase";
+            preparedStatement = connection.prepareStatement(sql2);
+            preparedStatement.setString(1, billNo);
+            preparedStatement.execute();
+
+            connection.commit();
+        } catch (SQLException ex) {
+            connection.rollback();
+            Logger.getLogger(BillRepository.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            throw ex;
+        }
+    }
 }

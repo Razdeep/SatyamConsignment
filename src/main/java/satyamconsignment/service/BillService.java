@@ -19,4 +19,8 @@ public class BillService {
     public BillEntity getBill(String billNo) throws SQLException {
         return billRepository.getBill(billNo);
     }
+
+    public void deleteBill(String billNo) throws SQLException {
+        billRepository.deleteBill(billNo);
+    }
 }
