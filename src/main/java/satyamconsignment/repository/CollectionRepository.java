@@ -75,7 +75,73 @@ public class CollectionRepository {
             }
             return res;
         } catch (SQLException ex) {
-            Logger.getLogger(BuyerRepository.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            Logger.getLogger(CollectionRepository.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            throw ex;
+        }
+    }
+
+    public int fetchPendingAmountForBillNo(String billNo) throws SQLException {
+        try {
+            Connection connection = DatabaseHandler.getInstance().getConnection();
+            // language=sql
+            String sql =
+                    """
+                        with cte_collected as (
+                        select
+                            `Bill No.`,
+                            sum(`Amount Collected`) as amount_collected
+                        from
+                            Collection_Entry_Extended_Table
+                        group by
+                            `Bill No.`
+                        ),
+                        cte_bill as (
+                        select
+                            *
+                        from
+                            Bill_Entry_Table
+                        WHERE
+                            `Bill No.` = ?
+                        ),
+                        cte_bill_collected as (
+                        select
+                            `Bill No.`,
+                            `Bill Amount`,
+                            coalesce(`amount_collected`, 0) as amount_collected
+                        from
+                            cte_bill
+                        left outer join cte_collected
+                                using(`Bill No.`)
+                        ),
+                        cte_pending as (
+                        select
+                            `Bill No.`,
+                            `Bill Amount` - amount_collected as pending_amount
+                        from
+                            cte_bill_collected
+                        ),
+                        cte_final as (
+                        select
+                            pending_amount
+                        from
+                            cte_pending
+                        )
+                        select
+                            *
+                        from
+                            cte_final;
+                    """;
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, billNo);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.isClosed()) {
+                return 0;
+            }
+
+            return resultSet.getInt("pending_amount");
+        } catch (SQLException ex) {
+            Logger.getLogger(CollectionRepository.class.getName()).log(Level.SEVERE, ex.toString(), ex);
             throw ex;
         }
     }

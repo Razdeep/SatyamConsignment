@@ -18,9 +18,12 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import satyamconsignment.common.Constants;
 import satyamconsignment.common.DatabaseHandler;
 import satyamconsignment.common.Utils;
+import satyamconsignment.entity.BillEntity;
 import satyamconsignment.model.CollectionItem;
+import satyamconsignment.repository.BillRepository;
 import satyamconsignment.repository.BuyerRepository;
 import satyamconsignment.repository.CollectionRepository;
+import satyamconsignment.service.BillService;
 import satyamconsignment.service.BuyerService;
 import satyamconsignment.service.CollectionService;
 
@@ -28,7 +31,6 @@ public class AddCollection implements Initializable {
     private List<CollectionItem> collectionItemList;
     private List<String> buyerNameComboList;
     private List<String> billNoComboList;
-    private int previouslyDue;
 
     private static final Logger logger = Logger.getLogger(AddCollection.class.getName());
 
@@ -98,11 +100,13 @@ public class AddCollection implements Initializable {
     @FXML
     private Label last_voucher_field;
 
+    private BillService billService;
     private BuyerService buyerService;
     private CollectionService collectionService;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        billService = new BillService(new BillRepository());
         buyerService = new BuyerService(new BuyerRepository());
         collectionService = new CollectionService(new CollectionRepository());
 
@@ -150,22 +154,11 @@ public class AddCollection implements Initializable {
     @FXML
     private void fetchData() {
         try {
-            Connection connection = DatabaseHandler.getInstance().getConnection();
-            String sql = "Select * from Bill_Entry_Table where `Bill No.`=?";
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, bill_no_combo.getValue());
-            ResultSet billResultSet = preparedStatement.executeQuery();
-            String supplierName = billResultSet.getString("Supplier Name");
-            String billDate = billResultSet.getString("Bill Date");
-            String billAmount = billResultSet.getString("Bill Amount");
-            previouslyDue = Integer.parseInt(billResultSet.getString("Collection Due"));
-            supplier_name.setText(supplierName);
-            bill_date.setText(billDate);
-            bill_amount.setText(billAmount);
+            BillEntity billEntity = billService.getBill(bill_no_combo.getValue());
+            supplier_name.setText(billEntity.getSupplierName());
+            bill_date.setText(billEntity.getBillDate());
+            bill_amount.setText(billEntity.getBillAmount());
             updateCollectionDue();
-            // buyer_name.setDisable(true);
-            billResultSet.close();
-
         } catch (SQLException ex) {
             Utils.showAlert(ex.toString());
             logger.log(Level.SEVERE, ex.toString(), ex);
@@ -207,8 +200,18 @@ public class AddCollection implements Initializable {
 
     @FXML
     private void updateCollectionDue() {
-        collection_due_field.setText(
-                Integer.toString(previouslyDue - Integer.parseInt(amount_collected_field.getText())));
+        int amountCollected = 0, previouslyDue = 0;
+        try {
+            amountCollected = Integer.parseInt(amount_collected_field.getText());
+        } catch (Exception ex) {
+            logger.log(Level.WARNING, "cannot be converted to integer");
+        }
+        try {
+            previouslyDue = collectionService.fetchPendingAmountForBillNo(bill_no_combo.getValue());
+        } catch (SQLException ex) {
+            logger.warning(ex.toString());
+        }
+        collection_due_field.setText(Integer.toString(previouslyDue - amountCollected));
     }
 
     private void updateTotalAmount() {

@@ -15,4 +15,8 @@ public class CollectionService {
     public List<String> fetchPendingBillsForBuyer(String buyerName) throws SQLException {
         return collectionRepository.fetchPendingBillsForBuyer(buyerName);
     }
+
+    public int fetchPendingAmountForBillNo(String billNo) throws SQLException {
+        return collectionRepository.fetchPendingAmountForBillNo(billNo);
+    }
 }
