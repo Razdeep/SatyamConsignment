@@ -404,6 +404,7 @@ public class AddCollection implements Initializable {
         clearAllFields();
         collectionItemList.clear();
         refreshCollectionTableView();
+        updateLastVoucher();
     }
 
     private void updateLastVoucher() {

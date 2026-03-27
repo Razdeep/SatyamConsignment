@@ -319,6 +319,7 @@ public class AddPayment implements Initializable {
         }
         paymentItems.clear();
         refreshPaymentTableView();
+        updateLastVoucher();
     }
 
     private void updateLastVoucher() {
