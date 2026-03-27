@@ -1,5 +1,7 @@
 package satyamconsignment.ui.Input.CollectionEntry.AddCollection;
 
+import static satyamconsignment.common.Utils.formatDate;
+
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -19,6 +21,8 @@ import satyamconsignment.common.Constants;
 import satyamconsignment.common.DatabaseHandler;
 import satyamconsignment.common.Utils;
 import satyamconsignment.entity.BillEntity;
+import satyamconsignment.entity.CollectionEntity;
+import satyamconsignment.entity.CollectionItemEntity;
 import satyamconsignment.model.CollectionItem;
 import satyamconsignment.repository.BillRepository;
 import satyamconsignment.repository.BuyerRepository;
@@ -308,55 +312,36 @@ public class AddCollection implements Initializable {
             Utils.showAlert("Check whether the Voucher No. and the Voucher Date is properly filled", 2);
             return;
         }
-        Connection connection = DatabaseHandler.getInstance().getConnection();
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(Constants.DATE_TIME_FORMAT);
+
+        List<CollectionItemEntity> collectionItemEntities = collectionItemList.stream()
+                .map(it -> CollectionItemEntity.builder()
+                        .billNo(it.getBillNo())
+                        .billDate(formatDate(it.getBillDate()))
+                        .billAmount(it.getBillAmount())
+                        .supplierName(it.getSupplierName())
+                        .due(it.getDue())
+                        .amountCollected(it.getAmountCollected())
+                        .bank(it.getBank())
+                        .ddNo(it.getDdNo())
+                        .ddDate(it.getDdDate())
+                        .build())
+                .toList();
+
+        CollectionEntity collectionEntity = CollectionEntity.builder()
+                .voucherNo(voucher_no_field.getText())
+                .voucherDate(formatDate(voucher_date_field.getValue().toString()))
+                .buyerName(buyer_name.getValue())
+                .totalAmount(total_amount_field.getText())
+                .items(collectionItemEntities)
+                .build();
         try {
-            connection.setAutoCommit(false);
-            String sql =
-                    "INSERT INTO `Collection_Entry_Table`(`Voucher No.`,`Voucher Date`,`Buyer Name`,`Total Amount`) VALUES (?,?,?,?)";
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, voucher_no_field.getText());
-            preparedStatement.setString(2, dateTimeFormatter.format(voucher_date_field.getValue()));
-            preparedStatement.setString(3, buyer_name.getValue());
-            preparedStatement.setString(4, total_amount_field.getText());
-            preparedStatement.execute();
-
-            for (CollectionItem collectionItem : collectionItemList) {
-                sql =
-                        "INSERT INTO `Collection_Entry_Extended_Table`(`Voucher No.`,`Supplier Name`,`Bill No.`,`Bill Date`,`Bill Amount`,`Collection Due`,`Amount Collected`,`Bank`,`DD No.`,`DD Date`) VALUES (?,?,?,?,?,?,?,?,?,?);";
-                preparedStatement = connection.prepareStatement(sql);
-                preparedStatement.setString(1, voucher_no_field.getText());
-                preparedStatement.setString(2, collectionItem.getSupplierName());
-                preparedStatement.setString(3, collectionItem.getBillNo());
-                preparedStatement.setString(4, collectionItem.getBillDate());
-                preparedStatement.setString(5, collectionItem.getBillAmount());
-                preparedStatement.setString(6, collectionItem.getDue());
-                preparedStatement.setString(7, collectionItem.getAmountCollected());
-                preparedStatement.setString(8, collectionItem.getBank());
-                preparedStatement.setString(9, collectionItem.getDdNo());
-                preparedStatement.setString(10, collectionItem.getDdDate());
-
-                preparedStatement.execute();
-
-                // Update Bill Entry Table
-                sql = "UPDATE `Bill_Entry_Table` SET `Collection Due`=? WHERE `BILL NO.`=?";
-                preparedStatement = connection.prepareStatement(sql);
-                preparedStatement.setString(1, collectionItem.getDue());
-                preparedStatement.setString(2, collectionItem.getBillNo());
-                preparedStatement.execute();
-            }
-            connection.commit();
+            collectionService.saveCollection(collectionEntity);
             Utils.showAlert("Saved Successfully", 1);
         } catch (SQLException ex) {
             Utils.showAlert(ex.toString());
             logger.log(Level.SEVERE, ex.toString(), ex);
-            try {
-                connection.rollback();
-            } catch (SQLException ex1) {
-                Utils.showAlert(ex.toString());
-                logger.log(Level.SEVERE, ex1.toString(), ex1);
-            }
         }
+
         clearAllFields();
         collectionItemList.clear();
         refreshCollectionTableView();

@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import satyamconsignment.common.DatabaseHandler;
+import satyamconsignment.entity.CollectionEntity;
+import satyamconsignment.entity.CollectionItemEntity;
 
 public class CollectionRepository {
 
@@ -143,6 +145,73 @@ public class CollectionRepository {
         } catch (SQLException ex) {
             Logger.getLogger(CollectionRepository.class.getName()).log(Level.SEVERE, ex.toString(), ex);
             throw ex;
+        }
+    }
+
+    public void saveCollection(CollectionEntity collectionEntity) throws SQLException {
+        Connection connection = DatabaseHandler.getInstance().getConnection();
+        try {
+            connection.setAutoCommit(false);
+            String sql =
+                    "INSERT INTO `Collection_Entry_Table`(`Voucher No.`,`Voucher Date`,`Buyer Name`,`Total Amount`) VALUES (?,?,?,?)";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, collectionEntity.getVoucherNo());
+            preparedStatement.setString(2, collectionEntity.getVoucherDate());
+            preparedStatement.setString(3, collectionEntity.getBuyerName());
+            preparedStatement.setString(4, collectionEntity.getTotalAmount());
+            preparedStatement.execute();
+
+            // language=sql
+            sql =
+                    """
+                    INSERT
+                        INTO
+                        `Collection_Entry_Extended_Table`(`Voucher No.`,
+                        `Supplier Name`,
+                        `Bill No.`,
+                        `Bill Date`,
+                        `Bill Amount`,
+                        `Collection Due`,
+                        `Amount Collected`,
+                        `Bank`,
+                        `DD No.`,
+                        `DD Date`)
+                    VALUES (?,
+                    ?,
+                    ?,
+                    ?,
+                    ?,
+                    ?,
+                    ?,
+                    ?,
+                    ?,
+                    ?);
+""";
+
+            if (null != collectionEntity.getItems()) {
+                for (CollectionItemEntity collectionItem : collectionEntity.getItems()) {
+
+                    preparedStatement = connection.prepareStatement(sql);
+                    preparedStatement.setString(1, collectionEntity.getVoucherNo());
+                    preparedStatement.setString(2, collectionItem.getSupplierName());
+                    preparedStatement.setString(3, collectionItem.getBillNo());
+                    preparedStatement.setString(4, collectionItem.getBillDate());
+                    preparedStatement.setString(5, collectionItem.getBillAmount());
+                    preparedStatement.setString(6, collectionItem.getDue());
+                    preparedStatement.setString(7, collectionItem.getAmountCollected());
+                    preparedStatement.setString(8, collectionItem.getBank());
+                    preparedStatement.setString(9, collectionItem.getDdNo());
+                    preparedStatement.setString(10, collectionItem.getDdDate());
+
+                    preparedStatement.execute();
+                }
+            }
+
+            connection.commit();
+
+        } catch (SQLException ex) {
+            connection.rollback();
+            Logger.getLogger(CollectionRepository.class.getName()).log(Level.SEVERE, ex.toString(), ex);
         }
     }
 }

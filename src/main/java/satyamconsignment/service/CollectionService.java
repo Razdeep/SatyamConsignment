@@ -2,6 +2,7 @@ package satyamconsignment.service;
 
 import java.sql.SQLException;
 import java.util.List;
+import satyamconsignment.entity.CollectionEntity;
 import satyamconsignment.repository.CollectionRepository;
 
 public class CollectionService {
@@ -18,5 +19,9 @@ public class CollectionService {
 
     public int fetchPendingAmountForBillNo(String billNo) throws SQLException {
         return collectionRepository.fetchPendingAmountForBillNo(billNo);
+    }
+
+    public void saveCollection(CollectionEntity collectionEntity) throws SQLException {
+        collectionRepository.saveCollection(collectionEntity);
     }
 }
