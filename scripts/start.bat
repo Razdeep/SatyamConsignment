@@ -1,7 +1,10 @@
-set JAVA_HOME="C:\Program Files\Java\jdk-17\lib"
-set PATH="C:\Program Files\Java\jdk-17\bin"
+set JAVA_HOME=C:\Program Files\Java\jdk-17\lib
+set PATH=C:\Program Files\Java\jdk-17\bin
+set JAVAFX_MODULE_PATH=%USERPROFILE%\openjfx-17.0.18_windows-x64_bin-sdk\javafx-sdk-17.0.18\lib
 
-java --module-path "C:\Users\rrajd\openjfx-19_windows-x64_bin-sdk\javafx-sdk-19\lib" ^
+echo %JAVAFX_MODULE_PATH%
+
+java --module-path "%JAVAFX_MODULE_PATH%" ^
 --add-modules javafx.controls,javafx.base,javafx.graphics,javafx.fxml ^
 --add-exports javafx.base/com.sun.javafx.event=ALL-UNNAMED ^
 --add-exports=javafx.controls/com.sun.javafx.scene.control=ALL-UNNAMED ^
@@ -9,3 +12,5 @@ java --module-path "C:\Users\rrajd\openjfx-19_windows-x64_bin-sdk\javafx-sdk-19\
 --add-exports=javafx.base/com.sun.javafx.binding=ALL-UNNAMED ^
 --add-exports=javafx.graphics/com.sun.javafx.stage=ALL-UNNAMED ^
 -jar SatyamConsignment.jar
+
+pause
