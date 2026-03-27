@@ -1,6 +1,6 @@
 set JAVA_HOME=C:\Program Files\Java\jdk-17\lib
 set PATH=C:\Program Files\Java\jdk-17\bin
-set JAVAFX_MODULE_PATH=%USERPROFILE%\openjfx-17.0.18_windows-x64_bin-sdk\javafx-sdk-17.0.18\lib
+set JAVAFX_MODULE_PATH=%USERPROFILE%\javafx-sdk-17.0.18\lib
 
 echo %JAVAFX_MODULE_PATH%
 
