@@ -17,7 +17,7 @@ dependencies {
     implementation(libs.jasperreports)
     implementation(libs.sqlite)
     implementation(libs.olap4j)
-    implementation(libs.itext)
+//    implementation(libs.itext)
 
     implementation(libs.javafx.controls)
     implementation(libs.javafx.base)

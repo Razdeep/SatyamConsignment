@@ -1,10 +1,10 @@
 [versions]
 javafx = "17.0.18"
 controlsfx = "11.2.2"
-jasperreports = "6.1.0"
+jasperreports = "6.21.5"
 sqlite = "3.34.0"
 olap4j = "1.2.0"
-itext = "2.1.7"
+#itext = "2.1.7"
 lombok = "1.18.20"
 testfx = "4.0.18"
 testfxCore = "4.0.17"
@@ -22,7 +22,7 @@ controlsfx = { module = "org.controlsfx:controlsfx", version.ref = "controlsfx" 
 jasperreports = { module = "net.sf.jasperreports:jasperreports", version.ref = "jasperreports" }
 sqlite = { module = "org.xerial:sqlite-jdbc", version.ref = "sqlite" }
 olap4j = { module = "org.olap4j:olap4j", version.ref = "olap4j" }
-itext = { module = "com.lowagie:itext", version.ref = "itext" }
+#itext = { module = "com.lowagie:itext", version.ref = "itext" }
 
 javafx-controls = { module = "org.openjfx:javafx-controls", version.ref = "javafx" }
 javafx-base = { module = "org.openjfx:javafx-base", version.ref = "javafx" }
