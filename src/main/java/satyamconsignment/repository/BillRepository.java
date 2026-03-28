@@ -17,7 +17,6 @@ public class BillRepository {
     public void save(BillEntity billEntity) throws SQLException {
         Connection connection = DatabaseHandler.getInstance().getConnection();
         try {
-
             // language=sql
             String sql =
                     "INSERT INTO `Bill_Entry_Table`(`Supplier Name`,`Buyer Name`,`Bill No.`,`Bill Date`,`Transport`,`LR Date`,`Bill Amount`,`Collection Due`,`Due`) "
@@ -32,10 +31,8 @@ public class BillRepository {
             preparedStatement.setString(1, billEntity.getSupplierName());
             preparedStatement.setString(2, billEntity.getBuyerName());
             preparedStatement.setString(3, billEntity.getBillNo());
-            //            preparedStatement.setString(4, formatter.format(date_field.getValue()));
             preparedStatement.setString(4, billEntity.getBillDate());
             preparedStatement.setString(5, billEntity.getTransport());
-            //            preparedStatement.setString(6, formatter.format(lr_date.getValue()));
             preparedStatement.setString(6, billEntity.getLrDate());
             preparedStatement.setString(7, billEntity.getBillAmount());
             preparedStatement.setString(8, billEntity.getBillAmount());

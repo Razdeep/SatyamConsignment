@@ -44,7 +44,7 @@ public class CollectionRepository {
                             coalesce(`amount_collected`, 0) as amount_collected
                         from
                             cte_bill
-                        left outer join cte_collected
+                        left join cte_collected
                                 using(`Bill No.`)
                         ),
                         cte_pending as (
@@ -112,7 +112,7 @@ public class CollectionRepository {
                             coalesce(`amount_collected`, 0) as amount_collected
                         from
                             cte_bill
-                        left outer join cte_collected
+                        left join cte_collected
                                 using(`Bill No.`)
                         ),
                         cte_pending as (
