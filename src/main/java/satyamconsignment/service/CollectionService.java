@@ -24,4 +24,8 @@ public class CollectionService {
     public void saveCollection(CollectionEntity collectionEntity) throws SQLException {
         collectionRepository.saveCollection(collectionEntity);
     }
+
+    public String getLastVoucher() throws SQLException {
+        return collectionRepository.getLastVoucher();
+    }
 }

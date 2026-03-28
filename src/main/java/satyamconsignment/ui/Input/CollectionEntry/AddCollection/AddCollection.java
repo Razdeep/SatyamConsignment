@@ -3,9 +3,6 @@ package satyamconsignment.ui.Input.CollectionEntry.AddCollection;
 import static satyamconsignment.common.Utils.formatDate;
 
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -18,7 +15,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import satyamconsignment.common.Constants;
-import satyamconsignment.common.DatabaseHandler;
 import satyamconsignment.common.Utils;
 import satyamconsignment.entity.BillEntity;
 import satyamconsignment.entity.CollectionEntity;
@@ -350,11 +346,7 @@ public class AddCollection implements Initializable {
 
     private void updateLastVoucher() {
         try {
-            Connection connection = DatabaseHandler.getInstance().getConnection();
-            String sql = "SELECT MAX(`Voucher No.`) from `COLLECTION_ENTRY_TABLE`;";
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            String answer = resultSet.getString("Max(`Voucher No.`)");
+            String answer = collectionService.getLastVoucher();
             last_voucher_field.setText("Last Voucher No. : " + answer);
         } catch (SQLException ex) {
             Utils.showAlert(ex.toString());

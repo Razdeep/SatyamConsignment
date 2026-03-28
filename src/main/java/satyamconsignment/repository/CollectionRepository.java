@@ -212,6 +212,21 @@ public class CollectionRepository {
         } catch (SQLException ex) {
             connection.rollback();
             Logger.getLogger(CollectionRepository.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            throw ex;
+        }
+    }
+
+    public String getLastVoucher() throws SQLException {
+        try {
+            Connection connection = DatabaseHandler.getInstance().getConnection();
+            // language=sql
+            String sql = "SELECT MAX(`Voucher No.`) from `COLLECTION_ENTRY_TABLE`;";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            return resultSet.getString("Max(`Voucher No.`)");
+        } catch (SQLException ex) {
+            Logger.getLogger(CollectionRepository.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            throw ex;
         }
     }
 }
