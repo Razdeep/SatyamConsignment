@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import satyamconsignment.common.DatabaseHandler;
+import satyamconsignment.common.Utils;
 import satyamconsignment.entity.CollectionEntity;
 import satyamconsignment.entity.CollectionItemEntity;
 
@@ -227,6 +228,77 @@ public class CollectionRepository {
         } catch (SQLException ex) {
             Logger.getLogger(CollectionRepository.class.getName()).log(Level.SEVERE, ex.toString(), ex);
             throw ex;
+        }
+    }
+
+    public CollectionEntity getCollection(String voucherNo) throws SQLException {
+
+        try {
+            Connection connection = DatabaseHandler.getInstance().getConnection();
+
+            String sql = "select * from `Collection_Entry_Extended_Table` where `Voucher No.`=? collate nocase";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, voucherNo);
+            ResultSet collectionResultSet = preparedStatement.executeQuery();
+
+            List<CollectionItemEntity> collectionItemList = new ArrayList<>();
+
+            while (collectionResultSet.next()) {
+                collectionItemList.add(new CollectionItemEntity(
+                        collectionResultSet.getString("Bill No."),
+                        collectionResultSet.getString("Bill Date"),
+                        collectionResultSet.getString("Bill Amount"),
+                        collectionResultSet.getString("Supplier Name"),
+                        collectionResultSet.getString("collection due"),
+                        collectionResultSet.getString("amount collected"),
+                        collectionResultSet.getString("bank"),
+                        collectionResultSet.getString("DD No."),
+                        collectionResultSet.getString("DD Date")));
+            }
+
+            sql = "select * from `Collection_Entry_Table` where `Voucher No.`=? collate nocase";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, voucherNo);
+            collectionResultSet = preparedStatement.executeQuery();
+            if (collectionResultSet.isClosed()) {
+                Utils.showAlert("No Results found", 1);
+                return null;
+            }
+
+            return CollectionEntity.builder()
+                    .voucherNo(collectionResultSet.getString("Voucher Date"))
+                    .buyerName(collectionResultSet.getString("Buyer Name"))
+                    .totalAmount(collectionResultSet.getString("Total Amount"))
+                    .items(collectionItemList)
+                    .build();
+        } catch (SQLException ex) {
+            Logger.getLogger(CollectionRepository.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            throw ex;
+        }
+    }
+
+    public void deleteCollection(String voucherNo) throws SQLException {
+        Connection connection = DatabaseHandler.getInstance().getConnection();
+
+        try {
+            connection.setAutoCommit(false);
+
+            String sql = "DELETE FROM `Collection_Entry_Table` where `Voucher No.`=? collate nocase";
+
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, voucherNo);
+            preparedStatement.execute();
+
+            sql = "DELETE FROM `Collection_Entry_Extended_Table` where `Voucher No.`=? collate nocase";
+
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, voucherNo);
+            preparedStatement.execute();
+            connection.commit();
+        } catch (SQLException ex) {
+            Utils.showAlert(ex.toString());
+            Logger.getLogger(CollectionRepository.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            connection.rollback();
         }
     }
 }

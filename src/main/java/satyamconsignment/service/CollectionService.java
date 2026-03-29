@@ -28,4 +28,12 @@ public class CollectionService {
     public String getLastVoucher() throws SQLException {
         return collectionRepository.getLastVoucher();
     }
+
+    public CollectionEntity getCollection(String voucherNo) throws SQLException {
+        return collectionRepository.getCollection(voucherNo);
+    }
+
+    public void deleteCollection(String voucherNo) throws SQLException {
+        collectionRepository.deleteCollection(voucherNo);
+    }
 }
