@@ -1,5 +1,7 @@
 package satyamconsignment.ui.Input.PaymentEntry.AddPayment;
 
+import static satyamconsignment.common.Utils.formatDate;
+
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -19,7 +21,11 @@ import javafx.scene.text.Text;
 import satyamconsignment.common.Constants;
 import satyamconsignment.common.DatabaseHandler;
 import satyamconsignment.common.Utils;
+import satyamconsignment.entity.PaymentEntity;
+import satyamconsignment.entity.PaymentItemEntity;
 import satyamconsignment.model.PaymentItem;
+import satyamconsignment.repository.PaymentRepository;
+import satyamconsignment.service.PaymentService;
 import satyamconsignment.ui.Input.PaymentEntry.PaymentEntryController;
 
 public class AddPayment implements Initializable {
@@ -118,8 +124,13 @@ public class AddPayment implements Initializable {
     @FXML
     private Text last_voucher_field;
 
+    private PaymentService paymentService;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+
+        paymentService = new PaymentService(new PaymentRepository());
+
         paymentItems = new ArrayList<>();
         supplierNameComboList = new ArrayList<>();
         billNoComboList = new ArrayList<>();
@@ -263,60 +274,58 @@ public class AddPayment implements Initializable {
 
     @FXML
     private void saveData(ActionEvent ignoredEvent) {
+        Alert alert = new Alert(
+                Alert.AlertType.CONFIRMATION,
+                "Are you sure that you want save " + voucher_no_field.getText() + " ?",
+                ButtonType.YES,
+                ButtonType.NO,
+                ButtonType.CANCEL);
+        alert.showAndWait();
+
+        if (alert.getResult() != ButtonType.YES) {
+            return;
+        }
+
         if (voucher_no_field.getText().isEmpty()
+                || voucher_date_field.getValue() == null
                 || voucher_date_field.getValue().toString().isEmpty()) {
             Utils.showAlert("Check whether the Voucher No. and the Voucher Date is properly filled", 2);
             return;
         }
-        Connection connection = DatabaseHandler.getInstance().getConnection();
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(Constants.DATE_TIME_FORMAT);
+
+        List<PaymentItemEntity> paymentItemEntities = paymentItems.stream()
+                .map(it -> PaymentItemEntity.builder()
+                        .voucherNo(voucher_no_field.getText())
+                        .buyerName(it.getBuyerName())
+                        .billNo(it.getBillNo())
+                        .billDate(formatDate(it.getBillDate()))
+                        .billAmount(it.getBillAmount())
+                        .dueAmount(it.getDue())
+                        .amountPaid(it.getAmountPaid())
+                        .bank(it.getBank())
+                        .ddNo(it.getDdNo())
+                        .ddDate(formatDate(it.getDdDate()))
+                        .build())
+                .toList();
+
+        PaymentEntity paymentEntity = PaymentEntity.builder()
+                .voucherNo(voucher_no_field.getText())
+                .voucherDate(formatDate(voucher_date_field.getValue().toString()))
+                .supplierName(supplier_name_combo.getValue())
+                .totalAmount(total_amount_paid_field.getText())
+                .items(paymentItemEntities)
+                .build();
+
         try {
-            connection.setAutoCommit(false);
-            String sql =
-                    "INSERT INTO `Payment_Entry_Table`(`Voucher No.`,`Voucher Date`,`Supplier Name`,`Total Amount`) VALUES (?,?,?,?)";
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, voucher_no_field.getText());
-            preparedStatement.setString(2, dateTimeFormatter.format(voucher_date_field.getValue()));
-            preparedStatement.setString(3, supplier_name_combo.getValue());
-            preparedStatement.setString(4, total_amount_paid_field.getText());
-            preparedStatement.execute();
-
-            for (PaymentItem paymentItem : paymentItems) {
-                sql =
-                        "INSERT INTO `Payment_Entry_Extended_Table`(`Voucher No.`,`Buyer Name`,`Bill No.`,`Bill Date`,`Bill Amount`,`Due Amount`,`Amount Paid`,`Bank`,`DD No.`,`DD Date`) VALUES (?,?,?,?,?,?,?,?,?,?)";
-                preparedStatement = connection.prepareStatement(sql);
-                preparedStatement.setString(1, voucher_no_field.getText());
-                preparedStatement.setString(2, paymentItem.getBuyerName());
-                preparedStatement.setString(3, paymentItem.getBillNo());
-                preparedStatement.setString(4, paymentItem.getBillDate());
-                preparedStatement.setString(5, paymentItem.getBillAmount());
-                preparedStatement.setString(6, paymentItem.getDue());
-                preparedStatement.setString(7, paymentItem.getAmountPaid());
-                preparedStatement.setString(8, paymentItem.getBank());
-                preparedStatement.setString(9, paymentItem.getDdNo());
-                preparedStatement.setString(10, paymentItem.getDdDate());
-
-                preparedStatement.execute();
-
-                // Update Bill Entry Table
-                sql = "UPDATE `Bill_Entry_Table` SET `Due`=? WHERE `BILL NO.`=?";
-                preparedStatement = connection.prepareStatement(sql);
-                preparedStatement.setString(1, paymentItem.getDue());
-                preparedStatement.setString(2, paymentItem.getBillNo());
-                preparedStatement.execute();
-            }
-            connection.commit();
+            paymentService.savePayment(paymentEntity);
             Utils.showAlert("Saved Successfully", 1);
             clearAllFields();
         } catch (SQLException ex) {
             Utils.showAlert(ex.toString());
-            try {
-                connection.rollback();
-            } catch (SQLException ex1) {
-                Logger.getLogger(PaymentEntryController.class.getName()).log(Level.SEVERE, null, ex1);
-            }
-            Logger.getLogger(PaymentEntryController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PaymentEntryController.class.getName()).log(Level.SEVERE, ex.toString(), ex);
         }
+
+        clearAllFields();
         paymentItems.clear();
         refreshPaymentTableView();
         updateLastVoucher();
