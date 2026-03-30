@@ -46,7 +46,7 @@ public class CollectionRepository {
                         from
                             cte_bill
                         left join cte_collected
-                                using(`Bill No.`)
+                            using(`Bill No.`)
                         ),
                         cte_pending as (
                         select

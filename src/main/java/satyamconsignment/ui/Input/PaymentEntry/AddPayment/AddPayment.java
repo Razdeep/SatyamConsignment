@@ -21,11 +21,16 @@ import javafx.scene.text.Text;
 import satyamconsignment.common.Constants;
 import satyamconsignment.common.DatabaseHandler;
 import satyamconsignment.common.Utils;
+import satyamconsignment.entity.BillEntity;
 import satyamconsignment.entity.PaymentEntity;
 import satyamconsignment.entity.PaymentItemEntity;
 import satyamconsignment.model.PaymentItem;
+import satyamconsignment.repository.BillRepository;
 import satyamconsignment.repository.PaymentRepository;
+import satyamconsignment.repository.SupplierRepository;
+import satyamconsignment.service.BillService;
 import satyamconsignment.service.PaymentService;
+import satyamconsignment.service.SupplierService;
 import satyamconsignment.ui.Input.PaymentEntry.PaymentEntryController;
 
 public class AddPayment implements Initializable {
@@ -124,12 +129,15 @@ public class AddPayment implements Initializable {
     @FXML
     private Text last_voucher_field;
 
+    private BillService billService;
     private PaymentService paymentService;
+    private SupplierService supplierService;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
+        billService = new BillService(new BillRepository());
         paymentService = new PaymentService(new PaymentRepository());
+        supplierService = new SupplierService(new SupplierRepository());
 
         paymentItems = new ArrayList<>();
         supplierNameComboList = new ArrayList<>();
@@ -346,15 +354,7 @@ public class AddPayment implements Initializable {
 
     private void fillSupplierCombo() {
         try {
-            Connection connection = DatabaseHandler.getInstance().getConnection();
-            String sql = "select Name from `Supplier_Master_Table` order by name collate nocase";
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            supplierNameComboList.clear();
-            while (resultSet.next()) {
-                supplierNameComboList.add(resultSet.getString("Name"));
-            }
+            supplierNameComboList = supplierService.getAllSuppliers();
             supplier_name_combo.setItems(FXCollections.observableArrayList(supplierNameComboList));
         } catch (SQLException ex) {
             Utils.showAlert(ex.toString());
@@ -365,54 +365,8 @@ public class AddPayment implements Initializable {
     @FXML
     private void fillBillNoCombo(ActionEvent ignoredEvent) {
         try {
-            Connection connection = DatabaseHandler.getInstance().getConnection();
-
-            String getPaymentAmountsForEveryoneSql = "select `Bill No.`, sum(`Amount Paid`) as `Amount Paid` "
-                    + "from `Payment_Entry_Extended_Table` group by `Bill No.`";
-            Map<String, Double> paymentAmountMap = new HashMap<>();
-            PreparedStatement preparedStatement = connection.prepareStatement(getPaymentAmountsForEveryoneSql);
-            ResultSet paidAmountsResultSet = preparedStatement.executeQuery();
-            while (paidAmountsResultSet.next()) {
-                String amountPaidStr = paidAmountsResultSet.getString("Amount Paid");
-                double amountPaid = 0;
-                try {
-                    amountPaid = Double.parseDouble(amountPaidStr);
-                } catch (NumberFormatException ex) {
-                    Utils.showAlert(ex.toString());
-                    logger.log(Level.SEVERE, ex.toString());
-                }
-                paymentAmountMap.put(paidAmountsResultSet.getString("Bill No."), amountPaid);
-            }
-
-            String sql = "SELECT `Bill No.`, `Bill Amount` FROM `Bill_Entry_Table` where  `Supplier Name`=? "
-                    + "order by `Bill No.` collate nocase";
-
-            preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(
-                    1, supplier_name_combo.getSelectionModel().getSelectedItem());
-            ResultSet billNoResultSet = preparedStatement.executeQuery();
-
-            billNoComboList.clear();
-            while (billNoResultSet.next()) {
-                String billNo = billNoResultSet.getString("Bill No.");
-                String billAmountStr = billNoResultSet.getString("Bill Amount");
-                double billAmount = 1.0;
-                try {
-                    billAmount = Double.parseDouble(billAmountStr);
-                } catch (NumberFormatException ex) {
-                    Utils.showAlert(ex.toString());
-                    logger.log(Level.SEVERE, ex.toString());
-                }
-                if (paymentAmountMap.containsKey(billNo)) {
-                    if (billAmount - paymentAmountMap.get(billNo) > 0) {
-                        billNoComboList.add(billNo);
-                    }
-                } else {
-                    billNoComboList.add(billNo);
-                }
-            }
+            billNoComboList = paymentService.fetchPendingBillsForSupplier(supplier_name_combo.getValue());
             bill_no_combo.setItems(FXCollections.observableArrayList(billNoComboList));
-
         } catch (SQLException ex) {
             Utils.showAlert(ex.toString());
             logger.log(Level.SEVERE, "Failed to populate bill number combo", ex);
@@ -422,20 +376,15 @@ public class AddPayment implements Initializable {
     @FXML
     private void fetchData(ActionEvent ignoredEvent) {
         try {
-            Connection connection = DatabaseHandler.getInstance().getConnection();
-            String sql = "Select * from Bill_Entry_Table where `Bill No.`=?";
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, bill_no_combo.getValue());
-            ResultSet resultSet = preparedStatement.executeQuery();
-            buyer_name_field.setText(resultSet.getString("Buyer Name"));
-            bill_date_field.setText(resultSet.getString("Bill Date"));
-            bill_amount_field.setText(resultSet.getString("Bill Amount"));
-            previouslyDue = Integer.parseInt(resultSet.getString("Due"));
+            BillEntity billEntity = billService.getBill(bill_no_combo.getValue());
+            buyer_name_field.setText(billEntity.getBuyerName());
+            bill_date_field.setText(billEntity.getBillDate());
+            bill_amount_field.setText(billEntity.getBillAmount());
+            previouslyDue = paymentService.fetchPendingAmountForBillNo(bill_no_combo.getValue());
             updateDueAmount();
-            //            supplier_name_combo.setDisable(true);
         } catch (SQLException ex) {
             Utils.showAlert(ex.toString());
-            logger.log(Level.SEVERE, "Failed to fetch data", ex);
+            logger.log(Level.SEVERE, ex.toString(), ex);
         }
     }
 

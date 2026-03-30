@@ -31,6 +31,7 @@ public class AddCollection implements Initializable {
     private List<CollectionItem> collectionItemList;
     private List<String> buyerNameComboList;
     private List<String> billNoComboList;
+    private int previouslyDue;
 
     private static final Logger logger = Logger.getLogger(AddCollection.class.getName());
 
@@ -142,7 +143,6 @@ public class AddCollection implements Initializable {
     @FXML
     private void fillBillNoCombo() {
         try {
-            billNoComboList.clear();
             billNoComboList = collectionService.fetchPendingBillsForBuyer(buyer_name.getValue());
             bill_no_combo.setItems(FXCollections.observableArrayList(billNoComboList));
         } catch (SQLException ex) {
@@ -158,6 +158,7 @@ public class AddCollection implements Initializable {
             supplier_name.setText(billEntity.getSupplierName());
             bill_date.setText(billEntity.getBillDate());
             bill_amount.setText(billEntity.getBillAmount());
+            previouslyDue = collectionService.fetchPendingAmountForBillNo(bill_no_combo.getValue());
             updateCollectionDue();
         } catch (SQLException ex) {
             Utils.showAlert(ex.toString());
@@ -200,16 +201,11 @@ public class AddCollection implements Initializable {
 
     @FXML
     private void updateCollectionDue() {
-        int amountCollected = 0, previouslyDue = 0;
+        int amountCollected = 0;
         try {
             amountCollected = Integer.parseInt(amount_collected_field.getText());
         } catch (Exception ex) {
             logger.log(Level.WARNING, "cannot be converted to integer");
-        }
-        try {
-            previouslyDue = collectionService.fetchPendingAmountForBillNo(bill_no_combo.getValue());
-        } catch (SQLException ex) {
-            logger.warning(ex.toString());
         }
         collection_due_field.setText(Integer.toString(previouslyDue - amountCollected));
     }
