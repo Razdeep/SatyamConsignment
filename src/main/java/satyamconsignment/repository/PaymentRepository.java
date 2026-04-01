@@ -188,4 +188,18 @@ public class PaymentRepository {
             throw ex;
         }
     }
+
+    public String getLastVoucher() throws SQLException {
+        try {
+            Connection connection = DatabaseHandler.getInstance().getConnection();
+            // language=sql
+            String sql = "SELECT MAX(`Voucher No.`) from `PAYMENT_ENTRY_TABLE`;";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            return resultSet.getString("Max(`Voucher No.`)");
+        } catch (SQLException ex) {
+            Logger.getLogger(PaymentRepository.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            throw ex;
+        }
+    }
 }

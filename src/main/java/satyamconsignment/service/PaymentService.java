@@ -24,4 +24,8 @@ public class PaymentService {
     public void savePayment(PaymentEntity paymentEntity) throws SQLException {
         paymentRepository.savePayment(paymentEntity);
     }
+
+    public String getLastVoucher() throws SQLException {
+        return paymentRepository.getLastVoucher();
+    }
 }

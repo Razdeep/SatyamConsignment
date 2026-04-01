@@ -3,9 +3,6 @@ package satyamconsignment.ui.Input.PaymentEntry.AddPayment;
 import static satyamconsignment.common.Utils.formatDate;
 
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -19,7 +16,6 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
 import satyamconsignment.common.Constants;
-import satyamconsignment.common.DatabaseHandler;
 import satyamconsignment.common.Utils;
 import satyamconsignment.entity.BillEntity;
 import satyamconsignment.entity.PaymentEntity;
@@ -341,14 +337,11 @@ public class AddPayment implements Initializable {
 
     private void updateLastVoucher() {
         try {
-            Connection connection = DatabaseHandler.getInstance().getConnection();
-            String sql = "SELECT MAX(`Voucher No.`) from `PAYMENT_ENTRY_TABLE`;";
-            PreparedStatement ps = connection.prepareStatement(sql);
-            ResultSet resultSet = ps.executeQuery();
-            String lastVoucherNo = resultSet.getString("Max(`Voucher No.`)");
-            last_voucher_field.setText("Last Voucher No. : " + lastVoucherNo);
+            String answer = paymentService.getLastVoucher();
+            last_voucher_field.setText("Last Voucher No. : " + answer);
         } catch (SQLException ex) {
-            logger.log(Level.SEVERE, "Failed to update Last Payment Voucher", ex);
+            Utils.showAlert(ex.toString());
+            logger.log(Level.SEVERE, ex.toString(), ex);
         }
     }
 
