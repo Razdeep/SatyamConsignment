@@ -2,8 +2,6 @@ package satyamconsignment.ui.Input.PaymentEntry.ViewAndDeletePayment;
 
 import java.net.URL;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
 import java.util.logging.Level;
@@ -157,28 +155,7 @@ public class ViewAndDeletePayment implements Initializable {
         Connection conn = DatabaseHandler.getInstance().getConnection();
 
         try {
-            conn.setAutoCommit(false);
-            String sql =
-                    "SELECT `Bill No.`,`Amount Paid` FROM `Payment_Entry_Extended_Table` where `Voucher No.`=? collate nocase";
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, voucher_no_field.getText());
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                sql = "UPDATE `Bill_Entry_Table` SET `Due`=`Due`+? WHERE `BILL NO.`=?";
-                ps = conn.prepareStatement(sql);
-                ps.setString(1, rs.getString("Amount Paid"));
-                ps.setString(2, rs.getString("Bill No."));
-                ps.execute();
-            }
-            sql = "DELETE FROM `Payment_Entry_Table` where `Voucher No.`=? collate nocase";
-            ps = conn.prepareStatement(sql);
-            ps.setString(1, voucher_no_field.getText());
-            ps.execute();
-
-            sql = "DELETE FROM `Payment_Entry_Extended_Table` where `Voucher No.`=? collate nocase";
-            ps = conn.prepareStatement(sql);
-            ps.setString(1, voucher_no_field.getText());
-            ps.execute();
+            paymentService.deletePayment(voucher_no_field.getText());
 
             payment_tableview.setItems(FXCollections.observableArrayList());
 
@@ -186,7 +163,6 @@ public class ViewAndDeletePayment implements Initializable {
             supplier_name.setText("");
             display_board_label.setText("");
             total_amount_field.setText("");
-            conn.commit();
             Utils.showAlert(voucher_no_field.getText().toUpperCase() + " Entry was successfully deleted.", 1);
         } catch (SQLException ex) {
             Utils.showAlert(ex.toString());

@@ -154,7 +154,10 @@ public class ViewAndDeleteCollection implements Initializable {
 
         try {
             collectionService.deleteCollection(voucher_no_field.getText());
+
             collectionItemList.clear();
+            collection_tableview.setItems(FXCollections.observableArrayList());
+
             voucher_date.setText("");
             buyer_name.setText("");
             display_board_label.setText("");

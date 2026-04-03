@@ -250,8 +250,33 @@ public class PaymentRepository {
 
         } catch (SQLException ex) {
             Utils.showAlert(ex.toString());
-            Logger.getLogger(PaymentRepository.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PaymentRepository.class.getName()).log(Level.SEVERE, ex.toString(), ex);
             throw ex;
+        }
+    }
+
+    public void deletePayment(String voucherNo) throws SQLException {
+        Connection connection = DatabaseHandler.getInstance().getConnection();
+
+        try {
+            connection.setAutoCommit(false);
+
+            String sql = "DELETE FROM `Payment_Entry_Table` where `Voucher No.`=? collate nocase";
+
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, voucherNo);
+            preparedStatement.execute();
+
+            sql = "DELETE FROM `Payment_Entry_Extended_Table` where `Voucher No.`=? collate nocase";
+
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, voucherNo);
+            preparedStatement.execute();
+            connection.commit();
+        } catch (SQLException ex) {
+            Utils.showAlert(ex.toString());
+            Logger.getLogger(PaymentRepository.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            connection.rollback();
         }
     }
 }
