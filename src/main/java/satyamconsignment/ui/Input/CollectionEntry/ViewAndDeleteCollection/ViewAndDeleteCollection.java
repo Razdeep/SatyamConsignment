@@ -106,13 +106,23 @@ public class ViewAndDeleteCollection implements Initializable {
 
         try {
             CollectionEntity collectionEntity = collectionService.getCollection(voucher_no_field.getText());
+            collectionItemList = collectionEntity.getItems().stream()
+                    .map(it -> CollectionItem.builder()
+                            .billNo(it.getBillNo())
+                            .billAmount(it.getBillAmount())
+                            .billDate(it.getBillDate())
+                            .supplierName(it.getSupplierName())
+                            .amountCollected(it.getAmountCollected())
+                            .bank(it.getBank())
+                            .ddNo(it.getDdNo())
+                            .ddDate(it.getDdDate())
+                            .build())
+                    .toList();
 
             voucher_date.setText(collectionEntity.getVoucherDate());
             buyer_name.setText(collectionEntity.getBuyerName());
             total_amount_field.setText(collectionEntity.getTotalAmount());
             display_board_label.setText(collectionEntity.getBuyerName());
-
-            collectionItemList.clear();
 
             collection_tableview.setItems(FXCollections.observableArrayList(collectionItemList));
             delete_entry_btn.setDisable(false);

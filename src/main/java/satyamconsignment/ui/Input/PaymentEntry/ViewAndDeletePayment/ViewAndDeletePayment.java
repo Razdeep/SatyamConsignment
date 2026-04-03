@@ -19,6 +19,8 @@ import satyamconsignment.common.Constants;
 import satyamconsignment.common.DatabaseHandler;
 import satyamconsignment.common.Utils;
 import satyamconsignment.model.PaymentItem;
+import satyamconsignment.repository.PaymentRepository;
+import satyamconsignment.service.PaymentService;
 import satyamconsignment.ui.Input.CollectionEntry.CollectionEntryController;
 import satyamconsignment.ui.Input.PaymentEntry.PaymentEntryController;
 
@@ -78,8 +80,13 @@ public class ViewAndDeletePayment implements Initializable {
     @FXML
     private Button print_payment_btn;
 
+    private PaymentService paymentService;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+
+        paymentService = new PaymentService(new PaymentRepository());
+
         bill_no_col.setCellValueFactory(new PropertyValueFactory<>("billNo"));
         bill_amt_col.setCellValueFactory(new PropertyValueFactory<>("billAmount"));
         buyer_col.setCellValueFactory(new PropertyValueFactory<>("buyerName"));

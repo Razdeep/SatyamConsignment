@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import satyamconsignment.common.DatabaseHandler;
+import satyamconsignment.common.Utils;
 import satyamconsignment.entity.PaymentEntity;
 import satyamconsignment.entity.PaymentItemEntity;
 
@@ -199,6 +200,58 @@ public class PaymentRepository {
             return resultSet.getString("Max(`Voucher No.`)");
         } catch (SQLException ex) {
             Logger.getLogger(PaymentRepository.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            throw ex;
+        }
+    }
+
+    public PaymentEntity getPayment(String voucherNo) throws SQLException {
+        try {
+            Connection conn = DatabaseHandler.getInstance().getConnection();
+
+            String sql = "select * from `Payment_Entry_Extended_Table` where `Voucher No.`=? collate nocase";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, voucherNo);
+            ResultSet rs = ps.executeQuery();
+
+            List<PaymentItemEntity> list = new ArrayList<>();
+            while (rs.next()) {
+                PaymentItemEntity paymentItem = PaymentItemEntity.builder()
+                        .billNo(rs.getString("Bill No."))
+                        .billAmount(rs.getString("Bill Amount"))
+                        .billDate(rs.getString("Bill Date"))
+                        .buyerName(rs.getString("Buyer Name"))
+                        .dueAmount(rs.getString("due amount"))
+                        .amountPaid(rs.getString("amount paid"))
+                        .bank(rs.getString("bank"))
+                        .ddNo(rs.getString("DD No."))
+                        .ddDate(rs.getString("DD Date"))
+                        .build();
+
+                list.add(paymentItem);
+            }
+
+            sql = "select * from `Payment_Entry_Table` where `Voucher No.`=? collate nocase";
+
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, voucherNo);
+            rs = ps.executeQuery();
+
+            if (rs.isClosed()) {
+                Utils.showAlert("No Results found", 1);
+                return null;
+            }
+
+            return PaymentEntity.builder()
+                    .voucherNo(rs.getString("Voucher No."))
+                    .voucherDate(rs.getString("Voucher Date"))
+                    .supplierName(rs.getString("Supplier Name"))
+                    .totalAmount(rs.getString("Total Amount"))
+                    .items(list)
+                    .build();
+
+        } catch (SQLException ex) {
+            Utils.showAlert(ex.toString());
+            Logger.getLogger(PaymentRepository.class.getName()).log(Level.SEVERE, null, ex);
             throw ex;
         }
     }

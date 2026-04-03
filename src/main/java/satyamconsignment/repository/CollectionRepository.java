@@ -266,7 +266,8 @@ public class CollectionRepository {
             }
 
             return CollectionEntity.builder()
-                    .voucherNo(collectionResultSet.getString("Voucher Date"))
+                    .voucherNo(collectionResultSet.getString("Voucher No."))
+                    .voucherDate(collectionResultSet.getString("Voucher Date"))
                     .buyerName(collectionResultSet.getString("Buyer Name"))
                     .totalAmount(collectionResultSet.getString("Total Amount"))
                     .items(collectionItemList)

@@ -28,4 +28,8 @@ public class PaymentService {
     public String getLastVoucher() throws SQLException {
         return paymentRepository.getLastVoucher();
     }
+
+    public PaymentEntity getPayment(String voucherNo) throws SQLException {
+        return paymentRepository.getPayment(voucherNo);
+    }
 }
