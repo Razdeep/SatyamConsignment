@@ -237,7 +237,6 @@ public class PaymentRepository {
             rs = ps.executeQuery();
 
             if (rs.isClosed()) {
-                Utils.showAlert("No Results found", 1);
                 return null;
             }
 

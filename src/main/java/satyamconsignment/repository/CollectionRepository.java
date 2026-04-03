@@ -261,7 +261,6 @@ public class CollectionRepository {
             preparedStatement.setString(1, voucherNo);
             collectionResultSet = preparedStatement.executeQuery();
             if (collectionResultSet.isClosed()) {
-                Utils.showAlert("No Results found", 1);
                 return null;
             }
 

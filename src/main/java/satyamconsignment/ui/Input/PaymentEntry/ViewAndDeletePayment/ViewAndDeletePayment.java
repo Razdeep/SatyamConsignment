@@ -18,10 +18,10 @@ import net.sf.jasperreports.engine.*;
 import satyamconsignment.common.Constants;
 import satyamconsignment.common.DatabaseHandler;
 import satyamconsignment.common.Utils;
+import satyamconsignment.entity.PaymentEntity;
 import satyamconsignment.model.PaymentItem;
 import satyamconsignment.repository.PaymentRepository;
 import satyamconsignment.service.PaymentService;
-import satyamconsignment.ui.Input.CollectionEntry.CollectionEntryController;
 import satyamconsignment.ui.Input.PaymentEntry.PaymentEntryController;
 
 public class ViewAndDeletePayment implements Initializable {
@@ -105,47 +105,38 @@ public class ViewAndDeletePayment implements Initializable {
             Utils.showAlert("Voucher No. Field is kept empty. Please fill the voucher no.");
             return;
         }
+
         try {
-            String sql = "select * from `Payment_Entry_Table` where `Voucher No.`=? collate nocase";
-            Connection conn = DatabaseHandler.getInstance().getConnection();
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, voucher_no_field.getText());
-            ResultSet rs = ps.executeQuery();
+            PaymentEntity paymentEntity = paymentService.getPayment(voucher_no_field.getText());
 
-            voucher_date.setText(rs.getString("Voucher Date"));
-            supplier_name.setText(rs.getString("Supplier Name"));
-            total_amount_field.setText(rs.getString("Total Amount"));
-            display_board_label.setText(rs.getString("Supplier Name"));
-
-            List<PaymentItem> list = new ArrayList<>();
-            sql = "select * from `Payment_Entry_Extended_Table` where `Voucher No.`=? collate nocase";
-            ps = conn.prepareStatement(sql);
-            ps.setString(1, voucher_no_field.getText());
-            rs = ps.executeQuery();
-            if (rs.isClosed()) {
-                Utils.showAlert("No Results found", 1);
-            } else {
-                while (rs.next()) {
-                    PaymentItem paymentItem = PaymentItem.builder()
-                            .billNo(rs.getString("Bill No."))
-                            .billAmount(rs.getString("Bill Amount"))
-                            .billDate(rs.getString("Bill Date"))
-                            .buyerName(rs.getString("Buyer Name"))
-                            .due(rs.getString("due amount"))
-                            .amountPaid(rs.getString("amount paid"))
-                            .bank(rs.getString("bank"))
-                            .ddNo(rs.getString("DD No."))
-                            .ddDate(rs.getString("DD Date"))
-                            .build();
-
-                    list.add(paymentItem);
-                }
-                payment_tableview.setItems(FXCollections.observableArrayList(list));
-                delete_entry_btn.setDisable(false);
+            if (null == paymentEntity) {
+                Utils.showAlert("Payment voucher not found");
+                return;
             }
+
+            List<PaymentItem> paymentItemList = paymentEntity.getItems().stream()
+                    .map(it -> PaymentItem.builder()
+                            .billNo(it.getBillNo())
+                            .billAmount(it.getBillAmount())
+                            .billDate(it.getBillDate())
+                            .buyerName(it.getBuyerName())
+                            .amountPaid(it.getAmountPaid())
+                            .bank(it.getBank())
+                            .ddNo(it.getDdNo())
+                            .ddDate(it.getDdDate())
+                            .build())
+                    .toList();
+
+            voucher_date.setText(paymentEntity.getVoucherDate());
+            supplier_name.setText(paymentEntity.getSupplierName());
+            total_amount_field.setText(paymentEntity.getTotalAmount());
+            display_board_label.setText(paymentEntity.getSupplierName());
+
+            payment_tableview.setItems(FXCollections.observableArrayList(paymentItemList));
+            delete_entry_btn.setDisable(false);
         } catch (SQLException ex) {
             Utils.showAlert(ex.toString());
-            Logger.getLogger(CollectionEntryController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ViewAndDeletePayment.class.getName()).log(Level.SEVERE, ex.toString(), ex);
         }
     }
 

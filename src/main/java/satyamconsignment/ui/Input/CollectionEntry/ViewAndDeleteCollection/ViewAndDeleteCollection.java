@@ -106,6 +106,12 @@ public class ViewAndDeleteCollection implements Initializable {
 
         try {
             CollectionEntity collectionEntity = collectionService.getCollection(voucher_no_field.getText());
+
+            if (null == collectionEntity) {
+                Utils.showAlert("Collection voucher not found");
+                return;
+            }
+
             collectionItemList = collectionEntity.getItems().stream()
                     .map(it -> CollectionItem.builder()
                             .billNo(it.getBillNo())
