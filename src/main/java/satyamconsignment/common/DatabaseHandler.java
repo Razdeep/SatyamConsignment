@@ -42,7 +42,7 @@ public final class DatabaseHandler {
                 conn.setAutoCommit(true);
             }
         } catch (Exception ex) {
-            System.out.println(ex.toString());
+            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, ex.toString(), ex);
         }
     }
 
