@@ -26,6 +26,7 @@ public final class DatabaseHandler {
         try {
             String initSQL = getInitSQL();
             try (Statement st = conn.createStatement()) {
+                conn.setAutoCommit(false);
 
                 for (String statement : initSQL.split(";")) {
                     String cleanedStatement = statement.trim();
