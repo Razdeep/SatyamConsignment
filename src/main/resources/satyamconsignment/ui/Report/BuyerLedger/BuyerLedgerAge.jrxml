@@ -16,27 +16,27 @@
      cte_bill AS (SELECT `Bill No.`,
                          `Bill Date`,
                          `Supplier Name`,
-                         `Buyer Name`,
-                         `Transport`,
-                         `LR Date`,
                          `Bill Amount`
                   FROM Bill_Entry_Table
                   WHERE `Buyer Name` = $P{buyerName}),
      cte_bill_collected AS (SELECT `Bill No.`,
                                    `Bill Date`,
                                    `Supplier Name`,
-                                   `Buyer Name`,
-                                   `Transport`,
-                                   `LR Date`,
                                    `Bill Amount`,
                                    COALESCE(`amount_collected`, 0) AS amount_collected
                             FROM cte_bill
                                      LEFT JOIN cte_collected
                                                USING (`Bill No.`)),
-     cte_pending AS (SELECT *,
+     cte_pending AS (SELECT `Bill No.`,
+                            `Bill Date`,
+                            `Supplier Name`,
+                            `Bill Amount`,
                             `Bill Amount` - amount_collected AS pending_amount
                      FROM cte_bill_collected),
-     cte_final AS (SELECT *
+     cte_final AS (SELECT `Bill No.`,
+                          `Bill Date`,
+                          `Supplier Name`,
+                          `Bill Amount`
                    FROM cte_pending
                    WHERE pending_amount > 0)
 SELECT *
