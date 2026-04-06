@@ -2,17 +2,12 @@ package satyamconsignment.ui.Report.TransportLedger;
 
 import java.net.URL;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -24,13 +19,10 @@ import net.sf.jasperreports.engine.*;
 import satyamconsignment.common.Constants;
 import satyamconsignment.common.DatabaseHandler;
 import satyamconsignment.common.Utils;
+import satyamconsignment.repository.TransportRepository;
+import satyamconsignment.service.TransportService;
 
 public class TransportLedgerController implements Initializable {
-    DatabaseHandler databaseHandler;
-    Connection conn;
-    PreparedStatement ps;
-    ResultSet rs;
-    ObservableList<String> transportList;
 
     @FXML
     private CheckBox all_time_checkbox;
@@ -52,16 +44,10 @@ public class TransportLedgerController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        TransportService transportService = new TransportService(new TransportRepository());
         try {
-            databaseHandler = DatabaseHandler.getInstance();
-            conn = databaseHandler.getConnection();
-            ps = conn.prepareStatement("select * from Transport_Master_Table order by name collate nocase");
-            rs = ps.executeQuery();
-            transportList = FXCollections.observableArrayList();
-            while (rs.next()) {
-                transportList.add(rs.getString("name"));
-            }
-            transport_name_combo.setItems(transportList);
+            List<String> transportList = transportService.getAllTransports();
+            transport_name_combo.setItems(FXCollections.observableArrayList(transportList));
         } catch (SQLException ex) {
             Utils.showAlert(ex.toString());
             Logger.getLogger(TransportLedgerController.class.getName()).log(Level.SEVERE, ex.toString(), ex);
@@ -70,6 +56,8 @@ public class TransportLedgerController implements Initializable {
 
     @FXML
     private void generatePDF(ActionEvent event) {
+        Connection conn = DatabaseHandler.getInstance().getConnection();
+
         String jrxmlFileName = "TransportLedger.jrxml";
         String jrxmlFilePath = "/satyamconsignment/ui/Report/TransportLedger/" + jrxmlFileName;
 

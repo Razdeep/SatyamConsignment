@@ -2,16 +2,14 @@ package satyamconsignment.ui.Report.BuyerLedger;
 
 import java.net.URL;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -23,13 +21,10 @@ import net.sf.jasperreports.engine.*;
 import satyamconsignment.common.Constants;
 import satyamconsignment.common.DatabaseHandler;
 import satyamconsignment.common.Utils;
+import satyamconsignment.repository.BuyerRepository;
+import satyamconsignment.service.BuyerService;
 
 public class BuyerLedgerController implements Initializable {
-    DatabaseHandler databaseHandler;
-    Connection conn;
-    PreparedStatement ps;
-    ResultSet rs;
-    ObservableList<String> buyerList;
 
     @FXML
     private RadioButton buyer_ledger_radio;
@@ -51,25 +46,20 @@ public class BuyerLedgerController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        BuyerService buyerService = new BuyerService(new BuyerRepository());
         try {
-
-            databaseHandler = DatabaseHandler.getInstance();
-            conn = databaseHandler.getConnection();
-            ps = conn.prepareStatement("select * from Buyer_Master_Table order by name collate nocase");
-            rs = ps.executeQuery();
-            buyerList = FXCollections.observableArrayList();
-            while (rs.next()) {
-                buyerList.add(rs.getString("name"));
-            }
-            buyer_name_combo.setItems(buyerList);
+            List<String> buyerNames = buyerService.getAllBuyers();
+            buyer_name_combo.setItems(FXCollections.observableArrayList(buyerNames));
         } catch (SQLException ex) {
             Utils.showAlert(ex.toString());
-            Logger.getLogger(BuyerLedgerController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(BuyerLedgerController.class.getName()).log(Level.SEVERE, ex.toString(), ex);
         }
     }
 
     @FXML
     private void generatePDF(ActionEvent event) {
+        Connection conn = DatabaseHandler.getInstance().getConnection();
+
         String jrxmlFileName;
         if (agewise_outstanding_radio.isSelected()) {
             jrxmlFileName = "BuyerLedgerAge.jrxml";
