@@ -15,4 +15,16 @@ public class SupplierService {
     public List<String> getAllSuppliers() throws SQLException {
         return supplierRepository.getAllSuppliers();
     }
+
+    public void saveSupplier(String supplierName) throws SQLException {
+        supplierRepository.saveSupplier(supplierName);
+    }
+
+    public void deleteSupplier(String supplierName) throws SQLException {
+        supplierRepository.deleteSupplier(supplierName);
+    }
+
+    public void renameSupplier(String oldName, String newName) throws SQLException {
+        supplierRepository.renameSupplier(oldName, newName);
+    }
 }

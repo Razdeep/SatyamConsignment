@@ -1,27 +1,22 @@
 package satyamconsignment.ui.Master.Supplier;
 
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
-import satyamconsignment.common.DatabaseHandler;
 import satyamconsignment.common.Utils;
+import satyamconsignment.repository.SupplierRepository;
+import satyamconsignment.service.SupplierService;
 
 public class SupplierController implements Initializable {
-
-    ObservableList<String> supplierList;
 
     @FXML
     private Button add_btn;
@@ -44,9 +39,11 @@ public class SupplierController implements Initializable {
     @FXML
     private ListView<String> listView;
 
+    private SupplierService supplierService;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        supplierList = FXCollections.observableArrayList();
+        supplierService = new SupplierService(new SupplierRepository());
         refreshList();
     }
 
@@ -57,11 +54,7 @@ public class SupplierController implements Initializable {
             return;
         }
         try {
-            String sql = "INSERT INTO `Supplier_Master_Table`(`Name`) VALUES (?);";
-            Connection conn = DatabaseHandler.getInstance().getConnection();
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, add_field.getText());
-            ps.execute();
+            supplierService.saveSupplier(add_field.getText());
             refreshList();
         } catch (SQLException ex) {
             Utils.showAlert(ex.toString());
@@ -76,14 +69,9 @@ public class SupplierController implements Initializable {
             Utils.showAlert("Rename field is left blank. Please ensure to fill up the field properly.");
             return;
         }
-        try {
-            String sql = "UPDATE `Supplier_Master_Table` SET Name=? WHERE Name=?";
-            Connection conn = DatabaseHandler.getInstance().getConnection();
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, rename_field.getText());
-            ps.setString(2, listView.getSelectionModel().getSelectedItem());
 
-            ps.execute();
+        try {
+            supplierService.renameSupplier(listView.getSelectionModel().getSelectedItem(), rename_field.getText());
             Utils.showAlert("Success", 1);
             refreshList();
         } catch (SQLException ex) {
@@ -99,14 +87,7 @@ public class SupplierController implements Initializable {
             return;
         }
         try {
-            String sql = "DELETE FROM `Supplier_Master_Table` WHERE name=?";
-            Connection conn = DatabaseHandler.getInstance().getConnection();
-            PreparedStatement ps = conn.prepareStatement(sql);
-
-            ps.setString(1, listView.getSelectionModel().getSelectedItem());
-
-            ps.execute();
-
+            supplierService.deleteSupplier(listView.getSelectionModel().getSelectedItem());
             refreshList();
         } catch (SQLException ex) {
             Utils.showAlert(ex.toString());
@@ -117,15 +98,7 @@ public class SupplierController implements Initializable {
     @FXML
     private void refreshList() {
         try {
-            String sql = "select * from Supplier_Master_Table order by name collate nocase";
-            Connection conn = DatabaseHandler.getInstance().getConnection();
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
-            supplierList.clear();
-            while (rs.next()) {
-                supplierList.add(rs.getString("name"));
-            }
-            listView.getItems().clear();
+            List<String> supplierList = supplierService.getAllSuppliers();
             listView.getItems().setAll(supplierList);
         } catch (SQLException ex) {
             Utils.showAlert(ex.toString());
