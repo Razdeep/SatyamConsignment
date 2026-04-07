@@ -15,4 +15,16 @@ public class TransportService {
     public List<String> getAllTransports() throws SQLException {
         return transportRepository.getAllTransports();
     }
+
+    public void saveTransport(String transportName) throws SQLException {
+        transportRepository.saveTransport(transportName);
+    }
+
+    public void deleteTransport(String transportName) throws SQLException {
+        transportRepository.deleteTransport(transportName);
+    }
+
+    public void renameTransport(String oldName, String newName) throws SQLException {
+        transportRepository.renameTransport(oldName, newName);
+    }
 }
