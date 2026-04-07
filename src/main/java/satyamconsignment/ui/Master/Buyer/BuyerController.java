@@ -1,32 +1,23 @@
 package satyamconsignment.ui.Master.Buyer;
 
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
-import satyamconsignment.common.DatabaseHandler;
 import satyamconsignment.common.Utils;
+import satyamconsignment.repository.BuyerRepository;
+import satyamconsignment.service.BuyerService;
 import satyamconsignment.ui.Master.Supplier.SupplierController;
 
 public class BuyerController implements Initializable {
-
-    DatabaseHandler databaseHandler;
-    Connection conn;
-    PreparedStatement ps;
-    ResultSet rs;
-    ObservableList<String> buyerList;
 
     @FXML
     private Button add_btn;
@@ -49,10 +40,11 @@ public class BuyerController implements Initializable {
     @FXML
     private TextField rename_field;
 
+    private BuyerService buyerService;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        databaseHandler = DatabaseHandler.getInstance();
-        buyerList = FXCollections.observableArrayList();
+        buyerService = new BuyerService(new BuyerRepository());
         refreshList();
     }
 
@@ -63,56 +55,37 @@ public class BuyerController implements Initializable {
             return;
         }
         try {
-            String sql = "INSERT INTO `Buyer_Master_Table`(`Name`) VALUES (?);";
-            conn = databaseHandler.getConnection();
-            ps = conn.prepareStatement(sql);
-            ps.setString(1, add_field.getText());
-            ps.execute();
+            buyerService.saveBuyer(add_field.getText());
             refreshList();
         } catch (SQLException ex) {
             Utils.showAlert(ex.toString());
-            Logger.getLogger(SupplierController.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            Logger.getLogger(BuyerController.class.getName()).log(Level.SEVERE, ex.toString(), ex);
         }
     }
 
     @FXML
     private void deleteMaster(ActionEvent event) {
         if (listView.getSelectionModel().getSelectedItem() == null) {
-            Utils.showAlert("Supplier to be deleted not selected. Please Retry");
+            Utils.showAlert("Buyer to be deleted not selected. Please Retry");
             return;
         }
         try {
-            String sql = "DELETE FROM `Buyer_Master_Table` WHERE name=?";
-            conn = databaseHandler.getConnection();
-            ps = conn.prepareStatement(sql);
-
-            ps.setString(1, listView.getSelectionModel().getSelectedItem());
-
-            ps.execute();
-
+            buyerService.deleteBuyer(listView.getSelectionModel().getSelectedItem());
             refreshList();
         } catch (SQLException ex) {
             Utils.showAlert(ex.toString());
-            Logger.getLogger(SupplierController.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            Logger.getLogger(BuyerController.class.getName()).log(Level.SEVERE, ex.toString(), ex);
         }
     }
 
     @FXML
     private void refreshList() {
         try {
-            String sql = "select * from Buyer_Master_Table order by name collate nocase";
-            conn = databaseHandler.getConnection();
-            ps = conn.prepareStatement(sql);
-            rs = ps.executeQuery();
-            buyerList.clear();
-            while (rs.next()) {
-                buyerList.add(rs.getString("name"));
-            }
-            listView.getItems().clear();
+            List<String> buyerList = buyerService.getAllBuyers();
             listView.getItems().setAll(buyerList);
         } catch (SQLException ex) {
             Utils.showAlert(ex.toString());
-            Logger.getLogger(SupplierController.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            Logger.getLogger(BuyerController.class.getName()).log(Level.SEVERE, ex.toString(), ex);
         }
     }
 
@@ -123,13 +96,7 @@ public class BuyerController implements Initializable {
             return;
         }
         try {
-            String sql = "UPDATE `Buyer_Master_Table` SET Name=? WHERE Name=?";
-            conn = databaseHandler.getConnection();
-            ps = conn.prepareStatement(sql);
-            ps.setString(1, rename_field.getText());
-            ps.setString(2, listView.getSelectionModel().getSelectedItem());
-
-            ps.execute();
+            buyerService.renameBuyer(listView.getSelectionModel().getSelectedItem(), rename_field.getText());
             Utils.showAlert("Success", 1);
             refreshList();
         } catch (SQLException ex) {

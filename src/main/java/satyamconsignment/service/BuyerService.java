@@ -15,4 +15,16 @@ public class BuyerService {
     public List<String> getAllBuyers() throws SQLException {
         return buyerRepository.getAllBuyers();
     }
+
+    public void saveBuyer(String buyerName) throws SQLException {
+        buyerRepository.saveBuyer(buyerName);
+    }
+
+    public void deleteBuyer(String buyerName) throws SQLException {
+        buyerRepository.deleteBuyer(buyerName);
+    }
+
+    public void renameBuyer(String oldName, String newName) throws SQLException {
+        buyerRepository.renameBuyer(oldName, newName);
+    }
 }
