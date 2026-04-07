@@ -38,7 +38,8 @@
                           `Supplier Name`,
                           `Bill Amount`
                    FROM cte_pending
-                   WHERE pending_amount > 0)
+                   WHERE pending_amount > 0
+                   ORDER BY 1)
 SELECT *
 FROM cte_final;
         ]]>

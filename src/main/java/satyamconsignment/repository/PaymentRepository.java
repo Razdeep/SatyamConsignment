@@ -103,6 +103,8 @@ public class PaymentRepository {
                             cte_pending
                         where
                             pending_amount > 0
+                        order by
+                            1
                         )
                         select
                             *

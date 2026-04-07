@@ -153,6 +153,9 @@ public class AddCollection implements Initializable {
 
     @FXML
     private void fetchData() {
+        if (null == bill_no_combo.getValue()) {
+            return;
+        }
         try {
             BillEntity billEntity = billService.getBill(bill_no_combo.getValue());
             supplier_name.setText(billEntity.getSupplierName());

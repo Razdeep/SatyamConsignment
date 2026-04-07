@@ -368,6 +368,9 @@ public class AddPayment implements Initializable {
 
     @FXML
     private void fetchData(ActionEvent ignoredEvent) {
+        if (null == bill_no_combo.getValue()) {
+            return;
+        }
         try {
             BillEntity billEntity = billService.getBill(bill_no_combo.getValue());
             buyer_name_field.setText(billEntity.getBuyerName());

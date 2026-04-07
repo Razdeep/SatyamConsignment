@@ -53,7 +53,8 @@
                           `Bill Amount`,
                           `Buyer Name`
                    from cte_pending
-                   where pending_amount > 0)
+                   where pending_amount > 0
+                   order by 1)
 select *
 from cte_final;
 ]]>
