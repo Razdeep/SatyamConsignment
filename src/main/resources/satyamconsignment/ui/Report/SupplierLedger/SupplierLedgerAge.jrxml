@@ -23,7 +23,41 @@
         <defaultValueExpression><![CDATA[new Date()]]></defaultValueExpression>
     </parameter>
     <queryString language="SQL">
-        <![CDATA[Select * from `Bill_Entry_Table` where `Due`!=0 and `Supplier Name`=$P{supplierName}]]>
+        <![CDATA[
+        with cte_paid as (select `Bill No.`,
+                         sum(`Amount Paid`) as amount_paid
+                  from Payment_Entry_Extended_Table
+                  group by `Bill No.`),
+     cte_bill as (select `Bill No.`,
+                         `Bill Date`,
+                         `Bill Amount`,
+                         `Buyer Name`
+                  from Bill_Entry_Table
+                  WHERE `Supplier Name` = $P{supplierName}),
+     cte_bill_paid as (select `Bill No.`,
+                              `Bill Date`,
+                              `Bill Amount`,
+                              `Buyer Name`,
+                              coalesce(`amount_paid`, 0) as amount_paid
+                       from cte_bill
+                                left join cte_paid
+                                          using (`Bill No.`)),
+     cte_pending as (select `Bill No.`,
+                            `Bill Date`,
+                            `Bill Amount`,
+                            `Buyer Name`,
+                            `Bill Amount` - amount_paid as pending_amount
+                     from cte_bill_paid),
+     cte_final as (select `Bill No.`,
+                          `Bill Date`,
+                          `Bill Amount`,
+                          `Buyer Name`
+                   from cte_pending
+                   where pending_amount > 0
+                   order by 1)
+select *
+from cte_final;
+]]>
     </queryString>
     <field name="Bill No." class="java.lang.Object"/>
     <field name="Bill Date" class="java.lang.Object"/>

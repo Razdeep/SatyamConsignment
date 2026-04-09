@@ -26,6 +26,7 @@ public final class DatabaseHandler {
         try {
             String initSQL = getInitSQL();
             try (Statement st = conn.createStatement()) {
+                conn.setAutoCommit(false);
 
                 for (String statement : initSQL.split(";")) {
                     String cleanedStatement = statement.trim();
@@ -42,7 +43,7 @@ public final class DatabaseHandler {
                 conn.setAutoCommit(true);
             }
         } catch (Exception ex) {
-            System.out.println(ex.toString());
+            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, ex.toString(), ex);
         }
     }
 

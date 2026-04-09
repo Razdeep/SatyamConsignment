@@ -1,9 +1,8 @@
 package satyamconsignment.ui.Input.CollectionEntry.AddCollection;
 
+import static satyamconsignment.common.Utils.formatDate;
+
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -16,9 +15,17 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import satyamconsignment.common.Constants;
-import satyamconsignment.common.DatabaseHandler;
 import satyamconsignment.common.Utils;
+import satyamconsignment.entity.BillEntity;
+import satyamconsignment.entity.CollectionEntity;
+import satyamconsignment.entity.CollectionItemEntity;
 import satyamconsignment.model.CollectionItem;
+import satyamconsignment.repository.BillRepository;
+import satyamconsignment.repository.BuyerRepository;
+import satyamconsignment.repository.CollectionRepository;
+import satyamconsignment.service.BillService;
+import satyamconsignment.service.BuyerService;
+import satyamconsignment.service.CollectionService;
 
 public class AddCollection implements Initializable {
     private List<CollectionItem> collectionItemList;
@@ -94,8 +101,16 @@ public class AddCollection implements Initializable {
     @FXML
     private Label last_voucher_field;
 
+    private BillService billService;
+    private BuyerService buyerService;
+    private CollectionService collectionService;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        billService = new BillService(new BillRepository());
+        buyerService = new BuyerService(new BuyerRepository());
+        collectionService = new CollectionService(new CollectionRepository());
+
         collectionItemList = new ArrayList<>();
         buyerNameComboList = new ArrayList<>();
         billNoComboList = new ArrayList<>();
@@ -117,18 +132,8 @@ public class AddCollection implements Initializable {
 
     private void fillBuyerNameCombo() {
         try {
-            Connection connection = DatabaseHandler.getInstance().getConnection();
-            String sql = "select Name from `Buyer_Master_Table` order by name collate nocase";
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            ResultSet buyerMasterResultSet = preparedStatement.executeQuery();
-
-            buyerNameComboList.clear();
-            while (buyerMasterResultSet.next()) {
-                buyerNameComboList.add(buyerMasterResultSet.getString("Name"));
-            }
-
+            buyerNameComboList = buyerService.getAllBuyers();
             buyer_name.setItems(FXCollections.observableArrayList(buyerNameComboList));
-
         } catch (SQLException ex) {
             Utils.showAlert(ex.toString());
             logger.log(Level.SEVERE, ex.toString(), ex);
@@ -138,56 +143,8 @@ public class AddCollection implements Initializable {
     @FXML
     private void fillBillNoCombo() {
         try {
-            Connection connection = DatabaseHandler.getInstance().getConnection();
-
-            String getCollectionAmountsForEveryoneSql =
-                    "select `Bill No.`, sum(`Amount Collected`) as `Amount Collected` "
-                            + "from `Collection_Entry_Extended_Table` group by `Bill No.`";
-            Map<String, Double> collectionAmountMap = new HashMap<>();
-            PreparedStatement preparedStatement = connection.prepareStatement(getCollectionAmountsForEveryoneSql);
-            ResultSet collectionAmountsResultSet = preparedStatement.executeQuery();
-            while (collectionAmountsResultSet.next()) {
-                String amountCollectedStr = collectionAmountsResultSet.getString("Amount Collected");
-                double amountCollected = 0;
-                try {
-                    amountCollected = Double.parseDouble(amountCollectedStr);
-                } catch (NumberFormatException ex) {
-                    logger.log(Level.SEVERE, ex.toString(), ex);
-                    Utils.showAlert(ex.toString());
-                }
-                collectionAmountMap.put(collectionAmountsResultSet.getString("Bill No."), amountCollected);
-            }
-
-            String getBillAmountsForBuyerSql = "select `Bill No.`, `Bill Amount` from `Bill_Entry_Table` "
-                    + "where `Buyer Name`=? order by `Bill No.` collate nocase";
-
-            preparedStatement = connection.prepareStatement(getBillAmountsForBuyerSql);
-            preparedStatement.setString(1, buyer_name.getValue());
-            ResultSet billNoResultSet = preparedStatement.executeQuery();
-
-            billNoComboList.clear();
-
-            while (billNoResultSet.next()) {
-                String billNo = billNoResultSet.getString("Bill No.");
-                String billAmountStr = billNoResultSet.getString("Bill Amount");
-                double billAmount = 1.0;
-                try {
-                    billAmount = Double.parseDouble(billAmountStr);
-                } catch (NumberFormatException ex) {
-                    logger.log(Level.SEVERE, ex.toString(), ex);
-                    Utils.showAlert(ex.toString());
-                }
-                if (collectionAmountMap.containsKey(billNo)) {
-                    if (billAmount - collectionAmountMap.get(billNo) > 0) {
-                        billNoComboList.add(billNo);
-                    }
-                } else {
-                    billNoComboList.add(billNo);
-                }
-            }
-
+            billNoComboList = collectionService.fetchPendingBillsForBuyer(buyer_name.getValue());
             bill_no_combo.setItems(FXCollections.observableArrayList(billNoComboList));
-
         } catch (SQLException ex) {
             Utils.showAlert(ex.toString());
             logger.log(Level.SEVERE, ex.toString(), ex);
@@ -196,23 +153,16 @@ public class AddCollection implements Initializable {
 
     @FXML
     private void fetchData() {
+        if (null == bill_no_combo.getValue()) {
+            return;
+        }
         try {
-            Connection connection = DatabaseHandler.getInstance().getConnection();
-            String sql = "Select * from Bill_Entry_Table where `Bill No.`=?";
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, bill_no_combo.getValue());
-            ResultSet billResultSet = preparedStatement.executeQuery();
-            String supplierName = billResultSet.getString("Supplier Name");
-            String billDate = billResultSet.getString("Bill Date");
-            String billAmount = billResultSet.getString("Bill Amount");
-            previouslyDue = Integer.parseInt(billResultSet.getString("Collection Due"));
-            supplier_name.setText(supplierName);
-            bill_date.setText(billDate);
-            bill_amount.setText(billAmount);
+            BillEntity billEntity = billService.getBill(bill_no_combo.getValue());
+            supplier_name.setText(billEntity.getSupplierName());
+            bill_date.setText(billEntity.getBillDate());
+            bill_amount.setText(billEntity.getBillAmount());
+            previouslyDue = collectionService.fetchPendingAmountForBillNo(bill_no_combo.getValue());
             updateCollectionDue();
-            // buyer_name.setDisable(true);
-            billResultSet.close();
-
         } catch (SQLException ex) {
             Utils.showAlert(ex.toString());
             logger.log(Level.SEVERE, ex.toString(), ex);
@@ -254,8 +204,13 @@ public class AddCollection implements Initializable {
 
     @FXML
     private void updateCollectionDue() {
-        collection_due_field.setText(
-                Integer.toString(previouslyDue - Integer.parseInt(amount_collected_field.getText())));
+        int amountCollected = 0;
+        try {
+            amountCollected = Integer.parseInt(amount_collected_field.getText());
+        } catch (Exception ex) {
+            logger.log(Level.WARNING, "cannot be converted to integer");
+        }
+        collection_due_field.setText(Integer.toString(previouslyDue - amountCollected));
     }
 
     private void updateTotalAmount() {
@@ -352,55 +307,36 @@ public class AddCollection implements Initializable {
             Utils.showAlert("Check whether the Voucher No. and the Voucher Date is properly filled", 2);
             return;
         }
-        Connection connection = DatabaseHandler.getInstance().getConnection();
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(Constants.DATE_TIME_FORMAT);
+
+        List<CollectionItemEntity> collectionItemEntities = collectionItemList.stream()
+                .map(it -> CollectionItemEntity.builder()
+                        .billNo(it.getBillNo())
+                        .billDate(formatDate(it.getBillDate()))
+                        .billAmount(it.getBillAmount())
+                        .supplierName(it.getSupplierName())
+                        .due(it.getDue())
+                        .amountCollected(it.getAmountCollected())
+                        .bank(it.getBank())
+                        .ddNo(it.getDdNo())
+                        .ddDate(it.getDdDate())
+                        .build())
+                .toList();
+
+        CollectionEntity collectionEntity = CollectionEntity.builder()
+                .voucherNo(voucher_no_field.getText())
+                .voucherDate(formatDate(voucher_date_field.getValue().toString()))
+                .buyerName(buyer_name.getValue())
+                .totalAmount(total_amount_field.getText())
+                .items(collectionItemEntities)
+                .build();
         try {
-            connection.setAutoCommit(false);
-            String sql =
-                    "INSERT INTO `Collection_Entry_Table`(`Voucher No.`,`Voucher Date`,`Buyer Name`,`Total Amount`) VALUES (?,?,?,?)";
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, voucher_no_field.getText());
-            preparedStatement.setString(2, dateTimeFormatter.format(voucher_date_field.getValue()));
-            preparedStatement.setString(3, buyer_name.getValue());
-            preparedStatement.setString(4, total_amount_field.getText());
-            preparedStatement.execute();
-
-            for (CollectionItem collectionItem : collectionItemList) {
-                sql =
-                        "INSERT INTO `Collection_Entry_Extended_Table`(`Voucher No.`,`Supplier Name`,`Bill No.`,`Bill Date`,`Bill Amount`,`Collection Due`,`Amount Collected`,`Bank`,`DD No.`,`DD Date`) VALUES (?,?,?,?,?,?,?,?,?,?);";
-                preparedStatement = connection.prepareStatement(sql);
-                preparedStatement.setString(1, voucher_no_field.getText());
-                preparedStatement.setString(2, collectionItem.getSupplierName());
-                preparedStatement.setString(3, collectionItem.getBillNo());
-                preparedStatement.setString(4, collectionItem.getBillDate());
-                preparedStatement.setString(5, collectionItem.getBillAmount());
-                preparedStatement.setString(6, collectionItem.getDue());
-                preparedStatement.setString(7, collectionItem.getAmountCollected());
-                preparedStatement.setString(8, collectionItem.getBank());
-                preparedStatement.setString(9, collectionItem.getDdNo());
-                preparedStatement.setString(10, collectionItem.getDdDate());
-
-                preparedStatement.execute();
-
-                // Update Bill Entry Table
-                sql = "UPDATE `Bill_Entry_Table` SET `Collection Due`=? WHERE `BILL NO.`=?";
-                preparedStatement = connection.prepareStatement(sql);
-                preparedStatement.setString(1, collectionItem.getDue());
-                preparedStatement.setString(2, collectionItem.getBillNo());
-                preparedStatement.execute();
-            }
-            connection.commit();
+            collectionService.saveCollection(collectionEntity);
             Utils.showAlert("Saved Successfully", 1);
         } catch (SQLException ex) {
             Utils.showAlert(ex.toString());
             logger.log(Level.SEVERE, ex.toString(), ex);
-            try {
-                connection.rollback();
-            } catch (SQLException ex1) {
-                Utils.showAlert(ex.toString());
-                logger.log(Level.SEVERE, ex1.toString(), ex1);
-            }
         }
+
         clearAllFields();
         collectionItemList.clear();
         refreshCollectionTableView();
@@ -409,11 +345,7 @@ public class AddCollection implements Initializable {
 
     private void updateLastVoucher() {
         try {
-            Connection connection = DatabaseHandler.getInstance().getConnection();
-            String sql = "SELECT MAX(`Voucher No.`) from `COLLECTION_ENTRY_TABLE`;";
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            String answer = resultSet.getString("Max(`Voucher No.`)");
+            String answer = collectionService.getLastVoucher();
             last_voucher_field.setText("Last Voucher No. : " + answer);
         } catch (SQLException ex) {
             Utils.showAlert(ex.toString());

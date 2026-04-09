@@ -1,9 +1,8 @@
 package satyamconsignment.ui.Input.CollectionEntry.ViewAndDeleteCollection;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
@@ -21,7 +20,10 @@ import net.sf.jasperreports.engine.*;
 import satyamconsignment.common.Constants;
 import satyamconsignment.common.DatabaseHandler;
 import satyamconsignment.common.Utils;
+import satyamconsignment.entity.CollectionEntity;
 import satyamconsignment.model.CollectionItem;
+import satyamconsignment.repository.CollectionRepository;
+import satyamconsignment.service.CollectionService;
 
 public class ViewAndDeleteCollection implements Initializable {
     private List<CollectionItem> collectionItemList;
@@ -77,8 +79,12 @@ public class ViewAndDeleteCollection implements Initializable {
     @FXML
     private Button print_btn;
 
+    private CollectionService collectionService;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        collectionService = new CollectionService(new CollectionRepository());
+
         collectionItemList = FXCollections.observableArrayList();
 
         bill_no_col.setCellValueFactory(new PropertyValueFactory<>("billNo"));
@@ -98,43 +104,33 @@ public class ViewAndDeleteCollection implements Initializable {
             Utils.showAlert("Voucher No. Field is kept empty. Please fill the voucher no.");
             return;
         }
-        Connection connection = DatabaseHandler.getInstance().getConnection();
+
         try {
-            String sql = "select * from `Collection_Entry_Table` where `Voucher No.`=? collate nocase";
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, voucher_no_field.getText());
-            ResultSet collectionResultSet = preparedStatement.executeQuery();
-            if (collectionResultSet.isClosed()) {
-                Utils.showAlert("No Results found", 1);
+            CollectionEntity collectionEntity = collectionService.getCollection(voucher_no_field.getText());
+
+            if (null == collectionEntity) {
+                Utils.showAlert("Collection voucher not found");
                 return;
             }
 
-            voucher_date.setText(collectionResultSet.getString("Voucher Date"));
-            buyer_name.setText(collectionResultSet.getString("Buyer Name"));
-            total_amount_field.setText(collectionResultSet.getString("Total Amount"));
-            display_board_label.setText(collectionResultSet.getString("Buyer Name"));
+            collectionItemList = collectionEntity.getItems().stream()
+                    .map(it -> CollectionItem.builder()
+                            .billNo(it.getBillNo())
+                            .billAmount(it.getBillAmount())
+                            .billDate(it.getBillDate())
+                            .supplierName(it.getSupplierName())
+                            .amountCollected(it.getAmountCollected())
+                            .bank(it.getBank())
+                            .ddNo(it.getDdNo())
+                            .ddDate(it.getDdDate())
+                            .build())
+                    .toList();
 
-            collectionItemList.clear();
-            sql = "select * from `Collection_Entry_Extended_Table` where `Voucher No.`=? collate nocase";
-            preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, voucher_no_field.getText());
-            collectionResultSet = preparedStatement.executeQuery();
-            if (collectionResultSet.isClosed()) {
-                Utils.showAlert("No Results found", 1);
-                return;
-            }
-            while (collectionResultSet.next()) {
-                collectionItemList.add(new CollectionItem(
-                        collectionResultSet.getString("Bill No."),
-                        collectionResultSet.getString("Bill Date"),
-                        collectionResultSet.getString("Bill Amount"),
-                        collectionResultSet.getString("Supplier Name"),
-                        collectionResultSet.getString("collection due"),
-                        collectionResultSet.getString("amount collected"),
-                        collectionResultSet.getString("bank"),
-                        collectionResultSet.getString("DD No."),
-                        collectionResultSet.getString("DD Date")));
-            }
+            voucher_date.setText(collectionEntity.getVoucherDate());
+            buyer_name.setText(collectionEntity.getBuyerName());
+            total_amount_field.setText(collectionEntity.getTotalAmount());
+            display_board_label.setText(collectionEntity.getBuyerName());
+
             collection_tableview.setItems(FXCollections.observableArrayList(collectionItemList));
             delete_entry_btn.setDisable(false);
         } catch (SQLException ex) {
@@ -157,50 +153,20 @@ public class ViewAndDeleteCollection implements Initializable {
             return;
         }
 
-        Connection connection = DatabaseHandler.getInstance().getConnection();
-
         try {
-            connection.setAutoCommit(false);
-            String sql =
-                    "SELECT `Bill No.`,`Amount Collected` FROM `Collection_Entry_Extended_Table` where `Voucher No.`=? collate nocase";
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, voucher_no_field.getText());
-            ResultSet rs = preparedStatement.executeQuery();
-            while (rs.next()) {
-                sql = "UPDATE `Bill_Entry_Table` SET `Collection Due`=`Collection Due`+? WHERE `BILL NO.`=?";
-                preparedStatement = connection.prepareStatement(sql);
-                preparedStatement.setString(1, rs.getString("Amount Collected"));
-                preparedStatement.setString(2, rs.getString("Bill No."));
-                preparedStatement.execute();
-            }
+            collectionService.deleteCollection(voucher_no_field.getText());
 
-            sql = "DELETE FROM `Collection_Entry_Table` where `Voucher No.`=? collate nocase";
-
-            preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, voucher_no_field.getText());
-            preparedStatement.execute();
-
-            sql = "DELETE FROM `Collection_Entry_Extended_Table` where `Voucher No.`=? collate nocase";
-
-            preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, voucher_no_field.getText());
-            preparedStatement.execute();
             collectionItemList.clear();
+            collection_tableview.setItems(FXCollections.observableArrayList());
+
             voucher_date.setText("");
             buyer_name.setText("");
             display_board_label.setText("");
             total_amount_field.setText("");
-            connection.commit();
             Utils.showAlert(voucher_no_field.getText().toUpperCase() + " Entry was successfully deleted.", 1);
         } catch (SQLException ex) {
             Utils.showAlert(ex.toString());
             Logger.getLogger(ViewAndDeleteCollection.class.getName()).log(Level.SEVERE, ex.toString(), ex);
-            try {
-                connection.rollback();
-            } catch (SQLException ex1) {
-                Utils.showAlert(ex1.toString());
-                Logger.getLogger(ViewAndDeleteCollection.class.getName()).log(Level.SEVERE, ex.toString(), ex1);
-            }
         }
     }
 
@@ -218,11 +184,11 @@ public class ViewAndDeleteCollection implements Initializable {
             map.put("billAmount", total_amount_field.getText());
             JasperPrint jprint = JasperFillManager.fillReport(jasperReport, map, connection);
             JasperExportManager.exportReportToPdfFile(jprint, Constants.REPORT_FILE_NAME);
+            Utils.launchPdf(Constants.REPORT_FILE_NAME);
             Utils.showAlert("Report Successfully Generated", 1);
-        } catch (JRException ex) {
+        } catch (IOException | JRException ex) {
             Utils.showAlert(ex.toString());
             Logger.getLogger(ViewAndDeleteCollection.class.getName()).log(Level.SEVERE, ex.toString(), ex);
         }
-        Utils.launchPdf(Constants.REPORT_FILE_NAME);
     }
 }

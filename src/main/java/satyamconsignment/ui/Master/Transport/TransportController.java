@@ -1,32 +1,22 @@
 package satyamconsignment.ui.Master.Transport;
 
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
-import satyamconsignment.common.DatabaseHandler;
 import satyamconsignment.common.Utils;
-import satyamconsignment.ui.Master.Supplier.SupplierController;
+import satyamconsignment.repository.TransportRepository;
+import satyamconsignment.service.TransportService;
 
 public class TransportController implements Initializable {
-
-    DatabaseHandler databaseHandler;
-    Connection conn;
-    PreparedStatement ps;
-    ResultSet rs;
-    ObservableList<String> buyerList;
 
     @FXML
     private Button add_btn;
@@ -49,10 +39,11 @@ public class TransportController implements Initializable {
     @FXML
     private TextField rename_field;
 
+    private TransportService transportService;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        databaseHandler = DatabaseHandler.getInstance();
-        buyerList = FXCollections.observableArrayList();
+        transportService = new TransportService(new TransportRepository());
         refreshList();
     }
 
@@ -63,15 +54,11 @@ public class TransportController implements Initializable {
             return;
         }
         try {
-            String sql = "INSERT INTO `Transport_Master_Table`(`Name`) VALUES (?);";
-            conn = databaseHandler.getConnection();
-            ps = conn.prepareStatement(sql);
-            ps.setString(1, add_field.getText());
-            ps.execute();
+            transportService.saveTransport(add_field.getText());
             refreshList();
         } catch (SQLException ex) {
             Utils.showAlert(ex.toString());
-            Logger.getLogger(SupplierController.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            Logger.getLogger(TransportController.class.getName()).log(Level.SEVERE, ex.toString(), ex);
         }
     }
 
@@ -82,37 +69,22 @@ public class TransportController implements Initializable {
             return;
         }
         try {
-            String sql = "DELETE FROM `Transport_Master_Table` WHERE name=?";
-            conn = databaseHandler.getConnection();
-            ps = conn.prepareStatement(sql);
-
-            ps.setString(1, listView.getSelectionModel().getSelectedItem());
-
-            ps.execute();
-
+            transportService.deleteTransport(listView.getSelectionModel().getSelectedItem());
             refreshList();
         } catch (SQLException ex) {
             Utils.showAlert(ex.toString());
-            Logger.getLogger(SupplierController.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            Logger.getLogger(TransportController.class.getName()).log(Level.SEVERE, ex.toString(), ex);
         }
     }
 
     @FXML
     private void refreshList() {
         try {
-            String sql = "select * from Transport_Master_Table order by name collate nocase";
-            conn = databaseHandler.getConnection();
-            ps = conn.prepareStatement(sql);
-            rs = ps.executeQuery();
-            buyerList.clear();
-            while (rs.next()) {
-                buyerList.add(rs.getString("name"));
-            }
-            listView.getItems().clear();
-            listView.getItems().setAll(buyerList);
+            List<String> transportList = transportService.getAllTransports();
+            listView.getItems().setAll(transportList);
         } catch (SQLException ex) {
             Utils.showAlert(ex.toString());
-            Logger.getLogger(SupplierController.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            Logger.getLogger(TransportController.class.getName()).log(Level.SEVERE, ex.toString(), ex);
         }
     }
 
@@ -123,18 +95,12 @@ public class TransportController implements Initializable {
             return;
         }
         try {
-            String sql = "UPDATE `Transport_Master_Table` SET Name=? WHERE Name=?";
-            conn = databaseHandler.getConnection();
-            ps = conn.prepareStatement(sql);
-            ps.setString(1, rename_field.getText());
-            ps.setString(2, listView.getSelectionModel().getSelectedItem());
-
-            ps.execute();
+            transportService.renameTransport(listView.getSelectionModel().getSelectedItem(), rename_field.getText());
             Utils.showAlert("Success", 1);
             refreshList();
         } catch (SQLException ex) {
             Utils.showAlert(ex.toString());
-            Logger.getLogger(SupplierController.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            Logger.getLogger(TransportController.class.getName()).log(Level.SEVERE, ex.toString(), ex);
         }
     }
 }

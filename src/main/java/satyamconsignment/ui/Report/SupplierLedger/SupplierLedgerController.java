@@ -1,17 +1,16 @@
 package satyamconsignment.ui.Report.SupplierLedger;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -23,13 +22,10 @@ import net.sf.jasperreports.engine.*;
 import satyamconsignment.common.Constants;
 import satyamconsignment.common.DatabaseHandler;
 import satyamconsignment.common.Utils;
+import satyamconsignment.repository.SupplierRepository;
+import satyamconsignment.service.SupplierService;
 
 public class SupplierLedgerController implements Initializable {
-    DatabaseHandler databaseHandler;
-    Connection conn;
-    PreparedStatement ps;
-    ResultSet rs;
-    ObservableList<String> supplierList;
 
     @FXML
     private ComboBox<String> supplier_name_combo;
@@ -51,16 +47,10 @@ public class SupplierLedgerController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        SupplierService supplierService = new SupplierService(new SupplierRepository());
         try {
-            databaseHandler = DatabaseHandler.getInstance();
-            conn = databaseHandler.getConnection();
-            ps = conn.prepareStatement("select * from Supplier_Master_Table order by name collate nocase");
-            rs = ps.executeQuery();
-            supplierList = FXCollections.observableArrayList();
-            while (rs.next()) {
-                supplierList.add(rs.getString("name"));
-            }
-            supplier_name_combo.setItems(supplierList);
+            List<String> supplierList = supplierService.getAllSuppliers();
+            supplier_name_combo.setItems(FXCollections.observableArrayList(supplierList));
         } catch (SQLException ex) {
             Utils.showAlert(ex.toString());
             Logger.getLogger(SupplierLedgerController.class.getName()).log(Level.SEVERE, ex.toString(), ex);
@@ -69,6 +59,8 @@ public class SupplierLedgerController implements Initializable {
 
     @FXML
     private void generatePDF(ActionEvent event) {
+        Connection conn = DatabaseHandler.getInstance().getConnection();
+
         String jrxmlFileName;
         if (agewise_outstanding_radio.isSelected()) {
             jrxmlFileName = "SupplierLedgerAge.jrxml";
@@ -80,21 +72,26 @@ public class SupplierLedgerController implements Initializable {
         map.put("supplierName", supplier_name_combo.getSelectionModel().getSelectedItem());
 
         try {
-
             JasperReport jasperReport =
                     JasperCompileManager.compileReport(getClass().getResourceAsStream(jrxmlFilePath));
             JasperPrint jprint = JasperFillManager.fillReport(jasperReport, map, conn);
             JasperExportManager.exportReportToPdfFile(jprint, Constants.REPORT_FILE_NAME);
+            Utils.launchPdf(Constants.REPORT_FILE_NAME);
             Utils.showAlert("Report Successfully Generated", 1);
-        } catch (JRException ex) {
+        } catch (JRException | IOException ex) {
             Utils.showAlert(ex.toString());
             Logger.getLogger(SupplierLedgerController.class.getName()).log(Level.SEVERE, ex.toString(), ex);
         }
-        Utils.launchPdf(Constants.REPORT_FILE_NAME);
     }
 
     @FXML
     private void launchPdf(ActionEvent event) {
-        Utils.launchPdf(Constants.REPORT_FILE_NAME);
+        try {
+            Utils.launchPdf(Constants.REPORT_FILE_NAME);
+            Utils.showAlert("PDF opened successfully.", 1);
+        } catch (IOException ex) {
+            Utils.showAlert(ex.toString());
+            Logger.getLogger(SupplierLedgerController.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+        }
     }
 }
