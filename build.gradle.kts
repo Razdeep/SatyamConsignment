@@ -97,7 +97,7 @@ tasks.named<Jar>("jar") { enabled = false }
 
 val copyScripts by tasks.registering(Copy::class) {
     from("scripts") {
-        include("start.sh", "start.bat")
+        include("start.sh", "start.bat", "download.bat", "upload.bat")
     }
     into(layout.buildDirectory.dir("libs"))
     doLast {
