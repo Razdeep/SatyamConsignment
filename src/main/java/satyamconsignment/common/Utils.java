@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -42,26 +41,18 @@ public class Utils {
         alert.show();
     }
 
-    public static void launchPdf(String filename) {
+    public static void launchPdf(String filename) throws IOException {
         File pdfFile = new File(filename);
 
         if (!pdfFile.exists()) {
-            showAlert("File does not exist: " + pdfFile.getAbsolutePath());
-            return;
+            throw new IOException("File does not exist: " + pdfFile.getAbsolutePath());
         }
 
         if (!Desktop.isDesktopSupported()) {
-            showAlert("Desktop is not supported on this platform.");
-            return;
+            throw new IOException("Desktop is not supported on this platform.");
         }
 
-        try {
-            Desktop.getDesktop().open(pdfFile);
-            showAlert("PDF opened successfully.", 1);
-        } catch (IOException e) {
-            String msg = ("Error opening PDF: " + e.getMessage());
-            Logger.getLogger(Utils.class.getName()).log(Level.SEVERE, msg, e);
-        }
+        Desktop.getDesktop().open(pdfFile);
     }
 
     public static String formatDate(String dateString) {

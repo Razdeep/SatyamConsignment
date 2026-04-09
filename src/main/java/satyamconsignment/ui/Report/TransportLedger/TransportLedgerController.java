@@ -1,5 +1,6 @@
 package satyamconsignment.ui.Report.TransportLedger;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -82,16 +83,22 @@ public class TransportLedgerController implements Initializable {
                     JasperCompileManager.compileReport(getClass().getResourceAsStream(jrxmlFilePath));
             JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, map, conn);
             JasperExportManager.exportReportToPdfFile(jasperPrint, Constants.REPORT_FILE_NAME);
+            Utils.launchPdf(Constants.REPORT_FILE_NAME);
             Utils.showAlert("Report Successfully Generated", 1);
-        } catch (JRException ex) {
+        } catch (IOException | JRException ex) {
             Utils.showAlert(ex.toString());
             Logger.getLogger(TransportLedgerController.class.getName()).log(Level.SEVERE, ex.toString(), ex);
         }
-        Utils.launchPdf(Constants.REPORT_FILE_NAME);
     }
 
     @FXML
     private void launchPdf(ActionEvent event) {
-        Utils.launchPdf(Constants.REPORT_FILE_NAME);
+        try {
+            Utils.launchPdf(Constants.REPORT_FILE_NAME);
+            Utils.showAlert("PDF opened successfully.", 1);
+        } catch (IOException ex) {
+            Utils.showAlert(ex.toString());
+            Logger.getLogger(TransportLedgerController.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+        }
     }
 }

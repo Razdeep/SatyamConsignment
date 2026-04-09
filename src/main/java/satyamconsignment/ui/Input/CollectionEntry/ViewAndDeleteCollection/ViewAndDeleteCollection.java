@@ -1,5 +1,6 @@
 package satyamconsignment.ui.Input.CollectionEntry.ViewAndDeleteCollection;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -183,11 +184,11 @@ public class ViewAndDeleteCollection implements Initializable {
             map.put("billAmount", total_amount_field.getText());
             JasperPrint jprint = JasperFillManager.fillReport(jasperReport, map, connection);
             JasperExportManager.exportReportToPdfFile(jprint, Constants.REPORT_FILE_NAME);
+            Utils.launchPdf(Constants.REPORT_FILE_NAME);
             Utils.showAlert("Report Successfully Generated", 1);
-        } catch (JRException ex) {
+        } catch (IOException | JRException ex) {
             Utils.showAlert(ex.toString());
             Logger.getLogger(ViewAndDeleteCollection.class.getName()).log(Level.SEVERE, ex.toString(), ex);
         }
-        Utils.launchPdf(Constants.REPORT_FILE_NAME);
     }
 }
