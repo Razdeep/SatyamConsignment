@@ -32,16 +32,16 @@ public class ReportController implements Initializable {
 
     @FXML
     private void showSupplierLedger(ActionEvent event) {
-        viewLoader.loadRoot("/fxml/report/SupplierLedger/SupplierLedger.fxml", root);
+        viewLoader.loadRoot("/fxml/report/SupplierLedger.fxml", root);
     }
 
     @FXML
     private void showBuyerLedger(ActionEvent event) {
-        viewLoader.loadRoot("/fxml/report/BuyerLedger/BuyerLedger.fxml", root);
+        viewLoader.loadRoot("/fxml/report/BuyerLedger.fxml", root);
     }
 
     @FXML
     private void showTransportLedger(ActionEvent event) {
-        viewLoader.loadRoot("/fxml/report/TransportLedger/TransportLedger.fxml", root);
+        viewLoader.loadRoot("/fxml/report/TransportLedger.fxml", root);
     }
 }
