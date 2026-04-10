@@ -21,7 +21,7 @@ public class Launcher extends Application {
     @Override
     public void start(Stage stage) {
         try {
-            String mainFxmlPath = "/satyamconsignment/ui/Main/Main.fxml";
+            String mainFxmlPath = "/fxml/Main.fxml";
             URL resource = getClass().getResource(mainFxmlPath);
             if (resource == null) {
                 throw new RuntimeException("Resource not found");
@@ -31,7 +31,7 @@ public class Launcher extends Application {
             stage.setScene(scene);
             stage.setMaximized(true);
             stage.show();
-            InputStream resourceAsStream = getClass().getResourceAsStream("/satyamconsignment/icons/Icon.png");
+            InputStream resourceAsStream = getClass().getResourceAsStream("/icons/Icon.png");
             if (resourceAsStream != null) {
                 stage.getIcons().add(new Image(resourceAsStream));
             }
