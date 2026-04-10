@@ -9,14 +9,11 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TextField?>
 <Group xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.111"
-       fx:controller="satyamconsignment.controller.master.BuyerController">
+       fx:controller="satyamconsignment.controller.master.TransportController">
     <children>
         <AnchorPane id="AnchorPane" prefHeight="536.0" prefWidth="672.0" styleClass="mainFxmlClass">
-            <stylesheets>
-                <URL value="@masterbuyer.css"/>
-            </stylesheets>
             <children>
-                <Text layoutX="263.0" layoutY="55.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Master Buyer">
+                <Text layoutX="237.0" layoutY="55.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Master Transport">
                     <font>
                         <Font size="31.0"/>
                     </font>
@@ -26,7 +23,7 @@
                     <graphic>
                         <ImageView fitHeight="49.0" fitWidth="52.0" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@../../../icons/MasterAdd.png"/>
+                                <Image url="@../../icons/MasterAdd.png"/>
                             </image>
                         </ImageView>
                     </graphic>
@@ -40,7 +37,7 @@
                     <graphic>
                         <ImageView fitHeight="49.0" fitWidth="52.0" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@../../../icons/MasterDelete.png"/>
+                                <Image url="@../../icons/MasterDelete.png"/>
                             </image>
                         </ImageView>
                     </graphic>
@@ -53,7 +50,7 @@
                     <graphic>
                         <ImageView fitHeight="49.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@../../../icons/Refresh.png"/>
+                                <Image url="@../../icons/Refresh.png"/>
                             </image>
                         </ImageView>
                     </graphic>
@@ -61,7 +58,7 @@
                         <Font size="16.0"/>
                     </font>
                 </Button>
-                <TextField fx:id="add_field" layoutX="353.0" layoutY="93.0" prefHeight="25.0" prefWidth="238.0"
+                <TextField fx:id="add_field" layoutX="342.0" layoutY="93.0" prefHeight="33.0" prefWidth="290.0"
                            promptText="Enter Buyer to add">
                     <font>
                         <Font size="16.0"/>
@@ -72,7 +69,7 @@
                     <graphic>
                         <ImageView fitHeight="55.0" fitWidth="49.0" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@../../../icons/MasterRename.png"/>
+                                <Image url="@../../icons/MasterRename.png"/>
                             </image>
                         </ImageView>
                     </graphic>

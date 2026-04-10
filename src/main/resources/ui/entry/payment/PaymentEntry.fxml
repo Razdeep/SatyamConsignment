@@ -11,9 +11,6 @@
 <Group fx:id="root2" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="satyamconsignment.controller.entry.payment.PaymentEntryController">
     <children>
         <AnchorPane id="AnchorPane" layoutY="14.0" prefHeight="699.0" prefWidth="761.0" styleClass="mainFxmlClass">
-            <stylesheets>
-                <URL value="@paymententry.css" />
-            </stylesheets>
             <children>
                 <Text layoutX="304.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Payment Entry" wrappingWidth="211.99999898672104">
                     <font>

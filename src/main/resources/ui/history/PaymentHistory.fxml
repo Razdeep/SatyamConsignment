@@ -8,26 +8,23 @@
 <?import javafx.scene.text.Text?>
 <?import java.net.URL?>
 <Group xmlns:fx="http://javafx.com/fxml/1" fx:id="root" xmlns="http://javafx.com/javafx/8.0.111"
-       fx:controller="satyamconsignment.controller.history.CollectionHistoryController">
+       fx:controller="satyamconsignment.controller.history.PaymentHistoryController">
     <children>
-        <AnchorPane id="AnchorPane" prefHeight="511.0" prefWidth="600.0" styleClass="mainFxmlClass">
-            <stylesheets>
-                <URL value="@collectionhistory.css"/>
-            </stylesheets>
+        <AnchorPane id="AnchorPane" prefHeight="585.0" prefWidth="600.0" styleClass="mainFxmlClass">
             <children>
-                <Text layoutX="203.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Collection History">
-                    <font>
-                        <Font size="23.0"/>
-                    </font>
-                </Text>
-                <TableView fx:id="tableView" layoutX="29.0" layoutY="77.0" prefHeight="420.0" prefWidth="530.0">
+                <TableView fx:id="tableView" layoutX="29.0" layoutY="55.0" prefHeight="514.0" prefWidth="530.0">
                     <columns>
                         <TableColumn fx:id="voucher_no_col" prefWidth="87.0" text="Voucher No."/>
                         <TableColumn fx:id="voucher_date_col" prefWidth="106.0" text="Voucher Date"/>
-                        <TableColumn fx:id="buyer_name_col" prefWidth="218.0" text="Buyer Name"/>
+                        <TableColumn fx:id="supplier_name_col" prefWidth="218.0" text="Supplier Name"/>
                         <TableColumn fx:id="total_amount_col" prefWidth="102.0" text="Total Amount"/>
                     </columns>
                 </TableView>
+                <Text layoutX="257.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Payment History">
+                    <font>
+                        <Font size="22.0"/>
+                    </font>
+                </Text>
             </children>
         </AnchorPane>
     </children>

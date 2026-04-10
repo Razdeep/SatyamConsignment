@@ -57,16 +57,16 @@ public class MainController implements Initializable {
 
     @FXML
     private void showInputHistory(ActionEvent event) {
-        viewLoader.loadCenter("/ui/history/InputHistory/InputHistory.fxml", root);
+        viewLoader.loadCenter("/ui/history/InputHistory.fxml", root);
     }
 
     @FXML
     private void showCollectionHistory(ActionEvent event) {
-        viewLoader.loadCenter("/ui/history/CollectionHistory/CollectionHistory.fxml", root);
+        viewLoader.loadCenter("/ui/history/CollectionHistory.fxml", root);
     }
 
     @FXML
     private void showPaymentHistory(ActionEvent event) {
-        viewLoader.loadCenter("/ui/history/PaymentHistory/PaymentHistory.fxml", root);
+        viewLoader.loadCenter("/ui/history/PaymentHistory.fxml", root);
     }
 }
