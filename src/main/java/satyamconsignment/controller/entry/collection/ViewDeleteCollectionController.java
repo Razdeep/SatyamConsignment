@@ -174,7 +174,7 @@ public class ViewDeleteCollectionController implements Initializable {
     private void printCollection(ActionEvent event) {
         try {
             Connection connection = DatabaseHandler.getInstance().getConnection();
-            String jrxmlFileName = "/satyamconsignment/ui/entry/collection/Collection.jrxml";
+            String jrxmlFileName = "/ui/entry/collection/Collection.jrxml";
             JasperReport jasperReport =
                     JasperCompileManager.compileReport(getClass().getResourceAsStream(jrxmlFileName));
             Map<String, Object> map = new HashMap<>();

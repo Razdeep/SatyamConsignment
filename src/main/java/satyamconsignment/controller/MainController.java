@@ -32,41 +32,41 @@ public class MainController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         viewLoader = new ViewLoader();
-        viewLoader.loadCenter("/satyamconsignment/ui/WelcomeScreen.fxml", root);
+        viewLoader.loadCenter("/ui/WelcomeScreen.fxml", root);
     }
 
     @FXML
     private void showInputScreen(ActionEvent event) {
-        viewLoader.loadCenter("/satyamconsignment/ui/entry/Input.fxml", root);
+        viewLoader.loadCenter("/ui/entry/Input.fxml", root);
     }
 
     @FXML
     private void showReportScreen(ActionEvent event) {
-        viewLoader.loadCenter("/satyamconsignment/ui/report/Report.fxml", root);
+        viewLoader.loadCenter("/ui/report/Report.fxml", root);
     }
 
     @FXML
     private void showMasterScreen(ActionEvent event) {
-        viewLoader.loadCenter("/satyamconsignment/ui/master/Master.fxml", root);
+        viewLoader.loadCenter("/ui/master/Master.fxml", root);
     }
 
     @FXML
     private void showWelcomeScreen(ActionEvent event) {
-        viewLoader.loadCenter("/satyamconsignment/ui/WelcomeScreen.fxml", root);
+        viewLoader.loadCenter("/ui/WelcomeScreen.fxml", root);
     }
 
     @FXML
     private void showInputHistory(ActionEvent event) {
-        viewLoader.loadCenter("/satyamconsignment/ui/history/InputHistory/InputHistory.fxml", root);
+        viewLoader.loadCenter("/ui/history/InputHistory/InputHistory.fxml", root);
     }
 
     @FXML
     private void showCollectionHistory(ActionEvent event) {
-        viewLoader.loadCenter("/satyamconsignment/ui/history/CollectionHistory/CollectionHistory.fxml", root);
+        viewLoader.loadCenter("/ui/history/CollectionHistory/CollectionHistory.fxml", root);
     }
 
     @FXML
     private void showPaymentHistory(ActionEvent event) {
-        viewLoader.loadCenter("/satyamconsignment/ui/history/PaymentHistory/PaymentHistory.fxml", root);
+        viewLoader.loadCenter("/ui/history/PaymentHistory/PaymentHistory.fxml", root);
     }
 }
