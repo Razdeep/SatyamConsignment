@@ -180,7 +180,7 @@ public class ViewDeletePaymentController implements Initializable {
     private void printPayment(ActionEvent event) {
         try {
             Connection conn = DatabaseHandler.getInstance().getConnection();
-            String jrxmlFileName = "/fxml/entry/payment/Payment.jrxml";
+            String jrxmlFileName = "/jrxml/Payment.jrxml";
             JasperReport jasperReport =
                     JasperCompileManager.compileReport(getClass().getResourceAsStream(jrxmlFileName));
             Map<String, Object> map = new HashMap<>();
