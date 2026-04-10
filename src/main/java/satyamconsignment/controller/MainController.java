@@ -32,41 +32,41 @@ public class MainController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         viewLoader = new ViewLoader();
-        viewLoader.loadCenter("/ui/WelcomeScreen.fxml", root);
+        viewLoader.loadCenter("/fxml/WelcomeScreen.fxml", root);
     }
 
     @FXML
     private void showInputScreen(ActionEvent event) {
-        viewLoader.loadCenter("/ui/entry/Input.fxml", root);
+        viewLoader.loadCenter("/fxml/entry/Input.fxml", root);
     }
 
     @FXML
     private void showReportScreen(ActionEvent event) {
-        viewLoader.loadCenter("/ui/report/Report.fxml", root);
+        viewLoader.loadCenter("/fxml/report/Report.fxml", root);
     }
 
     @FXML
     private void showMasterScreen(ActionEvent event) {
-        viewLoader.loadCenter("/ui/master/Master.fxml", root);
+        viewLoader.loadCenter("/fxml/master/Master.fxml", root);
     }
 
     @FXML
     private void showWelcomeScreen(ActionEvent event) {
-        viewLoader.loadCenter("/ui/WelcomeScreen.fxml", root);
+        viewLoader.loadCenter("/fxml/WelcomeScreen.fxml", root);
     }
 
     @FXML
     private void showInputHistory(ActionEvent event) {
-        viewLoader.loadCenter("/ui/history/InputHistory.fxml", root);
+        viewLoader.loadCenter("/fxml/history/InputHistory.fxml", root);
     }
 
     @FXML
     private void showCollectionHistory(ActionEvent event) {
-        viewLoader.loadCenter("/ui/history/CollectionHistory.fxml", root);
+        viewLoader.loadCenter("/fxml/history/CollectionHistory.fxml", root);
     }
 
     @FXML
     private void showPaymentHistory(ActionEvent event) {
-        viewLoader.loadCenter("/ui/history/PaymentHistory.fxml", root);
+        viewLoader.loadCenter("/fxml/history/PaymentHistory.fxml", root);
     }
 }

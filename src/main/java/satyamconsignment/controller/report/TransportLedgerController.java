@@ -60,7 +60,7 @@ public class TransportLedgerController implements Initializable {
         Connection conn = DatabaseHandler.getInstance().getConnection();
 
         String jrxmlFileName = "TransportLedger.jrxml";
-        String jrxmlFilePath = "/ui/report/TransportLedger/" + jrxmlFileName;
+        String jrxmlFilePath = "/fxml/report/TransportLedger/" + jrxmlFileName;
 
         Map<String, Object> map = new HashMap<>();
         map.put("transportName", transport_name_combo.getSelectionModel().getSelectedItem());

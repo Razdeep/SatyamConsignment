@@ -21,7 +21,7 @@ public class Launcher extends Application {
     @Override
     public void start(Stage stage) {
         try {
-            String mainFxmlPath = "/ui/Main.fxml";
+            String mainFxmlPath = "/fxml/Main.fxml";
             URL resource = getClass().getResource(mainFxmlPath);
             if (resource == null) {
                 throw new RuntimeException("Resource not found");

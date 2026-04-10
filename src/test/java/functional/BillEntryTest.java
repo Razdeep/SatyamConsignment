@@ -13,7 +13,7 @@ public class BillEntryTest extends ApplicationTest {
 
     @Override
     public void start(Stage stage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ui/Main.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Main.fxml"));
 
         Parent root = loader.load();
         stage.setScene(new Scene(root));

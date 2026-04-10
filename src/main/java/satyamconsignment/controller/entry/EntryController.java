@@ -32,16 +32,16 @@ public class EntryController implements Initializable {
 
     @FXML
     private void showBillEntryScreen(ActionEvent event) {
-        viewLoader.loadRoot("/ui/entry/bill/BillEntry.fxml", root);
+        viewLoader.loadRoot("/fxml/entry/bill/BillEntry.fxml", root);
     }
 
     @FXML
     private void showCollectionEntryScreen(ActionEvent event) {
-        viewLoader.loadRoot("/ui/entry/collection/CollectionEntry.fxml", root);
+        viewLoader.loadRoot("/fxml/entry/collection/CollectionEntry.fxml", root);
     }
 
     @FXML
     private void showPaymentEntryScreen(ActionEvent event) {
-        viewLoader.loadRoot("/ui/entry/payment/PaymentEntry.fxml", root);
+        viewLoader.loadRoot("/fxml/entry/payment/PaymentEntry.fxml", root);
     }
 }

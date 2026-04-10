@@ -67,7 +67,7 @@ public class BuyerLedgerController implements Initializable {
         } else {
             jrxmlFileName = "BuyerLedger.jrxml";
         }
-        String jrxmlFilePath = "/ui/report/BuyerLedger/" + jrxmlFileName;
+        String jrxmlFilePath = "/fxml/report/BuyerLedger/" + jrxmlFileName;
 
         Map<String, Object> map = new HashMap<>();
         map.put("buyerName", buyer_name_combo.getSelectionModel().getSelectedItem());
