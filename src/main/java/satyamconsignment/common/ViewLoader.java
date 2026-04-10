@@ -8,8 +8,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.layout.BorderPane;
-import satyamconsignment.ui.Input.InputController;
-import satyamconsignment.ui.Main.MainController;
+import satyamconsignment.controller.MainController;
+import satyamconsignment.controller.entry.EntryController;
 
 public class ViewLoader {
     public void loadRoot(String resourcePath, Group root) {
@@ -18,7 +18,7 @@ public class ViewLoader {
             root.getChildren().setAll(parent);
         } catch (IOException ex) {
             Utils.showAlert(ex.toString());
-            Logger.getLogger(InputController.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            Logger.getLogger(EntryController.class.getName()).log(Level.SEVERE, ex.toString(), ex);
         }
     }
 
