@@ -36,4 +36,8 @@ public class PaymentService {
     public void deletePayment(String voucherNo) throws SQLException {
         paymentRepository.deletePayment(voucherNo);
     }
+
+    public List<PaymentEntity> getPayments() throws SQLException {
+        return paymentRepository.getPayments();
+    }
 }

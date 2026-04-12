@@ -281,4 +281,27 @@ public class PaymentRepository {
             connection.rollback();
         }
     }
+
+    public List<PaymentEntity> getPayments() throws SQLException {
+        try {
+            List<PaymentEntity> res = new ArrayList<>();
+            String sql = "SELECT * FROM `Payment_Entry_Table`;";
+            Connection conn = DatabaseHandler.getInstance().getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                res.add(PaymentEntity.builder()
+                        .voucherNo(rs.getString("Voucher No."))
+                        .voucherDate(rs.getString("Voucher Date"))
+                        .supplierName(rs.getString("Supplier Name"))
+                        .totalAmount(rs.getString("Total Amount"))
+                        // .items() omitted as not used
+                        .build());
+            }
+            return res;
+        } catch (SQLException ex) {
+            Logger.getLogger(PaymentRepository.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            throw ex;
+        }
+    }
 }

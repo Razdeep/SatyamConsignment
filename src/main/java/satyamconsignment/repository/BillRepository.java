@@ -123,4 +123,30 @@ public class BillRepository {
             throw ex;
         }
     }
+
+    public List<BillEntity> getBills() throws SQLException {
+        List<BillEntity> res = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM `Bill_Entry_Table`;";
+            Connection conn = DatabaseHandler.getInstance().getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                res.add(BillEntity.builder()
+                        .supplierName(rs.getString("Supplier Name"))
+                        .buyerName(rs.getString("Buyer Name"))
+                        .billNo(rs.getString("Bill No."))
+                        .billDate(rs.getString("Bill Date"))
+                        .transport(rs.getString("Transport"))
+                        .lrDate(rs.getString("LR Date"))
+                        .billAmount(rs.getString("Bill Amount"))
+                        // .lrEntities() skipped as it is not required
+                        .build());
+            }
+            return res;
+        } catch (SQLException ex) {
+            Logger.getLogger(BillRepository.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            throw ex;
+        }
+    }
 }
