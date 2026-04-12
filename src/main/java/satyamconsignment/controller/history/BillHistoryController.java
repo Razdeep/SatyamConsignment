@@ -14,7 +14,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import satyamconsignment.common.Utils;
-import satyamconsignment.model.BillRecord;
+import satyamconsignment.entity.BillEntity;
 import satyamconsignment.repository.BillRepository;
 import satyamconsignment.service.BillService;
 
@@ -24,28 +24,28 @@ public class BillHistoryController implements Initializable {
     private Group root;
 
     @FXML
-    private TableColumn<BillRecord, String> supplier_name_col;
+    private TableColumn<BillEntity, String> supplier_name_col;
 
     @FXML
-    private TableColumn<BillRecord, String> buyer_name_col;
+    private TableColumn<BillEntity, String> buyer_name_col;
 
     @FXML
-    private TableColumn<BillRecord, String> bill_no_col;
+    private TableColumn<BillEntity, String> bill_no_col;
 
     @FXML
-    private TableColumn<BillRecord, String> bill_date_col;
+    private TableColumn<BillEntity, String> bill_date_col;
 
     @FXML
-    private TableColumn<BillRecord, String> transport_col;
+    private TableColumn<BillEntity, String> transport_col;
 
     @FXML
-    private TableColumn<BillRecord, String> lr_date_col;
+    private TableColumn<BillEntity, String> lr_date_col;
 
     @FXML
-    private TableColumn<BillRecord, String> bill_amount_col;
+    private TableColumn<BillEntity, String> bill_amount_col;
 
     @FXML
-    private TableView<BillRecord> tableView;
+    private TableView<BillEntity> tableView;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -60,7 +60,7 @@ public class BillHistoryController implements Initializable {
         bill_amount_col.setCellValueFactory(new PropertyValueFactory<>("billAmount"));
 
         try {
-            List<BillRecord> billList = billService.getBills();
+            List<BillEntity> billList = billService.getBills();
             tableView.setItems(FXCollections.observableArrayList(billList));
         } catch (SQLException ex) {
             Utils.showAlert(ex.toString());

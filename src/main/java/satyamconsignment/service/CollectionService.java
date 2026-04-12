@@ -36,4 +36,8 @@ public class CollectionService {
     public void deleteCollection(String voucherNo) throws SQLException {
         collectionRepository.deleteCollection(voucherNo);
     }
+
+    public List<CollectionEntity> getCollections() throws SQLException {
+        return collectionRepository.getCollections();
+    }
 }

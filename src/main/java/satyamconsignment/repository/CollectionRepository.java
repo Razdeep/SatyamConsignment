@@ -303,4 +303,27 @@ public class CollectionRepository {
             connection.rollback();
         }
     }
+
+    public List<CollectionEntity> getCollections() throws SQLException {
+        try {
+            List<CollectionEntity> res = new ArrayList<>();
+            String sql = "SELECT * FROM `Collection_Entry_Table`;";
+            Connection conn = DatabaseHandler.getInstance().getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                res.add(CollectionEntity.builder()
+                        .voucherNo(rs.getString("Voucher No."))
+                        .voucherDate(rs.getString("Voucher Date"))
+                        .buyerName(rs.getString("Buyer Name"))
+                        .totalAmount(rs.getString("Total Amount"))
+                        // .items() omitted as not used
+                        .build());
+            }
+            return res;
+        } catch (SQLException ex) {
+            Logger.getLogger(CollectionRepository.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            throw ex;
+        }
+    }
 }

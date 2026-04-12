@@ -11,7 +11,6 @@ import java.util.logging.Logger;
 import satyamconsignment.common.DatabaseHandler;
 import satyamconsignment.entity.BillEntity;
 import satyamconsignment.entity.LREntity;
-import satyamconsignment.model.BillRecord;
 
 public class BillRepository {
 
@@ -125,22 +124,24 @@ public class BillRepository {
         }
     }
 
-    public List<BillRecord> getBills() throws SQLException {
-        List<BillRecord> res = new ArrayList<>();
+    public List<BillEntity> getBills() throws SQLException {
+        List<BillEntity> res = new ArrayList<>();
         try {
             String sql = "SELECT * FROM `Bill_Entry_Table`;";
             Connection conn = DatabaseHandler.getInstance().getConnection();
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                res.add(new BillRecord(
-                        rs.getString("Supplier Name"),
-                        rs.getString("Buyer Name"),
-                        rs.getString("Bill No."),
-                        rs.getString("Bill Date"),
-                        rs.getString("Transport"),
-                        rs.getString("LR Date"),
-                        rs.getString("Bill Amount")));
+                res.add(BillEntity.builder()
+                        .supplierName(rs.getString("Supplier Name"))
+                        .buyerName(rs.getString("Buyer Name"))
+                        .billNo(rs.getString("Bill No."))
+                        .billDate(rs.getString("Bill Date"))
+                        .transport(rs.getString("Transport"))
+                        .lrDate(rs.getString("LR Date"))
+                        .billAmount(rs.getString("Bill Amount"))
+                        // .lrEntities() skipped as it is not required
+                        .build());
             }
             return res;
         } catch (SQLException ex) {
