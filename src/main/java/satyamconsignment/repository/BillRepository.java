@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 import satyamconsignment.common.DatabaseHandler;
 import satyamconsignment.entity.BillEntity;
 import satyamconsignment.entity.LREntity;
+import satyamconsignment.model.BillRecord;
 
 public class BillRepository {
 
@@ -119,6 +120,30 @@ public class BillRepository {
             connection.commit();
         } catch (SQLException ex) {
             connection.rollback();
+            Logger.getLogger(BillRepository.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            throw ex;
+        }
+    }
+
+    public List<BillRecord> getBills() throws SQLException {
+        List<BillRecord> res = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM `Bill_Entry_Table`;";
+            Connection conn = DatabaseHandler.getInstance().getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                res.add(new BillRecord(
+                        rs.getString("Supplier Name"),
+                        rs.getString("Buyer Name"),
+                        rs.getString("Bill No."),
+                        rs.getString("Bill Date"),
+                        rs.getString("Transport"),
+                        rs.getString("LR Date"),
+                        rs.getString("Bill Amount")));
+            }
+            return res;
+        } catch (SQLException ex) {
             Logger.getLogger(BillRepository.class.getName()).log(Level.SEVERE, ex.toString(), ex);
             throw ex;
         }

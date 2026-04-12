@@ -1,7 +1,9 @@
 package satyamconsignment.service;
 
 import java.sql.SQLException;
+import java.util.List;
 import satyamconsignment.entity.BillEntity;
+import satyamconsignment.model.BillRecord;
 import satyamconsignment.repository.BillRepository;
 
 public class BillService {
@@ -22,5 +24,9 @@ public class BillService {
 
     public void deleteBill(String billNo) throws SQLException {
         billRepository.deleteBill(billNo);
+    }
+
+    public List<BillRecord> getBills() throws SQLException {
+        return billRepository.getBills();
     }
 }
