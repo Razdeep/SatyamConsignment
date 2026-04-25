@@ -272,7 +272,9 @@ public class AddPaymentController implements Initializable {
         voucher_no_field.setText("");
         voucher_date_field.setValue(null);
         supplier_name_combo.setDisable(false);
+        supplier_name_combo.getSelectionModel().clearSelection();
         billNoComboList.clear();
+        bill_no_combo.setItems(FXCollections.observableArrayList(billNoComboList));
     }
 
     @FXML

@@ -285,7 +285,9 @@ public class AddCollectionController implements Initializable {
         voucher_no_field.setText("");
         voucher_date_field.setValue(null);
         buyer_name.setDisable(false);
+        buyer_name.getSelectionModel().clearSelection();
         billNoComboList.clear();
+        bill_no_combo.setItems(FXCollections.observableArrayList(billNoComboList));
     }
 
     @FXML
