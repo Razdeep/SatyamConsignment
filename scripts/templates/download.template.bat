@@ -2,7 +2,7 @@
 
 echo "Fetching Database from remote"
 
-cd Satyam-Database-2026-27
+cd Satyam-Database-{{PLACEHOLDER_YEAR}}
 git pull origin main
 
 git reset --hard
