@@ -9,8 +9,7 @@ import stat
 import logging
 
 logging.basicConfig(
-    level=logging.DEBUG,
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+    level=logging.DEBUG, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
 logger = logging.getLogger(__name__)
 
@@ -72,7 +71,7 @@ def init_github_repository():
     repo_url = f"git@github.com:{github_username}/{repo_name}.git"
 
     try:
-        logger.info(f'cloning {repo_name}')
+        logger.info(f"cloning {repo_name}")
         subprocess.run(
             ["git", "clone", repo_url], check=True, capture_output=True, text=True
         )
