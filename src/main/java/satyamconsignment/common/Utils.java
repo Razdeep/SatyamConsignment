@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.concurrent.CompletableFuture;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -52,7 +54,13 @@ public class Utils {
             throw new IOException("Desktop is not supported on this platform.");
         }
 
-        Desktop.getDesktop().open(pdfFile);
+        CompletableFuture.runAsync(() -> {
+            try {
+                Desktop.getDesktop().open(pdfFile);
+            } catch (IOException e) {
+                logger.log(Level.WARNING, "Error opening file: " + pdfFile.getAbsolutePath(), e);
+            }
+        });
     }
 
     public static String formatDate(String dateString) {
