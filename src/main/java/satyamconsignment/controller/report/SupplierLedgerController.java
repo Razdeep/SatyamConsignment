@@ -22,7 +22,9 @@ import net.sf.jasperreports.engine.*;
 import satyamconsignment.common.Constants;
 import satyamconsignment.common.DatabaseHandler;
 import satyamconsignment.common.Utils;
+import satyamconsignment.repository.PaymentRepository;
 import satyamconsignment.repository.SupplierRepository;
+import satyamconsignment.service.PaymentService;
 import satyamconsignment.service.SupplierService;
 
 public class SupplierLedgerController implements Initializable {
@@ -45,9 +47,11 @@ public class SupplierLedgerController implements Initializable {
     @FXML
     private Button launch_pdf_btn;
 
+    private SupplierService supplierService;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        SupplierService supplierService = new SupplierService(new SupplierRepository());
+        supplierService = new SupplierService(new SupplierRepository(), new PaymentService(new PaymentRepository()));
         try {
             List<String> supplierList = supplierService.getAllSuppliers();
             supplier_name_combo.setItems(FXCollections.observableArrayList(supplierList));
@@ -61,11 +65,17 @@ public class SupplierLedgerController implements Initializable {
     private void generatePDF(ActionEvent event) {
         Connection conn = DatabaseHandler.getInstance().getConnection();
 
-        String jrxmlFileName;
+        String jrxmlFileName = "";
         if (agewise_outstanding_radio.isSelected()) {
             jrxmlFileName = "SupplierLedgerAge.jrxml";
         } else {
-            jrxmlFileName = "SupplierLedger.jrxml";
+            try {
+                supplierService.generatePdf(
+                        supplier_name_combo.getSelectionModel().getSelectedItem(), false);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            return;
         }
         String jrxmlFilePath = "/jrxml/" + jrxmlFileName;
         Map<String, Object> map = new HashMap<>();

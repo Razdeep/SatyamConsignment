@@ -132,7 +132,7 @@ public class AddPaymentController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         billService = new BillService(new BillRepository());
         paymentService = new PaymentService(new PaymentRepository());
-        supplierService = new SupplierService(new SupplierRepository());
+        supplierService = new SupplierService(new SupplierRepository(), new PaymentService(new PaymentRepository()));
 
         paymentItems = new ArrayList<>();
         supplierNameComboList = new ArrayList<>();

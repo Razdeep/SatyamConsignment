@@ -3,6 +3,7 @@ package satyamconsignment.service;
 import java.sql.SQLException;
 import java.util.List;
 import satyamconsignment.entity.PaymentEntity;
+import satyamconsignment.model.SupplierLedgerRow;
 import satyamconsignment.repository.PaymentRepository;
 
 public class PaymentService {
@@ -39,5 +40,9 @@ public class PaymentService {
 
     public List<PaymentEntity> getPayments() throws SQLException {
         return paymentRepository.getPayments();
+    }
+
+    public List<SupplierLedgerRow> getPaymentDetailsForSupplier(String supplierName) throws SQLException {
+        return paymentRepository.getPaymentDetailsForSupplier(supplierName);
     }
 }
