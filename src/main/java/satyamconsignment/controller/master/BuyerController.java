@@ -14,7 +14,9 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import satyamconsignment.common.Utils;
 import satyamconsignment.repository.BuyerRepository;
+import satyamconsignment.repository.CollectionRepository;
 import satyamconsignment.service.BuyerService;
+import satyamconsignment.service.CollectionService;
 
 public class BuyerController implements Initializable {
 
@@ -43,7 +45,7 @@ public class BuyerController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        buyerService = new BuyerService(new BuyerRepository());
+        buyerService = new BuyerService(new BuyerRepository(), new CollectionService(new CollectionRepository()));
         refreshList();
     }
 

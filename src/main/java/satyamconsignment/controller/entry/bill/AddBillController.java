@@ -85,7 +85,8 @@ public class AddBillController implements Initializable {
             billService = new BillService(new BillRepository());
             SupplierService supplierService =
                     new SupplierService(new SupplierRepository(), new PaymentService(new PaymentRepository()));
-            BuyerService buyerService = new BuyerService(new BuyerRepository());
+            BuyerService buyerService =
+                    new BuyerService(new BuyerRepository(), new CollectionService(new CollectionRepository()));
             TransportService transportService = new TransportService(new TransportRepository());
 
             TextFields.bindAutoCompletion(supplier_field, supplierService.getAllSuppliers());

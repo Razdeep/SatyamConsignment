@@ -2,7 +2,9 @@ package satyamconsignment.service;
 
 import java.sql.SQLException;
 import java.util.List;
+import satyamconsignment.entity.BillEntity;
 import satyamconsignment.entity.CollectionEntity;
+import satyamconsignment.model.BuyerLedgerRow;
 import satyamconsignment.repository.CollectionRepository;
 
 public class CollectionService {
@@ -13,7 +15,13 @@ public class CollectionService {
         this.collectionRepository = collectionRepository;
     }
 
-    public List<String> fetchPendingBillsForBuyer(String buyerName) throws SQLException {
+    public List<String> fetchPendingBillNosForBuyer(String buyerName) throws SQLException {
+        return collectionRepository.fetchPendingBillsForBuyer(buyerName).stream()
+                .map(BillEntity::getBillNo)
+                .toList();
+    }
+
+    public List<BillEntity> fetchPendingBillsForBuyer(String buyerName) throws SQLException {
         return collectionRepository.fetchPendingBillsForBuyer(buyerName);
     }
 
@@ -39,5 +47,9 @@ public class CollectionService {
 
     public List<CollectionEntity> getCollections() throws SQLException {
         return collectionRepository.getCollections();
+    }
+
+    public List<BuyerLedgerRow> getCollectionDetailsForBuyer(String buyerName) throws SQLException {
+        return collectionRepository.getCollectionDetailsForBuyer(buyerName);
     }
 }
