@@ -4,28 +4,16 @@
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DataAdapter.xml"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<parameter name="buyerName" class="java.lang.String"/>
-	<queryString>
-		<![CDATA[select * from `Bill_Entry_Table` left join
-(`Collection_Entry_Extended_Table`
-join `Collection_Entry_Table` using ("Voucher No."))
-using("Bill No.") where `Bill_Entry_Table`.`Buyer Name`=$P{buyerName}]]>
-	</queryString>
-	<field name="Supplier Name" class="java.lang.Object"/>
-	<field name="Buyer Name" class="java.lang.Object"/>
-	<field name="Bill No." class="java.lang.Object"/>
-	<field name="Bill Date" class="java.lang.Object"/>
-	<field name="Transport" class="java.lang.Object"/>
-	<field name="LR Date" class="java.lang.Object"/>
-	<field name="Bill Amount" class="java.lang.Object"/>
-	<field name="Collection Due" class="java.lang.Object"/>
-	<field name="Due" class="java.lang.Object"/>
-	<field name="Voucher No." class="java.lang.Object"/>
-	<field name="Amount Collected" class="java.lang.Object"/>
-	<field name="Bank" class="java.lang.Object"/>
-	<field name="DD No." class="java.lang.Object"/>
-	<field name="DD Date" class="java.lang.Object"/>
-	<field name="Voucher Date" class="java.lang.Object"/>
-	<field name="Total Amount" class="java.lang.Object"/>
+	<field name="supplierName"/>
+	<field name="billNo"/>
+	<field name="billDate"/>
+	<field name="billAmount" class="java.lang.Integer"/>
+	<field name="collectionDue" class="java.lang.Integer"/>
+	<field name="voucherNo"/>
+	<field name="amountCollected" class="java.lang.Integer"/>
+	<field name="bank"/>
+	<field name="ddNo"/>
+	<field name="ddDate"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -163,7 +151,7 @@ using("Bill No.") where `Bill_Entry_Table`.`Buyer Name`=$P{buyerName}]]>
 				<textElement textAlignment="Center">
 					<font fontName="Monospaced"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{Bill Date}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{billDate}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement positionType="FixRelativeToBottom" x="0" y="-1" width="82" height="20" uuid="3134a7cf-5498-4dd5-b2e1-023fbb4221f1"/>
@@ -177,7 +165,7 @@ using("Bill No.") where `Bill_Entry_Table`.`Buyer Name`=$P{buyerName}]]>
 				<textElement textAlignment="Center">
 					<font fontName="Monospaced"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{Bill No.}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{billNo}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="220" y="-1" width="168" height="20" uuid="42d98822-d8c4-4947-91d6-df7f3ea57ee1"/>
@@ -191,7 +179,7 @@ using("Bill No.") where `Bill_Entry_Table`.`Buyer Name`=$P{buyerName}]]>
 				<textElement textAlignment="Left">
 					<font fontName="Monospaced"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{Supplier Name}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{supplierName}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="673" y="-1" width="75" height="20" uuid="f22fc075-1d44-4b4e-b3e1-20a4e4b168a6">
@@ -208,7 +196,7 @@ using("Bill No.") where `Bill_Entry_Table`.`Buyer Name`=$P{buyerName}]]>
 				<textElement textAlignment="Center">
 					<font fontName="Monospaced"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{DD Date}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{ddDate}]]></textFieldExpression>
 			</textField>
 			<textField pattern="" isBlankWhenNull="true">
 				<reportElement x="389" y="-1" width="68" height="20" uuid="f7c6f211-690f-48c5-bc35-c217e8ee1789"/>
@@ -222,7 +210,7 @@ using("Bill No.") where `Bill_Entry_Table`.`Buyer Name`=$P{buyerName}]]>
 				<textElement textAlignment="Center">
 					<font fontName="Monospaced"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{Voucher No.}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{voucherNo}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="567" y="-1" width="53" height="20" uuid="dcff41c7-26b7-4ab6-b71b-c0049650f146"/>
@@ -236,7 +224,7 @@ using("Bill No.") where `Bill_Entry_Table`.`Buyer Name`=$P{buyerName}]]>
 				<textElement textAlignment="Left">
 					<font fontName="Monospaced"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{Bank}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{bank}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="620" y="-1" width="53" height="20" uuid="41e9a744-8f07-48a0-8c55-355239ee3d02"/>
@@ -250,7 +238,7 @@ using("Bill No.") where `Bill_Entry_Table`.`Buyer Name`=$P{buyerName}]]>
 				<textElement textAlignment="Center">
 					<font fontName="Monospaced"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{DD No.}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{ddNo}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="157" y="-1" width="62" height="20" uuid="44752864-7d38-415c-b3ee-fb095e2172f2"/>
@@ -264,21 +252,21 @@ using("Bill No.") where `Bill_Entry_Table`.`Buyer Name`=$P{buyerName}]]>
 				<textElement textAlignment="Right">
 					<font fontName="Monospaced"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{Bill Amount}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{billAmount}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="457" y="-1" width="53" height="20" uuid="d925527a-e86f-4c0b-8e58-950ff67a7848"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font fontName="Monospaced"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{Amount Collected}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{amountCollected}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="510" y="-1" width="57" height="20" uuid="c75dd30a-8a15-43a2-a0ae-b912d4f7e8ec"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font fontName="Monospaced"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{Collection Due}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{collectionDue}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

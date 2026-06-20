@@ -93,7 +93,7 @@ public class CollectionRepository {
                         .billNo(resultSet.getString("Bill No."))
                         .billDate(resultSet.getString("Bill Date"))
                         .billAmount(resultSet.getString("Bill Amount"))
-                        .buyerName(resultSet.getString("Supplier Name"))
+                        .supplierName(resultSet.getString("Supplier Name"))
                         .build());
             }
             return res;
