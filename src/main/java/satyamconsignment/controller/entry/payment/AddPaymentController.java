@@ -359,7 +359,7 @@ public class AddPaymentController implements Initializable {
     @FXML
     private void fillBillNoCombo(ActionEvent ignoredEvent) {
         try {
-            billNoComboList = paymentService.fetchPendingBillsForSupplier(supplier_name_combo.getValue());
+            billNoComboList = paymentService.fetchPendingBillNosForSupplier(supplier_name_combo.getValue());
             bill_no_combo.setItems(FXCollections.observableArrayList(billNoComboList));
         } catch (SQLException ex) {
             Utils.showAlert(ex.toString());

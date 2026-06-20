@@ -2,11 +2,8 @@ package satyamconsignment.controller.report;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,7 +17,6 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import net.sf.jasperreports.engine.*;
 import satyamconsignment.common.Constants;
-import satyamconsignment.common.DatabaseHandler;
 import satyamconsignment.common.Utils;
 import satyamconsignment.repository.PaymentRepository;
 import satyamconsignment.repository.SupplierRepository;
@@ -63,34 +59,11 @@ public class SupplierLedgerController implements Initializable {
 
     @FXML
     private void generatePDF(ActionEvent event) {
-        Connection conn = DatabaseHandler.getInstance().getConnection();
-
-        String jrxmlFileName = "";
-        if (agewise_outstanding_radio.isSelected()) {
-            jrxmlFileName = "SupplierLedgerAge.jrxml";
-        } else {
-            try {
-                supplierService.generatePdf(
-                        supplier_name_combo.getSelectionModel().getSelectedItem(), false);
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
-            return;
-        }
-        String jrxmlFilePath = "/jrxml/" + jrxmlFileName;
-        Map<String, Object> map = new HashMap<>();
-        map.put("supplierName", supplier_name_combo.getSelectionModel().getSelectedItem());
-
         try {
-            JasperReport jasperReport =
-                    JasperCompileManager.compileReport(getClass().getResourceAsStream(jrxmlFilePath));
-            JasperPrint jprint = JasperFillManager.fillReport(jasperReport, map, conn);
-            JasperExportManager.exportReportToPdfFile(jprint, Constants.REPORT_FILE_NAME);
-            Utils.launchPdf(Constants.REPORT_FILE_NAME);
-            Utils.showAlert("Report Successfully Generated", 1);
-        } catch (JRException | IOException ex) {
-            Utils.showAlert(ex.toString());
-            Logger.getLogger(SupplierLedgerController.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            supplierService.generatePdf(
+                    supplier_name_combo.getSelectionModel().getSelectedItem(), agewise_outstanding_radio.isSelected());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 

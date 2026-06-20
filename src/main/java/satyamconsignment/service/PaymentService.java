@@ -2,6 +2,7 @@ package satyamconsignment.service;
 
 import java.sql.SQLException;
 import java.util.List;
+import satyamconsignment.entity.BillEntity;
 import satyamconsignment.entity.PaymentEntity;
 import satyamconsignment.model.SupplierLedgerRow;
 import satyamconsignment.repository.PaymentRepository;
@@ -14,7 +15,13 @@ public class PaymentService {
         this.paymentRepository = paymentRepository;
     }
 
-    public List<String> fetchPendingBillsForSupplier(String supplierName) throws SQLException {
+    public List<String> fetchPendingBillNosForSupplier(String supplierName) throws SQLException {
+        return paymentRepository.fetchPendingBillsForSupplier(supplierName).stream()
+                .map(BillEntity::getBillNo)
+                .toList();
+    }
+
+    public List<BillEntity> fetchPendingBillsForSupplier(String supplierName) throws SQLException {
         return paymentRepository.fetchPendingBillsForSupplier(supplierName);
     }
 

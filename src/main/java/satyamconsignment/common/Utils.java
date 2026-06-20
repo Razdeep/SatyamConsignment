@@ -80,4 +80,9 @@ public class Utils {
             }
         }
     }
+
+    public static LocalDate parseDate(String dateString) {
+        DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        return LocalDate.parse(dateString, inputFormatter);
+    }
 }

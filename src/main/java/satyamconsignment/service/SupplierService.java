@@ -2,6 +2,8 @@ package satyamconsignment.service;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +14,7 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import satyamconsignment.common.Constants;
 import satyamconsignment.common.Utils;
 import satyamconsignment.controller.report.SupplierLedgerController;
+import satyamconsignment.model.SupplierLedgerAgeRow;
 import satyamconsignment.model.SupplierLedgerRow;
 import satyamconsignment.repository.SupplierRepository;
 
@@ -43,14 +46,32 @@ public class SupplierService {
 
     public void generatePdf(String supplierName, boolean isAgewise) throws SQLException {
 
-        String jrxmlFileName = "SupplierLedger.jrxml";
+        String jrxmlFileName;
+        JRBeanCollectionDataSource dataSource;
+
+        if (isAgewise) {
+            jrxmlFileName = "SupplierLedgerAge.jrxml";
+            List<SupplierLedgerAgeRow> supplierLedgerAgeRows =
+                    paymentService.fetchPendingBillsForSupplier(supplierName).stream()
+                            .map(it -> SupplierLedgerAgeRow.builder()
+                                    .billNo(it.getBillNo())
+                                    .billDate(it.getBillDate())
+                                    .billAmount(it.getBillAmount())
+                                    .buyerName(it.getBuyerName())
+                                    .days((int)
+                                            ChronoUnit.DAYS.between(Utils.parseDate(it.getBillDate()), LocalDate.now()))
+                                    .build())
+                            .toList();
+            dataSource = new JRBeanCollectionDataSource(supplierLedgerAgeRows);
+        } else {
+            jrxmlFileName = "SupplierLedger.jrxml";
+            List<SupplierLedgerRow> supplierLedgerRows = paymentService.getPaymentDetailsForSupplier(supplierName);
+            dataSource = new JRBeanCollectionDataSource(supplierLedgerRows);
+        }
+
         String jrxmlFilePath = "/jrxml/" + jrxmlFileName;
         Map<String, Object> payload = new HashMap<>();
         payload.put("supplierName", supplierName);
-
-        List<SupplierLedgerRow> supplierLedgerRows = paymentService.getPaymentDetailsForSupplier(supplierName);
-
-        JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(supplierLedgerRows);
 
         try {
             JasperReport jasperReport =
