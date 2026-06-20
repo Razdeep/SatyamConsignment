@@ -13,7 +13,6 @@ import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import satyamconsignment.common.Constants;
 import satyamconsignment.common.Utils;
-import satyamconsignment.controller.report.SupplierLedgerController;
 import satyamconsignment.model.SupplierLedgerAgeRow;
 import satyamconsignment.model.SupplierLedgerRow;
 import satyamconsignment.repository.SupplierRepository;
@@ -82,7 +81,7 @@ public class SupplierService {
             Utils.showAlert("Report Successfully Generated", 1);
         } catch (JRException | IOException ex) {
             Utils.showAlert(ex.toString());
-            Logger.getLogger(SupplierLedgerController.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            Logger.getLogger(SupplierService.class.getName()).log(Level.SEVERE, ex.toString(), ex);
         }
     }
 }

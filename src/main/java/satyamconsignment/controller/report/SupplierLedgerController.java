@@ -62,8 +62,9 @@ public class SupplierLedgerController implements Initializable {
         try {
             supplierService.generatePdf(
                     supplier_name_combo.getSelectionModel().getSelectedItem(), agewise_outstanding_radio.isSelected());
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        } catch (SQLException ex) {
+            Utils.showAlert(ex.toString());
+            Logger.getLogger(SupplierLedgerController.class.getName()).log(Level.SEVERE, ex.toString(), ex);
         }
     }
 
