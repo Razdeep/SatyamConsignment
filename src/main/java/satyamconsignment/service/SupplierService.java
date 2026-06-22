@@ -1,6 +1,5 @@
 package satyamconsignment.service;
 
-import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -43,7 +42,7 @@ public class SupplierService {
         supplierRepository.renameSupplier(oldName, newName);
     }
 
-    public void generatePdf(String supplierName, boolean isAgewise) throws SQLException {
+    public void generatePdf(String supplierName, boolean isAgewise) throws SQLException, JRException {
 
         String jrxmlFileName;
         JRBeanCollectionDataSource dataSource;
@@ -77,11 +76,9 @@ public class SupplierService {
                     JasperCompileManager.compileReport(getClass().getResourceAsStream(jrxmlFilePath));
             JasperPrint jprint = JasperFillManager.fillReport(jasperReport, payload, dataSource);
             JasperExportManager.exportReportToPdfFile(jprint, Constants.REPORT_FILE_NAME);
-            Utils.launchPdf(Constants.REPORT_FILE_NAME);
-            Utils.showAlert("Report Successfully Generated", 1);
-        } catch (JRException | IOException ex) {
-            Utils.showAlert(ex.toString());
+        } catch (JRException ex) {
             Logger.getLogger(SupplierService.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            throw ex;
         }
     }
 }

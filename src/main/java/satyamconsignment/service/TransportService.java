@@ -1,6 +1,5 @@
 package satyamconsignment.service;
 
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
@@ -10,7 +9,6 @@ import java.util.logging.Logger;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import satyamconsignment.common.Constants;
-import satyamconsignment.common.Utils;
 import satyamconsignment.model.TransportLedgerRow;
 import satyamconsignment.repository.TransportRepository;
 
@@ -38,7 +36,7 @@ public class TransportService {
         transportRepository.renameTransport(oldName, newName);
     }
 
-    public void generatePdf(String transportName, String fromDate, String toDate) throws SQLException {
+    public void generatePdf(String transportName, String fromDate, String toDate) throws SQLException, JRException {
         List<TransportLedgerRow> transportLedgerRows =
                 transportRepository.getTransportReportFor(transportName, fromDate, toDate);
         JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(transportLedgerRows);
@@ -56,11 +54,9 @@ public class TransportService {
                     JasperCompileManager.compileReport(getClass().getResourceAsStream(jrxmlFilePath));
             JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, map, dataSource);
             JasperExportManager.exportReportToPdfFile(jasperPrint, Constants.REPORT_FILE_NAME);
-            Utils.launchPdf(Constants.REPORT_FILE_NAME);
-            Utils.showAlert("Report Successfully Generated", 1);
-        } catch (IOException | JRException ex) {
-            Utils.showAlert(ex.toString());
+        } catch (JRException ex) {
             Logger.getLogger(TransportService.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            throw ex;
         }
     }
 }

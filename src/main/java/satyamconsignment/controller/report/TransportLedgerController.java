@@ -68,9 +68,11 @@ public class TransportLedgerController implements Initializable {
         try {
             transportService.generatePdf(
                     transport_name_combo.getSelectionModel().getSelectedItem(), fromDate, toDate);
-        } catch (SQLException ex) {
+            Utils.launchPdf(Constants.REPORT_FILE_NAME);
+            Utils.showAlert("Report Successfully Generated", 1);
+        } catch (JRException | SQLException | IOException ex) {
             Utils.showAlert(ex.toString());
-            Logger.getLogger(SupplierLedgerController.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            Logger.getLogger(TransportLedgerController.class.getName()).log(Level.SEVERE, ex.toString(), ex);
         }
     }
 

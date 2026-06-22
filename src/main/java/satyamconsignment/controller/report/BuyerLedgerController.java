@@ -62,7 +62,9 @@ public class BuyerLedgerController implements Initializable {
         try {
             buyerService.generatePdf(
                     buyer_name_combo.getSelectionModel().getSelectedItem(), agewise_outstanding_radio.isSelected());
-        } catch (SQLException ex) {
+            Utils.launchPdf(Constants.REPORT_FILE_NAME);
+            Utils.showAlert("Report Successfully Generated", 1);
+        } catch (SQLException | IOException | JRException ex) {
             Utils.showAlert(ex.toString());
             Logger.getLogger(BuyerLedgerController.class.getName()).log(Level.SEVERE, ex.toString(), ex);
         }
