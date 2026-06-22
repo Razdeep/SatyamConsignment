@@ -3,27 +3,15 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="TransportLedger" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e8ccdac5-9d4c-4c9c-941d-bdcc2145c1f0">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DataAdapter.xml"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
-	<parameter name="transportName" class="java.lang.String"/>
-	<parameter name="fromDate" class="java.lang.String"/>
-	<parameter name="toDate" class="java.lang.String"/>
-	<queryString>
-		<![CDATA[select `LR No.`,`PM`,`Bill No.`,`Supplier Name`,`Buyer Name`,`LR Date`
-from `LR_Table` join `Bill_Entry_Table` using (`Bill No.`)
-where `Transport`=$P{transportName} 
-and 
-substr(`LR Date`, 7, 4)||substr(`LR Date`, 4, 2)||substr(`LR Date`, 1, 2)
-between
-substr($P{fromDate}, 7, 4)||substr($P{fromDate}, 4, 2)||substr($P{fromDate}, 1, 2)
-and
-substr($P{toDate}, 7, 4)||substr($P{toDate}, 4, 2)||substr($P{toDate}, 1, 2)
-order by datetime(substr(`LR Date`, 7, 4)||'-'||substr(`LR Date`, 4, 2)||'-'||substr(`LR Date`, 1, 2))]]>
-	</queryString>
-	<field name="LR No." class="java.lang.Object"/>
-	<field name="PM" class="java.lang.Object"/>
-	<field name="Bill No." class="java.lang.Object"/>
-	<field name="Supplier Name" class="java.lang.Object"/>
-	<field name="Buyer Name" class="java.lang.Object"/>
-	<field name="LR Date" class="java.lang.Object"/>
+	<parameter name="transportName"/>
+	<parameter name="fromDate"/>
+	<parameter name="toDate"/>
+	<field name="lr"/>
+	<field name="pm"/>
+	<field name="billNo"/>
+	<field name="supplierName"/>
+	<field name="buyerName"/>
+	<field name="lrDate"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -114,32 +102,32 @@ order by datetime(substr(`LR Date`, 7, 4)||'-'||substr(`LR Date`, 4, 2)||'-'||su
 			<textField>
 				<reportElement x="2" y="0" width="78" height="20" uuid="687e6427-9bb9-4ec1-8516-bde701466765"/>
 				<textElement textAlignment="Center"/>
-				<textFieldExpression><![CDATA[$F{LR No.}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{lr}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="80" y="0" width="49" height="20" uuid="0ee5e3a3-5560-4c68-97f4-54e201befba3"/>
 				<textElement textAlignment="Center"/>
-				<textFieldExpression><![CDATA[$F{PM}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{pm}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="129" y="0" width="59" height="20" uuid="31bb2f88-824f-44a3-8547-8e2038072928"/>
 				<textElement textAlignment="Center"/>
-				<textFieldExpression><![CDATA[$F{Bill No.}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{billNo}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="189" y="0" width="151" height="20" uuid="7d647c5f-ef45-426d-b307-88267b6b3d8b"/>
 				<textElement textAlignment="Center"/>
-				<textFieldExpression><![CDATA[$F{Supplier Name}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{supplierName}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="340" y="-2" width="153" height="22" uuid="aadf99c5-6f92-4e77-bb81-5361b242dd7d"/>
 				<textElement textAlignment="Center"/>
-				<textFieldExpression><![CDATA[$F{Buyer Name}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{buyerName}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="493" y="-2" width="60" height="22" uuid="e1d02e78-ba7c-4c54-af8a-84fd632f2d1d"/>
 				<textElement textAlignment="Center"/>
-				<textFieldExpression><![CDATA[$F{LR Date}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{lrDate}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
