@@ -4,11 +4,8 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import net.sf.jasperreports.engine.*;
-import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
-import satyamconsignment.common.Constants;
+import satyamconsignment.common.Utils;
 import satyamconsignment.model.TransportLedgerRow;
 import satyamconsignment.repository.TransportRepository;
 
@@ -39,24 +36,13 @@ public class TransportService {
     public void generatePdf(String transportName, String fromDate, String toDate) throws SQLException, JRException {
         List<TransportLedgerRow> transportLedgerRows =
                 transportRepository.getTransportReportFor(transportName, fromDate, toDate);
-        JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(transportLedgerRows);
+
+        Map<String, Object> payload = new HashMap<>();
+        payload.put("transportName", transportName);
+        payload.put("fromDate", fromDate);
+        payload.put("toDate", toDate);
 
         String jrxmlFileName = "TransportLedger.jrxml";
-        String jrxmlFilePath = "/jrxml/" + jrxmlFileName;
-
-        Map<String, Object> map = new HashMap<>();
-        map.put("transportName", transportName);
-        map.put("fromDate", fromDate);
-        map.put("toDate", toDate);
-
-        try {
-            JasperReport jasperReport =
-                    JasperCompileManager.compileReport(getClass().getResourceAsStream(jrxmlFilePath));
-            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, map, dataSource);
-            JasperExportManager.exportReportToPdfFile(jasperPrint, Constants.REPORT_FILE_NAME);
-        } catch (JRException ex) {
-            Logger.getLogger(TransportService.class.getName()).log(Level.SEVERE, ex.toString(), ex);
-            throw ex;
-        }
+        Utils.generatePdf(jrxmlFileName, payload, transportLedgerRows);
     }
 }

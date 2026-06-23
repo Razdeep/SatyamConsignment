@@ -6,11 +6,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import net.sf.jasperreports.engine.*;
-import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
-import satyamconsignment.common.Constants;
 import satyamconsignment.common.Utils;
 import satyamconsignment.model.SupplierLedgerAgeRow;
 import satyamconsignment.model.SupplierLedgerRow;
@@ -44,11 +40,11 @@ public class SupplierService {
 
     public void generatePdf(String supplierName, boolean isAgewise) throws SQLException, JRException {
 
-        String jrxmlFileName;
-        JRBeanCollectionDataSource dataSource;
+        Map<String, Object> payload = new HashMap<>();
+        payload.put("supplierName", supplierName);
 
         if (isAgewise) {
-            jrxmlFileName = "SupplierLedgerAge.jrxml";
+            String jrxmlFileName = "SupplierLedgerAge.jrxml";
             List<SupplierLedgerAgeRow> supplierLedgerAgeRows =
                     paymentService.fetchPendingBillsForSupplier(supplierName).stream()
                             .map(it -> SupplierLedgerAgeRow.builder()
@@ -60,25 +56,12 @@ public class SupplierService {
                                             ChronoUnit.DAYS.between(Utils.parseDate(it.getBillDate()), LocalDate.now()))
                                     .build())
                             .toList();
-            dataSource = new JRBeanCollectionDataSource(supplierLedgerAgeRows);
+
+            Utils.generatePdf(jrxmlFileName, payload, supplierLedgerAgeRows);
         } else {
-            jrxmlFileName = "SupplierLedger.jrxml";
+            String jrxmlFileName = "SupplierLedger.jrxml";
             List<SupplierLedgerRow> supplierLedgerRows = paymentService.getPaymentDetailsForSupplier(supplierName);
-            dataSource = new JRBeanCollectionDataSource(supplierLedgerRows);
-        }
-
-        String jrxmlFilePath = "/jrxml/" + jrxmlFileName;
-        Map<String, Object> payload = new HashMap<>();
-        payload.put("supplierName", supplierName);
-
-        try {
-            JasperReport jasperReport =
-                    JasperCompileManager.compileReport(getClass().getResourceAsStream(jrxmlFilePath));
-            JasperPrint jprint = JasperFillManager.fillReport(jasperReport, payload, dataSource);
-            JasperExportManager.exportReportToPdfFile(jprint, Constants.REPORT_FILE_NAME);
-        } catch (JRException ex) {
-            Logger.getLogger(SupplierService.class.getName()).log(Level.SEVERE, ex.toString(), ex);
-            throw ex;
+            Utils.generatePdf(jrxmlFileName, payload, supplierLedgerRows);
         }
     }
 }

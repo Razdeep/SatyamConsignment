@@ -6,11 +6,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import net.sf.jasperreports.engine.*;
-import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
-import satyamconsignment.common.Constants;
 import satyamconsignment.common.Utils;
 import satyamconsignment.model.BuyerLedgerAgeRow;
 import satyamconsignment.model.BuyerLedgerRow;
@@ -43,11 +39,12 @@ public class BuyerService {
     }
 
     public void generatePdf(String buyerName, boolean isAgewise) throws SQLException, JRException {
-        String jrxmlFileName;
-        JRBeanCollectionDataSource dataSource;
+
+        Map<String, Object> payload = new HashMap<>();
+        payload.put("buyerName", buyerName);
 
         if (isAgewise) {
-            jrxmlFileName = "BuyerLedgerAge.jrxml";
+            String jrxmlFileName = "BuyerLedgerAge.jrxml";
             List<BuyerLedgerAgeRow> buyerLedgerAgeRows = collectionService.fetchPendingBillsForBuyer(buyerName).stream()
                     .map(it -> BuyerLedgerAgeRow.builder()
                             .billNo(it.getBillNo())
@@ -57,25 +54,11 @@ public class BuyerService {
                             .days((int) ChronoUnit.DAYS.between(Utils.parseDate(it.getBillDate()), LocalDate.now()))
                             .build())
                     .toList();
-            dataSource = new JRBeanCollectionDataSource(buyerLedgerAgeRows);
+            Utils.generatePdf(jrxmlFileName, payload, buyerLedgerAgeRows);
         } else {
-            jrxmlFileName = "BuyerLedger.jrxml";
+            String jrxmlFileName = "BuyerLedger.jrxml";
             List<BuyerLedgerRow> buyerLedgerRows = collectionService.getCollectionDetailsForBuyer(buyerName);
-            dataSource = new JRBeanCollectionDataSource(buyerLedgerRows);
-        }
-
-        String jrxmlFilePath = "/jrxml/" + jrxmlFileName;
-        Map<String, Object> payload = new HashMap<>();
-        payload.put("buyerName", buyerName);
-
-        try {
-            JasperReport jasperReport =
-                    JasperCompileManager.compileReport(getClass().getResourceAsStream(jrxmlFilePath));
-            JasperPrint jprint = JasperFillManager.fillReport(jasperReport, payload, dataSource);
-            JasperExportManager.exportReportToPdfFile(jprint, Constants.REPORT_FILE_NAME);
-        } catch (JRException ex) {
-            Logger.getLogger(BuyerService.class.getName()).log(Level.SEVERE, ex.toString(), ex);
-            throw ex;
+            Utils.generatePdf(jrxmlFileName, payload, buyerLedgerRows);
         }
     }
 }
