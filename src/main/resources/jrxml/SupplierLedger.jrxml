@@ -1,38 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.21.5.final using JasperReports Library version 6.21.5-74d586df47b25dbd05bd0957999819196e59934a  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="SupplierLedger" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="2b5461f1-4580-477e-9d69-6885b2c7bb67">
-	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DataAdapter.xml"/>
-	<parameter name="supplierName" class="java.lang.String"/>
-	<queryString language="SQL">
-		<![CDATA[select * from `Bill_Entry_Table` left join
-(`Payment_Entry_Extended_Table`
-join `Payment_Entry_Table` using ("Voucher No."))
-using("Bill No.") where `Bill_Entry_Table`.`Supplier Name`=$P{supplierName}
-order by `Bill_Entry_Table`.`Bill No.`]]>
-	</queryString>
-	<field name="Bill No." class="java.lang.Object"/>
-	<field name="Bill Date" class="java.lang.Object"/>
-	<field name="Bill Amount" class="java.lang.Integer"/>
-	<field name="Buyer Name" class="java.lang.Object"/>
-	<field name="Voucher No." class="java.lang.Object"/>
-	<field name="Voucher Date" class="java.lang.Object"/>
-	<field name="Amount Paid" class="java.lang.Integer"/>
-	<field name="Bank" class="java.lang.Object"/>
-	<field name="DD No." class="java.lang.Object"/>
-	<field name="DD Date" class="java.lang.Object"/>
-	<field name="Due Amount" class="java.lang.Integer"/>
+	<parameter name="supplierName"/>
+	<field name="billNo"/>
+	<field name="billDate"/>
+	<field name="billAmount" class="java.lang.Integer"/>
+	<field name="buyerName"/>
+	<field name="voucherNo"/>
+	<field name="amountPaid" class="java.lang.Integer"/>
+	<field name="bank"/>
+	<field name="ddNo"/>
+	<field name="ddDate"/>
+	<field name="dueAmount" class="java.lang.Integer"/>
 	<variable name="bill_amount_page_total" class="java.lang.Integer" resetType="Page" calculation="Sum">
-		<variableExpression><![CDATA[$F{Bill Amount}]]></variableExpression>
+		<variableExpression><![CDATA[$F{billAmount}]]></variableExpression>
 	</variable>
 	<variable name="bill_amount_grand_total" class="java.lang.Integer" calculation="Sum">
-		<variableExpression><![CDATA[$F{Bill Amount}]]></variableExpression>
+		<variableExpression><![CDATA[$F{billAmount}]]></variableExpression>
 	</variable>
 	<variable name="amount_paid_page_total" class="java.lang.Integer" resetType="Page" calculation="Sum">
-		<variableExpression><![CDATA[$F{Amount Paid}]]></variableExpression>
+		<variableExpression><![CDATA[$F{amountPaid}]]></variableExpression>
 	</variable>
 	<variable name="amount_paid_grand_total" class="java.lang.Integer" calculation="Sum">
-		<variableExpression><![CDATA[$F{Amount Paid}]]></variableExpression>
+		<variableExpression><![CDATA[$F{amountPaid}]]></variableExpression>
 	</variable>
 	<background>
 		<band splitType="Stretch"/>
@@ -177,7 +167,7 @@ order by `Bill_Entry_Table`.`Bill No.`]]>
 				<textElement textAlignment="Center">
 					<font fontName="Monospaced"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{Bill No.}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{billNo}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="80" y="-1" width="80" height="20" uuid="b47711dd-1d6f-4eea-9620-720262ce435f"/>
@@ -191,7 +181,7 @@ order by `Bill_Entry_Table`.`Bill No.`]]>
 				<textElement textAlignment="Center">
 					<font fontName="Monospaced"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{Bill Date}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{billDate}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="160" y="-1" width="53" height="20" uuid="cc7afc91-a28f-43e2-8193-09bbc7147c4c"/>
@@ -205,7 +195,7 @@ order by `Bill_Entry_Table`.`Bill No.`]]>
 				<textElement textAlignment="Right">
 					<font fontName="Monospaced"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{Bill Amount}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{billAmount}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="213" y="-1" width="204" height="20" uuid="d0c1f5b2-f21b-4f82-80d7-24a6764a8593"/>
@@ -219,7 +209,7 @@ order by `Bill_Entry_Table`.`Bill No.`]]>
 				<textElement textAlignment="Left">
 					<font fontName="Monospaced"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{Buyer Name}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{buyerName}]]></textFieldExpression>
 			</textField>
 			<textField pattern="" isBlankWhenNull="true">
 				<reportElement x="417" y="-1" width="50" height="20" uuid="075bb251-da9e-4982-a810-97d540d01ef3"/>
@@ -233,7 +223,7 @@ order by `Bill_Entry_Table`.`Bill No.`]]>
 				<textElement textAlignment="Center">
 					<font fontName="Monospaced"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{Voucher No.}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{voucherNo}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="467" y="-1" width="53" height="20" uuid="b10319da-85cf-4931-ba3d-9ab484eae320"/>
@@ -247,7 +237,7 @@ order by `Bill_Entry_Table`.`Bill No.`]]>
 				<textElement textAlignment="Right">
 					<font fontName="Monospaced"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{Amount Paid}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{amountPaid}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="520" y="-1" width="53" height="20" uuid="28ef06e8-5f53-4fe8-bfae-cfe37df092e4"/>
@@ -261,7 +251,7 @@ order by `Bill_Entry_Table`.`Bill No.`]]>
 				<textElement textAlignment="Center">
 					<font fontName="Monospaced"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{Bank}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{bank}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="573" y="-1" width="53" height="20" uuid="1dfcab68-18e8-4936-abc6-ca3e930ef7a6"/>
@@ -275,7 +265,7 @@ order by `Bill_Entry_Table`.`Bill No.`]]>
 				<textElement textAlignment="Center">
 					<font fontName="Monospaced"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{DD No.}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{ddNo}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="626" y="-1" width="79" height="20" uuid="02b26e11-2246-421f-9d3c-bbb2b7e1e989"/>
@@ -289,7 +279,7 @@ order by `Bill_Entry_Table`.`Bill No.`]]>
 				<textElement textAlignment="Center">
 					<font fontName="Monospaced"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{DD Date}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{ddDate}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="705" y="-1" width="53" height="20" uuid="a399eae7-a5a1-486c-9f74-2c22b08bd380"/>
@@ -303,7 +293,7 @@ order by `Bill_Entry_Table`.`Bill No.`]]>
 				<textElement textAlignment="Right">
 					<font fontName="Monospaced"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{Due Amount}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{dueAmount}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

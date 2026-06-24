@@ -19,14 +19,8 @@ import satyamconsignment.common.Utils;
 import satyamconsignment.entity.BillEntity;
 import satyamconsignment.entity.LREntity;
 import satyamconsignment.model.LR;
-import satyamconsignment.repository.BillRepository;
-import satyamconsignment.repository.BuyerRepository;
-import satyamconsignment.repository.SupplierRepository;
-import satyamconsignment.repository.TransportRepository;
-import satyamconsignment.service.BillService;
-import satyamconsignment.service.BuyerService;
-import satyamconsignment.service.SupplierService;
-import satyamconsignment.service.TransportService;
+import satyamconsignment.repository.*;
+import satyamconsignment.service.*;
 
 public class AddBillController implements Initializable {
 
@@ -89,8 +83,10 @@ public class AddBillController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         try {
             billService = new BillService(new BillRepository());
-            SupplierService supplierService = new SupplierService(new SupplierRepository());
-            BuyerService buyerService = new BuyerService(new BuyerRepository());
+            SupplierService supplierService =
+                    new SupplierService(new SupplierRepository(), new PaymentService(new PaymentRepository()));
+            BuyerService buyerService =
+                    new BuyerService(new BuyerRepository(), new CollectionService(new CollectionRepository()));
             TransportService transportService = new TransportService(new TransportRepository());
 
             TextFields.bindAutoCompletion(supplier_field, supplierService.getAllSuppliers());

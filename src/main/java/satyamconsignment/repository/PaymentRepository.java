@@ -10,8 +10,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import satyamconsignment.common.DatabaseHandler;
 import satyamconsignment.common.Utils;
+import satyamconsignment.entity.BillEntity;
 import satyamconsignment.entity.PaymentEntity;
 import satyamconsignment.entity.PaymentItemEntity;
+import satyamconsignment.model.SupplierLedgerRow;
 
 public class PaymentRepository {
 
@@ -56,7 +58,7 @@ public class PaymentRepository {
         }
     }
 
-    public List<String> fetchPendingBillsForSupplier(String supplierName) throws SQLException {
+    public List<BillEntity> fetchPendingBillsForSupplier(String supplierName) throws SQLException {
         try {
             Connection connection = DatabaseHandler.getInstance().getConnection();
             // language=sql
@@ -73,7 +75,10 @@ public class PaymentRepository {
                         ),
                         cte_bill as (
                         select
-                            *
+                             `Bill No.`,
+                             `Bill Date`,
+                             `Bill Amount`,
+                             `Buyer Name`
                         from
                             Bill_Entry_Table
                         WHERE
@@ -82,7 +87,9 @@ public class PaymentRepository {
                         cte_bill_paid as (
                         select
                             `Bill No.`,
+                            `Bill Date`,
                             `Bill Amount`,
+                            `Buyer Name`,
                             coalesce(`amount_paid`, 0) as amount_paid
                         from
                             cte_bill
@@ -92,13 +99,19 @@ public class PaymentRepository {
                         cte_pending as (
                         select
                             `Bill No.`,
+                            `Bill Date`,
+                            `Bill Amount`,
+                            `Buyer Name`,
                             `Bill Amount` - amount_paid as pending_amount
                         from
                             cte_bill_paid
                         ),
                         cte_final as (
                         select
-                            `Bill No.`
+                            `Bill No.`,
+                            `Bill Date`,
+                            `Bill Amount`,
+                            `Buyer Name`
                         from
                             cte_pending
                         where
@@ -115,9 +128,14 @@ public class PaymentRepository {
             preparedStatement.setString(1, supplierName);
             ResultSet resultSet = preparedStatement.executeQuery();
 
-            List<String> res = new ArrayList<>();
+            List<BillEntity> res = new ArrayList<>();
             while (resultSet.next()) {
-                res.add(resultSet.getString("Bill No."));
+                res.add(BillEntity.builder()
+                        .billNo(resultSet.getString("Bill No."))
+                        .billDate(resultSet.getString("Bill Date"))
+                        .billAmount(resultSet.getString("Bill Amount"))
+                        .buyerName(resultSet.getString("Buyer Name"))
+                        .build());
             }
             return res;
         } catch (SQLException ex) {
@@ -296,6 +314,44 @@ public class PaymentRepository {
                         .supplierName(rs.getString("Supplier Name"))
                         .totalAmount(rs.getString("Total Amount"))
                         // .items() omitted as not used
+                        .build());
+            }
+            return res;
+        } catch (SQLException ex) {
+            Logger.getLogger(PaymentRepository.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            throw ex;
+        }
+    }
+
+    public List<SupplierLedgerRow> getPaymentDetailsForSupplier(String supplierName) throws SQLException {
+        try {
+            Connection connection = DatabaseHandler.getInstance().getConnection();
+            // language=sql
+            String sql =
+                    """
+                        select * from `Bill_Entry_Table` left join
+                        (`Payment_Entry_Extended_Table`
+                        join `Payment_Entry_Table` using ("Voucher No."))
+                        using("Bill No.") where `Bill_Entry_Table`.`Supplier Name`=?
+                        order by `Bill_Entry_Table`.`Bill No.`
+                    """;
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, supplierName);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            List<SupplierLedgerRow> res = new ArrayList<>();
+            while (resultSet.next()) {
+                res.add(SupplierLedgerRow.builder()
+                        .billNo(resultSet.getString("Bill No."))
+                        .billDate(resultSet.getString("Bill Date"))
+                        .billAmount(resultSet.getInt("Bill Amount"))
+                        .buyerName(resultSet.getString("Buyer Name"))
+                        .voucherNo(resultSet.getString("Voucher No."))
+                        .amountPaid(resultSet.getInt("Amount Paid"))
+                        .bank(resultSet.getString("Bank"))
+                        .ddNo(resultSet.getString("DD No."))
+                        .ddDate(resultSet.getString("DD Date"))
+                        .dueAmount(resultSet.getInt("Due Amount"))
                         .build());
             }
             return res;

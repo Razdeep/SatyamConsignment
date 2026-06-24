@@ -132,7 +132,7 @@ public class AddPaymentController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         billService = new BillService(new BillRepository());
         paymentService = new PaymentService(new PaymentRepository());
-        supplierService = new SupplierService(new SupplierRepository());
+        supplierService = new SupplierService(new SupplierRepository(), new PaymentService(new PaymentRepository()));
 
         paymentItems = new ArrayList<>();
         supplierNameComboList = new ArrayList<>();
@@ -359,7 +359,7 @@ public class AddPaymentController implements Initializable {
     @FXML
     private void fillBillNoCombo(ActionEvent ignoredEvent) {
         try {
-            billNoComboList = paymentService.fetchPendingBillsForSupplier(supplier_name_combo.getValue());
+            billNoComboList = paymentService.fetchPendingBillNosForSupplier(supplier_name_combo.getValue());
             bill_no_combo.setItems(FXCollections.observableArrayList(billNoComboList));
         } catch (SQLException ex) {
             Utils.showAlert(ex.toString());

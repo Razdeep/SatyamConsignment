@@ -2,11 +2,8 @@ package satyamconsignment.controller.report;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,9 +17,10 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import net.sf.jasperreports.engine.*;
 import satyamconsignment.common.Constants;
-import satyamconsignment.common.DatabaseHandler;
 import satyamconsignment.common.Utils;
+import satyamconsignment.repository.PaymentRepository;
 import satyamconsignment.repository.SupplierRepository;
+import satyamconsignment.service.PaymentService;
 import satyamconsignment.service.SupplierService;
 
 public class SupplierLedgerController implements Initializable {
@@ -45,9 +43,11 @@ public class SupplierLedgerController implements Initializable {
     @FXML
     private Button launch_pdf_btn;
 
+    private SupplierService supplierService;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        SupplierService supplierService = new SupplierService(new SupplierRepository());
+        supplierService = new SupplierService(new SupplierRepository(), new PaymentService(new PaymentRepository()));
         try {
             List<String> supplierList = supplierService.getAllSuppliers();
             supplier_name_combo.setItems(FXCollections.observableArrayList(supplierList));
@@ -59,26 +59,12 @@ public class SupplierLedgerController implements Initializable {
 
     @FXML
     private void generatePDF(ActionEvent event) {
-        Connection conn = DatabaseHandler.getInstance().getConnection();
-
-        String jrxmlFileName;
-        if (agewise_outstanding_radio.isSelected()) {
-            jrxmlFileName = "SupplierLedgerAge.jrxml";
-        } else {
-            jrxmlFileName = "SupplierLedger.jrxml";
-        }
-        String jrxmlFilePath = "/jrxml/" + jrxmlFileName;
-        Map<String, Object> map = new HashMap<>();
-        map.put("supplierName", supplier_name_combo.getSelectionModel().getSelectedItem());
-
         try {
-            JasperReport jasperReport =
-                    JasperCompileManager.compileReport(getClass().getResourceAsStream(jrxmlFilePath));
-            JasperPrint jprint = JasperFillManager.fillReport(jasperReport, map, conn);
-            JasperExportManager.exportReportToPdfFile(jprint, Constants.REPORT_FILE_NAME);
+            supplierService.generatePdf(
+                    supplier_name_combo.getSelectionModel().getSelectedItem(), agewise_outstanding_radio.isSelected());
             Utils.launchPdf(Constants.REPORT_FILE_NAME);
             Utils.showAlert("Report Successfully Generated", 1);
-        } catch (JRException | IOException ex) {
+        } catch (IOException | SQLException | JRException ex) {
             Utils.showAlert(ex.toString());
             Logger.getLogger(SupplierLedgerController.class.getName()).log(Level.SEVERE, ex.toString(), ex);
         }

@@ -6,11 +6,15 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
 public class Utils {
 
@@ -78,6 +82,28 @@ public class Utils {
                 logger.warning(ex2.toString());
                 throw ex2;
             }
+        }
+    }
+
+    public static LocalDate parseDate(String dateString) {
+        DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        return LocalDate.parse(dateString, inputFormatter);
+    }
+
+    public static void generatePdf(String jrxmlFileName, Map<String, Object> payload, List<?> dataRows)
+            throws JRException {
+        JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(dataRows);
+
+        String jrxmlFilePath = "/jrxml/" + jrxmlFileName;
+
+        try {
+            JasperReport jasperReport =
+                    JasperCompileManager.compileReport(Utils.class.getResourceAsStream(jrxmlFilePath));
+            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, payload, dataSource);
+            JasperExportManager.exportReportToPdfFile(jasperPrint, Constants.REPORT_FILE_NAME);
+        } catch (JRException ex) {
+            Logger.getLogger(Utils.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            throw ex;
         }
     }
 }

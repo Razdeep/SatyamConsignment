@@ -179,20 +179,10 @@ public class ViewDeletePaymentController implements Initializable {
     @FXML
     private void printPayment(ActionEvent event) {
         try {
-            Connection conn = DatabaseHandler.getInstance().getConnection();
-            String jrxmlFileName = "/jrxml/Payment.jrxml";
-            JasperReport jasperReport =
-                    JasperCompileManager.compileReport(getClass().getResourceAsStream(jrxmlFileName));
-            Map<String, Object> map = new HashMap<>();
-            map.put("voucherNo", voucher_no_field.getText());
-            map.put("voucherDate", voucher_date.getText());
-            map.put("supplierName", supplier_name.getText());
-            map.put("billAmount", total_amount_field.getText());
-            JasperPrint jprint = JasperFillManager.fillReport(jasperReport, map, conn);
-            JasperExportManager.exportReportToPdfFile(jprint, Constants.REPORT_FILE_NAME);
+            paymentService.generatePdf(voucher_no_field.getText());
             Utils.launchPdf(Constants.REPORT_FILE_NAME);
             Utils.showAlert("Report Successfully Generated", 1);
-        } catch (IOException | JRException ex) {
+        } catch (IOException | JRException | SQLException ex) {
             Utils.showAlert(ex.toString());
             Logger.getLogger(PaymentEntryController.class.getName()).log(Level.SEVERE, ex.toString(), ex);
         }

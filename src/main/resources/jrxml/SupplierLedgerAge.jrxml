@@ -6,8 +6,6 @@
               xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
               name="SupplierLedger" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20"
               topMargin="20" bottomMargin="20" uuid="2b5461f1-4580-477e-9d69-6885b2c7bb67">
-    <property name="com.jaspersoft.studio.data.sql.tables" value=""/>
-    <property name="com.jaspersoft.studio.data.defaultdataadapter" value="DataAdapter.xml"/>
     <property name="com.jaspersoft.studio.unit." value="pixel"/>
     <property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
     <property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
@@ -18,51 +16,15 @@
     <property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
     <property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
     <import value="org.apache.commons.lang.time.*"/>
-    <parameter name="supplierName" class="java.lang.String"/>
+    <parameter name="supplierName"/>
     <parameter name="today" class="java.util.Date" isForPrompting="false">
         <defaultValueExpression><![CDATA[new Date()]]></defaultValueExpression>
     </parameter>
-    <queryString language="SQL">
-        <![CDATA[
-        with cte_paid as (select `Bill No.`,
-                         sum(`Amount Paid`) as amount_paid
-                  from Payment_Entry_Extended_Table
-                  group by `Bill No.`),
-     cte_bill as (select `Bill No.`,
-                         `Bill Date`,
-                         `Bill Amount`,
-                         `Buyer Name`
-                  from Bill_Entry_Table
-                  WHERE `Supplier Name` = $P{supplierName}),
-     cte_bill_paid as (select `Bill No.`,
-                              `Bill Date`,
-                              `Bill Amount`,
-                              `Buyer Name`,
-                              coalesce(`amount_paid`, 0) as amount_paid
-                       from cte_bill
-                                left join cte_paid
-                                          using (`Bill No.`)),
-     cte_pending as (select `Bill No.`,
-                            `Bill Date`,
-                            `Bill Amount`,
-                            `Buyer Name`,
-                            `Bill Amount` - amount_paid as pending_amount
-                     from cte_bill_paid),
-     cte_final as (select `Bill No.`,
-                          `Bill Date`,
-                          `Bill Amount`,
-                          `Buyer Name`
-                   from cte_pending
-                   where pending_amount > 0
-                   order by 1)
-select *
-from cte_final;
-]]>
-    </queryString>
-    <field name="Bill No." class="java.lang.Object"/>
-    <field name="Bill Date" class="java.lang.Object"/>
-    <field name="Bill Amount" class="java.lang.Object"/>
-    <field name="Buyer Name" class="java.lang.Object"/>
+    <field name="billNo"/>
+    <field name="billDate"/>
+    <field name="billAmount"/>
+    <field name="buyerName"/>
+    <field name="days" class="java.lang.Integer"/>
     <background>
         <band splitType="Stretch"/>
     </background>
@@ -161,7 +123,7 @@ from cte_final;
                 <textElement textAlignment="Center">
                     <font fontName="Monospaced"/>
                 </textElement>
-                <textFieldExpression><![CDATA[$F{Bill No.}]]></textFieldExpression>
+                <textFieldExpression><![CDATA[$F{billNo}]]></textFieldExpression>
             </textField>
             <textField>
                 <reportElement x="93" y="-1" width="90" height="21" uuid="b47711dd-1d6f-4eea-9620-720262ce435f"/>
@@ -175,7 +137,7 @@ from cte_final;
                 <textElement textAlignment="Center">
                     <font fontName="Monospaced"/>
                 </textElement>
-                <textFieldExpression><![CDATA[$F{Bill Date}]]></textFieldExpression>
+                <textFieldExpression><![CDATA[$F{billDate}]]></textFieldExpression>
             </textField>
             <textField>
                 <reportElement x="183" y="-1" width="80" height="21" uuid="cc7afc91-a28f-43e2-8193-09bbc7147c4c"/>
@@ -189,7 +151,7 @@ from cte_final;
                 <textElement textAlignment="Right">
                     <font fontName="Monospaced"/>
                 </textElement>
-                <textFieldExpression><![CDATA[$F{Bill Amount}]]></textFieldExpression>
+                <textFieldExpression><![CDATA[$F{billAmount}]]></textFieldExpression>
             </textField>
             <textField>
                 <reportElement x="263" y="-1" width="210" height="21" uuid="d0c1f5b2-f21b-4f82-80d7-24a6764a8593"/>
@@ -203,7 +165,7 @@ from cte_final;
                 <textElement textAlignment="Left">
                     <font fontName="Monospaced"/>
                 </textElement>
-                <textFieldExpression><![CDATA[$F{Buyer Name}]]></textFieldExpression>
+                <textFieldExpression><![CDATA[$F{buyerName}]]></textFieldExpression>
             </textField>
             <textField pattern="">
                 <reportElement x="473" y="-1" width="40" height="20" uuid="fba579a0-4594-460e-8ed7-529115d043fa"/>
@@ -218,7 +180,7 @@ from cte_final;
                     <font size="9"/>
                 </textElement>
                 <textFieldExpression>
-                    <![CDATA[(new Date().getTime()-new SimpleDateFormat("dd-MM-yyyy").parse($F{Bill Date}.toString()).getTime())/(3600*24*1000)]]></textFieldExpression>
+                    <![CDATA[$F{days}]]></textFieldExpression>
             </textField>
         </band>
     </detail>

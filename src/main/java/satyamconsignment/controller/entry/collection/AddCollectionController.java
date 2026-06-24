@@ -108,7 +108,7 @@ public class AddCollectionController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         billService = new BillService(new BillRepository());
-        buyerService = new BuyerService(new BuyerRepository());
+        buyerService = new BuyerService(new BuyerRepository(), new CollectionService(new CollectionRepository()));
         collectionService = new CollectionService(new CollectionRepository());
 
         collectionItemList = new ArrayList<>();
@@ -143,7 +143,7 @@ public class AddCollectionController implements Initializable {
     @FXML
     private void fillBillNoCombo() {
         try {
-            billNoComboList = collectionService.fetchPendingBillsForBuyer(buyer_name.getValue());
+            billNoComboList = collectionService.fetchPendingBillNosForBuyer(buyer_name.getValue());
             bill_no_combo.setItems(FXCollections.observableArrayList(billNoComboList));
         } catch (SQLException ex) {
             Utils.showAlert(ex.toString());

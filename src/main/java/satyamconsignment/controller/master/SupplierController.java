@@ -13,7 +13,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import satyamconsignment.common.Utils;
+import satyamconsignment.repository.PaymentRepository;
 import satyamconsignment.repository.SupplierRepository;
+import satyamconsignment.service.PaymentService;
 import satyamconsignment.service.SupplierService;
 
 public class SupplierController implements Initializable {
@@ -43,7 +45,7 @@ public class SupplierController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        supplierService = new SupplierService(new SupplierRepository());
+        supplierService = new SupplierService(new SupplierRepository(), new PaymentService(new PaymentRepository()));
         refreshList();
     }
 

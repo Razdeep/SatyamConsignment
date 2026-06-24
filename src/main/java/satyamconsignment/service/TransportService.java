@@ -1,7 +1,12 @@
 package satyamconsignment.service;
 
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import net.sf.jasperreports.engine.*;
+import satyamconsignment.common.Utils;
+import satyamconsignment.model.TransportLedgerRow;
 import satyamconsignment.repository.TransportRepository;
 
 public class TransportService {
@@ -26,5 +31,18 @@ public class TransportService {
 
     public void renameTransport(String oldName, String newName) throws SQLException {
         transportRepository.renameTransport(oldName, newName);
+    }
+
+    public void generatePdf(String transportName, String fromDate, String toDate) throws SQLException, JRException {
+        List<TransportLedgerRow> transportLedgerRows =
+                transportRepository.getTransportReportFor(transportName, fromDate, toDate);
+
+        Map<String, Object> payload = new HashMap<>();
+        payload.put("transportName", transportName);
+        payload.put("fromDate", fromDate);
+        payload.put("toDate", toDate);
+
+        String jrxmlFileName = "TransportLedger.jrxml";
+        Utils.generatePdf(jrxmlFileName, payload, transportLedgerRows);
     }
 }
