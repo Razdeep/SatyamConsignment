@@ -1,9 +1,12 @@
 package satyamconsignment.service;
 
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
-import satyamconsignment.entity.BillEntity;
-import satyamconsignment.entity.PaymentEntity;
+import java.util.Map;
+import net.sf.jasperreports.engine.JRException;
+import satyamconsignment.common.Utils;
+import satyamconsignment.entity.*;
 import satyamconsignment.model.SupplierLedgerRow;
 import satyamconsignment.repository.PaymentRepository;
 
@@ -51,5 +54,21 @@ public class PaymentService {
 
     public List<SupplierLedgerRow> getPaymentDetailsForSupplier(String supplierName) throws SQLException {
         return paymentRepository.getPaymentDetailsForSupplier(supplierName);
+    }
+
+    public void generatePdf(String voucherNo) throws SQLException, JRException {
+
+        PaymentEntity paymentEntity = getPayment(voucherNo);
+
+        Map<String, Object> payload = new HashMap<>();
+
+        payload.put("voucherNo", voucherNo);
+        payload.put("voucherDate", paymentEntity.getVoucherDate());
+        payload.put("supplierName", paymentEntity.getSupplierName());
+        payload.put("billAmount", paymentEntity.getTotalAmount());
+
+        List<PaymentItemEntity> dataRows = paymentEntity.getItems();
+
+        Utils.generatePdf("Payment.jrxml", payload, dataRows);
     }
 }
