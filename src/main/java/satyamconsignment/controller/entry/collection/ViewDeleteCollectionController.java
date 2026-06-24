@@ -2,11 +2,8 @@ package satyamconsignment.controller.entry.collection;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,7 +15,6 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import net.sf.jasperreports.engine.*;
 import satyamconsignment.common.Constants;
-import satyamconsignment.common.DatabaseHandler;
 import satyamconsignment.common.Utils;
 import satyamconsignment.entity.CollectionEntity;
 import satyamconsignment.model.CollectionItem;
@@ -173,20 +169,10 @@ public class ViewDeleteCollectionController implements Initializable {
     @FXML
     private void printCollection(ActionEvent event) {
         try {
-            Connection connection = DatabaseHandler.getInstance().getConnection();
-            String jrxmlFileName = "/jrxml/Collection.jrxml";
-            JasperReport jasperReport =
-                    JasperCompileManager.compileReport(getClass().getResourceAsStream(jrxmlFileName));
-            Map<String, Object> map = new HashMap<>();
-            map.put("voucherNo", voucher_no_field.getText());
-            map.put("voucherDate", voucher_date.getText());
-            map.put("buyerName", buyer_name.getText());
-            map.put("billAmount", total_amount_field.getText());
-            JasperPrint jprint = JasperFillManager.fillReport(jasperReport, map, connection);
-            JasperExportManager.exportReportToPdfFile(jprint, Constants.REPORT_FILE_NAME);
+            collectionService.generatePdf(voucher_no_field.getText());
             Utils.launchPdf(Constants.REPORT_FILE_NAME);
             Utils.showAlert("Report Successfully Generated", 1);
-        } catch (IOException | JRException ex) {
+        } catch (JRException | SQLException | IOException ex) {
             Utils.showAlert(ex.toString());
             Logger.getLogger(ViewDeleteCollectionController.class.getName()).log(Level.SEVERE, ex.toString(), ex);
         }

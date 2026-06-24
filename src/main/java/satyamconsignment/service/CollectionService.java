@@ -1,9 +1,14 @@
 package satyamconsignment.service;
 
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import net.sf.jasperreports.engine.*;
+import satyamconsignment.common.Utils;
 import satyamconsignment.entity.BillEntity;
 import satyamconsignment.entity.CollectionEntity;
+import satyamconsignment.entity.CollectionItemEntity;
 import satyamconsignment.model.BuyerLedgerRow;
 import satyamconsignment.repository.CollectionRepository;
 
@@ -51,5 +56,21 @@ public class CollectionService {
 
     public List<BuyerLedgerRow> getCollectionDetailsForBuyer(String buyerName) throws SQLException {
         return collectionRepository.getCollectionDetailsForBuyer(buyerName);
+    }
+
+    public void generatePdf(String voucherNo) throws SQLException, JRException {
+
+        CollectionEntity collectionEntity = getCollection(voucherNo);
+
+        Map<String, Object> payload = new HashMap<>();
+
+        payload.put("voucherNo", voucherNo);
+        payload.put("voucherDate", collectionEntity.getVoucherDate());
+        payload.put("buyerName", collectionEntity.getBuyerName());
+        payload.put("billAmount", collectionEntity.getTotalAmount());
+
+        List<CollectionItemEntity> dataRows = collectionEntity.getItems();
+
+        Utils.generatePdf("Collection.jrxml", payload, dataRows);
     }
 }
